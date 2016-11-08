@@ -1,6 +1,8 @@
 The Great Tool
 =============================
 
+![alt tag](http://borr.sam-solutions.net/jcc/thegreattool/raw/master/thegreattool.PNG)
+
 Inspired by Amazon(c) "The Grand Tour" show
 
 ## Contributing
