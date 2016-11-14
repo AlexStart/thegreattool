@@ -7,12 +7,12 @@ package com.sam.jcc.cloud.i;
  * @author Alec Kotovich
  * 
  */
-public interface IProvider<T> extends ICRUD<T> {
+public interface IProvider<T> {
 
-	String getName();
+	String getI18NName();
 
-	String getDescription();
-	
+	String getI18NDescription();
+
 	boolean supports(T t);
 
 	T preprocess(T t);
@@ -20,7 +20,7 @@ public interface IProvider<T> extends ICRUD<T> {
 	T process(T t);
 
 	T postprocess(T t);
-	
+
 	boolean isEnabled();
-	
+
 }
