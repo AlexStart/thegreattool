@@ -1,5 +1,6 @@
 package com.sam.jcc.cloud.project;
 
+import com.sam.jcc.cloud.i.InternalCloudException;
 import io.spring.initializr.generator.ProjectGenerator;
 import io.spring.initializr.generator.ProjectRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,10 +39,10 @@ class ProjectBuilder {
             cleanDirectory(dir);
 
             if (!dir.delete()) {
-                throw new RuntimeException("Can't delete " + dir);
+                throw new InternalCloudException("Can't delete " + dir);
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new InternalCloudException(e);
         }
     }
 }

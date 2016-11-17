@@ -60,9 +60,8 @@ public abstract class AbstractProvider<T> extends AbstractCRUD<T> implements IPr
                 return result;
             } else {
                 eventManagers.forEach(manager -> manager.fireEvent(t, this));
-                throw new UnsupportedOperationException("Unsupported type " + t);
+                throw new BusinessCloudException("Unsupported type " + t);
             }
-
         }
         eventManagers.forEach(manager -> manager.fireEvent(null, this));
         return null;

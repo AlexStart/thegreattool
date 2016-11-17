@@ -5,6 +5,7 @@ package com.sam.jcc.cloud.project;
 
 import com.sam.jcc.cloud.i.AbstractProvider;
 import com.sam.jcc.cloud.i.IEventManager;
+import com.sam.jcc.cloud.i.InternalCloudException;
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import com.sam.jcc.cloud.i.project.IProjectProvider;
 import com.sam.jcc.cloud.i.project.Status;
@@ -103,7 +104,8 @@ public class ProjectProvider extends AbstractProvider<IProjectMetadata> implemen
 
     private ProjectMetadata asProjectMetadata(IProjectMetadata metadata) {
         if (!isSupported(metadata)) {
-            throw new IllegalArgumentException();
+            throw new InternalCloudException("Incorrect execution, in normal case " +
+                    "can't execute here, don't support " + metadata);
         }
         return (ProjectMetadata) metadata;
     }

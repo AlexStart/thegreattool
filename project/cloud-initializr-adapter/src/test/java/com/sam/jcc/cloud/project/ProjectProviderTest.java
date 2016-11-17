@@ -1,5 +1,6 @@
 package com.sam.jcc.cloud.project;
 
+import com.sam.jcc.cloud.i.BusinessCloudException;
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -70,7 +71,7 @@ public class ProjectProviderTest {
         assertThat(metadata).isNotNull();
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test(expected = BusinessCloudException.class)
     public void failsWithUnknownProjectType() {
         assertThat(provider.create(emptyProject())).isNotNull();
     }

@@ -1,5 +1,6 @@
 package com.sam.jcc.cloud.project;
 
+import com.sam.jcc.cloud.i.BusinessCloudException;
 import io.spring.initializr.generator.ProjectRequest;
 import io.spring.initializr.generator.ProjectRequestResolver;
 import io.spring.initializr.metadata.InitializrMetadata;
@@ -26,8 +27,13 @@ class ProjectValidator {
         validate(request);
     }
 
+    //TODO: always throws business exception on all fail-cases
     private void validate(ProjectRequest request) {
-        InitializrMetadata metadata = metadataProvider.get();
-        requestResolver.resolve(request, metadata);
+        try {
+            final InitializrMetadata metadata = metadataProvider.get();
+            requestResolver.resolve(request, metadata);
+        } catch (Exception e) {
+            throw new BusinessCloudException(e);
+        }
     }
 }

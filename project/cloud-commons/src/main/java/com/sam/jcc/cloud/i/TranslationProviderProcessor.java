@@ -37,7 +37,7 @@ class TranslationProviderProcessor implements BeanPostProcessor {
         final Map<String, String> descriptions = translations.getDescriptions(clazz);
 
         if (containsWrongTranslation(names, descriptions)) {
-            throw new IllegalArgumentException("There's no all translations for " + provider);
+            throw new InternalCloudException("There's no all translations for " + provider);
         }
         provider.setNames(names);
         provider.setDescriptions(descriptions);
