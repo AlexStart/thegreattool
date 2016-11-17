@@ -13,4 +13,12 @@ public class InternalCloudException extends CloudException {
     public InternalCloudException(String message) {
         super(message);
     }
+
+    public InternalCloudException(Throwable cause) {
+        super(cause);
+    }
+
+    public InternalCloudException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

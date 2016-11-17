@@ -1,5 +1,6 @@
 package com.sam.jcc.cloud.project;
 
+import com.sam.jcc.cloud.i.InternalCloudException;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 
 import java.io.File;
@@ -27,7 +28,7 @@ class ZipUtil {
             addDir(zip, dir);
             return buffer.toByteArray();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new InternalCloudException(e);
         }
     }
 

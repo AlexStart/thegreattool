@@ -6,11 +6,19 @@ package com.sam.jcc.cloud.i;
  */
 public class BusinessCloudException extends CloudException {
 
-    public BusinessCloudException(){
+    public BusinessCloudException() {
         super();
     }
 
-    public BusinessCloudException(String message){
+    public BusinessCloudException(String message) {
         super(message);
+    }
+
+    public BusinessCloudException(Throwable cause) {
+        super(cause);
+    }
+
+    public BusinessCloudException(String message, Throwable cause) {
+        super(message, cause);
     }
 }
