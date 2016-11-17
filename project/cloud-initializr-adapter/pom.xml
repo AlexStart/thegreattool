@@ -43,11 +43,6 @@
 
 		<dependency>
 			<groupId>io.spring.initializr</groupId>
-			<artifactId>initializr-actuator</artifactId>
-			<version>${spring.initializr.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.spring.initializr</groupId>
 			<artifactId>initializr-generator</artifactId>
 			<version>${spring.initializr.version}</version>
 		</dependency>
