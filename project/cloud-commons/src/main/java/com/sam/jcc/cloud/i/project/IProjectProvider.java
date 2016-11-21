@@ -4,4 +4,5 @@ import com.sam.jcc.cloud.i.IProvider;
 
 public interface IProjectProvider extends IProvider<IProjectMetadata> {
 
+    String getName(IProjectMetadata metadata);
 }

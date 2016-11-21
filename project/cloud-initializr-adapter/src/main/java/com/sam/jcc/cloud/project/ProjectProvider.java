@@ -34,6 +34,11 @@ public class ProjectProvider extends AbstractProvider<IProjectMetadata> implemen
     }
 
     @Override
+    public String getName(IProjectMetadata m) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public boolean supports(IProjectMetadata m) {
         return isSupported(m);
     }
