@@ -25,7 +25,7 @@ import java.util.Properties;
 @ComponentScan("com.sam.jcc.cloud.persistence")
 @PropertySource("classpath:database.properties")
 @EnableJpaRepositories("com.sam.jcc.cloud.persistence")
-class DatabaseConfiguration {
+public class DatabaseConfiguration {
 
     @Resource
     Environment env;
