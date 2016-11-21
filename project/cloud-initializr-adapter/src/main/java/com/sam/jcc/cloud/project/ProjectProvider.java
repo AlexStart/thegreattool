@@ -9,6 +9,7 @@ import com.sam.jcc.cloud.i.InternalCloudException;
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import com.sam.jcc.cloud.i.project.IProjectProvider;
 import com.sam.jcc.cloud.i.project.Status;
+import com.sam.jcc.cloud.persistence.project.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -31,6 +32,8 @@ public class ProjectProvider extends AbstractProvider<IProjectMetadata> implemen
     private TestGenerator testGenerator;
     @Autowired
     private SourceGenerator srcGenerator;
+    @Autowired
+    private ProjectRepository repository;
 
     @Autowired
     public ProjectProvider(List<IEventManager<IProjectMetadata>> eventManagers) {
