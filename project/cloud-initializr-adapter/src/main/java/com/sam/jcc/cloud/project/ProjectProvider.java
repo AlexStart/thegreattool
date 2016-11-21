@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 import static com.sam.jcc.cloud.i.project.Status.*;
+import static com.sam.jcc.cloud.project.ZipUtil.archivateDir;
 
 /**
  * @author Alec Kotovich
@@ -23,10 +24,13 @@ import static com.sam.jcc.cloud.i.project.Status.*;
 public class ProjectProvider extends AbstractProvider<IProjectMetadata> implements IProjectProvider {
 
     @Autowired
-    private ProjectBuilder builder;
-
+    private Cleaner cleaner;
     @Autowired
     private ProjectValidator validator;
+    @Autowired
+    private TestGenerator testGenerator;
+    @Autowired
+    private SourceGenerator srcGenerator;
 
     @Autowired
     public ProjectProvider(List<IEventManager<IProjectMetadata>> eventManagers) {
@@ -54,16 +58,27 @@ public class ProjectProvider extends AbstractProvider<IProjectMetadata> implemen
     @Override
     public IProjectMetadata process(IProjectMetadata m) {
         final ProjectMetadata project = asProjectMetadata(m);
-        final byte[] sources = builder.build(project);
-        project.setProjectSources(sources);
+        project.setDirectory(srcGenerator.generate(project));
         setStatus(m, PROCESSED);
         return m;
     }
 
     @Override
     public IProjectMetadata postprocess(IProjectMetadata m) {
+        final ProjectMetadata metadata = asProjectMetadata(m);
+        try {
+            testGenerator.generate(metadata);
+            archivate(metadata);
+        } finally {
+            cleaner.remove(metadata.getDirectory());
+        }
         setStatus(m, POST_PROCESSED);
         return m;
+    }
+
+    private void archivate(ProjectMetadata metadata) {
+        byte[] sources = archivateDir(metadata.getDirectory());
+        metadata.setProjectSources(sources);
     }
 
     @Override

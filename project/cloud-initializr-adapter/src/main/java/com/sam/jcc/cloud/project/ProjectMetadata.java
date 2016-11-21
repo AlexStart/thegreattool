@@ -8,6 +8,7 @@ import com.sam.jcc.cloud.i.project.IStatusable;
 import com.sam.jcc.cloud.i.project.Status;
 import lombok.Data;
 
+import java.io.File;
 import java.util.List;
 
 import static com.google.common.base.MoreObjects.toStringHelper;
@@ -34,6 +35,7 @@ public class ProjectMetadata implements IProjectMetadata, IStatusable {
 
     private List<String> dependencies;
 
+    private File directory;
     private byte[] projectSources;
 
     private Status status;
