@@ -21,6 +21,7 @@
     <modules>
         <module>initializr</module>
 		<module>cloud-commons</module>
+        <module>cloud-persistence</module>
         <module>cloud-initializr-adapter</module>
     </modules>
 </project>
