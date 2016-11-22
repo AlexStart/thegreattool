@@ -2,7 +2,6 @@ package com.sam.jcc.cloud.project;
 
 import com.sam.jcc.cloud.i.BusinessCloudException;
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
@@ -11,8 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static com.sam.jcc.cloud.i.project.Status.*;
-import static com.sam.jcc.cloud.project.ProjectMetadataHelper.gradleProject;
-import static com.sam.jcc.cloud.project.ProjectMetadataHelper.mavenProject;
+import static com.sam.jcc.cloud.project.ProjectMetadataHelper.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.spy;
@@ -30,6 +28,13 @@ public class ProjectProviderTest {
 
     @Test
     public void getsName() {
+        final ProjectMetadata m = mavenProject();
+        assertThat(provider.getName(m))
+                .isEqualTo(m.getGroupId() + ":" + m.getArtifactId());
+    }
+
+    @Test
+    public void getsI18NName() {
         assertThat(provider.getI18NName()).isNotEmpty();
     }
 
@@ -65,12 +70,6 @@ public class ProjectProviderTest {
         assertThat(provider.isEnabled()).isTrue();
     }
 
-    @Test
-    public void creates() {
-        final IProjectMetadata metadata = provider.create(mavenProject());
-        assertThat(metadata).isNotNull();
-    }
-
     @Test(expected = BusinessCloudException.class)
     public void failsWithUnknownProjectType() {
         assertThat(provider.create(emptyProject())).isNotNull();
@@ -80,31 +79,7 @@ public class ProjectProviderTest {
     public void process() {
         final ProjectMetadata metadata = asProjectMetadata(provider.process(mavenProject()));
         assertThat(metadata.getStatus()).isEqualTo(PROCESSED);
-    }
-
-    @Test
-    @Ignore
-    public void reads() {
-    }
-
-    @Test
-    @Ignore
-    public void updates() {
-    }
-
-    @Test
-    @Ignore
-    public void findsAll() {
-    }
-
-    @Test
-    @Ignore
-    public void deletes() {
-        provider.delete(null);
-    }
-
-    ProjectMetadata emptyProject() {
-        return new ProjectMetadata();
+        provider.postprocess(metadata);
     }
 
     ProjectMetadata asProjectMetadata(IProjectMetadata metadata) {
