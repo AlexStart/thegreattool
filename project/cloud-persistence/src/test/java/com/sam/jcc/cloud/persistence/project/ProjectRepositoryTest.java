@@ -6,10 +6,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static com.sam.jcc.cloud.persistence.project.ProjectMetadataProvider.mavenTemplate;
+import static com.sam.jcc.cloud.persistence.project.ProjectEntityHelper.gradleProject;
+import static com.sam.jcc.cloud.persistence.project.ProjectEntityHelper.mavenProject;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -20,8 +22,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ContextConfiguration(classes = DatabaseConfiguration.class)
 public class ProjectRepositoryTest {
 
-    static final Long EXISTING_PROJECT = 5L;
-
     ProjectMetadataEntity project;
 
     @Autowired
@@ -29,10 +29,7 @@ public class ProjectRepositoryTest {
 
     @Before
     public void setUp() {
-        project = mavenTemplate();
-        project.setId(EXISTING_PROJECT);
-
-        repository.save(project);
+        project = repository.save(mavenProject());
     }
 
     @After
@@ -42,14 +39,14 @@ public class ProjectRepositoryTest {
 
     @Test
     public void saves() {
-        repository.save(project);
+        repository.save(gradleProject());
     }
 
     @Test
     public void reads() {
-        assertThat(repository.findOne(EXISTING_PROJECT))
-                .extracting("id")
-                .contains(EXISTING_PROJECT);
+        assertThat(repository.findOne(project.getId()))
+                .extracting("projectName")
+                .contains("demo_app");
     }
 
     @Test
@@ -60,12 +57,22 @@ public class ProjectRepositoryTest {
 
     @Test
     public void removes() {
-        repository.delete(EXISTING_PROJECT);
+        repository.delete(project.getId());
         assertThat(repository.findAll()).isEmpty();
     }
 
     @Test
     public void findsAll() {
         assertThat(repository.findAll()).hasSize(1);
+    }
+
+    @Test
+    public void findByGroupIdAndArtifactId() {
+        assertThat(repository.findByGroupIdAndArtifactId("com.example", "demo-maven")).isNotNull();
+    }
+
+    @Test(expected = JpaSystemException.class)
+    public void storesOnlyUniqueProjects() {
+        repository.save(mavenProject());
     }
 }

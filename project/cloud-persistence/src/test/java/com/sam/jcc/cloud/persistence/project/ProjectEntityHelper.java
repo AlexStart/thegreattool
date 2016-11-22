@@ -6,18 +6,26 @@ import static java.util.Collections.singletonList;
  * @author Alexey Zhytnik
  * @since 15.11.2016
  */
-class ProjectMetadataProvider {
+class ProjectEntityHelper {
 
-    private ProjectMetadataProvider() {
+    private ProjectEntityHelper() {
     }
 
-    public static ProjectMetadataEntity mavenTemplate() {
+    public static ProjectMetadataEntity gradleProject() {
+        return basicProject("gradle");
+    }
+
+    public static ProjectMetadataEntity mavenProject() {
+        return basicProject("maven");
+    }
+
+    private static ProjectMetadataEntity basicProject(String projectType) {
         final ProjectMetadataEntity project = new ProjectMetadataEntity();
 
         project.setJavaVersion("1.8");
-        project.setArtifactId("demo");
+        project.setArtifactId("demo-" + projectType);
         project.setGroupId("com.example");
-        project.setProjectType("maven");
+        project.setProjectType(projectType);
 
         project.setBasePackage("com.example");
         project.setDependencies(singletonList(simpleDependency()));
