@@ -1,6 +1,7 @@
 package com.sam.jcc.cloud.project;
 
 import com.sam.jcc.cloud.i.BusinessCloudException;
+import com.sam.jcc.cloud.project.util.MetadataToRequestConverter;
 import io.spring.initializr.generator.ProjectRequest;
 import io.spring.initializr.generator.ProjectRequestResolver;
 import io.spring.initializr.metadata.InitializrMetadata;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Component;
 class ProjectValidator {
 
     @Autowired
-    private ProjectMetadataConverter converter;
+    private MetadataToRequestConverter converter;
     @Autowired
     private ProjectRequestResolver requestResolver;
     @Autowired

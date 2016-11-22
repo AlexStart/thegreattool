@@ -40,6 +40,8 @@ public class ProjectMetadata implements IProjectMetadata, IStatusable {
 
     private Status status;
 
+    private Long id;
+
     @Override
     public String toString() {
         return toStringHelper(getClass())

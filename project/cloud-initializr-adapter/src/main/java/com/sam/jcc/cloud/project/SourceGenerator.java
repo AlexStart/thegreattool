@@ -1,5 +1,6 @@
 package com.sam.jcc.cloud.project;
 
+import com.sam.jcc.cloud.project.util.MetadataToRequestConverter;
 import io.spring.initializr.generator.ProjectGenerator;
 import io.spring.initializr.generator.ProjectRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ class SourceGenerator {
     private ProjectGenerator generator;
 
     @Autowired
-    private ProjectMetadataConverter converter;
+    private MetadataToRequestConverter converter;
 
     public File generate(ProjectMetadata project) {
         final ProjectRequest request = converter.convert(project);
