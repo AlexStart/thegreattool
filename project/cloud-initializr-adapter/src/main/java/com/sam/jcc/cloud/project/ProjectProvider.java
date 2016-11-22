@@ -9,14 +9,18 @@ import com.sam.jcc.cloud.i.InternalCloudException;
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import com.sam.jcc.cloud.i.project.IProjectProvider;
 import com.sam.jcc.cloud.i.project.Status;
+import com.sam.jcc.cloud.persistence.project.ProjectMetadataEntity;
 import com.sam.jcc.cloud.persistence.project.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static com.sam.jcc.cloud.i.project.Status.*;
 import static com.sam.jcc.cloud.project.ZipUtil.archivateDir;
+import static java.lang.String.format;
+import static java.util.stream.Collectors.toList;
 
 /**
  * @author Alec Kotovich
@@ -36,18 +40,32 @@ public class ProjectProvider extends AbstractProvider<IProjectMetadata> implemen
     private ProjectRepository repository;
 
     @Autowired
+    private ProjectEntityConverter entityConverter;
+    @Autowired
+    private ProjectMetadataConverter metadataConverter;
+
+    @Autowired
     public ProjectProvider(List<IEventManager<IProjectMetadata>> eventManagers) {
         super(eventManagers);
     }
 
     @Override
     public String getName(IProjectMetadata m) {
-        throw new UnsupportedOperationException();
+        ProjectMetadata metadata = asProjectMetadata(m);
+        return format("%s:%s", metadata.getGroupId(), metadata.getArtifactId());
     }
 
     @Override
     public boolean supports(IProjectMetadata m) {
         return isSupported(m);
+    }
+
+    @Override
+    public IProjectMetadata create(IProjectMetadata metadata) {
+        final IProjectMetadata created = super.create(metadata);
+        final ProjectMetadataEntity entity = metadataConverter.convert(asProjectMetadata(created));
+        repository.save(entity);
+        return created;
     }
 
     @Override
@@ -91,22 +109,35 @@ public class ProjectProvider extends AbstractProvider<IProjectMetadata> implemen
 
     @Override
     public IProjectMetadata read(IProjectMetadata m) {
-        throw new UnsupportedOperationException();
+        ProjectMetadata metadata = asProjectMetadata(m);
+        return entityConverter.convert(search(metadata));
     }
 
     @Override
     public IProjectMetadata update(IProjectMetadata m) {
-        throw new UnsupportedOperationException();
+        delete(m);
+        return create(m);
     }
 
     @Override
     public void delete(IProjectMetadata m) {
-        throw new UnsupportedOperationException();
+        ProjectMetadata metadata = asProjectMetadata(m);
+        repository.delete(search(metadata));
+    }
+
+    private ProjectMetadataEntity search(ProjectMetadata metadata) {
+        return repository.findByGroupIdAndArtifactId(
+                metadata.getGroupId(),
+                metadata.getArtifactId()
+        );
     }
 
     @Override
     public List<IProjectMetadata> findAll() {
-        throw new UnsupportedOperationException();
+        return newArrayList(repository.findAll())
+                .stream()
+                .map(entityConverter::convert)
+                .collect(toList());
     }
 
     private boolean isSupported(IProjectMetadata metadata) {
