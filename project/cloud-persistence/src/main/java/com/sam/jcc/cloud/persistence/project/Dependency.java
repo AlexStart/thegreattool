@@ -3,6 +3,7 @@ package com.sam.jcc.cloud.persistence.project;
 import lombok.Data;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /**
@@ -14,6 +15,7 @@ import javax.persistence.Id;
 public class Dependency {
 
     @Id
+    @GeneratedValue
     private Long id;
 
     private String name;

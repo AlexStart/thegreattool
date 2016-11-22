@@ -11,4 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 public interface ProjectRepository extends CrudRepository<ProjectMetadataEntity, Long> {
+
+    ProjectMetadataEntity findByGroupIdAndArtifactId(String groupId, String artifactId);
 }

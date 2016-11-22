@@ -5,10 +5,7 @@ package com.sam.jcc.cloud.persistence.project;
 
 import lombok.Data;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -16,10 +13,15 @@ import java.util.List;
  * @since 15.11.2016
  */
 @Data
+@Table(
+        uniqueConstraints =
+        @UniqueConstraint(columnNames = {"groupId", "artifactId"})
+)
 @Entity
 public class ProjectMetadataEntity {
 
     @Id
+    @GeneratedValue
     private Long id;
 
     private String bootVersion;
