@@ -1,6 +1,5 @@
 package com.sam.jcc.cloud.project;
 
-import com.sam.jcc.cloud.i.InternalCloudException;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 
 import java.io.File;
@@ -21,14 +20,14 @@ class ZipUtil {
     private ZipUtil() {
     }
 
-    public static byte[] archivateDir(File dir) {
+    public static byte[] zip(File dir) {
         final ByteArrayOutputStream buffer = new ByteArrayOutputStream((int) dir.length());
 
         try (ZipOutputStream zip = new ZipOutputStream(buffer)) {
             addDir(zip, dir);
             return buffer.toByteArray();
         } catch (Exception e) {
-            throw new InternalCloudException(e);
+            throw new RuntimeException(e);
         }
     }
 

@@ -1,9 +1,10 @@
 package com.sam.jcc.cloud.project;
 
+import com.sam.jcc.cloud.i.InternalCloudException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import static com.sam.jcc.cloud.project.ZipUtil.archivateDir;
+import static com.sam.jcc.cloud.project.ZipUtil.zip;
 
 /**
  * @author Alexey Zhytnik
@@ -24,11 +25,15 @@ class ProjectBuilder {
     }
 
     private void archivate(ProjectMetadata metadata) {
-        byte[] sources = archivateDir(metadata.getDirectory());
-        metadata.setProjectSources(sources);
+        try {
+            byte[] sources = zip(metadata.getDirectory());
+            metadata.setProjectSources(sources);
+        } catch (Exception e) {
+            throw new InternalCloudException(e);
+        }
     }
 
-    public void reset(ProjectMetadata metadata){
+    public void reset(ProjectMetadata metadata) {
         clearTempFolder(metadata);
     }
 

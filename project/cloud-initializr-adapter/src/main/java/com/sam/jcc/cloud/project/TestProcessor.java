@@ -31,10 +31,6 @@ class TestProcessor {
         writeToFile(javaFile, testFolder);
     }
 
-    private File getTestDir(ProjectMetadata metadata) {
-        return new File(metadata.getDirectory(), "src/test/java/");
-    }
-
     private TypeSpec build() {
         return TypeSpec.classBuilder("DemoApplicationTests")
                 .addAnnotation(runWith())
@@ -77,6 +73,10 @@ class TestProcessor {
     private AnnotationSpec test() {
         final ClassName clazz = ClassName.get("org.junit", "Test");
         return AnnotationSpec.builder(clazz).build();
+    }
+
+    private File getTestDir(ProjectMetadata metadata) {
+        return new File(metadata.getDirectory(), "src/test/java/");
     }
 
     private void writeToFile(JavaFile javaFile, File folder) {
