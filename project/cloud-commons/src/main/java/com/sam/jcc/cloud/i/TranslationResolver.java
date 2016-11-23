@@ -1,6 +1,6 @@
 package com.sam.jcc.cloud.i;
 
-import com.google.common.annotations.VisibleForTesting;
+import lombok.Setter;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
@@ -20,16 +20,14 @@ class TranslationResolver {
 
     private static final String DEFAULT_TRANSLATIONS_RESOURCE = "translations.yml";
 
+    @Setter
+    private String resource = DEFAULT_TRANSLATIONS_RESOURCE;
+
     private Map<String, Map<String, String>> names = newHashMap();
     private Map<String, Map<String, String>> descriptions = newHashMap();
 
     @PostConstruct
     public void setUp() {
-        setUpByResource(DEFAULT_TRANSLATIONS_RESOURCE);
-    }
-
-    @VisibleForTesting
-    void setUpByResource(String resource) {
         final Properties translations = loadTranslations(resource);
 
         for (String key : translations.stringPropertyNames()) {
@@ -48,7 +46,7 @@ class TranslationResolver {
         if (values.length != 3) {
             throw new IllegalArgumentException("Format must be " +
                     "[Provider name].[message type].[language name]," +
-                    " but was" + key);
+                    " but was " + key);
         }
 
         final String provider = values[0];

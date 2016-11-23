@@ -20,7 +20,8 @@ public class TranslationResolverTest {
 
     @Before
     public void setUp() {
-        resolver.setUpByResource("translations-test.yml");
+        resolver.setResource("translations-test.yml");
+        resolver.setUp();
     }
 
     @Test
@@ -46,7 +47,8 @@ public class TranslationResolverTest {
     @Test(expected = IllegalArgumentException.class)
     public void failsOnUnknownType() {
         final TranslationResolver resolver = new TranslationResolver();
-        resolver.setUpByResource("translations-wrong.yml");
+        resolver.setResource("translations-wrong.yml");
+        resolver.setUp();
     }
 
     Entry<String, String> entry(String lang, String value) {
