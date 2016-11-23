@@ -18,6 +18,7 @@ import static java.util.stream.Collectors.toList;
  * @since 23.11.2016
  */
 @Component
+@Transactional
 class ProjectMetadataDao implements ICRUD<ProjectMetadata> {
 
     @Autowired
@@ -54,7 +55,6 @@ class ProjectMetadataDao implements ICRUD<ProjectMetadata> {
     }
 
     @Override
-    @Transactional
     public List<IProjectMetadata> findAll() {
         return newArrayList(repository.findAll())
                 .stream()

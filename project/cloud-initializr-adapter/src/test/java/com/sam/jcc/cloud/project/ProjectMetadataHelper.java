@@ -27,7 +27,7 @@ class ProjectMetadataHelper {
         final ProjectMetadata project = new ProjectMetadata();
 
         project.setJavaVersion("1.8");
-        project.setArtifactId("demo");
+        project.setArtifactId("demo-" + projectType);
         project.setGroupId("com.example");
         project.setProjectType(projectType);
         project.setBootVersion("1.4.2.RELEASE");
