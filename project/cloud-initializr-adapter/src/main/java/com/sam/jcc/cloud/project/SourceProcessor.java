@@ -13,7 +13,7 @@ import java.io.File;
  * @since 15.11.2016
  */
 @Component
-class SourceGenerator {
+class SourceProcessor {
 
     @Autowired
     private ProjectGenerator generator;
@@ -21,8 +21,9 @@ class SourceGenerator {
     @Autowired
     private MetadataToRequestConverter converter;
 
-    public File generate(ProjectMetadata project) {
+    public void process(ProjectMetadata project) {
         final ProjectRequest request = converter.convert(project);
-        return generator.generateProjectStructure(request);
+        File srcDir = generator.generateProjectStructure(request);
+        project.setDirectory(srcDir);
     }
 }

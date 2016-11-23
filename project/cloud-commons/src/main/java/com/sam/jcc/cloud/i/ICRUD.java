@@ -19,5 +19,5 @@ public interface ICRUD<T> {
 
 	void delete(T t);
 
-	List<T> findAll();
+	List<? super T> findAll();
 }

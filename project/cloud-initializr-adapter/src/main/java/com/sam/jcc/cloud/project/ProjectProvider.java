@@ -1,26 +1,19 @@
-/**
- *
- */
 package com.sam.jcc.cloud.project;
 
 import com.sam.jcc.cloud.i.AbstractProvider;
+import com.sam.jcc.cloud.i.ICRUD;
 import com.sam.jcc.cloud.i.IEventManager;
 import com.sam.jcc.cloud.i.InternalCloudException;
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import com.sam.jcc.cloud.i.project.IProjectProvider;
 import com.sam.jcc.cloud.i.project.Status;
-import com.sam.jcc.cloud.persistence.project.ProjectMetadataEntity;
-import com.sam.jcc.cloud.persistence.project.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.google.common.collect.Lists.newArrayList;
 import static com.sam.jcc.cloud.i.project.Status.*;
-import static com.sam.jcc.cloud.project.ZipUtil.archivateDir;
 import static java.lang.String.format;
-import static java.util.stream.Collectors.toList;
 
 /**
  * @author Alec Kotovich
@@ -29,20 +22,15 @@ import static java.util.stream.Collectors.toList;
 public class ProjectProvider extends AbstractProvider<IProjectMetadata> implements IProjectProvider {
 
     @Autowired
-    private Cleaner cleaner;
+    private ProjectBuilder builder;
+    @Autowired
+    private ICRUD<ProjectMetadata> dao;
     @Autowired
     private ProjectValidator validator;
     @Autowired
-    private TestGenerator testGenerator;
+    private TestProcessor testProcessor;
     @Autowired
-    private SourceGenerator srcGenerator;
-    @Autowired
-    private ProjectRepository repository;
-
-    @Autowired
-    private ProjectEntityConverter entityConverter;
-    @Autowired
-    private ProjectMetadataConverter metadataConverter;
+    private SourceProcessor srcProcessor;
 
     @Autowired
     public ProjectProvider(List<IEventManager<IProjectMetadata>> eventManagers) {
@@ -63,9 +51,7 @@ public class ProjectProvider extends AbstractProvider<IProjectMetadata> implemen
     @Override
     public IProjectMetadata create(IProjectMetadata metadata) {
         final IProjectMetadata created = super.create(metadata);
-        final ProjectMetadataEntity entity = metadataConverter.convert(asProjectMetadata(created));
-        repository.save(entity);
-        return created;
+        return dao.create(asProjectMetadata(created));
     }
 
     @Override
@@ -79,7 +65,7 @@ public class ProjectProvider extends AbstractProvider<IProjectMetadata> implemen
     @Override
     public IProjectMetadata process(IProjectMetadata m) {
         final ProjectMetadata project = asProjectMetadata(m);
-        project.setDirectory(srcGenerator.generate(project));
+        srcProcessor.process(project);
         setStatus(m, PROCESSED);
         return m;
     }
@@ -88,18 +74,14 @@ public class ProjectProvider extends AbstractProvider<IProjectMetadata> implemen
     public IProjectMetadata postprocess(IProjectMetadata m) {
         final ProjectMetadata metadata = asProjectMetadata(m);
         try {
-            testGenerator.generate(metadata);
-            archivate(metadata);
-        } finally {
-            cleaner.remove(metadata.getDirectory());
+            testProcessor.process(metadata);
+            builder.build(metadata);
+        } catch (Exception e) {
+            builder.reset(metadata);
+            throw e;
         }
         setStatus(m, POST_PROCESSED);
         return m;
-    }
-
-    private void archivate(ProjectMetadata metadata) {
-        byte[] sources = archivateDir(metadata.getDirectory());
-        metadata.setProjectSources(sources);
     }
 
     @Override
@@ -109,8 +91,7 @@ public class ProjectProvider extends AbstractProvider<IProjectMetadata> implemen
 
     @Override
     public IProjectMetadata read(IProjectMetadata m) {
-        ProjectMetadata metadata = asProjectMetadata(m);
-        return entityConverter.convert(search(metadata));
+        return dao.read(asProjectMetadata(m));
     }
 
     @Override
@@ -121,35 +102,13 @@ public class ProjectProvider extends AbstractProvider<IProjectMetadata> implemen
 
     @Override
     public void delete(IProjectMetadata m) {
-        ProjectMetadata metadata = asProjectMetadata(m);
-        repository.delete(search(metadata));
-    }
-
-    private ProjectMetadataEntity search(ProjectMetadata metadata) {
-        return repository.findByGroupIdAndArtifactId(
-                metadata.getGroupId(),
-                metadata.getArtifactId()
-        );
+        dao.delete(asProjectMetadata(m));
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<IProjectMetadata> findAll() {
-        return newArrayList(repository.findAll())
-                .stream()
-                .map(entityConverter::convert)
-                .collect(toList());
-    }
-
-    private boolean isSupported(IProjectMetadata metadata) {
-        if (!(metadata instanceof ProjectMetadata)) return false;
-
-        final ProjectMetadata m = (ProjectMetadata) metadata;
-        final String name = m.getProjectType();
-        return isGradleOrMaven(name);
-    }
-
-    private boolean isGradleOrMaven(String name) {
-        return name != null && (name.equals("maven-project") || name.equals("gradle-project"));
+        return (List<IProjectMetadata>) dao.findAll();
     }
 
     private void setStatus(IProjectMetadata m, Status status) {
@@ -162,5 +121,17 @@ public class ProjectProvider extends AbstractProvider<IProjectMetadata> implemen
                     "can't execute here, don't support " + metadata);
         }
         return (ProjectMetadata) metadata;
+    }
+
+    private boolean isSupported(IProjectMetadata metadata) {
+        if (!(metadata instanceof ProjectMetadata)) return false;
+
+        final ProjectMetadata m = (ProjectMetadata) metadata;
+        final String name = m.getProjectType();
+        return isGradleOrMaven(name);
+    }
+
+    private boolean isGradleOrMaven(String name) {
+        return name != null && (name.equals("maven-project") || name.equals("gradle-project"));
     }
 }

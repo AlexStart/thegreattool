@@ -14,12 +14,12 @@ import java.io.IOException;
  * @since 21.11.2016
  */
 @Component
-class TestGenerator {
+class TestProcessor {
 
     @Autowired
     private Cleaner cleaner;
 
-    public void generate(ProjectMetadata metadata) {
+    public void process(ProjectMetadata metadata) {
         TypeSpec clazz = build();
         JavaFile javaFile = JavaFile
                 .builder(metadata.getBasePackage(), clazz)
