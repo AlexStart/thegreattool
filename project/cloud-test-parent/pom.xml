@@ -13,7 +13,7 @@
 
     <packaging>pom</packaging>
 
-    <artifactId>cloud-test</artifactId>
+    <artifactId>cloud-test-parent</artifactId>
 
     <properties>
         <junit.version>4.12</junit.version>

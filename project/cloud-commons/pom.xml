@@ -156,7 +156,7 @@
         </dependency>
 		<dependency>
 			<groupId>com.sam.jcc</groupId>
-			<artifactId>cloud-test</artifactId>
+			<artifactId>cloud-test-parent</artifactId>
 			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
