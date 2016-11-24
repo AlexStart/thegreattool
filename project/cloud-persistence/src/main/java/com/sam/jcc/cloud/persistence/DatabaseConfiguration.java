@@ -25,7 +25,7 @@ import java.util.Properties;
 public class DatabaseConfiguration {
 
     @Resource
-    Environment env;
+    private Environment env;
 
     @Bean
     @Profile("!prod")
