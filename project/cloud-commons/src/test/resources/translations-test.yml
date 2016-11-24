@@ -1,0 +1,7 @@
+Provider:
+  description:
+    en: "eng_desc"
+    ru: "rus_desc"
+  name:
+    en: "eng_name"
+    ru: "rus_name"

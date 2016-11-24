@@ -21,6 +21,17 @@
     <modules>
         <module>initializr</module>
 		<module>cloud-commons</module>
+        <module>cloud-persistence</module>
         <module>cloud-initializr-adapter</module>
+        <module>cloud-test-parent</module>
     </modules>
+
+    <profiles>
+        <profile>
+            <id>cloudTests</id>
+            <modules>
+                <module>cloud-test</module>
+            </modules>
+        </profile>
+    </profiles>
 </project>

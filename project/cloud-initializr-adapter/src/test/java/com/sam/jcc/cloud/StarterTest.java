@@ -1,20 +1,15 @@
 package com.sam.jcc.cloud;
 
-import static org.junit.Assert.assertNotNull;
-
-import java.util.Arrays;
-
+import io.spring.initializr.generator.ProjectGenerator;
+import io.spring.initializr.generator.ProjectRequest;
+import io.spring.initializr.metadata.InitializrMetadataProvider;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.sam.jcc.cloud.project.ProjectProvider;
-
-import io.spring.initializr.generator.ProjectGenerator;
-import io.spring.initializr.generator.ProjectRequest;
-import io.spring.initializr.metadata.InitializrMetadataProvider;
+import java.util.Arrays;
 
 /**
  * @author Alexey Zhytnik
@@ -24,44 +19,32 @@ import io.spring.initializr.metadata.InitializrMetadataProvider;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class StarterTest {
 
-	@Autowired
-	private ProjectGenerator projectGenerator;
+    @Autowired
+    private ProjectGenerator projectGenerator;
 
-	@Autowired
-	private InitializrMetadataProvider metadataProvider;
+    @Autowired
+    private InitializrMetadataProvider metadataProvider;
 
-	@Autowired
-	private ProjectProvider projectProvider;
+    @Test
+    public void java8IsMandatoryGradle() {
+        ProjectRequest request = createProjectRequest("data-jpa");
+        request.setBootVersion("2.0.0.M3");
+        request.setJavaVersion("1.7");
+        generateGradleBuild(request);
+    }
 
-	@Test
-	public void java8IsMandatoryGradle() {
-		ProjectRequest request = createProjectRequest("data-jpa");
-		request.setBootVersion("2.0.0.M3");
-		request.setJavaVersion("1.7");
-		generateGradleBuild(request);
-	}
+    private String generateGradleBuild(ProjectRequest request) {
+        request.setType("gradle-build");
+        String content = new String(projectGenerator.generateGradleBuild(request));
+        if (content.isEmpty())
+            throw new RuntimeException();
+        return content;
+    }
 
-	@Test
-	public void testProjectProvider() {
-		assertNotNull(projectProvider);
-		// TODO check create here
-		// IProjectMetadata created = projectProvider.create(new
-		// ProjectMetadata());
-		// assertNotNull(created);
-	}
-
-	private String generateGradleBuild(ProjectRequest request) {
-		request.setType("gradle-build");
-		String content = new String(projectGenerator.generateGradleBuild(request));
-		if (content.isEmpty())
-			throw new RuntimeException();
-		return content;
-	}
-
-	private ProjectRequest createProjectRequest(String... styles) {
-		ProjectRequest request = new ProjectRequest();
-		request.initialize(metadataProvider.get());
-		request.getStyle().addAll(Arrays.asList(styles));
-		return request;
-	}
+    private ProjectRequest createProjectRequest(String... styles) {
+        ProjectRequest request = new ProjectRequest();
+        request.initialize(metadataProvider.get());
+        request.getStyle().addAll(Arrays.asList(styles));
+        return request;
+    }
 }

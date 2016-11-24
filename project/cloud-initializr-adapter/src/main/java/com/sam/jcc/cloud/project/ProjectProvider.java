@@ -1,129 +1,141 @@
-/**
- * 
- */
 package com.sam.jcc.cloud.project;
 
-import java.util.List;
-
+import com.sam.jcc.cloud.i.AbstractProvider;
+import com.sam.jcc.cloud.i.ICRUD;
+import com.sam.jcc.cloud.i.IEventManager;
+import com.sam.jcc.cloud.i.InternalCloudException;
+import com.sam.jcc.cloud.i.project.IProjectMetadata;
+import com.sam.jcc.cloud.i.project.IProjectProvider;
+import com.sam.jcc.cloud.i.project.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sam.jcc.cloud.i.AbstractProvider;
-import com.sam.jcc.cloud.i.IEventManager;
-import com.sam.jcc.cloud.i.project.IProjectMetadata;
-import com.sam.jcc.cloud.i.project.IProjectProvider;
+import java.util.List;
+
+import static com.sam.jcc.cloud.i.project.Status.*;
+import static java.lang.String.format;
 
 /**
  * @author Alec Kotovich
- *
  */
 @Component
 public class ProjectProvider extends AbstractProvider<IProjectMetadata> implements IProjectProvider {
 
-	@Autowired
-	public ProjectProvider(List<IEventManager<IProjectMetadata>> eventManagers) {
-		super(eventManagers);
-	}
+    @Autowired
+    private ProjectBuilder builder;
+    @Autowired
+    private ICRUD<ProjectMetadata> dao;
+    @Autowired
+    private ProjectValidator validator;
+    @Autowired
+    private TestProcessor testProcessor;
+    @Autowired
+    private SourceProcessor srcProcessor;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.sam.jcc.cloud.i.IProvider#getName()
-	 */
-	@Override
-	public String getI18NName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Autowired
+    public ProjectProvider(List<IEventManager<IProjectMetadata>> eventManagers) {
+        super(eventManagers);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.sam.jcc.cloud.i.IProvider#getDescription()
-	 */
-	@Override
-	public String getI18NDescription() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getName(IProjectMetadata m) {
+        ProjectMetadata metadata = asProjectMetadata(m);
+        return format("%s:%s", metadata.getGroupId(), metadata.getArtifactId());
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.sam.jcc.cloud.i.IProvider#supports(java.lang.Object)
-	 */
-	@Override
-	public boolean supports(IProjectMetadata t) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public boolean supports(IProjectMetadata m) {
+        return isSupported(m);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.sam.jcc.cloud.i.IProvider#preprocess(java.lang.Object)
-	 */
-	@Override
-	public IProjectMetadata preprocess(IProjectMetadata t) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public IProjectMetadata create(IProjectMetadata metadata) {
+        return dao.create(build(metadata));
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.sam.jcc.cloud.i.IProvider#process(java.lang.Object)
-	 */
-	@Override
-	public IProjectMetadata process(IProjectMetadata t) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public IProjectMetadata preprocess(IProjectMetadata m) {
+        setStatus(m, UNPROCESSED);
+        validator.validate(asProjectMetadata(m));
+        setStatus(m, PRE_PROCESSED);
+        return m;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.sam.jcc.cloud.i.IProvider#postprocess(java.lang.Object)
-	 */
-	@Override
-	public IProjectMetadata postprocess(IProjectMetadata t) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public IProjectMetadata process(IProjectMetadata m) {
+        final ProjectMetadata project = asProjectMetadata(m);
+        srcProcessor.process(project);
+        setStatus(m, PROCESSED);
+        return m;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.sam.jcc.cloud.i.IProvider#isEnabled()
-	 */
-	@Override
-	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public IProjectMetadata postprocess(IProjectMetadata m) {
+        final ProjectMetadata metadata = asProjectMetadata(m);
+        try {
+            testProcessor.process(metadata);
+            builder.build(metadata);
+        } catch (Exception e) {
+            builder.reset(metadata);
+            throw e;
+        }
+        setStatus(m, POST_PROCESSED);
+        return m;
+    }
 
-	@Override
-	public IProjectMetadata read(IProjectMetadata t) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 
-	@Override
-	public IProjectMetadata update(IProjectMetadata t) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public IProjectMetadata read(IProjectMetadata m) {
+        return dao.read(asProjectMetadata(m));
+    }
 
-	@Override
-	public void delete(IProjectMetadata t) {
-		// TODO Auto-generated method stub
+    //TODO: add fail on unknown ProjectMetadata
+    @Override
+    public IProjectMetadata update(IProjectMetadata metadata) {
+        return dao.update(build(metadata));
+    }
 
-	}
+    private ProjectMetadata build(IProjectMetadata metadata) {
+        final IProjectMetadata created = super.create(metadata);
+        return asProjectMetadata(created);
+    }
 
-	@Override
-	public List<IProjectMetadata> findAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public void delete(IProjectMetadata m) {
+        dao.delete(asProjectMetadata(m));
+    }
 
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<IProjectMetadata> findAll() {
+        return (List<IProjectMetadata>) dao.findAll();
+    }
+
+    private void setStatus(IProjectMetadata m, Status status) {
+        asProjectMetadata(m).setStatus(status);
+    }
+
+    private ProjectMetadata asProjectMetadata(IProjectMetadata metadata) {
+        if (!isSupported(metadata)) {
+            throw new InternalCloudException("Incorrect execution, in normal case " +
+                    "can't execute here, don't support " + metadata);
+        }
+        return (ProjectMetadata) metadata;
+    }
+
+    private boolean isSupported(IProjectMetadata metadata) {
+        if (!(metadata instanceof ProjectMetadata)) return false;
+
+        final ProjectMetadata m = (ProjectMetadata) metadata;
+        final String name = m.getProjectType();
+        return isGradleOrMaven(name);
+    }
+
+    private boolean isGradleOrMaven(String name) {
+        return name != null && (name.equals("maven-project") || name.equals("gradle-project"));
+    }
 }

@@ -24,6 +24,6 @@ public abstract class AbstractCRUD<T> implements ICRUD<T> {
 	public abstract void delete(T t);
 
 	@Override
-	public abstract List<T> findAll();
+	public abstract List<? super T> findAll();
 
 }
