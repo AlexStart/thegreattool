@@ -14,6 +14,7 @@
     <packaging>pom</packaging>
 
     <artifactId>cloud-test-parent</artifactId>
+    <name>SaM Java Cloud :: Test Parent</name>
 
     <properties>
         <junit.version>4.12</junit.version>

@@ -93,6 +93,7 @@
             <groupId>com.sam.jcc</groupId>
             <artifactId>cloud-test-parent</artifactId>
             <version>${project.version}</version>
+            <type>pom</type>
             <scope>test</scope>
         </dependency>
     </dependencies>
