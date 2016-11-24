@@ -42,7 +42,7 @@ initializr:
       cloud-services-bom:
         groupId: io.pivotal.spring.cloud
         artifactId: spring-cloud-services-dependencies
-        version: 1.2.0.RELEASE
+        version: 1.3.0.RELEASE
         additionalBoms: [cloud-bom]
       experimental-reactive-bom:
         groupId: org.springframework.boot.experimental
@@ -56,7 +56,7 @@ initializr:
     gradle:
       dependency-management-plugin-version: 0.6.0.RELEASE
     kotlin:
-      version: 1.0.3
+      version: 1.0.5-2
   dependencies:
     - name: Core
       content:
@@ -297,6 +297,26 @@ initializr:
             - versionRange: "[1.2.0.RELEASE,1.3.0.M1)"
               version: 9.4-1201-jdbc41
           scope: runtime
+          starter: false
+        - name: SQL Server
+          id: sqlserver
+          description: Microsoft SQL Server jdbc driver
+          versionRange: 1.5.0.RC1
+          groupId: com.microsoft.sqlserver
+          artifactId: mssql-jdbc
+          scope: runtime
+          starter: false
+        - name: Flyway
+          id: flyway
+          description: Flyway Database Migrations library
+          groupId: org.flywaydb
+          artifactId: flyway-core
+          starter: false
+        - name: Liquibase
+          id: liquibase
+          description: Liquibase Database Migrations library
+          groupId: org.liquibase
+          artifactId: liquibase-core
           starter: false
     - name: NoSQL
       content:
@@ -625,7 +645,7 @@ initializr:
           starter: false
     - name: Pivotal Cloud Foundry
       bom: cloud-services-bom
-      versionRange: "[1.3.0.RELEASE,1.4.0.M1)"
+      versionRange: 1.3.0.RELEASE
       content:
         - name: Config Client (PCF)
           id: scs-config-client
