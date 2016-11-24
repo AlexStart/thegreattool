@@ -1,6 +1,5 @@
-package com.sam.jcc.cloud.project.util;
+package com.sam.jcc.cloud.project;
 
-import com.sam.jcc.cloud.project.ProjectMetadata;
 import io.spring.initializr.generator.ProjectRequest;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +8,7 @@ import org.springframework.stereotype.Component;
  * @since 15.11.2016
  */
 @Component
-public class MetadataToRequestConverter {
+class MetadataToRequestConverter {
 
     public ProjectRequest convert(ProjectMetadata p) {
         final ProjectRequest r = new ProjectRequest();
