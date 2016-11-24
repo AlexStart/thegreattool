@@ -50,8 +50,7 @@ public class ProjectProvider extends AbstractProvider<IProjectMetadata> implemen
 
     @Override
     public IProjectMetadata create(IProjectMetadata metadata) {
-        final IProjectMetadata created = super.create(metadata);
-        return dao.create(asProjectMetadata(created));
+        return dao.create(build(metadata));
     }
 
     @Override
@@ -94,10 +93,15 @@ public class ProjectProvider extends AbstractProvider<IProjectMetadata> implemen
         return dao.read(asProjectMetadata(m));
     }
 
+    //TODO: add fail on unknown ProjectMetadata
     @Override
-    public IProjectMetadata update(IProjectMetadata m) {
-        delete(m);
-        return create(m);
+    public IProjectMetadata update(IProjectMetadata metadata) {
+        return dao.update(build(metadata));
+    }
+
+    private ProjectMetadata build(IProjectMetadata metadata) {
+        final IProjectMetadata created = super.create(metadata);
+        return asProjectMetadata(created);
     }
 
     @Override

@@ -31,10 +31,7 @@ class ProjectMetadataDao implements ICRUD<ProjectMetadata> {
 
     @Override
     public ProjectMetadata create(ProjectMetadata metadata) {
-        final ProjectMetadataEntity entity = metadataConverter.convert(metadata);
-        repository.save(entity);
-        metadata.setId(entity.getId());
-        return metadata;
+        return save(metadata);
     }
 
     @Override
@@ -45,7 +42,16 @@ class ProjectMetadataDao implements ICRUD<ProjectMetadata> {
 
     @Override
     public ProjectMetadata update(ProjectMetadata metadata) {
-        throw new UnsupportedOperationException();
+        final Long id = search(metadata).getId();
+        metadata.setId(id);
+        return save(metadata);
+    }
+
+    private ProjectMetadata save(ProjectMetadata metadata) {
+        final ProjectMetadataEntity entity = metadataConverter.convert(metadata);
+        repository.save(entity);
+        metadata.setId(entity.getId());
+        return metadata;
     }
 
     @Override
