@@ -23,5 +23,6 @@
 		<module>cloud-commons</module>
         <module>cloud-persistence</module>
         <module>cloud-initializr-adapter</module>
+        <module>cloud-test</module>
     </modules>
 </project>
