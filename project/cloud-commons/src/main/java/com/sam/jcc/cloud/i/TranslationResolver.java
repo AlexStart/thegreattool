@@ -66,11 +66,11 @@ class TranslationResolver {
         throw new IllegalArgumentException("Unknown message type: " + type);
     }
 
-    public Map<String, String> getNames(Class provider) {
+    public Map<String, String> getNames(Class<? extends IProvider<?>> provider) {
         return names.get(provider.getSimpleName());
     }
 
-    public Map<String, String> getDescriptions(Class provider) {
+    public Map<String, String> getDescriptions(Class<? extends IProvider<?>> provider) {
         return descriptions.get(provider.getSimpleName());
     }
 }
