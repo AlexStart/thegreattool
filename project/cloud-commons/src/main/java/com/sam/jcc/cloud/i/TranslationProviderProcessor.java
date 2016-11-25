@@ -26,7 +26,7 @@ class TranslationProviderProcessor implements BeanPostProcessor {
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) {
         if (bean instanceof AbstractProvider) {
-            setUpTranslations((AbstractProvider) bean);
+            setUpTranslations((AbstractProvider<?>) bean);
         }
         return bean;
     }
