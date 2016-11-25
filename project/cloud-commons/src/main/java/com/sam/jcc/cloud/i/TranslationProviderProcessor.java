@@ -31,10 +31,9 @@ class TranslationProviderProcessor implements BeanPostProcessor {
         return bean;
     }
 
-    private void setUpTranslations(AbstractProvider provider) {
-        final Class<?> clazz = provider.getClass();
-        final Map<String, String> names = translations.getNames(clazz);
-        final Map<String, String> descriptions = translations.getDescriptions(clazz);
+    private void setUpTranslations(AbstractProvider<?> provider) {
+        final Map<String, String> names = translations.getNames(getProviderClass(provider));
+        final Map<String, String> descriptions = translations.getDescriptions(getProviderClass(provider));
 
         if (containsWrongTranslation(names, descriptions)) {
             throw new InternalCloudException("There's no all translations for " + provider);
@@ -43,8 +42,13 @@ class TranslationProviderProcessor implements BeanPostProcessor {
         provider.setDescriptions(descriptions);
     }
 
-    private boolean containsWrongTranslation(Map names, Map descriptions) {
+    private boolean containsWrongTranslation(Map<String, String> names, Map<String, String> descriptions) {
         return isNull(names) || isNull(descriptions) ||
                 names.isEmpty() || descriptions.isEmpty();
+    }
+
+    @SuppressWarnings("unchecked")
+    private Class<? extends IProvider<?>> getProviderClass(AbstractProvider<?> provider) {
+        return (Class<? extends IProvider<?>>) provider.getClass();
     }
 }

@@ -1,5 +1,6 @@
 package com.sam.jcc.cloud.i;
 
+import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -55,8 +56,8 @@ public class TranslationResolverTest {
         return new SimpleEntry<>(lang, value);
     }
 
-    static abstract class Provider extends AbstractProvider {
-        public Provider(List list) {
+    static abstract class Provider extends AbstractProvider<IProjectMetadata> {
+        public Provider(List<IEventManager<IProjectMetadata>> list) {
             super(list);
         }
     }
