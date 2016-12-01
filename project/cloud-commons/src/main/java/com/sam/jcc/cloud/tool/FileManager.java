@@ -5,8 +5,13 @@ import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.Optional;
 
+import static java.nio.file.Files.setAttribute;
+import static java.util.Objects.nonNull;
+import static java.util.Optional.empty;
 import static org.apache.commons.io.FileUtils.copyDirectory;
 
 /**
@@ -38,6 +43,26 @@ public class FileManager {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void createHiddenFolder(File file) {
+        if (!file.mkdir()) {
+            throw new RuntimeException("Can't create folder " + file);
+        }
+        try {
+            setAttribute(file.toPath(), "dos:hidden", true);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Optional<File> search(File root, FilenameFilter filter) {
+        final File[] files = root.listFiles(filter);
+
+        if (nonNull(files) && files.length > 0) {
+            return Optional.of(files[0]);
+        }
+        return empty();
     }
 
     public TempFile createTempDir() {
