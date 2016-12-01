@@ -1,6 +1,7 @@
 package com.sam.jcc.cloud.project;
 
 import com.sam.jcc.cloud.i.InternalCloudException;
+import com.sam.jcc.cloud.tool.FileManager;
 import com.squareup.javapoet.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,7 @@ import java.io.IOException;
 class TestProcessor {
 
     @Autowired
-    private Cleaner cleaner;
+    private FileManager fileManager;
 
     public void process(ProjectMetadata metadata) {
         TypeSpec clazz = build();
@@ -26,7 +27,7 @@ class TestProcessor {
                 .build();
 
         File testFolder = getTestDir(metadata);
-        cleaner.clean(testFolder);
+        fileManager.cleanDir(testFolder);
 
         writeToFile(javaFile, testFolder);
     }
