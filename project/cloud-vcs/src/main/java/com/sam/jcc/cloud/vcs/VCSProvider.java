@@ -26,7 +26,7 @@ public class VCSProvider {
     private ProjectParser parser;
     private VCS<VCSCredentialsProvider> vcs;
 
-    public VCSProvider(){
+    public VCSProvider() {
         files = new FileManager();
         parser = new ProjectParser();
 
@@ -35,6 +35,14 @@ public class VCSProvider {
 
         vcs = new GitVCS();
         vcs.setStorage(localGit);
+    }
+
+    VCSProvider(VCSStorage<VCSCredentialsProvider> provider) {
+        files = new FileManager();
+        parser = new ProjectParser();
+
+        vcs = new GitVCS();
+        vcs.setStorage(provider);
     }
 
     public static void main(String[] args) {
@@ -76,14 +84,14 @@ public class VCSProvider {
         }
     }
 
-    private void execute(String vcs, String protocol, String operation, File project) {
+    void execute(String vcs, String protocol, String operation, File project) {
         switch (operation) {
             case "create": {
                 createRepo(vcs, protocol, project);
                 return;
             }
             case "read": {
-                System.out.println(readSourcesFromRepo(vcs, protocol, project));
+                System.out.print(readSourcesFromRepo(vcs, protocol, project));
                 return;
             }
             case "update": {
@@ -139,7 +147,7 @@ public class VCSProvider {
             vcs.read(repo);
 
             final byte[] content = zipManager.zip(temp);
-            final File sources = files.createTempFile(repo.getName(), "zip");
+            final File sources = files.createTempFile(repo.getName(), ".zip");
             files.write(content, sources);
             repo.setSources(sources);
         }
