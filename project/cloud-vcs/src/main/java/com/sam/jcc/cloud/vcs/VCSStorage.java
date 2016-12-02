@@ -1,13 +1,12 @@
 package com.sam.jcc.cloud.vcs;
 
-import com.sam.jcc.cloud.i.Experimental;
+import java.util.Optional;
 
 /**
  * @author Alexey Zhytnik
  * @since 28.11.2016
  */
-@Experimental("Integration with Git-server")
-public interface VCSServer<CP> {
+public interface VCSStorage<CP extends VCSCredentialsProvider> {
 
     void create(VCSRepository repo);
 
@@ -16,11 +15,11 @@ public interface VCSServer<CP> {
     boolean isExist(VCSRepository repo);
 
     /**
-     * Returns a URI for access to the server.
+     * Returns a URI for access to the storage.
      */
     String getRepositoryURI(VCSRepository repo);
 
-    CP getCredentialProvider();
+    Optional<CP> getCredentialsProvider();
 
     void setProtocol(String protocol);
 }

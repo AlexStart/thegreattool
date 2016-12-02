@@ -3,10 +3,8 @@ package com.sam.jcc.cloud.vcs.git;
 import com.sam.jcc.cloud.i.Experimental;
 import com.sam.jcc.cloud.vcs.VCSException;
 import com.sam.jcc.cloud.vcs.VCSRepository;
-import com.sam.jcc.cloud.vcs.VCSServer;
+import com.sam.jcc.cloud.vcs.VCSStorage;
 import lombok.Setter;
-import org.eclipse.jgit.transport.CredentialsProvider;
-import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.kohsuke.github.GHCreateRepositoryBuilder;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
@@ -17,6 +15,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 import static java.text.MessageFormat.format;
+import static java.util.Optional.of;
 
 /**
  * @author Alexey Zhytnik
@@ -24,7 +23,7 @@ import static java.text.MessageFormat.format;
  */
 @Setter
 @Experimental("Integration with GitHub")
-public class GitHubServer implements VCSServer<CredentialsProvider> {
+public class GitHubServer implements VCSStorage<GitCredentialsProvider> {
 
     private String user;
     private String token;
@@ -59,8 +58,8 @@ public class GitHubServer implements VCSServer<CredentialsProvider> {
     }
 
     @Override
-    public CredentialsProvider getCredentialProvider() {
-        return new UsernamePasswordCredentialsProvider(user, password);
+    public Optional<GitCredentialsProvider> getCredentialsProvider() {
+        return of(new GitCredentialsProvider(user, password));
     }
 
     @Override

@@ -3,10 +3,8 @@ package com.sam.jcc.cloud.vcs.git;
 import com.sam.jcc.cloud.i.Experimental;
 import com.sam.jcc.cloud.vcs.VCSException;
 import com.sam.jcc.cloud.vcs.VCSRepository;
-import com.sam.jcc.cloud.vcs.VCSServer;
+import com.sam.jcc.cloud.vcs.VCSStorage;
 import lombok.Setter;
-import org.eclipse.jgit.transport.CredentialsProvider;
-import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.gitlab.api.GitlabAPI;
 import org.gitlab.api.models.GitlabProject;
 import org.gitlab.api.models.GitlabSession;
@@ -16,14 +14,15 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 import static java.text.MessageFormat.format;
+import static java.util.Optional.of;
 
 /**
  * @author Alexey Zhytnik
  * @since 28.11.2016
  */
 @Setter
-@Experimental("Integration with a GitLab server")
-public class GitLabServer implements VCSServer<CredentialsProvider> {
+@Experimental("Integration with a GitLab storage")
+public class GitLabServer implements VCSStorage<GitCredentialsProvider> {
 
     private String host;
     private String user;
@@ -62,8 +61,8 @@ public class GitLabServer implements VCSServer<CredentialsProvider> {
     }
 
     @Override
-    public CredentialsProvider getCredentialProvider() {
-        return new UsernamePasswordCredentialsProvider(user, password);
+    public Optional<GitCredentialsProvider> getCredentialsProvider() {
+        return of(new GitCredentialsProvider(user, password));
     }
 
     @Override

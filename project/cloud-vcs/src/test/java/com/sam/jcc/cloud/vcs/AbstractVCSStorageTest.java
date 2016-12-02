@@ -13,7 +13,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
  * @author Alexey Zhytnik
  * @since 28.11.2016
  */
-public abstract class AbstractServerTest<T extends VCSServer<?>> {
+public abstract class AbstractVCSStorageTest<T extends VCSStorage<?>> {
 
     protected T server;
 
