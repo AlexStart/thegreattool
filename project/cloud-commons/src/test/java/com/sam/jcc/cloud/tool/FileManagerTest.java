@@ -1,6 +1,5 @@
 package com.sam.jcc.cloud.tool;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -50,11 +49,6 @@ public class FileManagerTest {
 
         assertThat(dir).exists();
         assertThat(dir.listFiles()).isNullOrEmpty();
-    }
-
-    @Test
-    public void copiesDirectory() throws IOException {
-        throw new NotImplementedException("is it important?");
     }
 
     @Test

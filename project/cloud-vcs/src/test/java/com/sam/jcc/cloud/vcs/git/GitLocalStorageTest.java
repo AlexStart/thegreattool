@@ -1,5 +1,6 @@
 package com.sam.jcc.cloud.vcs.git;
 
+import com.sam.jcc.cloud.tool.FileManager;
 import com.sam.jcc.cloud.vcs.VCSException;
 import com.sam.jcc.cloud.vcs.VCSRepository;
 import org.junit.Before;
@@ -9,8 +10,6 @@ import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 import static com.sam.jcc.cloud.vcs.VCSRepositoryDataHelper.repository;
 import static org.assertj.core.api.Java6Assertions.assertThat;
@@ -97,11 +96,7 @@ public class GitLocalStorageTest {
     }
 
     File getFile(VCSRepository repository) {
-        try {
-            String uri = repos.getRepositoryURI(repository);
-            return new File(new URI(uri));
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
+        String uri = repos.getRepositoryURI(repository);
+        return new FileManager().getFileByUri(uri);
     }
 }

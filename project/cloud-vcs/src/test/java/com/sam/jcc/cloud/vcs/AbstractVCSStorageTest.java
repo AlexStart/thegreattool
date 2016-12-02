@@ -35,6 +35,10 @@ public abstract class AbstractVCSStorageTest<T extends VCSStorage<?>> {
 
     @After
     public void tearDown() {
-        server.delete(repository);
+        try {
+            server.delete(repository);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
