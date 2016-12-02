@@ -54,6 +54,10 @@ public class ZipArchiveManagerTest {
         files.createDir(new File(root, "a/b"));
         files.write(randomContent(), new File(root, "a/b/1"));
 
+        files.createDir(new File(root, "a/b/c"));
+        files.createDir(new File(root, "a/b/c/d"));
+        files.write(randomContent(), new File(root, "a/b/c/d/1"));
+
         return root;
     }
 

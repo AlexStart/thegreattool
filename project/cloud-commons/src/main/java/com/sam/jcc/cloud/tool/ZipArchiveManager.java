@@ -23,8 +23,6 @@ import static org.apache.commons.io.IOUtils.copy;
 @Component
 public class ZipArchiveManager {
 
-    private FileManager files = new FileManager();
-
     public boolean isZip(File file) {
         return file.getName().endsWith(".zip");
     }
@@ -85,7 +83,11 @@ public class ZipArchiveManager {
         final File parent = path.toFile().getParentFile();
 
         if (!parent.exists()) {
-            files.createDir(parent);
+            try {
+                Files.createDirectories(parent.toPath());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
         return path;
     }
