@@ -1,4 +1,4 @@
-package com.sam.jcc.cloud.vcs.util;
+package com.sam.jcc.cloud.tool;
 
 import com.google.common.io.Files;
 
@@ -17,7 +17,7 @@ import static org.apache.commons.io.filefilter.FileFileFilter.FILE;
  */
 public final class DirectoryComparator {
 
-    public boolean compare(File a, File b) {
+    public boolean areEquals(File a, File b) {
         return hash(allFiles(a)) == hash(allFiles((b)));
     }
 

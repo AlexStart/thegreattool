@@ -4,16 +4,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.charset.Charset;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Enumeration;
@@ -30,6 +22,8 @@ import static org.apache.commons.io.IOUtils.copy;
  */
 @Component
 public class ZipArchiveManager {
+
+    private FileManager files = new FileManager();
 
     public boolean isZip(File file) {
         return file.getName().endsWith(".zip");
@@ -78,7 +72,6 @@ public class ZipArchiveManager {
     private void createFileByEntry(File dest, ZipFile zip, ZipEntry entry) throws IOException {
         try (final InputStream in = new BufferedInputStream(zip.getInputStream(entry))) {
             final Path path = getPath(entry, dest);
-
             Files.createFile(path);
             try (OutputStream out = new FileOutputStream(path.toFile())) {
                 copy(in, out);
@@ -87,41 +80,51 @@ public class ZipArchiveManager {
     }
 
     private Path getPath(ZipEntry entry, File dir) {
-        final FileSystem fileSystem = FileSystems.getDefault();
-        final String name = dir + File.separator + entry.getName();
-        return fileSystem.getPath(name);
+        final String name = entry.getName();
+        final Path path = dir.toPath().resolve(name);
+        final File parent = path.toFile().getParentFile();
+
+        if (!parent.exists()) {
+            files.createDir(parent);
+        }
+        return path;
     }
 
     public byte[] zip(File dir) {
         final ByteArrayOutputStream buffer = new ByteArrayOutputStream((int) dir.length());
 
         try (ZipOutputStream zip = new ZipOutputStream(buffer)) {
-            addDir(zip, dir);
+            addDir(zip, dir, dir);
+            zip.finish();
             return buffer.toByteArray();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    private void addDir(ZipOutputStream zip, File dir) throws IOException {
-        File[] files = dir.listFiles();
-        if (isNull(files)) return;
+    private void addDir(ZipOutputStream zip, File root, File current) throws IOException {
+        File[] files = current.listFiles();
+        if (isNull(files) || files.length == 0) return;
 
         for (File file : files) {
             if (file.isDirectory()) {
-                addDir(zip, file);
+                addDir(zip, root, file);
                 continue;
             }
-            createZipEntry(zip, file);
+            createZipEntry(zip, root, file);
         }
     }
 
-    private void createZipEntry(ZipOutputStream zip, File file) throws IOException {
+    private void createZipEntry(ZipOutputStream zip, File root, File file) throws IOException {
         try (FileInputStream resource = new FileInputStream(file)) {
-            zip.putNextEntry(new ZipEntry(file.getAbsolutePath()));
+            zip.putNextEntry(new ZipEntry(getRelativePath(root, file)));
             copy(resource, zip);
         } finally {
             zip.closeEntry();
         }
+    }
+
+    private String getRelativePath(File root, File file) {
+        return root.toPath().relativize(file.toPath()).toString();
     }
 }
