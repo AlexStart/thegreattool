@@ -40,6 +40,6 @@ class ProjectBuilder {
     }
 
     private void clearTempFolder(ProjectMetadata metadata) {
-        fileManager.deleteDir(metadata.getDirectory());
+        fileManager.delete(metadata.getDirectory());
     }
 }

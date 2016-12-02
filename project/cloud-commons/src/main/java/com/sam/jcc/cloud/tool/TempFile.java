@@ -16,16 +16,6 @@ public class TempFile extends File implements AutoCloseable {
 
     @Override
     public void close() {
-        if (isDirectory()) {
-            fileManager.deleteDir(this);
-        } else {
-            if (!delete()) {
-                fail("Can't delete " + this);
-            }
-        }
-    }
-
-    private void fail(String message) {
-        throw new RuntimeException(message);
+        fileManager.delete(this);
     }
 }
