@@ -1,15 +1,22 @@
 package com.sam.jcc.cloud.tool;
 
-import net.lingala.zip4j.exception.ZipException;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.springframework.stereotype.Component;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
@@ -46,12 +53,43 @@ public class ZipArchiveManager {
     }
 
     public void unzip(File archive, File dest) {
-        try {
-            final net.lingala.zip4j.core.ZipFile zip = new net.lingala.zip4j.core.ZipFile(archive);
-            zip.extractAll(dest.toString());
-        } catch (ZipException e) {
+        try (ZipFile zip = new ZipFile(archive)) {
+            final Enumeration<? extends ZipEntry> entries = zip.entries();
+
+            while (entries.hasMoreElements()) {
+                final ZipEntry e = entries.nextElement();
+
+                if (e.isDirectory()) {
+                    createDirByEntry(dest, e);
+                } else {
+                    createFileByEntry(dest, zip, e);
+                }
+            }
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void createDirByEntry(File dest, ZipEntry entry) throws IOException {
+        final Path path = getPath(entry, dest);
+        Files.createDirectories(path);
+    }
+
+    private void createFileByEntry(File dest, ZipFile zip, ZipEntry entry) throws IOException {
+        try (final InputStream in = new BufferedInputStream(zip.getInputStream(entry))) {
+            final Path path = getPath(entry, dest);
+
+            Files.createFile(path);
+            try (OutputStream out = new FileOutputStream(path.toFile())) {
+                copy(in, out);
+            }
+        }
+    }
+
+    private Path getPath(ZipEntry entry, File dir) {
+        final FileSystem fileSystem = FileSystems.getDefault();
+        final String name = dir + File.separator + entry.getName();
+        return fileSystem.getPath(name);
     }
 
     public byte[] zip(File dir) {
