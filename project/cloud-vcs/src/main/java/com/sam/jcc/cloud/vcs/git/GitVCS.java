@@ -2,15 +2,26 @@ package com.sam.jcc.cloud.vcs.git;
 
 import com.sam.jcc.cloud.tool.FileManager;
 import com.sam.jcc.cloud.tool.TempFile;
-import com.sam.jcc.cloud.vcs.*;
+import com.sam.jcc.cloud.vcs.VCS;
+import com.sam.jcc.cloud.vcs.VCSCredentialsProvider;
+import com.sam.jcc.cloud.vcs.VCSException;
+import com.sam.jcc.cloud.vcs.VCSRepository;
+import com.sam.jcc.cloud.vcs.VCSStorage;
 import lombok.Getter;
 import lombok.Setter;
-import org.eclipse.jgit.api.*;
+import org.eclipse.jgit.api.CloneCommand;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.LsRemoteCommand;
+import org.eclipse.jgit.api.PullCommand;
+import org.eclipse.jgit.api.PushCommand;
+import org.eclipse.jgit.api.RemoteAddCommand;
+import org.eclipse.jgit.api.TransportCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.URIish;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 
 /**
@@ -68,14 +79,16 @@ public class GitVCS implements VCS<VCSCredentialsProvider> {
             try (Git git = init(repo, temp)) {
 
                 files.copyDir(repo.getSources(), temp);
-                if (!isEmptyRepository(git)) {
+                if (!isEmptyRemote(repo)) {
                     pull(git);
                     rm(git);
                 }
                 add(git);
                 commit(git);
                 push(git);
-            } catch (GitAPIException | URISyntaxException e) {
+
+                git.getRepository().close();
+            } catch (GitAPIException | URISyntaxException | IOException e) {
                 throw new VCSException(e);
             }
         }
@@ -110,8 +123,12 @@ public class GitVCS implements VCS<VCSCredentialsProvider> {
         return git;
     }
 
-    private boolean isEmptyRepository(Git git) throws GitAPIException {
-        return git.branchList().call().isEmpty();
+    private boolean isEmptyRemote(VCSRepository repo) throws GitAPIException, IOException {
+        final LsRemoteCommand lsRemote = Git.lsRemoteRepository()
+                .setRemote(storage.getRepositoryURI(repo))
+                .setHeads(true);
+        setCredentials(lsRemote);
+        return lsRemote.call().isEmpty();
     }
 
     private void pull(Git git) throws GitAPIException {
@@ -143,17 +160,20 @@ public class GitVCS implements VCS<VCSCredentialsProvider> {
     }
 
     private void push(Git git) throws GitAPIException {
-        git.push()
+        final PushCommand push = git.push()
                 .setRemote("origin")
                 .setPushAll()
                 .setPushTags()
-                .setForce(true)
-                .call();
+                .setForce(true);
+
+        setCredentials(push);
+        push.call();
     }
 
     private void setCredentials(TransportCommand<?, ?> command) {
         if (storage.getCredentialsProvider().isPresent()) {
-            command.setCredentialsProvider((CredentialsProvider) storage.getCredentialsProvider().get());
+            CredentialsProvider cp = (CredentialsProvider) storage.getCredentialsProvider().get();
+            command.setCredentialsProvider(cp);
         }
     }
 }
