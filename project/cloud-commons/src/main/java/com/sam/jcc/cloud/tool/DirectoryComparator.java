@@ -28,7 +28,7 @@ public final class DirectoryComparator {
     private long hash(Collection<File> files) {
         return files.stream()
                 .mapToLong(this::hash)
-                .reduce(0, (h, value) -> 31 * h + value);
+                .reduce(17, (h, value) -> 31 * h + value);
     }
 
     private long hash(File file) {
