@@ -2,6 +2,7 @@ package com.sam.jcc.cloud.vcs;
 
 import com.sam.jcc.cloud.tool.DirectoryComparator;
 import com.sam.jcc.cloud.tool.FileManager;
+import com.sam.jcc.cloud.tool.TempFile;
 import com.sam.jcc.cloud.tool.ZipArchiveManager;
 import com.sam.jcc.cloud.vcs.git.GitLocalStorage;
 import org.junit.Before;
@@ -62,18 +63,19 @@ public class VCSProviderTest {
         vcsProvider.execute("git", "file", "create", project());
         vcsProvider.execute("git", "file", "read", project());
 
-        final File zip = new File(out.getLog());
+        try (TempFile zip = new TempFile(out.getLog())) {
+            checkFiles(project(), zip);
+        }
+    }
 
-        try {
-            final File in = temp.newFolder();
-            final File out = temp.newFolder();
+    @Test
+    public void updates() throws Exception {
+        vcsProvider.execute("git", "file", "create", project());
+        vcsProvider.execute("git", "file", "update", changedProject());
+        vcsProvider.execute("git", "file", "read", project());
 
-            zipManager.unzip(zip, out);
-            zipManager.unzip(project(), in);
-
-            assertThat(new DirectoryComparator().areEquals(in, out)).isTrue();
-        } finally {
-            new FileManager().delete(zip);
+        try (TempFile zip = new TempFile(out.getLog())) {
+            checkFiles(changedProject(), zip);
         }
     }
 
@@ -93,8 +95,23 @@ public class VCSProviderTest {
         vcsProvider.execute("git", "file", "delete", project());
     }
 
+    void checkFiles(File realZip, File copyZip) throws IOException {
+        final File in = temp.newFolder();
+        final File out = temp.newFolder();
+
+        zipManager.unzip(realZip, in);
+        zipManager.unzip(copyZip, out);
+
+        assertThat(new DirectoryComparator().areEquals(in, out)).isTrue();
+    }
+
     File project() throws Exception {
         final URL resource = this.getClass().getResource("/project.zip");
+        return new File(resource.toURI());
+    }
+
+    File changedProject() throws Exception {
+        final URL resource = this.getClass().getResource("/changed_project.zip");
         return new File(resource.toURI());
     }
 }
