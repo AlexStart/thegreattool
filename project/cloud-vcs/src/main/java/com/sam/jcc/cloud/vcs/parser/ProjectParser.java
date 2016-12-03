@@ -2,13 +2,17 @@ package com.sam.jcc.cloud.vcs.parser;
 
 import com.sam.jcc.cloud.tool.ZipArchiveManager;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
+import java.util.Comparator;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+
+import static java.lang.Integer.compare;
 
 /**
  * @author Alexey Zhytnik
@@ -30,6 +34,8 @@ public class ProjectParser implements IParser<File> {
         final ZipFile zip = zipManager.getZipFile(project);
 
         final Optional<? extends ZipEntry> type = zip.stream()
+                .filter(nestedFilter())
+                .sorted(nestedComparator())
                 .filter(isMavenOrGradleEntry())
                 .findFirst();
         if (!type.isPresent()) failOnNotFound(project);
@@ -40,6 +46,19 @@ public class ProjectParser implements IParser<File> {
             return mavenParser.parse(config);
         }
         return gradleParser.parse(config);
+    }
+
+    private Predicate<ZipEntry> nestedFilter() {
+        return e -> !e.isDirectory() || getNesting(e) < 2;
+    }
+
+    private Comparator<ZipEntry> nestedComparator() {
+        return (a, b) -> compare(getNesting(a), getNesting(b));
+    }
+
+    private int getNesting(ZipEntry entry) {
+        final String path = entry.getName();
+        return StringUtils.countMatches(path, '/');
     }
 
     private Predicate<ZipEntry> isMavenOrGradleEntry() {
