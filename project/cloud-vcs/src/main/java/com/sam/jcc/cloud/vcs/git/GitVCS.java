@@ -23,6 +23,7 @@ import org.eclipse.jgit.transport.URIish;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 
 /**
  * @author Alexey Zhytnik
@@ -78,11 +79,12 @@ public class GitVCS implements VCS<VCSCredentialsProvider> {
         try (TempFile temp = files.createTempDir()) {
             try (Git git = init(repo, temp)) {
 
-                files.copyDir(repo.getSources(), temp);
                 if (!isEmptyRemote(repo)) {
                     pull(git);
-                    rm(git);
+                    clear(temp);
                 }
+                files.copyDir(repo.getSources(), temp);
+
                 add(git);
                 commit(git);
                 push(git);
@@ -140,10 +142,14 @@ public class GitVCS implements VCS<VCSCredentialsProvider> {
         pull.call();
     }
 
-    private void rm(Git git) throws GitAPIException {
-        git.rm()
-                .addFilepattern(".")
-                .call();
+    private void clear(File dir) throws GitAPIException {
+        final File[] files = dir.listFiles();
+
+        if (files != null) {
+            Arrays.stream(files)
+                    .filter(f -> !f.getName().equals(".git"))
+                    .forEach(this.files::delete);
+        }
     }
 
     private void add(Git git) throws GitAPIException {
