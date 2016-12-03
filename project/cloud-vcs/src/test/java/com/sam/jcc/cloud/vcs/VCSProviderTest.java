@@ -1,7 +1,6 @@
 package com.sam.jcc.cloud.vcs;
 
 import com.sam.jcc.cloud.tool.DirectoryComparator;
-import com.sam.jcc.cloud.tool.FileManager;
 import com.sam.jcc.cloud.tool.TempFile;
 import com.sam.jcc.cloud.tool.ZipArchiveManager;
 import com.sam.jcc.cloud.vcs.git.GitLocalStorage;
@@ -13,8 +12,8 @@ import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
+import static com.sam.jcc.cloud.vcs.TestResourceReader.read;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 /**
@@ -29,7 +28,6 @@ public class VCSProviderTest {
     @Rule
     public SystemOutRule out = new SystemOutRule().enableLog();
 
-
     VCSProvider vcsProvider;
     ZipArchiveManager zipManager;
 
@@ -43,59 +41,58 @@ public class VCSProviderTest {
     }
 
     @Test
-    public void creates() throws Exception {
+    public void creates() {
         vcsProvider.execute("git", "file", "create", project());
     }
 
     @Test
-    public void reads() throws Exception {
-        vcsProvider.execute("git", "file", "create", project());
-        vcsProvider.execute("git", "file", "read", project());
-
-        final File zip = new File(out.getLog());
-        assertThat(zip).exists();
-
-        new FileManager().delete(zip);
-    }
-
-    @Test
-    public void worksWithoutChanges() throws Exception {
+    public void reads() {
         vcsProvider.execute("git", "file", "create", project());
         vcsProvider.execute("git", "file", "read", project());
 
         try (TempFile zip = new TempFile(out.getLog())) {
-            checkFiles(project(), zip);
+            assertThat(zip).exists();
         }
     }
 
     @Test
-    public void updates() throws Exception {
+    public void deletes() {
+        vcsProvider.execute("git", "file", "create", project());
+        vcsProvider.execute("git", "file", "delete", project());
+    }
+
+    @Test(expected = VCSException.class)
+    public void failsOnReadUnknownProject() {
+        vcsProvider.execute("git", "file", "read", project());
+    }
+
+    @Test(expected = VCSException.class)
+    public void failsOnDeleteUnknownProject() {
+        vcsProvider.execute("git", "file", "delete", project());
+    }
+
+    @Test
+    public void worksWithoutChanges() throws IOException {
+        vcsProvider.execute("git", "file", "create", project());
+        vcsProvider.execute("git", "file", "read", project());
+
+        try (TempFile zip = new TempFile(out.getLog())) {
+            checkZipContents(project(), zip);
+        }
+    }
+
+    @Test
+    public void updates() throws IOException {
         vcsProvider.execute("git", "file", "create", project());
         vcsProvider.execute("git", "file", "update", changedProject());
         vcsProvider.execute("git", "file", "read", project());
 
         try (TempFile zip = new TempFile(out.getLog())) {
-            checkFiles(changedProject(), zip);
+            checkZipContents(changedProject(), zip);
         }
     }
 
-    @Test
-    public void deletes() throws Exception {
-        vcsProvider.execute("git", "file", "create", project());
-        vcsProvider.execute("git", "file", "delete", project());
-    }
-
-    @Test(expected = VCSException.class)
-    public void failsOnReadUnknownProject() throws Exception {
-        vcsProvider.execute("git", "file", "read", project());
-    }
-
-    @Test(expected = VCSException.class)
-    public void failsOnDeleteUnknownProject() throws Exception {
-        vcsProvider.execute("git", "file", "delete", project());
-    }
-
-    void checkFiles(File realZip, File copyZip) throws IOException {
+    void checkZipContents(File realZip, File copyZip) throws IOException {
         final File in = temp.newFolder();
         final File out = temp.newFolder();
 
@@ -105,13 +102,11 @@ public class VCSProviderTest {
         assertThat(new DirectoryComparator().areEquals(in, out)).isTrue();
     }
 
-    File project() throws Exception {
-        final URL resource = this.getClass().getResource("/project.zip");
-        return new File(resource.toURI());
+    File project() {
+        return read("/project.zip");
     }
 
-    File changedProject() throws Exception {
-        final URL resource = this.getClass().getResource("/changed_project.zip");
-        return new File(resource.toURI());
+    File changedProject() {
+        return read("/changed_project.zip");
     }
 }

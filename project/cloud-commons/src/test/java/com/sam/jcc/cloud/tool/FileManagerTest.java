@@ -6,10 +6,10 @@ import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Random;
 
+import static com.sam.jcc.cloud.tool.TestFileUtils.createInnerFile;
+import static com.sam.jcc.cloud.tool.TestFileUtils.randomContent;
 import static java.lang.System.getProperty;
-import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 /**
@@ -92,12 +92,15 @@ public class FileManagerTest {
 
     @Test
     public void createsTempFile() throws IOException {
-        final TempFile temp = fileManager.createTempFile("file", "txt");
+        final TempFile temp = fileManager.createTempFile("file", ".txt");
 
         assertThat(temp)
                 .exists()
                 .canRead()
-                .canWrite();
+                .canWrite()
+                .hasExtension("txt");
+
+        assertThat(temp.getName()).startsWith("file");
     }
 
     @Test
@@ -108,19 +111,5 @@ public class FileManagerTest {
         fileManager.write(content, file);
 
         assertThat(file).hasBinaryContent(content);
-    }
-
-    File createInnerFile(File dir) throws IOException {
-        File inner = new File(dir, randomUUID().toString());
-        if (!inner.createNewFile()) {
-            throw new RuntimeException("Can't create file " + inner);
-        }
-        return inner;
-    }
-
-    byte[] randomContent() {
-        final byte[] content = new byte[10_000];
-        new Random().nextBytes(content);
-        return content;
     }
 }

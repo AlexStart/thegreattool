@@ -3,8 +3,8 @@ package com.sam.jcc.cloud.vcs.parser;
 import org.junit.Test;
 
 import java.io.File;
-import java.net.URL;
 
+import static com.sam.jcc.cloud.vcs.TestResourceReader.read;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.entry;
 
@@ -18,7 +18,7 @@ public class ProjectParserTest {
 
     @Test
     public void parsesGradleZipProjects() throws Exception {
-        final File project = readProject("gradle-project.zip");
+        final File project = read("/gradle-project.zip");
 
         assertThat(parser.parse(project))
                 .isEqualTo(entry("com.example", "app"));
@@ -26,14 +26,9 @@ public class ProjectParserTest {
 
     @Test
     public void parsesMavenZipProjects() throws Exception {
-        final File project = readProject("maven-project.zip");
+        final File project = read("/maven-project.zip");
 
         assertThat(parser.parse(project))
                 .isEqualTo(entry("com.experimental", "app"));
-    }
-
-    File readProject(String name) throws Exception {
-        final URL resource = this.getClass().getResource("/" + name);
-        return new File(resource.toURI());
     }
 }

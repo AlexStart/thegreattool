@@ -6,8 +6,9 @@ import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Random;
 
+import static com.sam.jcc.cloud.tool.TestFileUtils.createFolder;
+import static com.sam.jcc.cloud.tool.TestFileUtils.fileWithRand;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -42,28 +43,22 @@ public class ZipArchiveManagerTest {
     File buildFileStructure() throws IOException {
         final File root = temp.newFolder();
 
-        files.write(randomContent(), new File(root, "1"));
-        files.write(randomContent(), new File(root, "2"));
-        files.write(randomContent(), new File(root, "3"));
+        fileWithRand(new File(root, "1"));
+        fileWithRand(new File(root, "2"));
+        fileWithRand(new File(root, "3"));
 
-        files.createDir(new File(root, "a"));
-        files.write(randomContent(), new File(root, "a/1"));
-        files.write(randomContent(), new File(root, "a/2"));
-        files.write(randomContent(), new File(root, "a/3"));
+        createFolder(new File(root, "a"));
+        fileWithRand(new File(root, "a/1"));
+        fileWithRand(new File(root, "a/2"));
+        fileWithRand(new File(root, "a/3"));
 
-        files.createDir(new File(root, "a/b"));
-        files.write(randomContent(), new File(root, "a/b/1"));
+        createFolder(new File(root, "a/b"));
+        fileWithRand(new File(root, "a/b/1"));
 
-        files.createDir(new File(root, "a/b/c"));
-        files.createDir(new File(root, "a/b/c/d"));
-        files.write(randomContent(), new File(root, "a/b/c/d/1"));
+        createFolder(new File(root, "a/b/c"));
+        createFolder(new File(root, "a/b/c/d"));
+        fileWithRand(new File(root, "a/b/c/d/1"));
 
         return root;
-    }
-
-    byte[] randomContent() {
-        final byte[] content = new byte[10_000];
-        new Random().nextBytes(content);
-        return content;
     }
 }
