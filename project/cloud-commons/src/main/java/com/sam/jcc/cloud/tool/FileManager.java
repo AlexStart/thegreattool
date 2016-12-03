@@ -2,13 +2,18 @@ package com.sam.jcc.cloud.tool;
 
 import com.google.common.io.Files;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import static java.nio.file.Files.setAttribute;
 import static org.apache.commons.io.FileUtils.copyDirectory;
+import static org.apache.commons.io.FileUtils.listFiles;
+import static org.apache.commons.io.filefilter.DirectoryFileFilter.DIRECTORY;
+import static org.apache.commons.io.filefilter.FileFileFilter.FILE;
 
 /**
  * @author Alexey Zhytnik
@@ -83,6 +88,19 @@ public class FileManager {
     public void write(byte[] content, File target) {
         try {
             Files.write(content, target);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    List<File> getDirectoryFiles(File dir) {
+        return (List<File>) listFiles(dir, FILE, DIRECTORY);
+    }
+
+    int getNesting(File file) {
+        try {
+            final String path = file.getCanonicalPath();
+            return StringUtils.countMatches(path, '/');
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -5,11 +5,11 @@ import com.google.common.io.Files;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
 
 import static com.google.common.hash.Hashing.md5;
-import static org.apache.commons.io.FileUtils.listFiles;
-import static org.apache.commons.io.filefilter.DirectoryFileFilter.DIRECTORY;
-import static org.apache.commons.io.filefilter.FileFileFilter.FILE;
+import static java.util.stream.Collectors.toList;
 
 /**
  * @author Alexey Zhytnik
@@ -17,12 +17,22 @@ import static org.apache.commons.io.filefilter.FileFileFilter.FILE;
  */
 public final class DirectoryComparator {
 
+    private FileManager files = new FileManager();
+
     public boolean areEquals(File a, File b) {
         return hash(allFiles(a)) == hash(allFiles((b)));
     }
 
-    private Collection<File> allFiles(File dir) {
-        return listFiles(dir, FILE, DIRECTORY);
+    private List<File> allFiles(File dir) {
+        return files
+                .getDirectoryFiles(dir)
+                .stream()
+                .sorted(
+                        Comparator
+                                .comparing(files::getNesting)
+                                .thenComparing(File::getName)
+                )
+                .collect(toList());
     }
 
     private long hash(Collection<File> files) {
