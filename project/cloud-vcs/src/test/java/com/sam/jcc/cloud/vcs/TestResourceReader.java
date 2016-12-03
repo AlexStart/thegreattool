@@ -8,7 +8,7 @@ import java.net.URL;
  * @author Alexey Zhytnik
  * @since 03-Dec-16
  */
-public class TestResourceReader {
+public final class TestResourceReader {
 
     public static File read(String resource) {
         try {

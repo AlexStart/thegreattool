@@ -10,7 +10,7 @@ import static java.util.UUID.randomUUID;
  * @author Alexey Zhytnik
  * @since 03-Dec-16
  */
-public class TestFileUtils {
+public final class TestFileUtils {
 
     private static Random random = new Random();
     private static FileManager files = new FileManager();

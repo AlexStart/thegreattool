@@ -52,6 +52,7 @@ public class GitVCS implements VCS<VCSCredentialsProvider> {
         try {
             clone(repo);
 
+            //TODO: transfer to top level
             final File metadata = new File(repo.getSources(), ".git");
             files.delete(metadata);
 

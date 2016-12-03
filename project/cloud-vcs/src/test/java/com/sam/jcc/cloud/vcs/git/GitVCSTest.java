@@ -9,10 +9,12 @@ import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map.Entry;
 import java.util.Random;
 
 import static com.sam.jcc.cloud.vcs.VCSRepositoryDataHelper.repository;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.entry;
 
 /**
  * @author Alexey Zhytnik
@@ -43,13 +45,20 @@ public class GitVCSTest {
     @Test
     public void reads() throws IOException {
         git.create(repository);
-        writeSomeDataAndCommit();
+        final Entry<String, byte[]> data = writeSomeDataAndCommit();
 
         final File dest = temp.newFolder();
         repository.setSources(dest);
 
         git.read(repository);
         assertThat(dest.listFiles()).isNotNull().isNotEmpty();
+
+        final File copy = new File(dest, data.getKey());
+
+        assertThat(copy)
+                .exists()
+                .isFile()
+                .hasBinaryContent(data.getValue());
     }
 
     @Test
@@ -98,7 +107,7 @@ public class GitVCSTest {
         assertThat(git.isExist(repository)).isFalse();
     }
 
-    void writeSomeDataAndCommit() throws IOException {
+    Entry<String, byte[]> writeSomeDataAndCommit() throws IOException {
         final Random random = new Random();
         final File src = temp.newFolder();
         final File file = new File(src, random.nextInt() + "-file.txt");
@@ -110,5 +119,7 @@ public class GitVCSTest {
         repository.setSources(src);
 
         git.commit(repository);
+
+        return entry(file.getName(), content);
     }
 }

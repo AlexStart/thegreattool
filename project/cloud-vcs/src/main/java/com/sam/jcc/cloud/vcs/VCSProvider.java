@@ -37,12 +37,12 @@ public class VCSProvider {
         vcs.setStorage(localGit);
     }
 
-    VCSProvider(VCSStorage<VCSCredentialsProvider> provider) {
+    VCSProvider(VCSStorage<VCSCredentialsProvider> storage) {
         files = new FileManager();
         parser = new ProjectParser();
 
         vcs = new GitVCS();
-        vcs.setStorage(provider);
+        vcs.setStorage(storage);
     }
 
     public static void main(String[] args) {
@@ -85,6 +85,8 @@ public class VCSProvider {
     }
 
     void execute(String vcs, String protocol, String operation, File project) {
+        setProtocol(protocol);
+
         switch (operation) {
             case "create": {
                 createRepo(vcs, protocol, project);
@@ -124,6 +126,10 @@ public class VCSProvider {
         delete(parse(project));
     }
 
+    private void setProtocol(String protocol) {
+        vcs.getStorage().setProtocol(protocol);
+    }
+
     private void create(VCSRepository repo) {
         vcs.create(repo);
     }
@@ -146,6 +152,7 @@ public class VCSProvider {
             repo.setSources(temp);
             vcs.read(repo);
 
+            //TODO: direct zip creation
             final byte[] content = zipManager.zip(temp);
             final File sources = files.createTempFile(repo.getName(), ".zip");
             files.write(content, sources);

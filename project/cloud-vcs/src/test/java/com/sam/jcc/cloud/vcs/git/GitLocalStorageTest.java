@@ -74,7 +74,7 @@ public class GitLocalStorageTest {
     @Test
     public void gets() {
         repos.create(repository);
-        assertThat(getFile(repository)).isNotNull();
+        assertThat(getFile(repository)).isNotNull().exists();
     }
 
     @Test

@@ -17,4 +17,6 @@ public interface VCS<CP extends VCSCredentialsProvider> {
     void delete(VCSRepository repo);
 
     void setStorage(VCSStorage<CP> storage);
+
+    VCSStorage<CP> getStorage();
 }
