@@ -10,8 +10,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
-import java.security.SecureRandom;
-import java.util.Random;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -24,7 +22,6 @@ import static org.apache.commons.io.IOUtils.toByteArray;
 @Component
 public class ZipArchiveManager {
 
-    private Random random = new SecureRandom();
     private FileManager files = new FileManager();
 
     public boolean isZip(File file) {
@@ -56,6 +53,10 @@ public class ZipArchiveManager {
         }
     }
 
+    /**
+     * Applies zip operation for all inner files & directories of a directory
+     * and converts it to the byte array.
+     */
     public byte[] zip(File dir) {
         try {
             try (TempFile temp = createTempZip()) {
@@ -68,8 +69,7 @@ public class ZipArchiveManager {
     }
 
     private TempFile createTempZip() {
-        final String name = Long.toString(Math.abs(random.nextLong()));
-        final TempFile file = files.createTempFile(name, ".zip");
+        final TempFile file = files.createTempFile("temp", ".zip");
         files.delete(file);
         return file;
     }
@@ -78,6 +78,7 @@ public class ZipArchiveManager {
         final ZipParameters params = new ZipParameters();
         params.setCompressionMethod(Zip4jConstants.COMP_DEFLATE);
         params.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_NORMAL);
+        params.setIncludeRootFolder(false);
         return params;
     }
 }
