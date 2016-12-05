@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  * @author Alexey Zhytnik
  * @since 30.11.2016
  */
-@Target({ElementType.FIELD, ElementType.TYPE})
+@Target({ElementType.FIELD, ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.SOURCE)
 public @interface Experimental {
 
