@@ -2,20 +2,10 @@ package com.sam.jcc.cloud.vcs.git;
 
 import com.sam.jcc.cloud.tool.FileManager;
 import com.sam.jcc.cloud.tool.TempFile;
-import com.sam.jcc.cloud.vcs.VCS;
-import com.sam.jcc.cloud.vcs.VCSCredentialsProvider;
-import com.sam.jcc.cloud.vcs.VCSException;
-import com.sam.jcc.cloud.vcs.VCSRepository;
-import com.sam.jcc.cloud.vcs.VCSStorage;
+import com.sam.jcc.cloud.vcs.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.eclipse.jgit.api.CloneCommand;
-import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.LsRemoteCommand;
-import org.eclipse.jgit.api.PullCommand;
-import org.eclipse.jgit.api.PushCommand;
-import org.eclipse.jgit.api.RemoteAddCommand;
-import org.eclipse.jgit.api.TransportCommand;
+import org.eclipse.jgit.api.*;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.URIish;
@@ -62,17 +52,8 @@ public class GitVCS implements VCS<VCSCredentialsProvider> {
     }
 
     @Override
-    @SuppressWarnings({"unused", "EmptyTryBlock"})
     public void create(VCSRepository repo) {
         storage.create(repo);
-
-        final String uri = storage.getRepositoryURI(repo);
-        final File dir = files.getFileByUri(uri);
-
-        try (Git git = initBare(dir)) {
-        } catch (GitAPIException e) {
-            throw new VCSException(e);
-        }
     }
 
     @Override
@@ -104,13 +85,6 @@ public class GitVCS implements VCS<VCSCredentialsProvider> {
 
         setCredentials(clone);
         clone.call().close();
-    }
-
-    private Git initBare(File dir) throws GitAPIException {
-        return Git.init()
-                .setDirectory(dir)
-                .setBare(true)
-                .call();
     }
 
     private Git init(VCSRepository repo, File dir) throws GitAPIException, URISyntaxException {

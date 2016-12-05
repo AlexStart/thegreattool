@@ -7,6 +7,8 @@ import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.VCSStorage;
 import lombok.Getter;
 import lombok.Setter;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
@@ -35,6 +37,22 @@ public class GitLocalStorage implements VCSStorage<VCSCredentialsProvider> {
 
         final File dir = repositoryByName(repo);
         files.createHiddenDir(dir);
+        init(dir);
+    }
+
+    @SuppressWarnings({"unused", "EmptyTryBlock"})
+    private void init(File dir) {
+        try (Git git = initBare(dir)) {
+        } catch (GitAPIException e) {
+            throw new VCSException(e);
+        }
+    }
+
+    private Git initBare(File dir) throws GitAPIException {
+        return Git.init()
+                .setDirectory(dir)
+                .setBare(true)
+                .call();
     }
 
     private void failOnExist(VCSRepository repo) {
@@ -51,7 +69,7 @@ public class GitLocalStorage implements VCSStorage<VCSCredentialsProvider> {
     @Override
     public String getRepositoryURI(VCSRepository repo) {
         final String uri = get(repo).toURI().getSchemeSpecificPart();
-        return "file:/" +  uri;
+        return "file:/" + uri;
     }
 
     @Override
