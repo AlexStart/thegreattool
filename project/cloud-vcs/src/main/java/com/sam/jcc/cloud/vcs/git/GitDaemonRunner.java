@@ -14,6 +14,11 @@ import static java.text.MessageFormat.format;
  */
 public class GitDaemonRunner {
 
+    /**
+     * If push command doesn't work, maybe it's because of the Git bug.
+     *
+     * @see <a href="http://stackoverflow.com/q/5520329">Git daemon bug</a>
+     */
     public Process run(File dir) {
         final ProcessBuilder builder = new ProcessBuilder()
                 .command(getDaemonRunCommands(dir));
@@ -32,7 +37,6 @@ public class GitDaemonRunner {
                 "--reuseaddr",
                 getWalkingDir(dir),
                 "--export-all",
-                "--verbose",
                 "--enable=receive-pack"
         );
     }
