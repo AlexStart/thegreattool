@@ -20,7 +20,11 @@ public final class TestFileUtils {
     }
 
     public static void fileWithRand(File file) {
-        files.write(randomContent(), file);
+        fileWithRand(file, random);
+    }
+
+    public static void fileWithRand(File file, Random random) {
+        files.write(randomContent(random), file);
     }
 
     public static File createInnerFile(File dir) throws IOException {
@@ -32,6 +36,10 @@ public final class TestFileUtils {
     }
 
     public static byte[] randomContent() {
+        return randomContent(random);
+    }
+
+    public static byte[] randomContent(Random random) {
         final byte[] content = new byte[10_000];
         random.nextBytes(content);
         return content;
