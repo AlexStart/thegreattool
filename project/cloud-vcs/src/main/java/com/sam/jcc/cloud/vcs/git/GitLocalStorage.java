@@ -17,6 +17,7 @@ import java.util.Optional;
 import java.util.Properties;
 
 import static java.text.MessageFormat.format;
+import static java.util.Objects.isNull;
 import static java.util.Optional.empty;
 
 /**
@@ -26,8 +27,13 @@ import static java.util.Optional.empty;
 public class GitLocalStorage implements VCSStorage<VCSCredentialsProvider> {
 
     @Getter
+    private Process gitDaemon;
+
+    @Getter
     @Setter
     private File baseRepository;
+
+    private String protocol = "file";
 
     private FileManager files = new FileManager();
 
@@ -68,6 +74,14 @@ public class GitLocalStorage implements VCSStorage<VCSCredentialsProvider> {
 
     @Override
     public String getRepositoryURI(VCSRepository repo) {
+        return isActiveGitProtocol() ? getGitURI(repo) : getFileURI(repo);
+    }
+
+    private String getGitURI(VCSRepository repo) {
+        return "git://localhost/" + repo.getName();
+    }
+
+    private String getFileURI(VCSRepository repo) {
         final String uri = get(repo).toURI().getSchemeSpecificPart();
         return "file:/" + uri;
     }
@@ -95,8 +109,22 @@ public class GitLocalStorage implements VCSStorage<VCSCredentialsProvider> {
 
     @Override
     public void setProtocol(String protocol) {
-        if (!protocol.equals("file")) {
-            throw new UnsupportedOperationException("Supported only file protocol!");
+        if (protocol.equals("file") || protocol.equals("git")) {
+            this.protocol = protocol;
+            manageGitDaemon();
+            return;
+        }
+        throw new UnsupportedOperationException("Supported only file & git protocols!");
+    }
+
+    private boolean isActiveGitProtocol() {
+        return protocol.equals("git");
+    }
+
+    //TODO: maybe transfer this logic from here
+    private void manageGitDaemon() {
+        if (isActiveGitProtocol() && isNull(gitDaemon)) {
+            gitDaemon = new GitDaemonRunner().run(baseRepository);
         }
     }
 
