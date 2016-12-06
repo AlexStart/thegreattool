@@ -42,7 +42,6 @@
             <artifactId>org.eclipse.jgit</artifactId>
             <version>${jgit.api.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.sam.jcc</groupId>
             <artifactId>cloud-test-parent</artifactId>
@@ -54,6 +53,18 @@
             <groupId>com.github.stefanbirkner</groupId>
             <artifactId>system-rules</artifactId>
             <version>1.16.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna-platform</artifactId>
+            <version>4.0.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.outr.javasysmon</groupId>
+            <artifactId>javasysmon_2.10</artifactId>
+            <version>0.3.4</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
