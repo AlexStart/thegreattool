@@ -29,6 +29,7 @@ public class GitDaemonRunnerTest {
     @Test
     public void runsGitDaemon() throws IOException {
         final Process git = new GitDaemonRunner().run(temp.newFolder());
-        git.destroyForcibly();
+
+        new ProcessKiller().kill(git);
     }
 }
