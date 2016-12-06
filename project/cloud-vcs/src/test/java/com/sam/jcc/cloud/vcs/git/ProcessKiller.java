@@ -45,16 +45,16 @@ class ProcessKiller {
                 .collect(toList());
 
         process.destroyForcibly();
-        killChildes(processes, pid);
+        killChildren(processes, pid);
     }
 
-    private void killChildes(List<ProcessInfo> processes, int parentPid) {
+    private void killChildren(List<ProcessInfo> processes, int parentPid) {
         processes.stream()
                 .filter(byParentPidFilter(parentPid))
                 .mapToInt(ProcessInfo::getPid)
                 .forEach(pid -> {
                     system.killProcess(pid);
-                    killChildes(processes, pid);
+                    killChildren(processes, pid);
                 });
     }
 
