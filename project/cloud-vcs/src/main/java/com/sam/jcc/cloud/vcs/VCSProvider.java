@@ -5,6 +5,7 @@ import com.sam.jcc.cloud.utils.files.TempFile;
 import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
 import com.sam.jcc.cloud.utils.parsers.ProjectParser;
 import com.sam.jcc.cloud.vcs.git.GitFileStorage;
+import com.sam.jcc.cloud.vcs.git.GitRemoteStorage;
 import com.sam.jcc.cloud.vcs.git.GitVCS;
 
 import java.io.File;
@@ -29,12 +30,7 @@ public class VCSProvider {
     public VCSProvider() {
         files = new FileManager();
         parser = new ProjectParser();
-
-        final GitFileStorage localGit = new GitFileStorage();
-        localGit.installBaseRepository();
-
         vcs = new GitVCS();
-        vcs.setStorage(localGit);
     }
 
     VCSProvider(VCSStorage<VCSCredentialsProvider> storage) {
@@ -54,7 +50,7 @@ public class VCSProvider {
         final File project = new File(args[3]);
 
         failOnNotExistence(vcs, "git");
-        failOnNotExistence(protocol, "file");
+        failOnNotExistence(protocol, "git", "file");
         failOnNotExistence(operation, "create", "read", "update", "delete");
         failOnSimpleFile(project);
 
@@ -127,7 +123,15 @@ public class VCSProvider {
     }
 
     private void setProtocol(String protocol) {
-        vcs.getStorage().setProtocol(protocol);
+        if (protocol.equals("git")) {
+            final GitRemoteStorage storage = new GitRemoteStorage();
+            storage.installBaseRepository();
+            vcs.setStorage(storage);
+        } else {
+            final GitFileStorage storage = new GitFileStorage();
+            storage.installBaseRepository();
+            vcs.setStorage(storage);
+        }
     }
 
     private void create(VCSRepository repo) {
