@@ -26,9 +26,6 @@ import static java.util.Optional.empty;
 public class GitLocalStorage implements VCSStorage<VCSCredentialsProvider> {
 
     @Getter
-    private Process gitDaemon;
-
-    @Getter
     @Setter
     private File baseRepository;
 
