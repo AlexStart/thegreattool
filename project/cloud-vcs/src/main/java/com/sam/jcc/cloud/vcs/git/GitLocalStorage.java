@@ -17,7 +17,6 @@ import java.util.Optional;
 import java.util.Properties;
 
 import static java.text.MessageFormat.format;
-import static java.util.Objects.isNull;
 import static java.util.Optional.empty;
 
 /**
@@ -111,7 +110,6 @@ public class GitLocalStorage implements VCSStorage<VCSCredentialsProvider> {
     public void setProtocol(String protocol) {
         if (protocol.equals("file") || protocol.equals("git")) {
             this.protocol = protocol;
-            manageGitDaemon();
             return;
         }
         throw new UnsupportedOperationException("Supported only file & git protocols!");
@@ -119,13 +117,6 @@ public class GitLocalStorage implements VCSStorage<VCSCredentialsProvider> {
 
     private boolean isActiveGitProtocol() {
         return protocol.equals("git");
-    }
-
-    //TODO: maybe transfer this logic from here
-    private void manageGitDaemon() {
-        if (isActiveGitProtocol() && isNull(gitDaemon)) {
-            gitDaemon = new GitDaemonRunner().run(baseRepository);
-        }
     }
 
     @Override
