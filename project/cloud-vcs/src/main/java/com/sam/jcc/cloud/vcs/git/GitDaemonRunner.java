@@ -12,7 +12,7 @@ import static java.text.MessageFormat.format;
  * @author Alexey Zhytnik
  * @since 05.12.2016
  */
-public class GitDaemonRunner {
+class GitDaemonRunner {
 
     /**
      * If push command doesn't work, maybe it's because of the Git bug.
@@ -22,9 +22,10 @@ public class GitDaemonRunner {
     public Process run(File dir) {
         final ProcessBuilder builder = new ProcessBuilder()
                 .command(getDaemonRunCommands(dir));
-
         try {
-            return builder.start();
+            final Process git = builder.start();
+            failOnDeadState(git);
+            return git;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -44,5 +45,11 @@ public class GitDaemonRunner {
     private String getWalkingDir(File dir) {
         final String path = dir.getAbsolutePath();
         return format("--base-path=\"{0}\"", path);
+    }
+
+    private void failOnDeadState(Process p) {
+        if (!p.isAlive()) {
+            throw new RuntimeException("Git-daemon was not started!");
+        }
     }
 }
