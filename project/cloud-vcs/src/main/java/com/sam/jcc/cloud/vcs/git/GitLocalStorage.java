@@ -40,22 +40,19 @@ public class GitLocalStorage implements VCSStorage<VCSCredentialsProvider> {
 
         final File dir = repositoryByName(repo);
         files.createHiddenDir(dir);
-        init(dir);
+        initBare(dir);
     }
 
-    @SuppressWarnings({"unused", "EmptyTryBlock"})
-    private void init(File dir) {
-        try (Git git = initBare(dir)) {
+    private void initBare(File dir) {
+        try {
+            Git.init()
+                    .setDirectory(dir)
+                    .setBare(true)
+                    .call()
+                    .close();
         } catch (GitAPIException e) {
             throw new VCSException(e);
         }
-    }
-
-    private Git initBare(File dir) throws GitAPIException {
-        return Git.init()
-                .setDirectory(dir)
-                .setBare(true)
-                .call();
     }
 
     private void failOnExist(VCSRepository repo) {
