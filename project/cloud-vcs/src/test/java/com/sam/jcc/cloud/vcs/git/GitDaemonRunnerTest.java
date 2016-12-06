@@ -1,5 +1,7 @@
 package com.sam.jcc.cloud.vcs.git;
 
+import com.sam.jcc.cloud.vcs.utils.GitDaemonRunner;
+import com.sam.jcc.cloud.vcs.utils.ProcessKiller;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

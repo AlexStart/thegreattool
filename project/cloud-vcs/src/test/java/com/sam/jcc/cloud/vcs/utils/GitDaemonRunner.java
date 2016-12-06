@@ -1,4 +1,4 @@
-package com.sam.jcc.cloud.vcs.git;
+package com.sam.jcc.cloud.vcs.utils;
 
 import com.google.common.collect.ImmutableList;
 
@@ -12,7 +12,7 @@ import static java.text.MessageFormat.format;
  * @author Alexey Zhytnik
  * @since 05.12.2016
  */
-class GitDaemonRunner {
+public class GitDaemonRunner {
 
     /**
      * If push command doesn't work, maybe it's because of the Git bug.
@@ -25,8 +25,9 @@ class GitDaemonRunner {
         try {
             final Process git = builder.start();
             failOnDeadState(git);
+            Thread.sleep(2_000);
             return git;
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }

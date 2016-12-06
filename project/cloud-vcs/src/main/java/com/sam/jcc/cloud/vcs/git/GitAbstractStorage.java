@@ -22,15 +22,13 @@ import static java.util.Optional.empty;
 
 /**
  * @author Alexey Zhytnik
- * @since 01.12.2016
+ * @since 06.12.2016
  */
-public class GitLocalStorage implements VCSStorage<VCSCredentialsProvider> {
+abstract class GitAbstractStorage implements VCSStorage<VCSCredentialsProvider> {
 
     @Getter
     @Setter
     private File baseRepository;
-
-    private String protocol = "file";
 
     private FileManager files = new FileManager();
 
@@ -67,25 +65,11 @@ public class GitLocalStorage implements VCSStorage<VCSCredentialsProvider> {
     }
 
     @Override
-    public String getRepositoryURI(VCSRepository repo) {
-        return isActiveGitProtocol() ? getGitURI(repo) : getFileURI(repo);
-    }
-
-    private String getGitURI(VCSRepository repo) {
-        return "git://localhost/" + repo.getName();
-    }
-
-    private String getFileURI(VCSRepository repo) {
-        final String uri = get(repo).toURI().getSchemeSpecificPart();
-        return "file:/" + uri;
-    }
-
-    @Override
     public void delete(VCSRepository repo) {
         files.delete(get(repo));
     }
 
-    private File get(VCSRepository repo) {
+    protected File get(VCSRepository repo) {
         final File dir = repositoryByName(repo);
         failOnNotExist(repo);
         return dir;
@@ -99,19 +83,6 @@ public class GitLocalStorage implements VCSStorage<VCSCredentialsProvider> {
         if (!isExist(repo)) {
             throw new VCSException(format("Repository {0} not exist!", repo.getName()));
         }
-    }
-
-    @Override
-    public void setProtocol(String protocol) {
-        if (protocol.equals("file") || protocol.equals("git")) {
-            this.protocol = protocol;
-            return;
-        }
-        throw new InternalCloudException("Supported only file & git protocols!");
-    }
-
-    private boolean isActiveGitProtocol() {
-        return protocol.equals("git");
     }
 
     @Override

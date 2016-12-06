@@ -3,7 +3,7 @@ package com.sam.jcc.cloud.vcs;
 import com.sam.jcc.cloud.utils.files.DirectoryComparator;
 import com.sam.jcc.cloud.utils.files.TempFile;
 import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
-import com.sam.jcc.cloud.vcs.git.GitLocalStorage;
+import com.sam.jcc.cloud.vcs.git.GitFileStorage;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -33,7 +33,7 @@ public class VCSProviderTest {
 
     @Before
     public void setUp() throws IOException {
-        final GitLocalStorage localGit = new GitLocalStorage();
+        final GitFileStorage localGit = new GitFileStorage();
         localGit.setBaseRepository(temp.newFolder());
 
         vcsProvider = new VCSProvider(localGit);

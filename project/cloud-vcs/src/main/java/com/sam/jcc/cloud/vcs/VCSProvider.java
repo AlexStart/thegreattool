@@ -4,7 +4,7 @@ import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.TempFile;
 import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
 import com.sam.jcc.cloud.utils.parsers.ProjectParser;
-import com.sam.jcc.cloud.vcs.git.GitLocalStorage;
+import com.sam.jcc.cloud.vcs.git.GitFileStorage;
 import com.sam.jcc.cloud.vcs.git.GitVCS;
 
 import java.io.File;
@@ -30,7 +30,7 @@ public class VCSProvider {
         files = new FileManager();
         parser = new ProjectParser();
 
-        final GitLocalStorage localGit = new GitLocalStorage();
+        final GitFileStorage localGit = new GitFileStorage();
         localGit.installBaseRepository();
 
         vcs = new GitVCS();

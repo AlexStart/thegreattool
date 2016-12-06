@@ -18,18 +18,17 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
  * @author Alexey Zhytnik
  * @since 01.12.2016
  */
-public class GitLocalStorageTest {
+public class GitFileStorageTest {
 
     @Rule
     public TemporaryFolder temp = new TemporaryFolder();
 
     VCSRepository repository = repository();
 
-    GitLocalStorage repos;
+    GitFileStorage repos = new GitFileStorage();
 
     @Before
     public void setUp() throws Exception {
-        repos = new GitLocalStorage();
         repos.setBaseRepository(temp.newFolder());
     }
 

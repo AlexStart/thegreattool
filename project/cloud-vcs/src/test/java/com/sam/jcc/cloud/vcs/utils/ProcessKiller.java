@@ -1,4 +1,4 @@
-package com.sam.jcc.cloud.vcs.git;
+package com.sam.jcc.cloud.vcs.utils;
 
 import com.jezhumble.javasysmon.JavaSysMon;
 import com.jezhumble.javasysmon.ProcessInfo;
@@ -14,13 +14,15 @@ import static com.sun.jna.platform.win32.WinNT.HANDLE;
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.SystemUtils.IS_OS_UNIX;
 import static org.apache.commons.lang3.SystemUtils.IS_OS_WINDOWS;
-import static org.springframework.util.ReflectionUtils.*;
+import static org.springframework.util.ReflectionUtils.findField;
+import static org.springframework.util.ReflectionUtils.getField;
+import static org.springframework.util.ReflectionUtils.makeAccessible;
 
 /**
  * @author Alexey Zhytnik
  * @since 05-Dec-16
  */
-class ProcessKiller {
+public class ProcessKiller {
 
     private JavaSysMon system;
 
@@ -70,21 +72,20 @@ class ProcessKiller {
     }
 
     private int getPidInUnix(Process process) {
-        return getFieldValue(process, "pid");
+        return (Integer) getFieldValue(process, "pid");
     }
 
     private int getPidInWindows(Process process) {
         final HANDLE handle = new HANDLE();
 
-        long peer = getFieldValue(process, "handle");
+        long peer = (Long) getFieldValue(process, "handle");
         handle.setPointer(Pointer.createConstant(peer));
         return Kernel32.INSTANCE.GetProcessId(handle);
     }
 
-    @SuppressWarnings("unchecked")
-    private <T> T getFieldValue(Process process, String name) {
+    private Object getFieldValue(Process process, String name) {
         final Field field = findField(process.getClass(), name);
         makeAccessible(field);
-        return (T) getField(field, process);
+        return getField(field, process);
     }
 }

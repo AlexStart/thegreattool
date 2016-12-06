@@ -3,19 +3,13 @@ package com.sam.jcc.cloud.vcs.git;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.VCSRepositoryDataHelper;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Map.Entry;
 import java.util.Random;
 
@@ -26,52 +20,21 @@ import static org.assertj.core.api.Assertions.entry;
  * @author Alexey Zhytnik
  * @since 28.11.2016
  */
-@RunWith(Parameterized.class)
-public class GitVCSTest {
+public abstract class AbstractGitVCSTest {
 
     @Rule
     public TemporaryFolder temp = new TemporaryFolder();
 
-    GitVCS git;
-    String protocol;
-    VCSRepository repository;
-
-    /* automatic managed */
-    Process gitDaemon;
-
-    public GitVCSTest(String protocol) {
-        this.git = new GitVCS();
-        this.protocol = protocol;
-        this.repository = VCSRepositoryDataHelper.repository();
-    }
-
-    @Parameters
-    @SuppressWarnings("RedundantArrayCreation")
-    public static Collection primeNumbers() {
-        return Arrays.asList(new Object[][]{
-                {"git"},
-                {"file"}
-        });
-    }
+    private GitVCS git = new GitVCS();
+    private VCSRepository repository = VCSRepositoryDataHelper.repository();
 
     @Before
-    public void setUp() throws IOException {
-        final GitLocalStorage storage = new GitLocalStorage();
-        storage.setBaseRepository(temp.newFolder());
-        storage.setProtocol(protocol);
-        git.setStorage(storage);
-
-        if (isGitProtocolActive()) {
-            gitDaemon = new GitDaemonRunner().run(storage.getBaseRepository());
-        }
+    public final void setUp() throws IOException {
+        final File dir = temp.newFolder();
+        installStorage(git, dir);
     }
 
-    @After
-    public void tearDown() {
-        if (isGitProtocolActive()) {
-            new ProcessKiller().kill(gitDaemon);
-        }
-    }
+    protected abstract void installStorage(GitVCS git, File dir);
 
     @Test
     public void createsAndDeletes() throws IOException {
@@ -142,10 +105,6 @@ public class GitVCSTest {
 
         git.delete(repository);
         assertThat(git.isExist(repository)).isFalse();
-    }
-
-    boolean isGitProtocolActive() {
-        return protocol.equals("git");
     }
 
     Entry<String, byte[]> writeSomeDataAndCommit() throws IOException {
