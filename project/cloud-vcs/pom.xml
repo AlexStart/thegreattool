@@ -23,7 +23,7 @@
     <dependencies>
         <dependency>
             <groupId>com.sam.jcc</groupId>
-            <artifactId>cloud-commons</artifactId>
+            <artifactId>cloud-utils</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -31,6 +31,12 @@
             <groupId>org.kohsuke</groupId>
             <artifactId>github-api</artifactId>
             <version>${github.api.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-io</groupId>
+                    <artifactId>commons-io</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.gitlab</groupId>

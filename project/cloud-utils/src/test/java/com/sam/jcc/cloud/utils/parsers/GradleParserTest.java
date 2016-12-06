@@ -1,7 +1,6 @@
-package com.sam.jcc.cloud.vcs.parser;
+package com.sam.jcc.cloud.utils.parsers;
 
 import com.google.common.io.Resources;
-import com.sam.jcc.cloud.vcs.VCSException;
 import org.junit.Test;
 
 import java.nio.charset.Charset;
@@ -41,7 +40,7 @@ public class GradleParserTest {
         assertThat(parser.parseArtifact("config.... \n baseName = \t 'app' \n config...")).isEqualTo("app");
     }
 
-    @Test(expected = VCSException.class)
+    @Test(expected = RuntimeException.class)
     public void failsOnNotFound() {
         parser.parseArtifact("some config");
     }

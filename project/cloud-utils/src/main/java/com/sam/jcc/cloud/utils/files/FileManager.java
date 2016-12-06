@@ -1,4 +1,4 @@
-package com.sam.jcc.cloud.tool;
+package com.sam.jcc.cloud.utils.files;
 
 import com.google.common.io.Files;
 import org.apache.commons.io.FileUtils;

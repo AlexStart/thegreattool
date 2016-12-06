@@ -1,6 +1,6 @@
 package com.sam.jcc.cloud.vcs.git;
 
-import com.sam.jcc.cloud.tool.FileManager;
+import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.VCSRepositoryDataHelper;
 import org.junit.After;

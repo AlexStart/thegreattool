@@ -1,10 +1,10 @@
-package com.sam.jcc.cloud.vcs.parser;
+package com.sam.jcc.cloud.utils.parsers;
 
 import org.junit.Test;
 
 import java.io.File;
 
-import static com.sam.jcc.cloud.vcs.TestResourceReader.read;
+import static com.sam.jcc.cloud.utils.parsers.TestResourceReader.read;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.entry;
 

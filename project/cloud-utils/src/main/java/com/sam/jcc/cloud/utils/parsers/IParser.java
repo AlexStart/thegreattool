@@ -1,4 +1,4 @@
-package com.sam.jcc.cloud.vcs.parser;
+package com.sam.jcc.cloud.utils.parsers;
 
 import java.util.Map.Entry;
 

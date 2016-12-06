@@ -1,11 +1,11 @@
 package com.sam.jcc.cloud.vcs;
 
-import com.sam.jcc.cloud.tool.FileManager;
-import com.sam.jcc.cloud.tool.TempFile;
-import com.sam.jcc.cloud.tool.ZipArchiveManager;
+import com.sam.jcc.cloud.utils.files.FileManager;
+import com.sam.jcc.cloud.utils.files.TempFile;
+import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
+import com.sam.jcc.cloud.utils.parsers.ProjectParser;
 import com.sam.jcc.cloud.vcs.git.GitLocalStorage;
 import com.sam.jcc.cloud.vcs.git.GitVCS;
-import com.sam.jcc.cloud.vcs.parser.ProjectParser;
 
 import java.io.File;
 import java.util.Arrays;

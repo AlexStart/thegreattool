@@ -1,7 +1,7 @@
 package com.sam.jcc.cloud.vcs.git;
 
-import com.sam.jcc.cloud.tool.FileManager;
-import com.sam.jcc.cloud.tool.TempFile;
+import com.sam.jcc.cloud.utils.files.FileManager;
+import com.sam.jcc.cloud.utils.files.TempFile;
 import com.sam.jcc.cloud.vcs.*;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,8 +1,8 @@
 package com.sam.jcc.cloud.vcs;
 
-import com.sam.jcc.cloud.tool.DirectoryComparator;
-import com.sam.jcc.cloud.tool.TempFile;
-import com.sam.jcc.cloud.tool.ZipArchiveManager;
+import com.sam.jcc.cloud.utils.files.DirectoryComparator;
+import com.sam.jcc.cloud.utils.files.TempFile;
+import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
 import com.sam.jcc.cloud.vcs.git.GitLocalStorage;
 import org.junit.Before;
 import org.junit.Rule;
@@ -14,7 +14,7 @@ import java.io.File;
 import java.io.IOException;
 
 import static com.sam.jcc.cloud.vcs.TestResourceReader.read;
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Alexey Zhytnik

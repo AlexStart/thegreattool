@@ -1,6 +1,6 @@
-package com.sam.jcc.cloud.vcs.parser;
+package com.sam.jcc.cloud.utils.parsers;
 
-import com.sam.jcc.cloud.tool.ZipArchiveManager;
+import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 

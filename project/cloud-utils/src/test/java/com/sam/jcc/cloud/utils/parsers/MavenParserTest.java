@@ -1,4 +1,4 @@
-package com.sam.jcc.cloud.vcs.parser;
+package com.sam.jcc.cloud.utils.parsers;
 
 import com.google.common.io.Resources;
 import org.junit.Test;

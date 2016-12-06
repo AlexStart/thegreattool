@@ -1,4 +1,4 @@
-package com.sam.jcc.cloud.vcs.parser;
+package com.sam.jcc.cloud.utils.parsers;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;

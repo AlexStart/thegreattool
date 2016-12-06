@@ -1,7 +1,6 @@
-package com.sam.jcc.cloud.vcs.parser;
+package com.sam.jcc.cloud.utils.parsers;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.sam.jcc.cloud.vcs.VCSException;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
@@ -37,6 +36,6 @@ class GradleParser implements IParser<String> {
         Matcher artifact = artifactPattern.matcher(build);
         if (artifact.find()) return artifact.group(1);
 
-        throw new VCSException(format("ArtifactId not found! build.gradle = \"{0}\" ", build));
+        throw new RuntimeException(format("ArtifactId not found! build.gradle = \"{0}\" ", build));
     }
 }

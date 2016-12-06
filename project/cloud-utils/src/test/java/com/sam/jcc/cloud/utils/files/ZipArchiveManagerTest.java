@@ -1,4 +1,4 @@
-package com.sam.jcc.cloud.tool;
+package com.sam.jcc.cloud.utils.files;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -7,8 +7,8 @@ import org.junit.rules.TemporaryFolder;
 import java.io.File;
 import java.io.IOException;
 
-import static com.sam.jcc.cloud.tool.TestFileUtils.createFolder;
-import static com.sam.jcc.cloud.tool.TestFileUtils.fileWithRand;
+import static com.sam.jcc.cloud.utils.files.TestFileUtils.createFolder;
+import static com.sam.jcc.cloud.utils.files.TestFileUtils.fileWithRand;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**

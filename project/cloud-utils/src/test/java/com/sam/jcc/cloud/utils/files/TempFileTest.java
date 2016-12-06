@@ -1,4 +1,4 @@
-package com.sam.jcc.cloud.tool;
+package com.sam.jcc.cloud.utils.files;
 
 import org.junit.Rule;
 import org.junit.Test;
