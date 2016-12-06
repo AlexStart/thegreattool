@@ -1,6 +1,7 @@
 package com.sam.jcc.cloud.vcs.git;
 
 import com.sam.jcc.cloud.i.Experimental;
+import com.sam.jcc.cloud.i.InternalCloudException;
 import com.sam.jcc.cloud.vcs.VCSException;
 import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.VCSStorage;
@@ -65,7 +66,7 @@ public class GitHubServer implements VCSStorage<GitCredentialsProvider> {
     @Override
     public void setProtocol(String protocol) {
         if (!protocol.equals("https")) {
-            throw new UnsupportedOperationException("Supported only https protocol");
+            throw new InternalCloudException("Supported only https protocol");
         }
     }
 

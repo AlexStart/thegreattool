@@ -2,6 +2,7 @@ package com.sam.jcc.cloud.utils.files;
 
 import com.google.common.io.Files;
 import com.sam.jcc.cloud.i.Experimental;
+import com.sam.jcc.cloud.i.InternalCloudException;
 
 import java.io.*;
 import java.util.Collection;
@@ -48,7 +49,7 @@ public final class DirectoryComparator {
 
             return !equals || nonNull(a) || nonNull(b);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new InternalCloudException(e);
         }
     }
 
@@ -89,7 +90,7 @@ public final class DirectoryComparator {
         try {
             return Files.hash(file, md5()).asLong();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new InternalCloudException(e);
         }
     }
 }

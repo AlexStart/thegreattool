@@ -1,6 +1,7 @@
 package com.sam.jcc.cloud.utils.parsers;
 
 import com.google.common.io.Resources;
+import com.sam.jcc.cloud.i.BusinessCloudException;
 import org.junit.Test;
 
 import java.nio.charset.Charset;
@@ -40,7 +41,7 @@ public class GradleParserTest {
         assertThat(parser.parseArtifact("config.... \n baseName = \t 'app' \n config...")).isEqualTo("app");
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = BusinessCloudException.class)
     public void failsOnNotFound() {
         parser.parseArtifact("some config");
     }

@@ -1,5 +1,6 @@
 package com.sam.jcc.cloud.vcs.git;
 
+import com.sam.jcc.cloud.i.InternalCloudException;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.vcs.VCSCredentialsProvider;
 import com.sam.jcc.cloud.vcs.VCSException;
@@ -109,7 +110,7 @@ public class GitLocalStorage implements VCSStorage<VCSCredentialsProvider> {
             this.protocol = protocol;
             return;
         }
-        throw new UnsupportedOperationException("Supported only file & git protocols!");
+        throw new InternalCloudException("Supported only file & git protocols!");
     }
 
     private boolean isActiveGitProtocol() {
@@ -137,7 +138,7 @@ public class GitLocalStorage implements VCSStorage<VCSCredentialsProvider> {
             ClassPathResource resource = new ClassPathResource("vcs.properties");
             props.load(resource.getInputStream());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new InternalCloudException(e);
         }
         return props.getProperty("base.repository.folder");
     }

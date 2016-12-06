@@ -1,6 +1,8 @@
 package com.sam.jcc.cloud.utils.files;
 
 import com.google.common.io.Files;
+import com.sam.jcc.cloud.i.InternalCloudException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -19,12 +21,13 @@ import static org.apache.commons.io.filefilter.FileFileFilter.FILE;
  * @author Alexey Zhytnik
  * @since 21.11.2016
  */
+@Slf4j
 @Component
 public class FileManager {
 
     public File getFileByUri(String uri) {
         if (!uri.startsWith("file://")) {
-            throw new RuntimeException("Wrong " + uri);
+            throw new InternalCloudException("Wrong " + uri);
         }
         return new File(uri.substring(7));
     }
@@ -35,7 +38,7 @@ public class FileManager {
         }
 
         if (!dir.delete()) {
-            throw new RuntimeException("Can't delete " + dir);
+            throw new InternalCloudException("Can't delete " + dir);
         }
     }
 
@@ -43,7 +46,7 @@ public class FileManager {
         try {
             FileUtils.cleanDirectory(dir);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new InternalCloudException(e);
         }
     }
 
@@ -52,7 +55,7 @@ public class FileManager {
         try {
             setAttribute(file.toPath(), "dos:hidden", true);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            log.warn("Maybe OS doesn't support this way creation of hidden directory, {0}", e);
         }
     }
 
@@ -60,7 +63,7 @@ public class FileManager {
         final boolean removed = !file.exists() || file.delete();
 
         if (!removed || !file.mkdir()) {
-            throw new RuntimeException("Can't create folder " + file);
+            throw new InternalCloudException("Can't create folder " + file);
         }
     }
 
@@ -68,7 +71,7 @@ public class FileManager {
         try {
             copyDirectory(src, dest);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new InternalCloudException(e);
         }
     }
 
@@ -81,7 +84,7 @@ public class FileManager {
             final File temp = File.createTempFile(prefix, suffix);
             return new TempFile(temp);
         } catch (IOException e) {
-            throw new RuntimeException("Can't create temp file!");
+            throw new InternalCloudException("Can't create temp file!");
         }
     }
 
@@ -89,7 +92,7 @@ public class FileManager {
         try {
             Files.write(content, target);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new InternalCloudException(e);
         }
     }
 
@@ -102,7 +105,7 @@ public class FileManager {
             final String path = file.getCanonicalPath();
             return StringUtils.countMatches(path, '/');
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new InternalCloudException(e);
         }
     }
 }

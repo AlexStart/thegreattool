@@ -1,5 +1,7 @@
 package com.sam.jcc.cloud.utils.parsers;
 
+import com.sam.jcc.cloud.i.BusinessCloudException;
+import com.sam.jcc.cloud.i.InternalCloudException;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -39,7 +41,7 @@ class MavenParser implements IParser<String> {
             doc.getDocumentElement().normalize();
             return doc;
         } catch (ParserConfigurationException | SAXException | IOException e) {
-            throw new RuntimeException(e);
+            throw new InternalCloudException(e);
         }
     }
 
@@ -52,7 +54,7 @@ class MavenParser implements IParser<String> {
 
     private void failOnNotFound(NodeList elements, String tag) {
         if (elements.getLength() == 0) {
-            throw new RuntimeException(format("There's no \"{0}\" tag", tag));
+            throw new BusinessCloudException(format("There's no \"{0}\" tag", tag));
         }
     }
 }

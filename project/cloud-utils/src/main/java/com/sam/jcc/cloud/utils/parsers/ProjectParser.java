@@ -1,5 +1,6 @@
 package com.sam.jcc.cloud.utils.parsers;
 
+import com.sam.jcc.cloud.i.BusinessCloudException;
 import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
@@ -71,6 +72,6 @@ public class ProjectParser implements IParser<File> {
     }
 
     private void failOnNotFound(File project) {
-        throw new RuntimeException("Unknown project type " + project);
+        throw new BusinessCloudException("Unknown project type " + project);
     }
 }

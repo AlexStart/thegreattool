@@ -1,5 +1,6 @@
 package com.sam.jcc.cloud.utils.files;
 
+import com.sam.jcc.cloud.i.InternalCloudException;
 import net.lingala.zip4j.exception.ZipException;
 import net.lingala.zip4j.model.ZipParameters;
 import net.lingala.zip4j.util.Zip4jConstants;
@@ -32,7 +33,7 @@ public class ZipArchiveManager {
         try {
             return new ZipFile(file);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new InternalCloudException(e);
         }
     }
 
@@ -41,7 +42,7 @@ public class ZipArchiveManager {
             final InputStream stream = zip.getInputStream(entry);
             return IOUtils.toString(stream, Charset.forName("UTF-8"));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new InternalCloudException(e);
         }
     }
 
@@ -49,7 +50,7 @@ public class ZipArchiveManager {
         try {
             new net.lingala.zip4j.core.ZipFile(archive).extractAll(dest.getAbsolutePath());
         } catch (ZipException e) {
-            throw new RuntimeException(e);
+            throw new InternalCloudException(e);
         }
     }
 
@@ -64,7 +65,7 @@ public class ZipArchiveManager {
                 return toByteArray(temp.toURI());
             }
         } catch (ZipException | IOException e) {
-            throw new RuntimeException(e);
+            throw new InternalCloudException(e);
         }
     }
 
