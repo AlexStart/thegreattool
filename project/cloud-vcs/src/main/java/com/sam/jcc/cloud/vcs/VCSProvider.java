@@ -27,10 +27,12 @@ public class VCSProvider {
     private ProjectParser parser;
     private VCS<VCSCredentialsProvider> vcs;
 
-    public VCSProvider() {
+    public VCSProvider(String protocol) {
         files = new FileManager();
         parser = new ProjectParser();
         vcs = new GitVCS();
+
+        setUpStorageByProtocol(protocol);
     }
 
     VCSProvider(VCSStorage<VCSCredentialsProvider> storage) {
@@ -39,6 +41,18 @@ public class VCSProvider {
 
         vcs = new GitVCS();
         vcs.setStorage(storage);
+    }
+
+    private void setUpStorageByProtocol(String protocol) {
+        if (protocol.equals("git")) {
+            final GitRemoteStorage storage = new GitRemoteStorage();
+            storage.installBaseRepository();
+            vcs.setStorage(storage);
+        } else {
+            final GitFileStorage storage = new GitFileStorage();
+            storage.installBaseRepository();
+            vcs.setStorage(storage);
+        }
     }
 
     public static void main(String[] args) {
@@ -54,7 +68,7 @@ public class VCSProvider {
         failOnNotExistence(operation, "create", "read", "update", "delete");
         failOnSimpleFile(project);
 
-        new VCSProvider().execute(vcs, protocol, operation, project);
+        new VCSProvider(protocol).execute(vcs, protocol, operation, project);
     }
 
     private static void failOnIllegalFormat(String[] args) {
@@ -81,8 +95,6 @@ public class VCSProvider {
     }
 
     void execute(String vcs, String protocol, String operation, File project) {
-        setProtocol(protocol);
-
         switch (operation) {
             case "create": {
                 createRepo(vcs, protocol, project);
@@ -120,18 +132,6 @@ public class VCSProvider {
 
     private void deleteRepo(String vcs, String protocol, File project) {
         delete(parse(project));
-    }
-
-    private void setProtocol(String protocol) {
-        if (protocol.equals("git")) {
-            final GitRemoteStorage storage = new GitRemoteStorage();
-            storage.installBaseRepository();
-            vcs.setStorage(storage);
-        } else {
-            final GitFileStorage storage = new GitFileStorage();
-            storage.installBaseRepository();
-            vcs.setStorage(storage);
-        }
     }
 
     private void create(VCSRepository repo) {
