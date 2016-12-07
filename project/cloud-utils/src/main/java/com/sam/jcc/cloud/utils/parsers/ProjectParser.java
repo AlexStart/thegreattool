@@ -3,6 +3,7 @@ package com.sam.jcc.cloud.utils.parsers;
 import com.sam.jcc.cloud.i.BusinessCloudException;
 import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -19,6 +20,7 @@ import static java.lang.Integer.compare;
  * @author Alexey Zhytnik
  * @since 28-Nov-16
  */
+@Slf4j
 @Setter
 public class ProjectParser implements IParser<File> {
 
@@ -32,6 +34,8 @@ public class ProjectParser implements IParser<File> {
 
     @Override
     public Entry<String, String> parse(File project) {
+        log.info("Parse {}", project);
+
         final ZipFile zip = zipManager.getZipFile(project);
 
         final Optional<? extends ZipEntry> type = zip.stream()
@@ -41,6 +45,7 @@ public class ProjectParser implements IParser<File> {
                 .findFirst();
         if (!type.isPresent()) failOnNotFound(project);
 
+        log.info("In {} found \"{}\" config file", project, type.get().getName());
         final String config = zipManager.readEntry(zip, type.get());
 
         if (isMaven(type.get())) {

@@ -8,6 +8,7 @@ import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.VCSStorage;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.springframework.core.io.ClassPathResource;
@@ -24,6 +25,7 @@ import static java.util.Optional.empty;
  * @author Alexey Zhytnik
  * @since 06.12.2016
  */
+@Slf4j
 abstract class GitAbstractStorage implements VCSStorage<VCSCredentialsProvider> {
 
     @Getter
@@ -34,14 +36,18 @@ abstract class GitAbstractStorage implements VCSStorage<VCSCredentialsProvider> 
 
     @Override
     public void create(VCSRepository repo) {
+        log.info("Creation of {} repository", repo);
         failOnExist(repo);
 
         final File dir = repositoryByName(repo);
+        log.debug("Repository {} will be placed in {}", repo, dir);
+
         files.createHiddenDir(dir);
         initBare(dir);
     }
 
     private void initBare(File dir) {
+        log.debug("Init --bare in {}", dir);
         try {
             Git.init()
                     .setDirectory(dir)
@@ -61,11 +67,13 @@ abstract class GitAbstractStorage implements VCSStorage<VCSCredentialsProvider> 
 
     @Override
     public boolean isExist(VCSRepository repo) {
+        log.info("Checking existence of {}", repo);
         return repositoryByName(repo).exists();
     }
 
     @Override
     public void delete(VCSRepository repo) {
+        log.info("Delete {}", repo);
         files.delete(get(repo));
     }
 
@@ -91,6 +99,7 @@ abstract class GitAbstractStorage implements VCSStorage<VCSCredentialsProvider> 
     }
 
     public void installBaseRepository() {
+        log.info("Extracting base repository folder");
         final File home = new File(System.getProperty("user.home"));
         final File base = new File(home, loadBaseRepositoryDirName());
 

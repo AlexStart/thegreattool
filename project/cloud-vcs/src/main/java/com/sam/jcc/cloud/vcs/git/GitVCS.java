@@ -9,6 +9,7 @@ import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.VCSStorage;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.LsRemoteCommand;
@@ -29,6 +30,7 @@ import java.util.Arrays;
  * @author Alexey Zhytnik
  * @since 25.11.2016
  */
+@Slf4j
 public class GitVCS implements VCS<VCSCredentialsProvider> {
 
     @Setter
@@ -44,6 +46,7 @@ public class GitVCS implements VCS<VCSCredentialsProvider> {
 
     @Override
     public void delete(VCSRepository repo) {
+        log.info("{} will be removed", repo);
         storage.delete(repo);
     }
 
@@ -72,13 +75,17 @@ public class GitVCS implements VCS<VCSCredentialsProvider> {
             try (Git git = init(repo, temp)) {
 
                 if (!isEmptyRemote(repo)) {
+                    log.info("Pull {} to {}", repo, temp);
                     pull(git);
                     clear(temp);
                 }
                 files.copyDir(repo.getSources(), temp);
 
+                log.info("Add * of {}", repo);
                 add(git);
+                log.info("Commit of {}", repo);
                 commit(git);
+                log.info("Push {}", repo);
                 push(git);
 
                 git.getRepository().close();
@@ -89,6 +96,8 @@ public class GitVCS implements VCS<VCSCredentialsProvider> {
     }
 
     private void clone(VCSRepository repo) throws GitAPIException {
+        log.info("Clone of {}", repo);
+
         final CloneCommand clone = Git.cloneRepository()
                 .setDirectory(repo.getSources())
                 .setURI(storage.getRepositoryURI(repo));
@@ -98,6 +107,8 @@ public class GitVCS implements VCS<VCSCredentialsProvider> {
     }
 
     private Git init(VCSRepository repo, File dir) throws GitAPIException, URISyntaxException {
+        log.info("Init {} of {}", dir, repo);
+
         final Git git = Git.init()
                 .setDirectory(dir)
                 .call();
@@ -111,6 +122,8 @@ public class GitVCS implements VCS<VCSCredentialsProvider> {
     }
 
     private boolean isEmptyRemote(VCSRepository repo) throws GitAPIException, IOException {
+        log.info("Check origin master branch of {}", repo);
+
         final LsRemoteCommand lsRemote = Git.lsRemoteRepository()
                 .setRemote(storage.getRepositoryURI(repo))
                 .setHeads(true);

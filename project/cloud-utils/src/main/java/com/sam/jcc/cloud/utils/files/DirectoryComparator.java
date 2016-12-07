@@ -1,6 +1,7 @@
 package com.sam.jcc.cloud.utils.files;
 
 import com.sam.jcc.cloud.i.InternalCloudException;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -20,6 +21,7 @@ import static one.util.streamex.EntryStream.zip;
  * @author Alexey Zhytnik
  * @since 02-Dec-16
  */
+@Slf4j
 public final class DirectoryComparator {
 
     private FileManager files = new FileManager();
@@ -47,9 +49,23 @@ public final class DirectoryComparator {
             }
             if (equals && a == null) b = second.readLine();
 
-            return !equals || nonNull(a) || nonNull(b);
+            final boolean hasDiff = !equals || nonNull(a) || nonNull(b);
+
+            log(pair, hasDiff);
+            return hasDiff;
         } catch (IOException e) {
             throw new InternalCloudException(e);
+        }
+    }
+
+    private void log(Entry<File, File> pair, boolean hasDiff) {
+        final File a = pair.getKey();
+        final File b = pair.getValue();
+
+        if (hasDiff) {
+            log.info("Files {}, {} are different!", a, b);
+        } else {
+            log.debug("Files {}, {} are equals", a, b);
         }
     }
 

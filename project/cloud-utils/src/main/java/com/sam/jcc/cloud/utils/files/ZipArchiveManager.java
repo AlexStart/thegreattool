@@ -1,6 +1,7 @@
 package com.sam.jcc.cloud.utils.files;
 
 import com.sam.jcc.cloud.i.InternalCloudException;
+import lombok.extern.slf4j.Slf4j;
 import net.lingala.zip4j.exception.ZipException;
 import net.lingala.zip4j.model.ZipParameters;
 import net.lingala.zip4j.util.Zip4jConstants;
@@ -20,6 +21,7 @@ import static org.apache.commons.io.IOUtils.toByteArray;
  * @author Alexey Zhytnik
  * @since 16.11.2016
  */
+@Slf4j
 @Component
 public class ZipArchiveManager {
 
@@ -47,6 +49,7 @@ public class ZipArchiveManager {
     }
 
     public void unzip(File archive, File dest) {
+        log.info("Unzip from {} to {}", archive, dest);
         try {
             new net.lingala.zip4j.core.ZipFile(archive).extractAll(dest.getAbsolutePath());
         } catch (ZipException e) {
@@ -59,6 +62,7 @@ public class ZipArchiveManager {
      * and converts it to the byte array.
      */
     public byte[] zip(File dir) {
+        log.info("Zip operation with {}", dir);
         try {
             try (TempFile temp = createTempZip()) {
                 new net.lingala.zip4j.core.ZipFile(temp).addFolder(dir, getZipParameters());

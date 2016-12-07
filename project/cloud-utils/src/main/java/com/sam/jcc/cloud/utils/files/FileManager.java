@@ -68,6 +68,7 @@ public class FileManager {
     }
 
     public void copyDir(File src, File dest) {
+        log.info("Copy from {} to {}", src, dest);
         try {
             copyDirectory(src, dest);
         } catch (IOException e) {
