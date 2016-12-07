@@ -1,6 +1,7 @@
 package com.sam.jcc.cloud.vcs;
 
 import com.sam.jcc.cloud.utils.files.DirectoryComparator;
+import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.TempFile;
 import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
 import com.sam.jcc.cloud.vcs.git.GitFileStorage;
@@ -13,7 +14,6 @@ import org.junit.rules.TemporaryFolder;
 import java.io.File;
 import java.io.IOException;
 
-import static com.sam.jcc.cloud.vcs.TestResourceReader.read;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -108,5 +108,9 @@ public class VCSProviderTest {
 
     File changedProject() {
         return read("/changed_project.zip");
+    }
+
+    File read(String resource) {
+        return new FileManager().getResource(getClass(), resource);
     }
 }

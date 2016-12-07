@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.List;
 
 import static java.nio.file.Files.setAttribute;
@@ -94,6 +96,15 @@ public class FileManager {
             Files.write(content, target);
         } catch (IOException e) {
             throw new InternalCloudException(e);
+        }
+    }
+
+    public File getResource(Class<?> clazz, String resource) {
+        try {
+            final URL url = clazz.getResource(resource);
+            return new File(url.toURI());
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
         }
     }
 
