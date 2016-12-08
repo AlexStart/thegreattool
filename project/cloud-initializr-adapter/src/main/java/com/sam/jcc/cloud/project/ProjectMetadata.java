@@ -1,11 +1,7 @@
-/**
- *
- */
 package com.sam.jcc.cloud.project;
 
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import com.sam.jcc.cloud.i.project.IStatusable;
-import com.sam.jcc.cloud.i.project.Status;
 import lombok.Data;
 
 import java.io.File;
@@ -38,7 +34,7 @@ public class ProjectMetadata implements IProjectMetadata, IStatusable {
     private File directory;
     private byte[] projectSources;
 
-    private Status status;
+    private ProjectStatus status;
 
     private Long id;
 

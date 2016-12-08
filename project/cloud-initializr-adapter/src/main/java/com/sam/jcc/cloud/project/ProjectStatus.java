@@ -1,10 +1,12 @@
-package com.sam.jcc.cloud.i.project;
+package com.sam.jcc.cloud.project;
+
+import com.sam.jcc.cloud.i.project.IStatus;
 
 /**
  * @author Alexey Zhytnik
  * @since 16.11.2016
  */
-public enum Status {
+enum ProjectStatus implements IStatus {
     UNPROCESSED,
     PRE_PROCESSED,
     PROCESSED,

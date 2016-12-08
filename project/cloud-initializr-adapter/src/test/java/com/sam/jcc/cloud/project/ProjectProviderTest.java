@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static com.sam.jcc.cloud.i.project.Status.*;
+import static com.sam.jcc.cloud.project.ProjectStatus.*;
 import static com.sam.jcc.cloud.project.ProjectMetadataHelper.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.inOrder;

@@ -1,11 +1,14 @@
 package com.sam.jcc.cloud.vcs.git;
 
+import com.sam.jcc.cloud.event.ILoggable;
+import com.sam.jcc.cloud.i.IEventManager;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.TempFile;
 import com.sam.jcc.cloud.vcs.VCS;
 import com.sam.jcc.cloud.vcs.VCSCredentialsProvider;
 import com.sam.jcc.cloud.vcs.VCSException;
 import com.sam.jcc.cloud.vcs.VCSRepository;
+import com.sam.jcc.cloud.vcs.VCSRepositoryStatus;
 import com.sam.jcc.cloud.vcs.VCSStorage;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,24 +23,34 @@ import org.eclipse.jgit.api.TransportCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.URIish;
+import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Arrays;
+import java.util.List;
+
+import static com.google.common.collect.Lists.newArrayList;
 
 /**
  * @author Alexey Zhytnik
  * @since 25.11.2016
  */
 @Slf4j
-public class GitVCS implements VCS<VCSCredentialsProvider> {
+@Component
+public class GitVCS implements VCS<VCSCredentialsProvider>, ILoggable{
 
     @Setter
     @Getter
     private VCSStorage<VCSCredentialsProvider> storage;
 
     private FileManager files = new FileManager();
+
+    @Autowired
+    private List<IEventManager<VCSRepository>> eventManagers = newArrayList();
 
     @Override
     public boolean isExist(VCSRepository repo) {
@@ -46,14 +59,15 @@ public class GitVCS implements VCS<VCSCredentialsProvider> {
 
     @Override
     public void delete(VCSRepository repo) {
-        log.info("{} will be removed", repo);
         storage.delete(repo);
+        updateStatus(repo, VCSRepositoryStatus.DELETED);
     }
 
     @Override
     public void read(VCSRepository repo) {
         try {
             clone(repo);
+            updateStatus(repo, VCSRepositoryStatus.CLONED);
 
             //TODO: transfer to top level
             final File metadata = new File(repo.getSources(), ".git");
@@ -67,6 +81,7 @@ public class GitVCS implements VCS<VCSCredentialsProvider> {
     @Override
     public void create(VCSRepository repo) {
         storage.create(repo);
+        updateStatus(repo, VCSRepositoryStatus.CREATED);
     }
 
     @Override
@@ -75,21 +90,22 @@ public class GitVCS implements VCS<VCSCredentialsProvider> {
             try (Git git = init(repo, temp)) {
 
                 if (!isEmptyRemote(repo)) {
-                    log.info("Pull {} to {}", repo, temp);
+                    log.debug("Pull {} to {}", repo, temp);
                     pull(git);
                     clear(temp);
                 }
                 files.copyDir(repo.getSources(), temp);
 
-                log.info("Add * of {}", repo);
                 add(git);
-                log.info("Commit of {}", repo);
                 commit(git);
-                log.info("Push {}", repo);
+                updateStatus(repo, VCSRepositoryStatus.COMMITED);
+
                 push(git);
+                updateStatus(repo, VCSRepositoryStatus.PUSHED);
 
                 git.getRepository().close();
             } catch (GitAPIException | URISyntaxException | IOException e) {
+                eventManagers.forEach(manager -> manager.fireEvent(repo, this));
                 throw new VCSException(e);
             }
         }
@@ -174,10 +190,20 @@ public class GitVCS implements VCS<VCSCredentialsProvider> {
         push.call();
     }
 
+    private void updateStatus(VCSRepository repo, VCSRepositoryStatus status) {
+        repo.setStatus(status);
+        eventManagers.forEach(manager -> manager.fireEvent(repo, this));
+    }
+
     private void setCredentials(TransportCommand<?, ?> command) {
         if (storage.getCredentialsProvider().isPresent()) {
             CredentialsProvider cp = (CredentialsProvider) storage.getCredentialsProvider().get();
             command.setCredentialsProvider(cp);
         }
+    }
+
+    @Override
+    public Logger getLogger() {
+        return log;
     }
 }

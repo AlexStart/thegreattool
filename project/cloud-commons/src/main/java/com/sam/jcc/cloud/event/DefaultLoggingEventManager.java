@@ -5,8 +5,8 @@ package com.sam.jcc.cloud.event;
 
 import com.sam.jcc.cloud.i.IEvent;
 import com.sam.jcc.cloud.i.IEventManager;
+import com.sam.jcc.cloud.i.project.IStatus;
 import com.sam.jcc.cloud.i.project.IStatusable;
-import com.sam.jcc.cloud.i.project.Status;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
@@ -47,7 +47,7 @@ public class DefaultLoggingEventManager<T> extends IEventManager<T> {
         return loggable.getLogger();
     }
 
-    private Status getStatus(Object obj) {
+    private IStatus getStatus(Object obj) {
         final IStatusable s = (IStatusable) obj;
         return s.getStatus();
     }
