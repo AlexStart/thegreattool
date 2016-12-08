@@ -4,12 +4,11 @@ import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.AbstractMap.SimpleEntry;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Java6Assertions.entry;
 
 /**
  * @author Alexey Zhytnik
@@ -50,10 +49,6 @@ public class TranslationResolverTest {
         final TranslationResolver resolver = new TranslationResolver();
         resolver.setResource("translations-wrong.yml");
         resolver.setUp();
-    }
-
-    Entry<String, String> entry(String lang, String value) {
-        return new SimpleEntry<>(lang, value);
     }
 
     static abstract class Provider extends AbstractProvider<IProjectMetadata> {

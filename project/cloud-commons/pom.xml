@@ -16,6 +16,7 @@
 		<commons-lang3.version>3.5</commons-lang3.version>
 		<commons-io.version>2.5</commons-io.version>
 		<commons.beanutils>1.9.3</commons.beanutils>
+		<commons.configuraion>1.10</commons.configuraion>
 	</properties>
 
 	<repositories>
@@ -120,6 +121,12 @@
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>${commons-io.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-configuration</groupId>
+			<artifactId>commons-configuration</artifactId>
+			<version>${commons.configuraion}</version>
 		</dependency>
 
 		<!-- utils -->

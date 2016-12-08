@@ -1,10 +1,10 @@
 package com.sam.jcc.cloud.project;
 
 import com.sam.jcc.cloud.i.InternalCloudException;
+import com.sam.jcc.cloud.utils.files.FileManager;
+import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import static com.sam.jcc.cloud.project.ZipUtil.zip;
 
 /**
  * @author Alexey Zhytnik
@@ -14,7 +14,9 @@ import static com.sam.jcc.cloud.project.ZipUtil.zip;
 class ProjectBuilder {
 
     @Autowired
-    private Cleaner cleaner;
+    private FileManager fileManager;
+    @Autowired
+    private ZipArchiveManager zipManager;
 
     public void build(ProjectMetadata metadata) {
         try {
@@ -26,7 +28,7 @@ class ProjectBuilder {
 
     private void archivate(ProjectMetadata metadata) {
         try {
-            byte[] sources = zip(metadata.getDirectory());
+            byte[] sources = zipManager.zip(metadata.getDirectory());
             metadata.setProjectSources(sources);
         } catch (Exception e) {
             throw new InternalCloudException(e);
@@ -38,6 +40,6 @@ class ProjectBuilder {
     }
 
     private void clearTempFolder(ProjectMetadata metadata) {
-        cleaner.remove(metadata.getDirectory());
+        fileManager.delete(metadata.getDirectory());
     }
 }

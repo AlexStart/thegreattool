@@ -18,10 +18,8 @@ import static com.google.common.collect.Maps.newHashMap;
 @Component
 class TranslationResolver {
 
-    private static final String DEFAULT_TRANSLATIONS_RESOURCE = "translations.yml";
-
     @Setter
-    private String resource = DEFAULT_TRANSLATIONS_RESOURCE;
+    private String resource = PropertyResolver.getProperty("cloud.translations");
 
     private Map<String, Map<String, String>> names = newHashMap();
     private Map<String, Map<String, String>> descriptions = newHashMap();

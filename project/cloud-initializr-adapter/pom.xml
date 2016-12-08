@@ -23,7 +23,7 @@
 
 		<dependency>
 			<groupId>com.sam.jcc</groupId>
-			<artifactId>cloud-commons</artifactId>
+			<artifactId>cloud-utils</artifactId>
 			<version>${project.version}</version>
 			<exclusions>
 				<exclusion>

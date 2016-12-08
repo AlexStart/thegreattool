@@ -6,13 +6,12 @@ import com.sam.jcc.cloud.i.IEventManager;
 import com.sam.jcc.cloud.i.InternalCloudException;
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import com.sam.jcc.cloud.i.project.IProjectProvider;
-import com.sam.jcc.cloud.i.project.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.sam.jcc.cloud.i.project.Status.*;
+import static com.sam.jcc.cloud.project.ProjectStatus.*;
 import static java.lang.String.format;
 
 /**
@@ -115,7 +114,7 @@ public class ProjectProvider extends AbstractProvider<IProjectMetadata> implemen
         return (List<IProjectMetadata>) dao.findAll();
     }
 
-    private void setStatus(IProjectMetadata m, Status status) {
+    private void setStatus(IProjectMetadata m, ProjectStatus status) {
         asProjectMetadata(m).setStatus(status);
     }
 

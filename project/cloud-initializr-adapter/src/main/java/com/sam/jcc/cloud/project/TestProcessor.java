@@ -1,7 +1,12 @@
 package com.sam.jcc.cloud.project;
 
 import com.sam.jcc.cloud.i.InternalCloudException;
-import com.squareup.javapoet.*;
+import com.sam.jcc.cloud.utils.files.FileManager;
+import com.squareup.javapoet.AnnotationSpec;
+import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.TypeSpec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +22,7 @@ import java.io.IOException;
 class TestProcessor {
 
     @Autowired
-    private Cleaner cleaner;
+    private FileManager fileManager;
 
     public void process(ProjectMetadata metadata) {
         TypeSpec clazz = build();
@@ -26,7 +31,7 @@ class TestProcessor {
                 .build();
 
         File testFolder = getTestDir(metadata);
-        cleaner.clean(testFolder);
+        fileManager.cleanDir(testFolder);
 
         writeToFile(javaFile, testFolder);
     }
