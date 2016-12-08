@@ -1,7 +1,10 @@
 package com.sam.jcc.cloud.vcs.git;
 
+import com.sam.jcc.cloud.i.PropertyResolver;
 import com.sam.jcc.cloud.vcs.VCSException;
 import com.sam.jcc.cloud.vcs.VCSRepository;
+
+import static java.text.MessageFormat.format;
 
 /**
  * @author Alexey Zhytnik
@@ -9,15 +12,18 @@ import com.sam.jcc.cloud.vcs.VCSRepository;
  */
 public class GitRemoteStorage extends GitAbstractStorage {
 
+    private String host = PropertyResolver.getProperty("git.server.host");
+    private String protocol = PropertyResolver.getProperty("protocols.git");
+
     @Override
     public String getRepositoryURI(VCSRepository repo) {
-        return "git://localhost/" + repo.getName();
+        return format("{0}{1}/{2}", protocol, host, repo.getName());
     }
 
     @Override
-    public void setProtocol(String protocol) {
-        if (!protocol.equals("git")) {
-            throw new VCSException("Supported only git protocol!");
+    public void setProtocol(String newProtocol) {
+        if (!newProtocol.startsWith(protocol)) {
+            throw new VCSException(format("Unknown protocol \"{0}\"", newProtocol));
         }
     }
 }

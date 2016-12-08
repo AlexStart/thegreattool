@@ -2,6 +2,7 @@ package com.sam.jcc.cloud.vcs.git;
 
 import com.sam.jcc.cloud.i.Experimental;
 import com.sam.jcc.cloud.i.InternalCloudException;
+import com.sam.jcc.cloud.i.PropertyResolver;
 import com.sam.jcc.cloud.vcs.VCSException;
 import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.VCSStorage;
@@ -32,6 +33,8 @@ public class GitHubServer implements VCSStorage<GitCredentialsProvider> {
     //TODO: use char[]
     private String password;
 
+    private String github = PropertyResolver.getProperty("servers.github");
+
     @Override
     public void create(VCSRepository repo) {
         final String repoName = repo.getName();
@@ -55,7 +58,7 @@ public class GitHubServer implements VCSStorage<GitCredentialsProvider> {
 
     @Override
     public String getRepositoryURI(VCSRepository repo) {
-        return format("https://github.com/{0}/{1}.git", user, repo.getName());
+        return format("{0}/{1}/{2}.git", github, user, repo.getName());
     }
 
     @Override

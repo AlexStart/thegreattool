@@ -1,6 +1,6 @@
 package com.sam.jcc.cloud.vcs.git;
 
-import com.sam.jcc.cloud.i.InternalCloudException;
+import com.sam.jcc.cloud.i.PropertyResolver;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.vcs.VCSCredentialsProvider;
 import com.sam.jcc.cloud.vcs.VCSException;
@@ -11,12 +11,9 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Optional;
-import java.util.Properties;
 
 import static java.text.MessageFormat.format;
 import static java.util.Optional.empty;
@@ -100,23 +97,13 @@ abstract class GitAbstractStorage implements VCSStorage<VCSCredentialsProvider> 
 
     public void installBaseRepository() {
         log.info("Extracting base repository folder");
-        final File home = new File(System.getProperty("user.home"));
-        final File base = new File(home, loadBaseRepositoryDirName());
+
+        final String path = PropertyResolver.getProperty("repository.base.folder");
+        final File base = new File(path);
 
         if (!base.exists()) {
             files.createHiddenDir(base);
         }
         baseRepository = base;
-    }
-
-    private String loadBaseRepositoryDirName() {
-        final Properties props = new Properties();
-        try {
-            ClassPathResource resource = new ClassPathResource("vcs.properties");
-            props.load(resource.getInputStream());
-        } catch (IOException e) {
-            throw new InternalCloudException(e);
-        }
-        return props.getProperty("base.repository.folder");
     }
 }

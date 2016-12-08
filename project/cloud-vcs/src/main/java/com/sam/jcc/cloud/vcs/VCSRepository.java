@@ -4,6 +4,8 @@ import lombok.Data;
 
 import java.io.File;
 
+import static com.sam.jcc.cloud.i.PropertyResolver.getProperty;
+
 /**
  * @author Alexey Zhytnik
  * @since 25.11.2016
@@ -11,12 +13,14 @@ import java.io.File;
 @Data
 public class VCSRepository {
 
+    private final static String REPOSITORY_PREFIX = getProperty("repository.prefix");
+
     private String groupId;
     private String artifactId;
 
     private File sources;
 
     public String getName() {
-        return "Project-" + artifactId;
+        return REPOSITORY_PREFIX + artifactId;
     }
 }

@@ -2,6 +2,7 @@ package com.sam.jcc.cloud.utils.files;
 
 import com.google.common.io.Files;
 import com.sam.jcc.cloud.i.InternalCloudException;
+import com.sam.jcc.cloud.i.PropertyResolver;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -27,11 +28,13 @@ import static org.apache.commons.io.filefilter.FileFileFilter.FILE;
 @Component
 public class FileManager {
 
+    private String fileProtocol = PropertyResolver.getProperty("protocols.file");
+
     public File getFileByUri(String uri) {
-        if (!uri.startsWith("file://")) {
+        if (!uri.startsWith(fileProtocol)) {
             throw new InternalCloudException("Wrong " + uri);
         }
-        return new File(uri.substring(7));
+        return new File(uri.substring(fileProtocol.length()));
     }
 
     public void delete(File dir) {
