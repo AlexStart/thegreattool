@@ -1,6 +1,7 @@
 package com.sam.jcc.cloud.persistence;
 
 import com.sam.jcc.cloud.i.PropertyResolver;
+import org.flywaydb.core.Flyway;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -25,18 +26,10 @@ import java.util.Properties;
 @EnableJpaRepositories("com.sam.jcc.cloud.persistence")
 public class DatabaseConfiguration {
 
-    @Bean
-    @Profile("!prod")
-    public DataSource inMemoryDataSource() {
-        final DriverManagerDataSource ds = new DriverManagerDataSource();
-        ds.setUrl("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
-        ds.setDriverClassName("org.h2.Driver");
-        return ds;
-    }
-
+    //TODO: temp solution, needs condition
     @Bean
     @Profile("prod")
-    public DataSource prodDataSource() {
+    public DataSource dataSource() {
         final DriverManagerDataSource ds = new DriverManagerDataSource();
 
         ds.setUrl(property("db.hibernate.url"));
@@ -62,6 +55,15 @@ public class DatabaseConfiguration {
         factory.setPackagesToScan("com.sam.jcc.cloud.persistence");
         factory.setJpaProperties(getHibernateProperties());
         return factory;
+    }
+
+    @Bean
+    public Flyway flyway(DataSource dataSource) {
+        final Flyway flyway = new Flyway();
+
+        flyway.setInitOnMigrate(true);
+        flyway.setDataSource(dataSource);
+        return flyway;
     }
 
     private Properties getHibernateProperties() {

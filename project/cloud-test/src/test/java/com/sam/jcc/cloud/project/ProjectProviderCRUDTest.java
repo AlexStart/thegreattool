@@ -1,7 +1,6 @@
 package com.sam.jcc.cloud.project;
 
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
-import com.sam.jcc.cloud.persistence.project.ProjectRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,9 +25,6 @@ public class ProjectProviderCRUDTest {
     @Autowired
     ProjectProvider provider;
 
-    @Autowired
-    ProjectRepository projectRepository;
-
     ProjectMetadata metadata = mavenProject();
 
     @Before
@@ -38,13 +34,19 @@ public class ProjectProviderCRUDTest {
 
     @After
     public void tearDown() {
-        projectRepository.deleteAll();
+        try {
+            provider.delete(metadata);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void creates() {
         final IProjectMetadata metadata = provider.create(gradleProject());
         assertThat(metadata).isNotNull();
+
+        provider.delete(metadata);
     }
 
     @Test
