@@ -1,6 +1,7 @@
 target/
 !.mvn/wrapper/maven-wrapper.jar
 *.zip
+!project/cloud-utils/src/test/resources/*.zip
 
 ### STS ###
 .apt_generated
