@@ -1,5 +1,7 @@
 package com.sam.jcc.cloud.i;
 
+import org.apache.commons.configuration.reloading.FileChangedReloadingStrategy;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
@@ -15,6 +17,13 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class PropertyResolverTest {
 
+    @Before
+    public void setUpStrategy(){
+        final FileChangedReloadingStrategy s = new FileChangedReloadingStrategy();
+        s.setRefreshDelay(100);
+        PropertyResolver.setReloadingStrategy(s);
+    }
+
     @Test
     public void test() throws Exception {
         rewriteConfig("value=initial_value");
@@ -28,7 +37,7 @@ public class PropertyResolverTest {
         try (PrintWriter writer = new PrintWriter(getPropertyFile())) {
             writer.print(content);
         }
-        sleep(2000);
+        sleep(200);
     }
 
     File getPropertyFile() throws Exception {

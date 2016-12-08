@@ -1,8 +1,10 @@
 package com.sam.jcc.cloud.i;
 
+import com.google.common.annotations.VisibleForTesting;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.reloading.FileChangedReloadingStrategy;
+import org.apache.commons.configuration.reloading.ReloadingStrategy;
 import org.springframework.stereotype.Component;
 
 import static java.util.Objects.nonNull;
@@ -19,9 +21,7 @@ public class PropertyResolver {
     static {
         tryLoadProperties();
 
-        final FileChangedReloadingStrategy strategy = new FileChangedReloadingStrategy();
-        strategy.setRefreshDelay(500L);
-        configuration.setReloadingStrategy(strategy);
+        configuration.setReloadingStrategy(new FileChangedReloadingStrategy());
     }
 
     private static void tryLoadProperties() {
@@ -45,5 +45,9 @@ public class PropertyResolver {
             return value.replace("${user.home}", home);
         }
         return value;
+    }
+
+    @VisibleForTesting static void setReloadingStrategy(ReloadingStrategy strategy){
+        configuration.setReloadingStrategy(strategy);
     }
 }

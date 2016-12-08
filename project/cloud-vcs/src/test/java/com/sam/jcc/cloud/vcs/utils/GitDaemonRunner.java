@@ -15,6 +15,7 @@ import static java.text.MessageFormat.format;
 public class GitDaemonRunner {
 
     /**
+     * Runs Git-daemon: 2 Git + 1 Git-daemon processes.
      * If push command doesn't work, maybe it's because of the Git bug.
      *
      * @see <a href="http://stackoverflow.com/q/5520329">Git daemon bug</a>
@@ -25,11 +26,19 @@ public class GitDaemonRunner {
         try {
             final Process git = builder.start();
             failOnDeadState(git);
-            Thread.sleep(2_000);
+            startUpWait();
             return git;
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Sometimes disappearing parent-child relationship.
+     * Needs for launch all Git processes.
+     */
+    private void startUpWait() throws InterruptedException {
+        Thread.sleep(600);
     }
 
     private List<String> getDaemonRunCommands(File dir) {

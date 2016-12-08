@@ -49,6 +49,11 @@ public class GitVCS implements VCS<VCSCredentialsProvider>, ILoggable{
 
     private FileManager files = new FileManager();
 
+    /**
+     * List creation exists for easy work without Spring.
+     * In beans eventManagers will be automatically changed.
+     */
+    @Setter
     @Autowired
     private List<IEventManager<VCSRepository>> eventManagers = newArrayList();
 

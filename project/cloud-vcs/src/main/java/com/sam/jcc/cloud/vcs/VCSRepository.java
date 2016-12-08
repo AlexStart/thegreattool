@@ -15,6 +15,9 @@ import static com.sam.jcc.cloud.vcs.VCSRepositoryStatus.INITIALIZED;
 @Data
 public class VCSRepository implements IStatusable {
 
+    /**
+     * Sets once time, because of a lot of logic depends on name of VCSRepository.
+     */
     private final static String REPOSITORY_PREFIX = getProperty("repository.prefix");
 
     private String groupId;

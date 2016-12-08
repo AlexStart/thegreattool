@@ -1,5 +1,6 @@
 package com.sam.jcc.cloud.vcs.git;
 
+import com.sam.jcc.cloud.event.DefaultLoggingEventManager;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.VCSRepositoryDataHelper;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.util.Map.Entry;
 import java.util.Random;
 
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 
@@ -31,6 +33,9 @@ public abstract class AbstractGitVCSTest {
     @Before
     public final void setUp() throws IOException {
         final File dir = temp.newFolder();
+
+        git.setEventManagers(singletonList(new DefaultLoggingEventManager<>()));
+
         installStorage(git, dir);
     }
 
