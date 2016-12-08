@@ -1,11 +1,11 @@
 package com.sam.jcc.cloud.vcs.git;
 
-import com.sam.jcc.cloud.i.PropertyResolver;
-import com.sam.jcc.cloud.vcs.VCSException;
-import com.sam.jcc.cloud.vcs.VCSRepository;
+import static java.text.MessageFormat.format;
+
 import org.springframework.stereotype.Component;
 
-import static java.text.MessageFormat.format;
+import com.sam.jcc.cloud.vcs.VCSException;
+import com.sam.jcc.cloud.vcs.VCSRepository;
 
 /**
  * @author Alexey Zhytnik
@@ -14,7 +14,11 @@ import static java.text.MessageFormat.format;
 @Component
 public class GitFileStorage extends GitAbstractStorage {
 
-    private String protocol = PropertyResolver.getProperty("protocols.file");
+	
+	// TODO fix issue #3
+    // private String protocol = PropertyResolver.getProperty("protocols.file");
+	
+	private final String protocol = "file://";
 
     @Override
     public String getRepositoryURI(VCSRepository repo) {

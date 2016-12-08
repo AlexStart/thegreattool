@@ -1,15 +1,17 @@
 package com.sam.jcc.cloud;
 
-import io.spring.initializr.generator.ProjectGenerator;
-import io.spring.initializr.generator.ProjectRequest;
-import io.spring.initializr.metadata.InitializrMetadataProvider;
+import java.util.Arrays;
+
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.Arrays;
+import io.spring.initializr.generator.ProjectGenerator;
+import io.spring.initializr.generator.ProjectRequest;
+import io.spring.initializr.metadata.InitializrMetadataProvider;
 
 /**
  * @author Alexey Zhytnik
@@ -17,6 +19,7 @@ import java.util.Arrays;
  */
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
+@Ignore // fix  Issue #4  
 public class StarterTest {
 
     @Autowired

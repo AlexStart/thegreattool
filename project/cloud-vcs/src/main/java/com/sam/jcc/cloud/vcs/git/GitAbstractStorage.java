@@ -1,22 +1,23 @@
 package com.sam.jcc.cloud.vcs.git;
 
-import com.sam.jcc.cloud.i.PropertyResolver;
+import static java.text.MessageFormat.format;
+import static java.util.Optional.empty;
+
+import java.io.File;
+import java.util.Optional;
+
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
+
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.vcs.VCSCredentialsProvider;
 import com.sam.jcc.cloud.vcs.VCSException;
 import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.VCSStorage;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.errors.GitAPIException;
-
-import java.io.File;
-import java.util.Optional;
-
-import static java.text.MessageFormat.format;
-import static java.util.Optional.empty;
 
 /**
  * @author Alexey Zhytnik
@@ -25,85 +26,86 @@ import static java.util.Optional.empty;
 @Slf4j
 abstract class GitAbstractStorage implements VCSStorage<VCSCredentialsProvider> {
 
-    @Getter
-    @Setter
-    private File baseRepository;
+	@Getter
+	@Setter
+	private File baseRepository;
 
-    private FileManager files = new FileManager();
+	private final FileManager files = new FileManager();
 
-    @Override
-    public void create(VCSRepository repo) {
-        log.info("Creation of {} repository", repo);
-        failOnExist(repo);
+	@Override
+	public void create(VCSRepository repo) {
+		log.info("Creation of {} repository", repo);
+		failOnExist(repo);
 
-        final File dir = repositoryByName(repo);
-        log.debug("Repository {} will be placed in {}", repo, dir);
+		final File dir = repositoryByName(repo);
+		log.debug("Repository {} will be placed in {}", repo, dir);
 
-        files.createHiddenDir(dir);
-        initBare(dir);
-    }
+		files.createHiddenDir(dir);
+		initBare(dir);
+	}
 
-    private void initBare(File dir) {
-        log.debug("Init --bare in {}", dir);
-        try {
-            Git.init()
-                    .setDirectory(dir)
-                    .setBare(true)
-                    .call()
-                    .close();
-        } catch (GitAPIException e) {
-            throw new VCSException(e);
-        }
-    }
+	private void initBare(File dir) {
+		log.debug("Init --bare in {}", dir);
+		try {
+			Git.init().setDirectory(dir).setBare(true).call().close();
+		} catch (GitAPIException e) {
+			throw new VCSException(e);
+		}
+	}
 
-    private void failOnExist(VCSRepository repo) {
-        if (isExist(repo)) {
-            throw new VCSException(format("Repository {0} exists!", repo.getName()));
-        }
-    }
+	private void failOnExist(VCSRepository repo) {
+		if (isExist(repo)) {
+			throw new VCSException(format("Repository {0} exists!", repo.getName()));
+		}
+	}
 
-    @Override
-    public boolean isExist(VCSRepository repo) {
-        log.info("Checking existence of {}", repo);
-        return repositoryByName(repo).exists();
-    }
+	@Override
+	public boolean isExist(VCSRepository repo) {
+		log.info("Checking existence of {}", repo);
+		return repositoryByName(repo).exists();
+	}
 
-    @Override
-    public void delete(VCSRepository repo) {
-        log.info("Delete {}", repo);
-        files.delete(get(repo));
-    }
+	@Override
+	public void delete(VCSRepository repo) {
+		log.info("Delete {}", repo);
+		files.delete(get(repo));
+	}
 
-    protected File get(VCSRepository repo) {
-        final File dir = repositoryByName(repo);
-        failOnNotExist(repo);
-        return dir;
-    }
+	protected File get(VCSRepository repo) {
+		final File dir = repositoryByName(repo);
+		failOnNotExist(repo);
+		return dir;
+	}
 
-    private File repositoryByName(VCSRepository repo) {
-        return new File(baseRepository, repo.getName());
-    }
+	private File repositoryByName(VCSRepository repo) {
+		return new File(baseRepository, repo.getName());
+	}
 
-    private void failOnNotExist(VCSRepository repo) {
-        if (!isExist(repo)) {
-            throw new VCSException(format("Repository {0} not exist!", repo.getName()));
-        }
-    }
+	private void failOnNotExist(VCSRepository repo) {
+		if (!isExist(repo)) {
+			throw new VCSException(format("Repository {0} not exist!", repo.getName()));
+		}
+	}
 
-    @Override
-    public Optional<VCSCredentialsProvider> getCredentialsProvider() {
-        return empty();
-    }
+	@Override
+	public Optional<VCSCredentialsProvider> getCredentialsProvider() {
+		return empty();
+	}
 
-    public void installBaseRepository() {
-        log.info("Extracting base repository folder");
+	public void installBaseRepository() {
+		log.info("Extracting base repository folder");
 
-        final String path = PropertyResolver.getProperty("repository.base.folder");
-        final File base = new File(path);
+		// TODO fix issue #3
+		// final String path =
+		// PropertyResolver.getProperty("repository.base.folder");
 
-        if (!base.exists()) {
-            files.createHiddenDir(base);
-        }
-        baseRepository = base;
-    }
+		final String path = System.getProperty("user.home") + "/.local_repositories";
+
+		final File base = new File(path);
+
+		if (!base.exists()) {
+			files.createHiddenDir(base);
+		}
+		baseRepository = base;
+	}
 }
