@@ -1,7 +1,7 @@
 ProjectProvider:
   name:
     ru: "Java генератор проектов"
-    en: "Java Project Genrator"
+    en: "Java Project Generator"
   description:
     ru: "Генератор Java-проектов на основе Spring Initializr"
     en: "Java project generator based on Spring Initializr"

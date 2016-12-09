@@ -1,6 +1,9 @@
 package com.sam.jcc.cloud.persistence;
 
-import com.sam.jcc.cloud.i.PropertyResolver;
+import java.util.Properties;
+
+import javax.sql.DataSource;
+
 import org.flywaydb.core.Flyway;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.context.annotation.Bean;
@@ -13,8 +16,7 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.sql.DataSource;
-import java.util.Properties;
+import com.sam.jcc.cloud.i.PropertyResolver;
 
 /**
  * @author Alexey Zhytnik
@@ -69,9 +71,16 @@ public class DatabaseConfiguration {
     private Properties getHibernateProperties() {
         final Properties props = new Properties();
 
-        props.put("hibernate.dialect", property("hibernate.dialect"));
-        props.put("hibernate.show_sql", property("hibernate.show_sql"));
-        props.put("hibernate.hbm2ddl.auto", property("hibernate.hbm2ddl.auto"));
+        // TODO fix Issue #3
+//        props.put("hibernate.dialect", property("hibernate.dialect"));
+//        props.put("hibernate.show_sql", property("hibernate.show_sql"));
+//        props.put("hibernate.hbm2ddl.auto", property("hibernate.hbm2ddl.auto"));
+        
+        props.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
+        props.put("hibernate.show_sql", "true");
+        props.put("hibernate.hbm2ddl.auto", "update");
+        
+        
         return props;
     }
 

@@ -1,15 +1,17 @@
 package com.sam.jcc.cloud.i;
 
-import lombok.Setter;
+import static com.google.common.collect.Maps.newHashMap;
+
+import java.util.Map;
+import java.util.Properties;
+
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import java.util.Map;
-import java.util.Properties;
-
-import static com.google.common.collect.Maps.newHashMap;
+import lombok.Setter;
 
 /**
  * @author Alexey Zhytnik
@@ -19,10 +21,12 @@ import static com.google.common.collect.Maps.newHashMap;
 class TranslationResolver {
 
     @Setter
-    private String resource = PropertyResolver.getProperty("cloud.translations");
+    // TODO fix 
+    // private String resource = PropertyResolver.getProperty("cloud.translations");
+    private String resource = "translations.yml";
 
-    private Map<String, Map<String, String>> names = newHashMap();
-    private Map<String, Map<String, String>> descriptions = newHashMap();
+    private final Map<String, Map<String, String>> names = newHashMap();
+    private final Map<String, Map<String, String>> descriptions = newHashMap();
 
     @PostConstruct
     public void setUp() {
