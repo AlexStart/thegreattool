@@ -1,6 +1,10 @@
 package com.sam.jcc.cloud.project;
 
-import com.sam.jcc.cloud.i.project.IProjectMetadata;
+import static com.google.common.collect.Lists.newArrayList;
+import static com.sam.jcc.cloud.project.ProjectMetadataHelper.gradleProject;
+import static com.sam.jcc.cloud.project.ProjectMetadataHelper.mavenProject;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,10 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static com.google.common.collect.Lists.newArrayList;
-import static com.sam.jcc.cloud.project.ProjectMetadataHelper.gradleProject;
-import static com.sam.jcc.cloud.project.ProjectMetadataHelper.mavenProject;
-import static org.assertj.core.api.Assertions.assertThat;
+import com.sam.jcc.cloud.i.project.IProjectMetadata;
+import com.sam.jcc.cloud.project.impl.GradleProjectProvider;
+import com.sam.jcc.cloud.project.impl.MavenProjectProvider;
 
 /**
  * @author Alexey Zhytnik
@@ -23,19 +26,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ProjectProviderCRUDTest {
 
     @Autowired
-    ProjectProvider provider;
+    MavenProjectProvider mavenProvider;
+    
+    @Autowired
+    GradleProjectProvider gradleProvider;    
 
     ProjectMetadata metadata = mavenProject();
 
     @Before
     public void setUp() {
-        provider.create(metadata);
+    	mavenProvider.create(metadata);
     }
 
     @After
     public void tearDown() {
         try {
-            provider.delete(metadata);
+        	mavenProvider.delete(metadata);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -43,15 +49,15 @@ public class ProjectProviderCRUDTest {
 
     @Test
     public void creates() {
-        final IProjectMetadata metadata = provider.create(gradleProject());
+        final IProjectMetadata metadata = gradleProvider.create(gradleProject());
         assertThat(metadata).isNotNull();
 
-        provider.delete(metadata);
+        gradleProvider.delete(metadata);
     }
 
     @Test
     public void reads() {
-        final ProjectMetadata m = loadProject();
+        final ProjectMetadata m = loadMavenProject();
 
         assertThat(m.getJavaVersion()).isEqualTo("1.8");
         assertThat(m.getArtifactId()).isEqualTo("demo-maven-project");
@@ -69,31 +75,31 @@ public class ProjectProviderCRUDTest {
 
     @Test
     public void updates() {
-        final ProjectMetadata m = loadProject();
+        final ProjectMetadata m = loadMavenProject();
         m.setDependencies(newArrayList("aop", "jpa"));
 
-        final ProjectMetadata created = (ProjectMetadata) provider.update(m);
+        final ProjectMetadata created = (ProjectMetadata) mavenProvider.update(m);
 
         assertThat(created.getDependencies()).containsOnly("aop", "jpa");
-        assertThat(provider.findAll()).hasSize(1);
+        assertThat(mavenProvider.findAll()).hasSize(1);
     }
 
     @Test
     public void findsAll() {
-        assertThat(provider.findAll()).isNotEmpty();
+        assertThat(mavenProvider.findAll()).isNotEmpty();
     }
 
     @Test
     public void deletes() {
-        provider.delete(metadata);
-        assertThat(provider.findAll()).isEmpty();
+    	mavenProvider.delete(metadata);
+        assertThat(mavenProvider.findAll()).isEmpty();
     }
 
-    ProjectMetadata loadProject() {
+    ProjectMetadata loadMavenProject() {
         final ProjectMetadata m = new ProjectMetadata();
         m.setGroupId("com.example");
         m.setArtifactId("demo-maven-project");
         m.setProjectType("maven-project");
-        return (ProjectMetadata) provider.read(m);
+        return (ProjectMetadata) mavenProvider.read(m);
     }
 }

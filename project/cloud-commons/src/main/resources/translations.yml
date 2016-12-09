@@ -1,7 +1,14 @@
-ProjectProvider:
+MavenProjectProvider:
   name:
-    ru: "Java генератор проектов"
-    en: "Java Project Generator"
+    ru: "Maven Java проект"
+    en: "Maven Java Project"
   description:
-    ru: "Генератор Java-проектов на основе Spring Initializr"
-    en: "Java project generator based on Spring Initializr"
+    ru: "Генератор Maven-Java проектов на основе Spring Initializr"
+    en: "Maven Java project generator based on Spring Initializr"
+GradleProjectProvider:
+  name:
+    ru: "Gradle Java проекто"
+    en: "Gradle Java Project"
+  description:
+    ru: "Генератор Gradle-Java проектов на основе Spring Initializr"
+    en: "Gradle Java project generator based on Spring Initializr"   

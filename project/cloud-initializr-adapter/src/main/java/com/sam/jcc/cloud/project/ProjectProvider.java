@@ -1,24 +1,26 @@
 package com.sam.jcc.cloud.project;
 
+import static com.sam.jcc.cloud.project.ProjectStatus.POST_PROCESSED;
+import static com.sam.jcc.cloud.project.ProjectStatus.PRE_PROCESSED;
+import static com.sam.jcc.cloud.project.ProjectStatus.PROCESSED;
+import static com.sam.jcc.cloud.project.ProjectStatus.UNPROCESSED;
+import static java.lang.String.format;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.sam.jcc.cloud.i.AbstractProvider;
 import com.sam.jcc.cloud.i.ICRUD;
 import com.sam.jcc.cloud.i.IEventManager;
 import com.sam.jcc.cloud.i.InternalCloudException;
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import com.sam.jcc.cloud.i.project.IProjectProvider;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.util.List;
-
-import static com.sam.jcc.cloud.project.ProjectStatus.*;
-import static java.lang.String.format;
 
 /**
  * @author Alec Kotovich
  */
-@Component
-public class ProjectProvider extends AbstractProvider<IProjectMetadata> implements IProjectProvider {
+public abstract class ProjectProvider extends AbstractProvider<IProjectMetadata> implements IProjectProvider {
 
     @Autowired
     private ProjectBuilder builder;
@@ -43,9 +45,7 @@ public class ProjectProvider extends AbstractProvider<IProjectMetadata> implemen
     }
 
     @Override
-    public boolean supports(IProjectMetadata m) {
-        return isSupported(m);
-    }
+    public abstract boolean supports(IProjectMetadata m);
 
     @Override
     public IProjectMetadata create(IProjectMetadata metadata) {
@@ -119,22 +119,11 @@ public class ProjectProvider extends AbstractProvider<IProjectMetadata> implemen
     }
 
     private ProjectMetadata asProjectMetadata(IProjectMetadata metadata) {
-        if (!isSupported(metadata)) {
+        if (!supports(metadata)) {
             throw new InternalCloudException("Incorrect execution, in normal case " +
                     "can't execute here, don't support " + metadata);
         }
         return (ProjectMetadata) metadata;
     }
 
-    private boolean isSupported(IProjectMetadata metadata) {
-        if (!(metadata instanceof ProjectMetadata)) return false;
-
-        final ProjectMetadata m = (ProjectMetadata) metadata;
-        final String name = m.getProjectType();
-        return isGradleOrMaven(name);
-    }
-
-    private boolean isGradleOrMaven(String name) {
-        return name != null && (name.equals("maven-project") || name.equals("gradle-project"));
-    }
 }

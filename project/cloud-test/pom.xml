@@ -11,7 +11,7 @@
 	</parent>
 
 	<artifactId>cloud-test</artifactId>
-	<name>SaM Java Cloud :: Cloud Test</name>
+	<name>SaM Java Cloud :: Cloud Tests</name>
 
 	<properties>
 		<spring.boot.version>1.4.2.RELEASE</spring.boot.version>

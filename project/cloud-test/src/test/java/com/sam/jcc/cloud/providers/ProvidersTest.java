@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.sam.jcc.cloud.i.IProvider;
+import com.sam.jcc.cloud.i.project.IProjectProvider;
 
 /**
  * @author olegk
@@ -27,9 +28,19 @@ public class ProvidersTest {
 	@Autowired
 	private List<IProvider<?>> providers;
 
+	@Autowired
+	private List<IProjectProvider> projectProviders;
+
 	@Test
 	public void listProvidersTest() {
 		assertNotNull(providers);
-		assertEquals(1, providers.size());
+		assertEquals(2, providers.size());
 	}
+
+	@Test
+	public void listPProjectProvidersTest() {
+		assertNotNull(projectProviders);
+		assertEquals(2, projectProviders.size());
+	}
+
 }
