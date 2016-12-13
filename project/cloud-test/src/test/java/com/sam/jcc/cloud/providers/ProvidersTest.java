@@ -19,6 +19,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.sam.jcc.cloud.crud.ICRUD;
 import com.sam.jcc.cloud.i.IProvider;
+import com.sam.jcc.cloud.i.data.IDataProvider;
+import com.sam.jcc.cloud.i.data.INoSqlDataProvider;
+import com.sam.jcc.cloud.i.data.ISqlDataProvider;
 import com.sam.jcc.cloud.i.project.IProjectProvider;
 import com.sam.jcc.cloud.i.vcs.IVCSProvider;
 import com.sam.jcc.cloud.rules.model.Operation;
@@ -42,10 +45,19 @@ public class ProvidersTest {
 	@Autowired
 	private List<IVCSProvider> vcsProviders;
 
+	@Autowired
+	private List<IDataProvider> dataProviders;
+
+	@Autowired
+	private List<ISqlDataProvider> sqlDataProviders;
+
+	@Autowired
+	private List<INoSqlDataProvider> noSqlDataProviders;
+
 	@Test
 	public void listProvidersTest() {
 		assertNotNull(providers);
-		assertEquals(4, providers.size());
+		assertEquals(6, providers.size());
 	}
 
 	@Test
@@ -60,6 +72,19 @@ public class ProvidersTest {
 		assertNotNull(vcsProviders);
 		assertEquals(2, vcsProviders.size());
 		vcsProviders.stream().map(p -> p.getI18NName()).forEach(System.out::println);
+	}
+
+	@Test
+	public void listDataProvidersTest() {
+		assertNotNull(dataProviders);
+		assertEquals(2, dataProviders.size());
+		dataProviders.stream().map(p -> p.getI18NName()).forEach(System.out::println);
+		// sql
+		assertNotNull(sqlDataProviders);
+		assertEquals(1, sqlDataProviders.size());
+		// nosql
+		assertNotNull(noSqlDataProviders);
+		assertEquals(1, noSqlDataProviders.size());
 	}
 
 	@Test
@@ -117,7 +142,7 @@ public class ProvidersTest {
 		assertNull(fromXML.getOperation());
 		assertNotNull(fromXML.getRules());
 		assertEquals(4 * providers.size(), fromXML.getRules().size());
-		for(Rule fromXMLRule : fromXML.getRules()) {
+		for (Rule fromXMLRule : fromXML.getRules()) {
 			assertNotNull(fromXMLRule.getRules());
 			assertEquals(4 * providers.size(), fromXMLRule.getRules().size());
 		}

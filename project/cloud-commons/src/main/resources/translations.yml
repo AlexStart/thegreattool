@@ -26,3 +26,17 @@ GitProtocolProvider:
   description:
     ru: "Git репозиторий (git://)"
     en: "Git Repository (git://)"                  
+MySqlDataProvider:
+  name:
+    ru: "MySQL"
+    en: "MySQL"
+  description:
+    ru: "MySQL(SQL)"
+    en: "MySQL(SQL)"
+MongoDataProvider:
+  name:
+    ru: "MongoDB"
+    en: "MongoDB"
+  description:
+    ru: "NoSQL"
+    en: "NoSQL"                      
