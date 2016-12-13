@@ -1,6 +1,6 @@
 package com.sam.jcc.cloud.vcs;
 
-import com.sam.jcc.cloud.i.CloudException;
+import com.sam.jcc.cloud.exception.CloudException;
 
 /**
  * @author Alexey Zhytnik

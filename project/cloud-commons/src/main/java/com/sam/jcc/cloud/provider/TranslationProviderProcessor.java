@@ -1,12 +1,16 @@
-package com.sam.jcc.cloud.i;
+package com.sam.jcc.cloud.provider;
+
+import static java.util.Objects.isNull;
+
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
-
-import static java.util.Objects.isNull;
+import com.sam.jcc.cloud.TranslationResolver;
+import com.sam.jcc.cloud.exception.InternalCloudException;
+import com.sam.jcc.cloud.i.IProvider;
 
 /**
  * @author Alexey Zhytnik

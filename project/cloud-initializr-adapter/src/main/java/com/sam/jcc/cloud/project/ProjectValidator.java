@@ -1,12 +1,13 @@
 package com.sam.jcc.cloud.project;
 
-import com.sam.jcc.cloud.i.BusinessCloudException;
 import io.spring.initializr.generator.ProjectRequest;
 import io.spring.initializr.generator.ProjectRequestResolver;
 import io.spring.initializr.metadata.InitializrMetadata;
 import io.spring.initializr.metadata.InitializrMetadataProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.sam.jcc.cloud.exception.BusinessCloudException;
 
 /**
  * @author Alexey Zhytnik

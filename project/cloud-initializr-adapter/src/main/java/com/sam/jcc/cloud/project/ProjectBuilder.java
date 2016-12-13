@@ -1,6 +1,6 @@
 package com.sam.jcc.cloud.project;
 
-import com.sam.jcc.cloud.i.InternalCloudException;
+import com.sam.jcc.cloud.exception.InternalCloudException;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
 import org.springframework.beans.factory.annotation.Autowired;

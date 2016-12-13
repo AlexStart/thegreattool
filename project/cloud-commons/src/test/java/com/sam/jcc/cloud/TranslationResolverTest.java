@@ -1,6 +1,10 @@
-package com.sam.jcc.cloud.i;
+package com.sam.jcc.cloud;
 
+import com.sam.jcc.cloud.TranslationResolver;
+import com.sam.jcc.cloud.i.IEventManager;
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
+import com.sam.jcc.cloud.provider.AbstractProvider;
+
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,12 +1,13 @@
 package com.sam.jcc.cloud.utils.files;
 
-import com.sam.jcc.cloud.i.InternalCloudException;
 import lombok.extern.slf4j.Slf4j;
 import net.lingala.zip4j.exception.ZipException;
 import net.lingala.zip4j.model.ZipParameters;
 import net.lingala.zip4j.util.Zip4jConstants;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Component;
+
+import com.sam.jcc.cloud.exception.InternalCloudException;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package com.sam.jcc.cloud.i.project;
+package com.sam.jcc.cloud.i;
 
 /**
  * @author Alexey Zhytnik

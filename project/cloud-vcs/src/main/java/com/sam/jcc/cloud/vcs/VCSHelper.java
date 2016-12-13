@@ -1,5 +1,12 @@
 package com.sam.jcc.cloud.vcs;
 
+import static java.text.MessageFormat.format;
+import static java.util.Arrays.stream;
+
+import java.io.File;
+import java.util.Arrays;
+import java.util.Map.Entry;
+
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.TempFile;
 import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
@@ -8,26 +15,20 @@ import com.sam.jcc.cloud.vcs.git.GitFileStorage;
 import com.sam.jcc.cloud.vcs.git.GitRemoteStorage;
 import com.sam.jcc.cloud.vcs.git.GitVCS;
 
-import java.io.File;
-import java.util.Arrays;
-import java.util.Map.Entry;
-
-import static java.text.MessageFormat.format;
-import static java.util.Arrays.stream;
-
 /**
  * @author Alexey Zhytnik
  * @since 29.11.2016
  */
-public class VCSProvider {
+@Deprecated
+public class VCSHelper {
 
     private static ZipArchiveManager zipManager = new ZipArchiveManager();
 
-    private FileManager files;
-    private ProjectParser parser;
-    private VCS<VCSCredentialsProvider> vcs;
+    private final FileManager files;
+    private final ProjectParser parser;
+    private final VCS<VCSCredentials> vcs;
 
-    public VCSProvider(String protocol) {
+    public VCSHelper(String protocol) {
         files = new FileManager();
         parser = new ProjectParser();
         vcs = new GitVCS();
@@ -35,7 +36,7 @@ public class VCSProvider {
         setUpStorageByProtocol(protocol);
     }
 
-    VCSProvider(VCSStorage<VCSCredentialsProvider> storage) {
+    VCSHelper(VCSStorage<VCSCredentials> storage) {
         files = new FileManager();
         parser = new ProjectParser();
 
@@ -68,7 +69,7 @@ public class VCSProvider {
         failOnNotExistence(operation, "create", "read", "update", "delete");
         failOnSimpleFile(project);
 
-        new VCSProvider(protocol).execute(vcs, protocol, operation, project);
+        new VCSHelper(protocol).execute(vcs, protocol, operation, project);
     }
 
     private static void failOnIllegalFormat(String[] args) {

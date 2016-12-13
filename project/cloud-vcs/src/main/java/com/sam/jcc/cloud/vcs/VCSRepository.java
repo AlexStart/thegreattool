@@ -1,11 +1,12 @@
 package com.sam.jcc.cloud.vcs;
 
-import com.sam.jcc.cloud.i.project.IStatusable;
 import lombok.Data;
 
 import java.io.File;
 
-import static com.sam.jcc.cloud.i.PropertyResolver.getProperty;
+import com.sam.jcc.cloud.i.IStatusable;
+
+import static com.sam.jcc.cloud.PropertyResolver.getProperty;
 import static com.sam.jcc.cloud.vcs.VCSRepositoryStatus.INITIALIZED;
 
 /**

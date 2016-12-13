@@ -6,7 +6,7 @@ import java.util.Optional;
  * @author Alexey Zhytnik
  * @since 28.11.2016
  */
-public interface VCSStorage<CP extends VCSCredentialsProvider> {
+public interface VCSStorage<CP extends VCSCredentials> {
 
     void create(VCSRepository repo);
 

@@ -29,7 +29,7 @@ public class VCSProviderTest {
     @Rule
     public SystemOutRule out = new SystemOutRule().enableLog();
 
-    VCSProvider vcsProvider;
+    VCSHelper vcsProvider;
     ZipArchiveManager zipManager;
 
     @Before
@@ -37,7 +37,7 @@ public class VCSProviderTest {
         final GitFileStorage localGit = new GitFileStorage();
         localGit.setBaseRepository(temp.newFolder());
 
-        vcsProvider = new VCSProvider(localGit);
+        vcsProvider = new VCSHelper(localGit);
         zipManager = new ZipArchiveManager();
     }
 

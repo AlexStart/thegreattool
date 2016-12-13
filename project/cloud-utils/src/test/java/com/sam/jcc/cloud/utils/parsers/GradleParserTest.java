@@ -1,7 +1,8 @@
 package com.sam.jcc.cloud.utils.parsers;
 
 import com.google.common.io.Resources;
-import com.sam.jcc.cloud.i.BusinessCloudException;
+import com.sam.jcc.cloud.exception.BusinessCloudException;
+
 import org.junit.Test;
 
 import java.nio.charset.Charset;

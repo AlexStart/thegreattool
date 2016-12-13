@@ -22,7 +22,7 @@ import static java.util.Optional.of;
  */
 @Setter
 @Experimental("Integration with a GitLab storage")
-public class GitLabServer implements VCSStorage<GitCredentialsProvider> {
+public class GitLabServer implements VCSStorage<GitCredentials> {
 
     private String host;
     private String user;
@@ -61,8 +61,8 @@ public class GitLabServer implements VCSStorage<GitCredentialsProvider> {
     }
 
     @Override
-    public Optional<GitCredentialsProvider> getCredentialsProvider() {
-        return of(new GitCredentialsProvider(user, password));
+    public Optional<GitCredentials> getCredentialsProvider() {
+        return of(new GitCredentials(user, password));
     }
 
     @Override

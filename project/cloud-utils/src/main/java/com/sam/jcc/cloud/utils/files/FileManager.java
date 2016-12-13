@@ -16,7 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import com.google.common.io.Files;
-import com.sam.jcc.cloud.i.InternalCloudException;
+import com.sam.jcc.cloud.exception.InternalCloudException;
 
 import lombok.extern.slf4j.Slf4j;
 

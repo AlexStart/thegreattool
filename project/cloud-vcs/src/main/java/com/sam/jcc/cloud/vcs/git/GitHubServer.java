@@ -1,8 +1,8 @@
 package com.sam.jcc.cloud.vcs.git;
 
+import com.sam.jcc.cloud.PropertyResolver;
+import com.sam.jcc.cloud.exception.InternalCloudException;
 import com.sam.jcc.cloud.i.Experimental;
-import com.sam.jcc.cloud.i.InternalCloudException;
-import com.sam.jcc.cloud.i.PropertyResolver;
 import com.sam.jcc.cloud.vcs.VCSException;
 import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.VCSStorage;
@@ -25,7 +25,7 @@ import static java.util.Optional.of;
  */
 @Setter
 @Experimental("Integration with GitHub")
-public class GitHubServer implements VCSStorage<GitCredentialsProvider> {
+public class GitHubServer implements VCSStorage<GitCredentials> {
 
     private String user;
     private String token;
@@ -62,8 +62,8 @@ public class GitHubServer implements VCSStorage<GitCredentialsProvider> {
     }
 
     @Override
-    public Optional<GitCredentialsProvider> getCredentialsProvider() {
-        return of(new GitCredentialsProvider(user, password));
+    public Optional<GitCredentials> getCredentialsProvider() {
+        return of(new GitCredentials(user, password));
     }
 
     @Override

@@ -10,12 +10,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.sam.jcc.cloud.i.AbstractProvider;
-import com.sam.jcc.cloud.i.ICRUD;
+import com.sam.jcc.cloud.crud.ICRUD;
+import com.sam.jcc.cloud.exception.InternalCloudException;
 import com.sam.jcc.cloud.i.IEventManager;
-import com.sam.jcc.cloud.i.InternalCloudException;
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import com.sam.jcc.cloud.i.project.IProjectProvider;
+import com.sam.jcc.cloud.provider.AbstractProvider;
 
 /**
  * @author Alec Kotovich

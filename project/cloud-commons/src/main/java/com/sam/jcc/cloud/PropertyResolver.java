@@ -1,13 +1,15 @@
-package com.sam.jcc.cloud.i;
+package com.sam.jcc.cloud;
 
-import com.google.common.annotations.VisibleForTesting;
+import static java.util.Objects.nonNull;
+
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.reloading.FileChangedReloadingStrategy;
 import org.apache.commons.configuration.reloading.ReloadingStrategy;
 import org.springframework.stereotype.Component;
 
-import static java.util.Objects.nonNull;
+import com.google.common.annotations.VisibleForTesting;
+import com.sam.jcc.cloud.exception.InternalCloudException;
 
 /**
  * @author Alexey Zhytnik
@@ -47,7 +49,8 @@ public class PropertyResolver {
         return value;
     }
 
-    @VisibleForTesting static void setReloadingStrategy(ReloadingStrategy strategy){
+    @VisibleForTesting
+	public static void setReloadingStrategy(ReloadingStrategy strategy){
         configuration.setReloadingStrategy(strategy);
     }
 }

@@ -1,7 +1,8 @@
 package com.sam.jcc.cloud.project;
 
+import com.sam.jcc.cloud.i.IStatusable;
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
-import com.sam.jcc.cloud.i.project.IStatusable;
+
 import lombok.Data;
 
 import java.io.File;

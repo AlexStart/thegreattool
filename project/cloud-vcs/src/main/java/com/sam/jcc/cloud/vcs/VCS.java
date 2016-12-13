@@ -4,7 +4,7 @@ package com.sam.jcc.cloud.vcs;
  * @author Alexey Zhytnik
  * @since 25.11.2016
  */
-public interface VCS<CP extends VCSCredentialsProvider> {
+public interface VCS<CP extends VCSCredentials> {
 
     void create(VCSRepository repo);
 

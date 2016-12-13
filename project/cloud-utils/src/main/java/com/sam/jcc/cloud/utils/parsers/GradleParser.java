@@ -1,7 +1,7 @@
 package com.sam.jcc.cloud.utils.parsers;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.sam.jcc.cloud.i.BusinessCloudException;
+import com.sam.jcc.cloud.exception.BusinessCloudException;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;

@@ -10,7 +10,7 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 
 import com.sam.jcc.cloud.utils.files.FileManager;
-import com.sam.jcc.cloud.vcs.VCSCredentialsProvider;
+import com.sam.jcc.cloud.vcs.VCSCredentials;
 import com.sam.jcc.cloud.vcs.VCSException;
 import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.VCSStorage;
@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
  * @since 06.12.2016
  */
 @Slf4j
-abstract class GitAbstractStorage implements VCSStorage<VCSCredentialsProvider> {
+abstract class GitAbstractStorage implements VCSStorage<VCSCredentials> {
 
 	@Getter
 	@Setter
@@ -88,7 +88,7 @@ abstract class GitAbstractStorage implements VCSStorage<VCSCredentialsProvider> 
 	}
 
 	@Override
-	public Optional<VCSCredentialsProvider> getCredentialsProvider() {
+	public Optional<VCSCredentials> getCredentialsProvider() {
 		return empty();
 	}
 

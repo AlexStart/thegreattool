@@ -16,7 +16,7 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.sam.jcc.cloud.i.PropertyResolver;
+import com.sam.jcc.cloud.PropertyResolver;
 
 /**
  * @author Alexey Zhytnik

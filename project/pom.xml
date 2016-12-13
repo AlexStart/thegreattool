@@ -21,6 +21,7 @@
 		<module>initializr</module>
 		<module>cloud-utils</module>
 		<module>cloud-commons</module>
+		<module>cloud-auth</module>
 		<module>cloud-vcs</module>
 		<module>cloud-persistence</module>
 		<module>cloud-initializr-adapter</module>

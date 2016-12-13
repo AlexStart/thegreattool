@@ -1,6 +1,6 @@
 package com.sam.jcc.cloud.project;
 
-import com.sam.jcc.cloud.i.ICRUD;
+import com.sam.jcc.cloud.crud.ICRUD;
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import com.sam.jcc.cloud.persistence.project.ProjectMetadataEntity;
 import com.sam.jcc.cloud.persistence.project.ProjectRepository;

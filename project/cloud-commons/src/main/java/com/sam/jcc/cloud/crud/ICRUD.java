@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.sam.jcc.cloud.i;
+package com.sam.jcc.cloud.crud;
 
 import java.util.List;
 

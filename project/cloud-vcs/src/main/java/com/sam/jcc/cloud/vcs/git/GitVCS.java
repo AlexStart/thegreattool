@@ -1,11 +1,11 @@
 package com.sam.jcc.cloud.vcs.git;
 
-import com.sam.jcc.cloud.event.ILoggable;
 import com.sam.jcc.cloud.i.IEventManager;
+import com.sam.jcc.cloud.i.ILoggable;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.TempFile;
 import com.sam.jcc.cloud.vcs.VCS;
-import com.sam.jcc.cloud.vcs.VCSCredentialsProvider;
+import com.sam.jcc.cloud.vcs.VCSCredentials;
 import com.sam.jcc.cloud.vcs.VCSException;
 import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.VCSRepositoryStatus;
@@ -41,11 +41,11 @@ import static com.google.common.collect.Lists.newArrayList;
  */
 @Slf4j
 @Component
-public class GitVCS implements VCS<VCSCredentialsProvider>, ILoggable{
+public class GitVCS implements VCS<VCSCredentials>, ILoggable{
 
     @Setter
     @Getter
-    private VCSStorage<VCSCredentialsProvider> storage;
+    private VCSStorage<VCSCredentials> storage;
 
     private FileManager files = new FileManager();
 

@@ -1,4 +1,4 @@
-package com.sam.jcc.cloud.i;
+package com.sam.jcc.cloud.exception;
 
 /**
  * @author Alexey Zhytnik

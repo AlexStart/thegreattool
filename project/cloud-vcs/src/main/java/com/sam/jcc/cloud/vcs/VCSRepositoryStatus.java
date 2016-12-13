@@ -1,6 +1,6 @@
 package com.sam.jcc.cloud.vcs;
 
-import com.sam.jcc.cloud.i.project.IStatus;
+import com.sam.jcc.cloud.i.IStatus;
 
 /**
  * @author Alexey Zhytnik

@@ -1,13 +1,15 @@
-package com.sam.jcc.cloud.i;
+package com.sam.jcc.cloud;
 
 import org.apache.commons.configuration.reloading.FileChangedReloadingStrategy;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.sam.jcc.cloud.PropertyResolver;
+
 import java.io.File;
 import java.io.PrintWriter;
 
-import static com.sam.jcc.cloud.i.PropertyResolver.getProperty;
+import static com.sam.jcc.cloud.PropertyResolver.getProperty;
 import static java.lang.Thread.sleep;
 import static org.assertj.core.api.Assertions.assertThat;
 

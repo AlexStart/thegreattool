@@ -1,7 +1,8 @@
 package com.sam.jcc.cloud.utils.parsers;
 
-import com.sam.jcc.cloud.i.BusinessCloudException;
-import com.sam.jcc.cloud.i.InternalCloudException;
+import com.sam.jcc.cloud.exception.BusinessCloudException;
+import com.sam.jcc.cloud.exception.InternalCloudException;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;

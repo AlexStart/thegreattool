@@ -1,4 +1,4 @@
-package com.sam.jcc.cloud.i;
+package com.sam.jcc.cloud;
 
 import static com.google.common.collect.Maps.newHashMap;
 
@@ -11,6 +11,8 @@ import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
+import com.sam.jcc.cloud.i.IProvider;
+
 import lombok.Setter;
 
 /**
@@ -18,7 +20,7 @@ import lombok.Setter;
  * @since 16.11.2016
  */
 @Component
-class TranslationResolver {
+public class TranslationResolver {
 
     @Setter
     // TODO fix 

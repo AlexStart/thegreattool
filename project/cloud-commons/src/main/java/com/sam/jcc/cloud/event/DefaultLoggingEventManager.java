@@ -5,8 +5,10 @@ package com.sam.jcc.cloud.event;
 
 import com.sam.jcc.cloud.i.IEvent;
 import com.sam.jcc.cloud.i.IEventManager;
-import com.sam.jcc.cloud.i.project.IStatus;
-import com.sam.jcc.cloud.i.project.IStatusable;
+import com.sam.jcc.cloud.i.ILoggable;
+import com.sam.jcc.cloud.i.IStatus;
+import com.sam.jcc.cloud.i.IStatusable;
+
 import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
