@@ -1,4 +1,7 @@
-<com.sam.jcc.cloud.rules.model.Rule>
+<?xml version="1.0" encoding="UTF-8"?>
+<com.sam.jcc.cloud.rules.model.Rule
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://jcc.sam.by"
+	xsi:schemaLocation="http://jcc.sam.by ./rules.xsd">
 	<rules>
 		<com.sam.jcc.cloud.rules.model.Rule>
 			<rules>

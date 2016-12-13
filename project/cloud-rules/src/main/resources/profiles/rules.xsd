@@ -1,0 +1,56 @@
+<xs:schema attributeFormDefault="unqualified"
+	elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://jcc.sam.by">
+	<xs:element name="com.sam.jcc.cloud.rules.model.Rule">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="rules">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="com.sam.jcc.cloud.rules.model.Rule"
+								maxOccurs="unbounded" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="rules">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="com.sam.jcc.cloud.rules.model.Rule"
+														maxOccurs="unbounded" minOccurs="0">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element type="xs:string" name="rules" />
+																<xs:element name="operation">
+																	<xs:complexType>
+																		<xs:sequence>
+																			<xs:element type="xs:string" name="name" />
+																			<xs:element type="xs:string" name="operation" />
+																			<xs:element type="xs:string" name="allowed" />
+																		</xs:sequence>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="operation">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element type="xs:string" name="name" />
+													<xs:element type="xs:string" name="operation" />
+													<xs:element type="xs:string" name="allowed" />
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
+
