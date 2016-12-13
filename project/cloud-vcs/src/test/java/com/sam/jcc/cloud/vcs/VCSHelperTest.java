@@ -21,7 +21,7 @@ import com.sam.jcc.cloud.vcs.git.GitFileStorage;
  * @author Alexey Zhytnik
  * @since 02.12.2016
  */
-public class VCSProviderTest {
+public class VCSHelperTest {
 
     @Rule
     public TemporaryFolder temp = new TemporaryFolder();
@@ -29,7 +29,7 @@ public class VCSProviderTest {
     @Rule
     public SystemOutRule out = new SystemOutRule().enableLog();
 
-    VCSHelper vcsProvider;
+    VCSHelper vcsHelper;
     ZipArchiveManager zipManager;
 
     @Before
@@ -37,19 +37,19 @@ public class VCSProviderTest {
         final GitFileStorage localGit = new GitFileStorage();
         localGit.setBaseRepository(temp.newFolder());
 
-        vcsProvider = new VCSHelper(localGit);
+        vcsHelper = new VCSHelper(localGit);
         zipManager = new ZipArchiveManager();
     }
 
     @Test
     public void creates() {
-        vcsProvider.execute("git", "file", "create", project());
+        vcsHelper.execute("git", "file", "create", project());
     }
 
     @Test
     public void reads() {
-        vcsProvider.execute("git", "file", "create", project());
-        vcsProvider.execute("git", "file", "read", project());
+        vcsHelper.execute("git", "file", "create", project());
+        vcsHelper.execute("git", "file", "read", project());
 
         try (TempFile zip = new TempFile(out.getLog())) {
             assertThat(zip).exists();
@@ -58,24 +58,24 @@ public class VCSProviderTest {
 
     @Test
     public void deletes() {
-        vcsProvider.execute("git", "file", "create", project());
-        vcsProvider.execute("git", "file", "delete", project());
+        vcsHelper.execute("git", "file", "create", project());
+        vcsHelper.execute("git", "file", "delete", project());
     }
 
     @Test(expected = VCSException.class)
     public void failsOnReadUnknownProject() {
-        vcsProvider.execute("git", "file", "read", project());
+        vcsHelper.execute("git", "file", "read", project());
     }
 
     @Test(expected = VCSException.class)
     public void failsOnDeleteUnknownProject() {
-        vcsProvider.execute("git", "file", "delete", project());
+        vcsHelper.execute("git", "file", "delete", project());
     }
 
     @Test
     public void worksWithoutChanges() throws IOException {
-        vcsProvider.execute("git", "file", "create", project());
-        vcsProvider.execute("git", "file", "read", project());
+        vcsHelper.execute("git", "file", "create", project());
+        vcsHelper.execute("git", "file", "read", project());
 
         try (TempFile zip = new TempFile(out.getLog())) {
             checkZipContents(project(), zip);
@@ -84,9 +84,9 @@ public class VCSProviderTest {
 
     @Test
     public void updates() throws IOException {
-        vcsProvider.execute("git", "file", "create", project());
-        vcsProvider.execute("git", "file", "update", changedProject());
-        vcsProvider.execute("git", "file", "read", project());
+        vcsHelper.execute("git", "file", "create", project());
+        vcsHelper.execute("git", "file", "update", changedProject());
+        vcsHelper.execute("git", "file", "read", project());
 
         try (TempFile zip = new TempFile(out.getLog())) {
             checkZipContents(changedProject(), zip);
