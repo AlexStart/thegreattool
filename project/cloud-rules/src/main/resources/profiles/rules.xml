@@ -1,0 +1,2468 @@
+<com.sam.jcc.cloud.rules.model.Rule>
+	<rules>
+		<com.sam.jcc.cloud.rules.model.Rule>
+			<rules>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+			</rules>
+			<operation>
+				<name>create</name>
+				<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+				</operation>
+				<allowed>false</allowed>
+			</operation>
+		</com.sam.jcc.cloud.rules.model.Rule>
+		<com.sam.jcc.cloud.rules.model.Rule>
+			<rules>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+			</rules>
+			<operation>
+				<name>read</name>
+				<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+				</operation>
+				<allowed>false</allowed>
+			</operation>
+		</com.sam.jcc.cloud.rules.model.Rule>
+		<com.sam.jcc.cloud.rules.model.Rule>
+			<rules>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+			</rules>
+			<operation>
+				<name>update</name>
+				<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+				</operation>
+				<allowed>false</allowed>
+			</operation>
+		</com.sam.jcc.cloud.rules.model.Rule>
+		<com.sam.jcc.cloud.rules.model.Rule>
+			<rules>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+			</rules>
+			<operation>
+				<name>delete</name>
+				<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+				</operation>
+				<allowed>false</allowed>
+			</operation>
+		</com.sam.jcc.cloud.rules.model.Rule>
+		<com.sam.jcc.cloud.rules.model.Rule>
+			<rules>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+			</rules>
+			<operation>
+				<name>create</name>
+				<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+				</operation>
+				<allowed>false</allowed>
+			</operation>
+		</com.sam.jcc.cloud.rules.model.Rule>
+		<com.sam.jcc.cloud.rules.model.Rule>
+			<rules>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+			</rules>
+			<operation>
+				<name>read</name>
+				<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+				</operation>
+				<allowed>false</allowed>
+			</operation>
+		</com.sam.jcc.cloud.rules.model.Rule>
+		<com.sam.jcc.cloud.rules.model.Rule>
+			<rules>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+			</rules>
+			<operation>
+				<name>update</name>
+				<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+				</operation>
+				<allowed>false</allowed>
+			</operation>
+		</com.sam.jcc.cloud.rules.model.Rule>
+		<com.sam.jcc.cloud.rules.model.Rule>
+			<rules>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+			</rules>
+			<operation>
+				<name>delete</name>
+				<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+				</operation>
+				<allowed>false</allowed>
+			</operation>
+		</com.sam.jcc.cloud.rules.model.Rule>
+		<com.sam.jcc.cloud.rules.model.Rule>
+			<rules>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+			</rules>
+			<operation>
+				<name>create</name>
+				<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+				</operation>
+				<allowed>false</allowed>
+			</operation>
+		</com.sam.jcc.cloud.rules.model.Rule>
+		<com.sam.jcc.cloud.rules.model.Rule>
+			<rules>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+			</rules>
+			<operation>
+				<name>read</name>
+				<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+				</operation>
+				<allowed>false</allowed>
+			</operation>
+		</com.sam.jcc.cloud.rules.model.Rule>
+		<com.sam.jcc.cloud.rules.model.Rule>
+			<rules>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+			</rules>
+			<operation>
+				<name>update</name>
+				<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+				</operation>
+				<allowed>false</allowed>
+			</operation>
+		</com.sam.jcc.cloud.rules.model.Rule>
+		<com.sam.jcc.cloud.rules.model.Rule>
+			<rules>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+			</rules>
+			<operation>
+				<name>delete</name>
+				<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+				</operation>
+				<allowed>false</allowed>
+			</operation>
+		</com.sam.jcc.cloud.rules.model.Rule>
+		<com.sam.jcc.cloud.rules.model.Rule>
+			<rules>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+			</rules>
+			<operation>
+				<name>create</name>
+				<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+				</operation>
+				<allowed>false</allowed>
+			</operation>
+		</com.sam.jcc.cloud.rules.model.Rule>
+		<com.sam.jcc.cloud.rules.model.Rule>
+			<rules>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+			</rules>
+			<operation>
+				<name>read</name>
+				<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+				</operation>
+				<allowed>false</allowed>
+			</operation>
+		</com.sam.jcc.cloud.rules.model.Rule>
+		<com.sam.jcc.cloud.rules.model.Rule>
+			<rules>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+			</rules>
+			<operation>
+				<name>update</name>
+				<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+				</operation>
+				<allowed>false</allowed>
+			</operation>
+		</com.sam.jcc.cloud.rules.model.Rule>
+		<com.sam.jcc.cloud.rules.model.Rule>
+			<rules>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.project.impl.GradleProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.project.impl.MavenProjectProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>create</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>read</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>update</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+				<com.sam.jcc.cloud.rules.model.Rule>
+					<rules />
+					<operation>
+						<name>delete</name>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+						</operation>
+						<allowed>false</allowed>
+					</operation>
+				</com.sam.jcc.cloud.rules.model.Rule>
+			</rules>
+			<operation>
+				<name>delete</name>
+				<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider
+				</operation>
+				<allowed>false</allowed>
+			</operation>
+		</com.sam.jcc.cloud.rules.model.Rule>
+	</rules>
+</com.sam.jcc.cloud.rules.model.Rule>
