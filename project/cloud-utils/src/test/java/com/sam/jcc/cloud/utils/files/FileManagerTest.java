@@ -8,6 +8,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 import java.io.File;
 import java.io.IOException;
 
+import com.sam.jcc.cloud.exception.InternalCloudException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -111,5 +112,16 @@ public class FileManagerTest {
         fileManager.write(content, file);
 
         assertThat(file).hasBinaryContent(content);
+    }
+
+    @Test(expected = InternalCloudException.class)
+    public void failsOnUnknownResource(){
+        fileManager.getResource(getClass(), "unknown resource");
+    }
+
+    @Test
+    public void loadsResource(){
+        final File resource = fileManager.getResource(getClass(), "/gradle-project.zip");
+        assertThat(resource).isNotNull().exists();
     }
 }
