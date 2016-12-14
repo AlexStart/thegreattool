@@ -8,11 +8,11 @@ import static org.apache.commons.io.filefilter.FileFileFilter.FILE;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 import com.google.common.io.Files;
@@ -106,13 +106,12 @@ public class FileManager {
 		}
 	}
 
-	public File getResource(Class<?> clazz, String resource) {
+	public File getResource(Class<?> clazz, String path) {
 		try {
-			final URL url = clazz.getResource(resource);
-			return new File(url.toURI());
-		} catch (Exception e) {
-			// TODO Fix Issue #2
-			throw new RuntimeException(e);
+			final ClassPathResource resource = new ClassPathResource(path, clazz);
+			return resource.getFile();
+		} catch (IOException e) {
+			throw new InternalCloudException(e);
 		}
 	}
 
