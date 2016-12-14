@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import com.sam.jcc.cloud.PropertyResolver;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.ClassPathResource;
@@ -28,11 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class FileManager {
 
-	// TODO fix issue #3
-	// private final String fileProtocol =
-	// PropertyResolver.getProperty("protocols.file");
-
-	private final String fileProtocol = "file://";
+	 private final String fileProtocol = PropertyResolver.getProperty("protocols.file");
 
 	public File getFileByUri(String uri) {
 		if (!uri.startsWith(fileProtocol)) {

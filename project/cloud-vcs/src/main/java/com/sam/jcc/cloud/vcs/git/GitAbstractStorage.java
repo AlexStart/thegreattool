@@ -6,6 +6,7 @@ import static java.util.Optional.empty;
 import java.io.File;
 import java.util.Optional;
 
+import com.sam.jcc.cloud.PropertyResolver;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 
@@ -95,12 +96,7 @@ abstract class GitAbstractStorage implements VCSStorage<VCSCredentials> {
 	public void installBaseRepository() {
 		log.info("Extracting base repository folder");
 
-		// TODO fix issue #3
-		// final String path =
-		// PropertyResolver.getProperty("repository.base.folder");
-
-		final String path = System.getProperty("user.home") + "/.local_repositories";
-
+		final String path = PropertyResolver.getProperty("repository.base.folder");
 		final File base = new File(path);
 
 		if (!base.exists()) {
