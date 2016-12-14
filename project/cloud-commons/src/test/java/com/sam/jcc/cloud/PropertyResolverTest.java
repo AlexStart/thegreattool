@@ -1,15 +1,14 @@
 package com.sam.jcc.cloud;
 
+import com.sam.jcc.cloud.exception.InternalCloudException;
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.reloading.FileChangedReloadingStrategy;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.sam.jcc.cloud.PropertyResolver;
-
 import java.io.File;
 import java.io.PrintWriter;
 
-import static com.sam.jcc.cloud.PropertyResolver.getProperty;
 import static java.lang.Thread.sleep;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -19,20 +18,40 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class PropertyResolverTest {
 
+    static final String EXIST_KEY = "cloud.translations";
+
+    PropertyResolver resolver;
+
     @Before
-    public void setUpStrategy(){
-        final FileChangedReloadingStrategy s = new FileChangedReloadingStrategy();
-        s.setRefreshDelay(100);
-        PropertyResolver.setReloadingStrategy(s);
+    public void setUpStrategy() throws Exception {
+        final FileChangedReloadingStrategy strategy = new FileChangedReloadingStrategy();
+        strategy.setRefreshDelay(100L);
+        final PropertiesConfiguration configuration = new PropertiesConfiguration(getPropertyFile());
+        configuration.setReloadingStrategy(strategy);
+
+        resolver = new PropertyResolver(configuration);
     }
 
     @Test
-    public void test() throws Exception {
+    public void updates() throws Exception {
         rewriteConfig("value=initial_value");
-        assertThat(getProperty("value")).isEqualTo("initial_value");
+        assertThat(resolver.getValue("value")).isEqualTo("initial_value");
 
         rewriteConfig("value=updated_value");
-        assertThat(getProperty("value")).isEqualTo("updated_value");
+        assertThat(resolver.getValue("value")).isEqualTo("updated_value");
+    }
+
+    @Test(expected = InternalCloudException.class)
+    public void failsOnUnknown() throws Exception {
+        rewriteConfig("");
+        resolver.getValue("value");
+    }
+
+    @Test
+    public void getsProperty() {
+        assertThat(PropertyResolver.getProperty(EXIST_KEY))
+                .isNotNull()
+                .isNotEmpty();
     }
 
     void rewriteConfig(String content) throws Exception {
@@ -43,6 +62,6 @@ public class PropertyResolverTest {
     }
 
     File getPropertyFile() throws Exception {
-        return new File(getClass().getResource("/cloud.properties").toURI());
+        return new File(getClass().getResource("/test.properties").toURI());
     }
 }

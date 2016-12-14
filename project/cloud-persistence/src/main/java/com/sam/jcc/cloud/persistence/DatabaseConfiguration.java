@@ -71,16 +71,9 @@ public class DatabaseConfiguration {
     private Properties getHibernateProperties() {
         final Properties props = new Properties();
 
-        // TODO fix Issue #3
-//        props.put("hibernate.dialect", property("hibernate.dialect"));
-//        props.put("hibernate.show_sql", property("hibernate.show_sql"));
-//        props.put("hibernate.hbm2ddl.auto", property("hibernate.hbm2ddl.auto"));
-        
-        props.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
-        props.put("hibernate.show_sql", "true");
-        props.put("hibernate.hbm2ddl.auto", "update");
-        
-        
+        props.put("hibernate.dialect", property("hibernate.dialect"));
+        props.put("hibernate.show_sql", property("hibernate.show_sql"));
+        props.put("hibernate.hbm2ddl.auto", property("hibernate.hbm2ddl.auto"));
         return props;
     }
 
