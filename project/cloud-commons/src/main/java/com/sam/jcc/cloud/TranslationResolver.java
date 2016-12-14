@@ -23,9 +23,7 @@ import lombok.Setter;
 public class TranslationResolver {
 
     @Setter
-    // TODO fix 
-    // private String resource = PropertyResolver.getProperty("cloud.translations");
-    private String resource = "translations.yml";
+    private String resource = PropertyResolver.getProperty("cloud.translations");
 
     private final Map<String, Map<String, String>> names = newHashMap();
     private final Map<String, Map<String, String>> descriptions = newHashMap();
