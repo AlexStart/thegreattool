@@ -17,6 +17,7 @@
 	<properties>
 		<spring.boot.version>1.4.2.RELEASE</spring.boot.version>
 		<spring.initializr.version>1.0.0.BUILD-SNAPSHOT</spring.initializr.version>
+		<flapdoodle.embed.mongo.version>1.50.5</flapdoodle.embed.mongo.version>
 	</properties>
 
 	<dependencies>
@@ -36,18 +37,18 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-        <dependency>
-            <groupId>com.sam.jcc</groupId>
-            <artifactId>cloud-persistence</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>com.sam.jcc</groupId>
+			<artifactId>cloud-persistence</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
-        <!-- Java-code generation -->
-        <dependency>
-            <groupId>com.squareup</groupId>
-            <artifactId>javapoet</artifactId>
-            <version>1.8.0</version>
-        </dependency>
+		<!-- Java-code generation -->
+		<dependency>
+			<groupId>com.squareup</groupId>
+			<artifactId>javapoet</artifactId>
+			<version>1.8.0</version>
+		</dependency>
 
 		<dependency>
 			<groupId>io.spring.initializr</groupId>
@@ -75,6 +76,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-test</artifactId>
 			<version>${spring.boot.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>de.flapdoodle.embed</groupId>
+			<artifactId>de.flapdoodle.embed.mongo</artifactId>
+			<version>${flapdoodle.embed.mongo.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
