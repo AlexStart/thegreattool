@@ -19,7 +19,6 @@ import io.spring.initializr.metadata.InitializrMetadataProvider;
  */
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
-@Ignore // fix  Issue #4  
 public class StarterTest {
 
     @Autowired
