@@ -34,7 +34,7 @@ class ProjectMetadataHelper {
         project.setProjectName("demo_app");
         project.setVersion("0.0.1-SNAPSHOT");
         project.setWebAppPackaging(false);
-        project.setDescription("maven basic project template");
+        project.setDescription(projectType + " basic template");
         return project;
     }
 }
