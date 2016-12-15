@@ -31,23 +31,10 @@
             <groupId>org.kohsuke</groupId>
             <artifactId>github-api</artifactId>
             <version>${github.api.version}</version>
-            <!-- Conflicts with newer versions, used within the project... -->
             <exclusions>
                 <exclusion>
                     <groupId>commons-io</groupId>
                     <artifactId>commons-io</artifactId>
-                </exclusion>
-                <exclusion>
-                	<artifactId>jackson-databind</artifactId>
-                	<groupId>com.fasterxml.jackson.core</groupId>
-                </exclusion>
-                <exclusion>
-                	<artifactId>jackson-annotations</artifactId>
-                	<groupId>com.fasterxml.jackson.core</groupId>
-                </exclusion>
-                <exclusion>
-                	<artifactId>jackson-core</artifactId>
-                	<groupId>com.fasterxml.jackson.core</groupId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -56,10 +43,6 @@
             <artifactId>java-gitlab-api</artifactId>
             <version>${gitlab.api.version}</version>
             <exclusions>
-            	<exclusion>
-            		<artifactId>jackson-databind</artifactId>
-            		<groupId>com.fasterxml.jackson.core</groupId>
-            	</exclusion>
             	<exclusion>
             		<artifactId>jackson-core</artifactId>
             		<groupId>com.fasterxml.jackson.core</groupId>
@@ -71,6 +54,7 @@
             <artifactId>org.eclipse.jgit</artifactId>
             <version>${jgit.api.version}</version>
         </dependency>
+
         <dependency>
             <groupId>com.sam.jcc</groupId>
             <artifactId>cloud-test-parent</artifactId>

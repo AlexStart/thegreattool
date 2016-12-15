@@ -1,15 +1,12 @@
 package com.sam.jcc.cloud.vcs.git;
 
-import org.junit.Ignore;
-import org.junit.Test;
-
 import com.sam.jcc.cloud.vcs.AbstractVCSStorageTest;
+import org.junit.Test;
 
 /**
  * @author Alexey Zhytnik
  * @since 28.11.2016
  */
-@Ignore // TODO  Issue #8 Fix GitHubTest with newer versions of Jackson
 public class GitHubTest extends AbstractVCSStorageTest<GitHubServer> {
 
     @Override

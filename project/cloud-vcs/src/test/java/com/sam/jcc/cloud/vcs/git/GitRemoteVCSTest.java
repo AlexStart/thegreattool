@@ -4,7 +4,6 @@ import java.io.File;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 
 import com.sam.jcc.cloud.vcs.utils.GitDaemonRunner;
 import com.sam.jcc.cloud.vcs.utils.ProcessKiller;
@@ -13,7 +12,6 @@ import com.sam.jcc.cloud.vcs.utils.ProcessKiller;
  * @author Alexey Zhytnik
  * @since 06-Dec-16
  */
-@Ignore // TODO fix Issue #9 
 public class GitRemoteVCSTest extends AbstractGitVCSTest {
 
     File dir;
