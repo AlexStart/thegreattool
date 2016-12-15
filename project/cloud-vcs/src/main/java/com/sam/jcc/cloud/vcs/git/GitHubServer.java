@@ -1,9 +1,10 @@
 package com.sam.jcc.cloud.vcs.git;
 
 import com.sam.jcc.cloud.PropertyResolver;
-import com.sam.jcc.cloud.exception.InternalCloudException;
 import com.sam.jcc.cloud.i.Experimental;
-import com.sam.jcc.cloud.vcs.VCSException;
+import com.sam.jcc.cloud.vcs.exception.VCSRepositoryNotFoundException;
+import com.sam.jcc.cloud.vcs.exception.VCSUnknownProtocolException;
+import com.sam.jcc.cloud.vcs.exception.VCSException;
 import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.VCSStorage;
 import lombok.Setter;
@@ -69,7 +70,7 @@ public class GitHubServer implements VCSStorage<GitCredentials> {
     @Override
     public void setProtocol(String protocol) {
         if (!protocol.equals("https")) {
-            throw new InternalCloudException("Supported only https protocol");
+            throw new VCSUnknownProtocolException(protocol);
         }
     }
 
@@ -77,7 +78,7 @@ public class GitHubServer implements VCSStorage<GitCredentials> {
         final Optional<GHRepository> result = trySearch(repo);
 
         if (!result.isPresent()) {
-            throw new VCSException(format("VCSRepository {0} not found!", repo));
+            throw new VCSRepositoryNotFoundException(repo);
         }
         return result.get();
     }

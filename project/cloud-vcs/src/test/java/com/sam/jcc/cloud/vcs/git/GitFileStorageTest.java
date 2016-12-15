@@ -1,7 +1,8 @@
 package com.sam.jcc.cloud.vcs.git;
 
 import com.sam.jcc.cloud.utils.files.FileManager;
-import com.sam.jcc.cloud.vcs.VCSException;
+import com.sam.jcc.cloud.vcs.exception.VCSDuplicateRepositoryException;
+import com.sam.jcc.cloud.vcs.exception.VCSRepositoryNotFoundException;
 import com.sam.jcc.cloud.vcs.VCSRepository;
 import org.junit.Before;
 import org.junit.Rule;
@@ -59,13 +60,13 @@ public class GitFileStorageTest {
                 .hasName(repository.getName());
     }
 
-    @Test(expected = VCSException.class)
+    @Test(expected = VCSDuplicateRepositoryException.class)
     public void failsOnCreationExistence() {
         repos.create(repository);
         repos.create(repository);
     }
 
-    @Test(expected = VCSException.class)
+    @Test(expected = VCSRepositoryNotFoundException.class)
     public void failsOnDeleteNotExistence() {
         repos.delete(repository);
     }

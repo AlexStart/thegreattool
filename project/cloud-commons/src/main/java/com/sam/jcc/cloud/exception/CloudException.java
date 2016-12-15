@@ -1,24 +1,29 @@
 package com.sam.jcc.cloud.exception;
 
+import com.sam.jcc.cloud.ExceptionTranslationResolver;
+
+import java.text.MessageFormat;
+
 /**
  * @author Alexey Zhytnik
  * @since 16.11.2016
  */
 public abstract class CloudException extends RuntimeException {
 
-    public CloudException() {
-        super();
+    protected CloudException(String key, Object... args) {
+        super(translateAndFill(key, args));
     }
 
-    public CloudException(String message) {
-        super(message);
+    protected CloudException(Throwable cause, String key, Object... args) {
+        super(translateAndFill(key, args), cause);
     }
 
-    public CloudException(Throwable cause) {
-        super(cause);
-    }
+    private static String translateAndFill(String key, Object[] args) {
+        final String translation = ExceptionTranslationResolver.getTranslation(key);
 
-    public CloudException(String message, Throwable cause) {
-        super(message, cause);
+        if (args.length != 0) {
+            return MessageFormat.format(translation, args);
+        }
+        return translation;
     }
 }

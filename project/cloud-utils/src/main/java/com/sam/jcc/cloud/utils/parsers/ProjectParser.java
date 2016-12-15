@@ -1,6 +1,5 @@
 package com.sam.jcc.cloud.utils.parsers;
 
-import com.sam.jcc.cloud.exception.BusinessCloudException;
 import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -77,6 +76,6 @@ public class ProjectParser implements IParser<File> {
     }
 
     private void failOnNotFound(File project) {
-        throw new BusinessCloudException("Unknown project type " + project);
+        throw new MetadataNotFoundException(project);
     }
 }

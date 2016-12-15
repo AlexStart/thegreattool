@@ -6,7 +6,7 @@ import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.TempFile;
 import com.sam.jcc.cloud.vcs.VCS;
 import com.sam.jcc.cloud.vcs.VCSCredentials;
-import com.sam.jcc.cloud.vcs.VCSException;
+import com.sam.jcc.cloud.vcs.exception.VCSException;
 import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.VCSRepositoryStatus;
 import com.sam.jcc.cloud.vcs.VCSStorage;

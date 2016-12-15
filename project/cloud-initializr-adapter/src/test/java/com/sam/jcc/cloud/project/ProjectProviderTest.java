@@ -11,6 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.spy;
 
+import com.sam.jcc.cloud.provider.UnsupportedTypeException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
@@ -18,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.sam.jcc.cloud.exception.BusinessCloudException;
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import com.sam.jcc.cloud.project.impl.GradleProjectProvider;
 import com.sam.jcc.cloud.project.impl.MavenProjectProvider;
@@ -96,12 +96,12 @@ public class ProjectProviderTest {
 		assertThat(gradleProvider.isEnabled()).isTrue();
 	}
 
-	@Test(expected = BusinessCloudException.class)
+	@Test(expected = UnsupportedTypeException.class)
 	public void failsWithUnknownProjectTypeMaven() {
 		assertThat(mavenProvider.create(emptyProject())).isNotNull();
 	}
 
-	@Test(expected = BusinessCloudException.class)
+	@Test(expected = UnsupportedTypeException.class)
 	public void failsWithUnknownProjectTypeGradle() {
 		assertThat(gradleProvider.create(emptyProject())).isNotNull();
 	}

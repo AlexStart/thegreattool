@@ -154,13 +154,13 @@
 			<version>${slf4j.version}</version>
 		</dependency>
 
-		<!-- TEST -->
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
             <version>1.17</version>
-            <scope>test</scope>
         </dependency>
+
+		<!-- TEST -->
 		<dependency>
 			<groupId>com.sam.jcc</groupId>
 			<artifactId>cloud-test-parent</artifactId>

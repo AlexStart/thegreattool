@@ -1,14 +1,11 @@
 package com.sam.jcc.cloud.utils.parsers;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.sam.jcc.cloud.exception.BusinessCloudException;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static java.text.MessageFormat.format;
 
 /**
  * @author Alexey Zhytnik
@@ -37,6 +34,6 @@ class GradleParser implements IParser<String> {
         Matcher artifact = artifactPattern.matcher(build);
         if (artifact.find()) return artifact.group(1);
 
-        throw new BusinessCloudException(format("ArtifactId not found! build.gradle = \"{0}\" ", build));
+        throw new MetadataNotFoundException("artifactId", build);
     }
 }

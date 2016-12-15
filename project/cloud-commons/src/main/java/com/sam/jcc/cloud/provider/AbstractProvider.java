@@ -4,7 +4,6 @@
 package com.sam.jcc.cloud.provider;
 
 import com.sam.jcc.cloud.crud.AbstractCRUD;
-import com.sam.jcc.cloud.exception.BusinessCloudException;
 import com.sam.jcc.cloud.i.IEventManager;
 import com.sam.jcc.cloud.i.ILoggable;
 import com.sam.jcc.cloud.i.IProvider;
@@ -65,7 +64,7 @@ public abstract class AbstractProvider<T> extends AbstractCRUD<T> implements IPr
                 return result;
             } else {
                 eventManagers.forEach(manager -> manager.fireEvent(t, this));
-                throw new BusinessCloudException("Unsupported type " + t);
+                throw new UnsupportedTypeException(t);
             }
         }
         eventManagers.forEach(manager -> manager.fireEvent(null, this));

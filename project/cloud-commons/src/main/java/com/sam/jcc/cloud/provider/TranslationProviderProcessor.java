@@ -40,7 +40,7 @@ class TranslationProviderProcessor implements BeanPostProcessor {
         final Map<String, String> descriptions = translations.getDescriptions(getProviderClass(provider));
 
         if (containsWrongTranslation(names, descriptions)) {
-            throw new InternalCloudException("There's no all translations for " + provider);
+            throw new TranslationNotFoundException(provider);
         }
         provider.setNames(names);
         provider.setDescriptions(descriptions);
@@ -54,5 +54,11 @@ class TranslationProviderProcessor implements BeanPostProcessor {
     @SuppressWarnings("unchecked")
     private Class<? extends IProvider<?>> getProviderClass(AbstractProvider<?> provider) {
         return (Class<? extends IProvider<?>>) provider.getClass();
+    }
+
+    public static class TranslationNotFoundException extends InternalCloudException {
+        public TranslationNotFoundException(AbstractProvider<?> provider) {
+            super("translation.notFound", provider);
+        }
     }
 }

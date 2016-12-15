@@ -7,7 +7,6 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.reloading.FileChangedReloadingStrategy;
 import org.springframework.stereotype.Component;
 
-import static java.text.MessageFormat.format;
 import static java.util.Objects.isNull;
 
 /**
@@ -31,7 +30,7 @@ public class PropertyResolver {
         try {
             configuration = new PropertiesConfiguration("cloud.properties");
         } catch (ConfigurationException e) {
-            throw new InternalCloudException();
+            throw new InternalCloudException(e);
         }
     }
 
@@ -47,7 +46,7 @@ public class PropertyResolver {
         final String value = configuration.getString(key);
 
         if (isNull(value)) {
-            throw new InternalCloudException(format("There''s no value for key={0}", key));
+            throw new PropertyNotFoundException(key);
         }
         return tryResolveInjections(value);
     }
@@ -59,5 +58,11 @@ public class PropertyResolver {
             return value.replace("${user.home}", home);
         }
         return value;
+    }
+
+    public static class PropertyNotFoundException extends InternalCloudException {
+        public PropertyNotFoundException(String property) {
+            super("property.notFound", property);
+        }
     }
 }

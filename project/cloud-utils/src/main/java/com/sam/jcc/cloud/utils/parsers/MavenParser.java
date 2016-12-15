@@ -1,6 +1,5 @@
 package com.sam.jcc.cloud.utils.parsers;
 
-import com.sam.jcc.cloud.exception.BusinessCloudException;
 import com.sam.jcc.cloud.exception.InternalCloudException;
 
 import org.w3c.dom.Document;
@@ -16,8 +15,6 @@ import java.io.InputStream;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
 
-import static java.text.MessageFormat.format;
-
 /**
  * @author Alexey Zhytnik
  * @since 28-Nov-16
@@ -27,8 +24,8 @@ class MavenParser implements IParser<String> {
     @Override
     public Entry<String, String> parse(String pom) {
         final Document doc = parsePom(pom);
-        final String groupId = findValue(doc, "groupId");
-        final String artifactId = findValue(doc, "artifactId");
+        final String groupId = findValue(pom, doc, "groupId");
+        final String artifactId = findValue(pom, doc, "artifactId");
 
         return new SimpleEntry<>(groupId, artifactId);
     }
@@ -46,16 +43,16 @@ class MavenParser implements IParser<String> {
         }
     }
 
-    private String findValue(Document doc, String tagName) {
+    private String findValue(String pom, Document doc, String tagName) {
         final NodeList elements = doc.getElementsByTagName(tagName);
 
-        failOnNotFound(elements, tagName);
+        failOnNotFound(pom, elements, tagName);
         return elements.item(0).getTextContent();
     }
 
-    private void failOnNotFound(NodeList elements, String tag) {
+    private void failOnNotFound(String pom, NodeList elements, String tag) {
         if (elements.getLength() == 0) {
-            throw new BusinessCloudException(format("There's no \"{0}\" tag", tag));
+            throw new MetadataNotFoundException(tag, pom);
         }
     }
 }
