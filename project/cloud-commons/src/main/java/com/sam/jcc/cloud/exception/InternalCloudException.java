@@ -6,9 +6,8 @@ package com.sam.jcc.cloud.exception;
  */
 public class InternalCloudException extends CloudException {
 
-    @Deprecated
-    public InternalCloudException(String message) {
-        super(message);
+    public InternalCloudException() {
+        super("internal.error.default");
     }
 
     public InternalCloudException(Throwable cause) {

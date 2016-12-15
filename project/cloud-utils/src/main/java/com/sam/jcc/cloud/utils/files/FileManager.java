@@ -29,11 +29,12 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class FileManager {
 
-	 private final String fileProtocol = PropertyResolver.getProperty("protocols.file");
+	private final String fileProtocol = PropertyResolver.getProperty("protocols.file");
 
 	public File getFileByUri(String uri) {
 		if (!uri.startsWith(fileProtocol)) {
-			throw new InternalCloudException("Wrong " + uri);
+			log.error("File URI can't start with {}", uri);
+			throw new InternalCloudException();
 		}
 		return new File(uri.substring(fileProtocol.length()));
 	}
@@ -44,7 +45,8 @@ public class FileManager {
 		}
 
 		if (!dir.delete()) {
-			throw new InternalCloudException("Can't delete " + dir);
+			log.error("Can't delete {}", dir);
+			throw new InternalCloudException();
 		}
 	}
 
@@ -69,7 +71,8 @@ public class FileManager {
 		final boolean removed = !file.exists() || file.delete();
 
 		if (!removed || !file.mkdir()) {
-			throw new InternalCloudException("Can't create folder " + file);
+			log.error("Can't create folder {}", file);
+			throw new InternalCloudException();
 		}
 	}
 
@@ -91,7 +94,7 @@ public class FileManager {
 			final File temp = File.createTempFile(prefix, suffix);
 			return new TempFile(temp);
 		} catch (IOException e) {
-			throw new InternalCloudException("Can't create temp file!");
+			throw new InternalCloudException(e);
 		}
 	}
 
