@@ -1,18 +1,19 @@
 package com.sam.jcc.cloud.vcs.git;
 
-import static java.text.MessageFormat.format;
 import static java.util.Optional.empty;
 
 import java.io.File;
 import java.util.Optional;
 
 import com.sam.jcc.cloud.PropertyResolver;
+import com.sam.jcc.cloud.vcs.exception.VCSDuplicateRepositoryException;
+import com.sam.jcc.cloud.vcs.exception.VCSRepositoryNotFoundException;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.vcs.VCSCredentials;
-import com.sam.jcc.cloud.vcs.VCSException;
+import com.sam.jcc.cloud.vcs.exception.VCSException;
 import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.VCSStorage;
 
@@ -56,7 +57,7 @@ abstract class GitAbstractStorage implements VCSStorage<VCSCredentials> {
 
 	private void failOnExist(VCSRepository repo) {
 		if (isExist(repo)) {
-			throw new VCSException(format("Repository {0} exists!", repo.getName()));
+			throw new VCSDuplicateRepositoryException(repo);
 		}
 	}
 
@@ -84,7 +85,7 @@ abstract class GitAbstractStorage implements VCSStorage<VCSCredentials> {
 
 	private void failOnNotExist(VCSRepository repo) {
 		if (!isExist(repo)) {
-			throw new VCSException(format("Repository {0} not exist!", repo.getName()));
+			throw new VCSRepositoryNotFoundException(repo);
 		}
 	}
 

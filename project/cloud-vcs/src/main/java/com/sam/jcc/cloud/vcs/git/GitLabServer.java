@@ -1,7 +1,8 @@
 package com.sam.jcc.cloud.vcs.git;
 
 import com.sam.jcc.cloud.i.Experimental;
-import com.sam.jcc.cloud.vcs.VCSException;
+import com.sam.jcc.cloud.vcs.exception.VCSRepositoryNotFoundException;
+import com.sam.jcc.cloud.vcs.exception.VCSException;
 import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.VCSStorage;
 import lombok.Setter;
@@ -73,7 +74,7 @@ public class GitLabServer implements VCSStorage<GitCredentials> {
         final Optional<GitlabProject> result = trySearch(api, repo);
 
         if (!result.isPresent()) {
-            throw new VCSException(format("VCSRepository {0} not found!", repo));
+            throw new VCSRepositoryNotFoundException(repo);
         }
         return result.get();
     }

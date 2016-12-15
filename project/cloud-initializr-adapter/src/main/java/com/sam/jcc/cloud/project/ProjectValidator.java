@@ -7,8 +7,6 @@ import io.spring.initializr.metadata.InitializrMetadataProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sam.jcc.cloud.exception.BusinessCloudException;
-
 /**
  * @author Alexey Zhytnik
  * @since 15.11.2016
@@ -25,16 +23,15 @@ class ProjectValidator {
 
     public void validate(ProjectMetadata metadata) {
         final ProjectRequest request = converter.convert(metadata);
-        validate(request);
+        validate(metadata, request);
     }
 
-    //TODO: always throws business exception on all fail-cases
-    private void validate(ProjectRequest request) {
+    private void validate(ProjectMetadata metadata, ProjectRequest request) {
         try {
-            final InitializrMetadata metadata = metadataProvider.get();
-            requestResolver.resolve(request, metadata);
+            InitializrMetadata provider = metadataProvider.get();
+            requestResolver.resolve(request, provider);
         } catch (Exception e) {
-            throw new BusinessCloudException(e);
+            throw new ProjectValidationException(e, metadata);
         }
     }
 }

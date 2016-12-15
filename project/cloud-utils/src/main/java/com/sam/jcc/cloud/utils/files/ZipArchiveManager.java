@@ -54,7 +54,7 @@ public class ZipArchiveManager {
         try {
             new net.lingala.zip4j.core.ZipFile(archive).extractAll(dest.getAbsolutePath());
         } catch (ZipException e) {
-            throw new InternalCloudException(e);
+            throw new UnzipOperationException(e, archive);
         }
     }
 
@@ -86,5 +86,11 @@ public class ZipArchiveManager {
         params.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_NORMAL);
         params.setIncludeRootFolder(false);
         return params;
+    }
+
+    public static class UnzipOperationException extends InternalCloudException {
+        public UnzipOperationException(Throwable cause, File archive) {
+            super(cause, "archive.operation.unzip", archive);
+        }
     }
 }

@@ -8,10 +8,10 @@ import static java.lang.String.format;
 
 import java.util.List;
 
+import com.sam.jcc.cloud.provider.UnsupportedTypeException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sam.jcc.cloud.crud.ICRUD;
-import com.sam.jcc.cloud.exception.InternalCloudException;
 import com.sam.jcc.cloud.i.IEventManager;
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import com.sam.jcc.cloud.i.project.IProjectProvider;
@@ -120,11 +120,9 @@ public abstract class ProjectProvider extends AbstractProvider<IProjectMetadata>
 
     private ProjectMetadata asProjectMetadata(IProjectMetadata metadata) {
         if (!supports(metadata)) {
-            throw new InternalCloudException("Incorrect execution, in normal case " +
-                    "can't execute here, don't support " + metadata);
+            throw new UnsupportedTypeException(metadata);
         }
         return (ProjectMetadata) metadata;
     }
-
 }
 

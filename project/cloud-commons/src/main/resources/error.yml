@@ -1,0 +1,64 @@
+business:
+  error:
+    default:
+      en: "Business exception"
+      ru: "Бизнес ошибка"
+
+internal:
+  error:
+    default:
+      en: "Internal exception"
+      ru: "Внутренняя ошибка"
+
+project:
+  validation:
+    error:
+      en: "Project metadata {0} is invalid!"
+      ru: "Метаданные проекта {0} не валидны!"
+
+parser:
+  metadata:
+    notFound:
+      en: "{0} was not found in {1}!"
+      ru: "{0} не был найден в {1}!"
+    unknown:
+      en: "Project type {0} is unknown!"
+      ru: "Тип проекта {0} неизвестен!"
+
+archive:
+  operation:
+    unzip:
+      en: "Exception in unzip of {0}"
+      ru: "Ошибка разархивации {0}"
+
+translation:
+  notFound:
+    en: "There''s no all translations for {0}!"
+    ru: "Для {0} загружены не все переводы!"
+
+property:
+  notFound:
+    en: "Property {0} not found!"
+    ru: "Проперти {0} не найдена!"
+
+unsupported:
+  item:
+    type:
+      en: "Type of {0} is not supported!"
+      ru: "Тип {0} не поддерживается!"
+vcs:
+  error:
+    default:
+      en: "Version Control System Error"
+      ru: "Ошибка системы контроля версий"
+    notFound:
+      en: "Repository {0} not found!"
+      ru: "Репозиторий {0} не найден!"
+  protocol:
+    unknown:
+      en: "Protocol {0} is unknown!"
+      ru: "Протокол {0} не поддерживается!"
+  repository:
+    exist:
+      en: "Repository {0} already exist!"
+      ru: "Репозиторий {0} уже существует!"

@@ -21,5 +21,4 @@ public class GitFileProvider extends VCSProvider {
 	public GitFileProvider(List<IEventManager<IVCSMetadata>> eventManagers) {
 		super(eventManagers);
 	}
-
 }

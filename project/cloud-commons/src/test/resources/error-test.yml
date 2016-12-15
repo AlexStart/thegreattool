@@ -1,0 +1,11 @@
+vcs:
+  unknown.protocol:
+    en: "Unknown protocol '{0}'"
+    ru: "Неизвестный протокол '{0}'"
+
+
+internal:
+  system:
+    unknown:
+      en: "Unknown system"
+      ru: "Неизвестная система"

@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.File;
 import java.io.IOException;
 
+import com.sam.jcc.cloud.vcs.exception.VCSRepositoryNotFoundException;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -62,12 +63,12 @@ public class VCSHelperTest {
         vcsHelper.execute("git", "file", "delete", project());
     }
 
-    @Test(expected = VCSException.class)
+    @Test(expected = VCSRepositoryNotFoundException.class)
     public void failsOnReadUnknownProject() {
         vcsHelper.execute("git", "file", "read", project());
     }
 
-    @Test(expected = VCSException.class)
+    @Test(expected = VCSRepositoryNotFoundException.class)
     public void failsOnDeleteUnknownProject() {
         vcsHelper.execute("git", "file", "delete", project());
     }

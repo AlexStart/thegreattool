@@ -1,6 +1,5 @@
 package com.sam.jcc.cloud.project;
 
-import com.sam.jcc.cloud.exception.InternalCloudException;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +26,8 @@ class ProjectBuilder {
     }
 
     private void archivate(ProjectMetadata metadata) {
-        try {
-            byte[] sources = zipManager.zip(metadata.getDirectory());
-            metadata.setProjectSources(sources);
-        } catch (Exception e) {
-            throw new InternalCloudException(e);
-        }
+        byte[] sources = zipManager.zip(metadata.getDirectory());
+        metadata.setProjectSources(sources);
     }
 
     public void reset(ProjectMetadata metadata) {

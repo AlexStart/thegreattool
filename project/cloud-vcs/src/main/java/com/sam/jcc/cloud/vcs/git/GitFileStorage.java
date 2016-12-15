@@ -1,12 +1,10 @@
 package com.sam.jcc.cloud.vcs.git;
 
-import static com.sam.jcc.cloud.PropertyResolver.*;
-import static java.text.MessageFormat.format;
-
+import com.sam.jcc.cloud.vcs.VCSRepository;
+import com.sam.jcc.cloud.vcs.exception.VCSUnknownProtocolException;
 import org.springframework.stereotype.Component;
 
-import com.sam.jcc.cloud.vcs.VCSException;
-import com.sam.jcc.cloud.vcs.VCSRepository;
+import static com.sam.jcc.cloud.PropertyResolver.getProperty;
 
 /**
  * @author Alexey Zhytnik
@@ -26,7 +24,7 @@ public class GitFileStorage extends GitAbstractStorage {
     @Override
     public void setProtocol(String newProtocol) {
         if (!newProtocol.startsWith(protocol)) {
-            throw new VCSException(format("Unknown protocol \"{0}\"", newProtocol));
+            throw new VCSUnknownProtocolException(newProtocol);
         }
     }
 }

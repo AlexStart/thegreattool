@@ -7,18 +7,18 @@ package com.sam.jcc.cloud.exception;
 public class InternalCloudException extends CloudException {
 
     public InternalCloudException() {
-        super();
-    }
-
-    public InternalCloudException(String message) {
-        super(message);
+        super("internal.error.default");
     }
 
     public InternalCloudException(Throwable cause) {
-        super(cause);
+        super(cause, "internal.error.default");
     }
 
-    public InternalCloudException(String message, Throwable cause) {
-        super(message, cause);
+    protected InternalCloudException(String key, Object... args) {
+        super(key, args);
+    }
+
+    protected InternalCloudException(Throwable cause, String key, Object... args) {
+        super(cause, key, args);
     }
 }

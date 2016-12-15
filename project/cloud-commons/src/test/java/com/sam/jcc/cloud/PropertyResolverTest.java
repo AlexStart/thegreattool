@@ -1,6 +1,6 @@
 package com.sam.jcc.cloud;
 
-import com.sam.jcc.cloud.exception.InternalCloudException;
+import com.sam.jcc.cloud.PropertyResolver.PropertyNotFoundException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.reloading.FileChangedReloadingStrategy;
 import org.junit.Before;
@@ -41,7 +41,7 @@ public class PropertyResolverTest {
         assertThat(resolver.getValue("value")).isEqualTo("updated_value");
     }
 
-    @Test(expected = InternalCloudException.class)
+    @Test(expected = PropertyNotFoundException.class)
     public void failsOnUnknown() throws Exception {
         rewriteConfig("");
         resolver.getValue("value");

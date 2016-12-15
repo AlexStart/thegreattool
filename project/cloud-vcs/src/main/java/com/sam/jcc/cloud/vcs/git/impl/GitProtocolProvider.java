@@ -21,5 +21,4 @@ public class GitProtocolProvider extends VCSProvider {
 	public GitProtocolProvider(List<IEventManager<IVCSMetadata>> eventManagers) {
 		super(eventManagers);
 	}
-
 }
