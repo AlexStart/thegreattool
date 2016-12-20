@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Alexey Zhytnik
  * @since 16-Dec-16
  */
-public class JenkinsIT {
+public class JenkinsIntegrationTest {
 
     @Rule
     public TemporaryFolder temp = new TemporaryFolder();
@@ -39,7 +39,7 @@ public class JenkinsIT {
     }
 
     @Test
-    public void test() throws Exception {
+    public void getsBuild() throws Exception {
         jenkins.create(project);
         jenkins.build(project);
         waitWhileProcessing(project);

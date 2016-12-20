@@ -4,7 +4,6 @@ import com.offbytwo.jenkins.JenkinsServer;
 import com.offbytwo.jenkins.client.JenkinsHttpClient;
 import com.offbytwo.jenkins.model.Plugin;
 import com.sam.jcc.cloud.ci.exception.CIException;
-import com.sam.jcc.cloud.exception.NotImplementedCloudException;
 import com.sam.jcc.cloud.i.Experimental;
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,10 +28,7 @@ import static org.springframework.util.ReflectionUtils.makeAccessible;
  * @since 18-Dec-16
  */
 @Slf4j
-@Experimental(
-        "Checks installed plugins, installs new plugins, " +
-        "but after installation needs in Jenkins restart"
-)
+@Experimental("Checks installed plugins, installs new plugins")
 class JenkinsPluginInstaller {
 
     private static final String INSTALLATION_PATH = "/pluginManager/installNecessaryPlugins";
@@ -55,8 +51,6 @@ class JenkinsPluginInstaller {
                 .collect(Collectors.toSet());
 
         pluginsForInstall.forEach(this::installAndWait);
-
-        if(!pluginsForInstall.isEmpty()) refreshPlugins();
     }
 
     private boolean isInstalled(String name) {
@@ -75,7 +69,7 @@ class JenkinsPluginInstaller {
     }
 
     public void install(Entry<String, String> plugin) {
-        log.info("{0}-{1} will be installed", plugin.getKey(), plugin.getValue());
+        log.info("{}-{} will be installed", plugin.getKey(), plugin.getValue());
 
         try {
             client.post_xml(
@@ -95,16 +89,11 @@ class JenkinsPluginInstaller {
         long remaining = maxInstallTimeOut;
 
         while (!isInstalled(plugin.getKey()) && remaining > 0L) {
-            log.info("Installation waiting of {0}-{1}", plugin.getKey(), plugin.getValue());
+            log.info("Waiting for {}-{} installation", plugin.getKey(), plugin.getValue());
 
             sleepUninterruptibly(1_000L, MILLISECONDS);
             remaining -= 1_000L;
         }
-    }
-
-    //TODO: missed something important installation step, needs Jenkins restart
-    private void refreshPlugins() {
-        throw new NotImplementedCloudException();
     }
 
     private JenkinsHttpClient extractHttpClient(JenkinsServer server) {
