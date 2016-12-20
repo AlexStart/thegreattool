@@ -1,6 +1,7 @@
 package com.sam.jcc.cloud.ci.impl;
 
 import com.sam.jcc.cloud.ci.CIProject;
+import com.sam.jcc.cloud.ci.exception.CIException;
 import com.sam.jcc.cloud.ci.impl.JenkinsProjectConfiguration.Builders.HudsonTasksBatchFile;
 import com.sam.jcc.cloud.ci.impl.JenkinsProjectConfiguration.Builders.HudsonTasksShell;
 import com.sam.jcc.cloud.exception.InternalCloudException;
@@ -31,8 +32,8 @@ import static org.apache.commons.lang3.SystemUtils.IS_OS_WINDOWS;
  */
 class JenkinsConfigurationBuilder {
 
-    private static final String MAVEN_ARTIFACTS = "target/*.jar";
-    private static final String GRADLE_ARTIFACTS = "build/libs/*.jar";
+    public static final String MAVEN_ARTIFACTS = "target/*.jar";
+    public static final String GRADLE_ARTIFACTS = "build/libs/*.jar";
 
     private JaxbConfigSupport jaxbSupport;
     private ItemStorage<CIProject> workspace;
@@ -46,7 +47,7 @@ class JenkinsConfigurationBuilder {
         try {
             return buildUnsecured(project);
         } catch (JAXBException e) {
-            throw new InternalCloudException(e);
+            throw new CIException(e);
         }
     }
 
@@ -124,7 +125,7 @@ class JenkinsConfigurationBuilder {
             try {
                 context = JAXBContext.newInstance(JenkinsProjectConfiguration.class);
             } catch (JAXBException e) {
-                throw new InternalCloudException(e);
+                throw new CIException(e);
             }
         }
 

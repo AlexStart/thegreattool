@@ -33,7 +33,7 @@ public class CIHelper {
         final String operation = args[1];
         final File project = new File(args[2]);
 
-        failOnNotExistence(ci, "git");
+        failOnNotExistence(ci, "jenkins");
         failOnNotExistence(operation, "create", "getBuild", "getStatus", "update", "delete");
         failOnSimpleFile(project);
 
@@ -88,7 +88,9 @@ public class CIHelper {
     }
 
     private void createNewProject(String ci, File project) {
-        jenkins.create(parse(project));
+        final CIProject p = parse(project);
+        jenkins.create(p);
+        jenkins.build(p);
     }
 
     private File getBuild(String ci, File sources) {
@@ -128,6 +130,8 @@ public class CIHelper {
 
     private File extractSources(CIProject project, File zip) {
         final File temp = new FileManager().createTempFile(project.getName(), ".tmp");
+        temp.deleteOnExit();
+
         zipManager.unzip(zip, temp);
         return temp;
     }

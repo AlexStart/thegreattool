@@ -45,7 +45,6 @@ class JenkinsPluginInstaller {
     }
 
     public void install(Set<Entry<String, String>> plugins) {
-
         final Set<Entry<String, String>> pluginsForInstall = plugins.stream()
                 .filter(p -> !isInstalled(p.getKey()))
                 .collect(Collectors.toSet());
@@ -63,12 +62,12 @@ class JenkinsPluginInstaller {
         return plugin.isPresent();
     }
 
-    public void installAndWait(Entry<String, String> plugin) {
+    private void installAndWait(Entry<String, String> plugin) {
         install(plugin);
         waitInstallation(plugin);
     }
 
-    public void install(Entry<String, String> plugin) {
+    private void install(Entry<String, String> plugin) {
         log.info("{}-{} will be installed", plugin.getKey(), plugin.getValue());
 
         try {

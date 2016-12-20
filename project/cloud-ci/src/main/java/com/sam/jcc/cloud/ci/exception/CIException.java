@@ -8,10 +8,6 @@ import com.sam.jcc.cloud.exception.CloudException;
  */
 public class CIException extends CloudException {
 
-    public CIException() {
-        super("ci.error.default");
-    }
-
     public CIException(Throwable cause) {
         super("ci.error.default", cause);
     }
