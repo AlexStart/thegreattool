@@ -12,7 +12,7 @@
     <triggers/>
     <concurrentBuild>false</concurrentBuild>
     <builders>
-        <!-- Commands for builders-->
+        <!-- Commands for builders -->
     </builders>
     <publishers>
         <hudson.tasks.ArtifactArchiver>
@@ -39,7 +39,7 @@
             </operationList>
         </hudson.plugins.build__timeout.BuildTimeoutWrapper>
         <hpi.CopyDataToWorkspacePlugin plugin="copy-data-to-workspace-plugin@1.0">
-            <folderPath><!-- Path to our workspace--></folderPath>
+            <folderPath><!-- Path to our workspace --></folderPath>
             <makeFilesExecutable>false</makeFilesExecutable>
             <deleteFilesAfterBuild>false</deleteFilesAfterBuild>
         </hpi.CopyDataToWorkspacePlugin>

@@ -95,7 +95,7 @@ class JenkinsConfigurationBuilder {
     }
 
     public boolean isMaven(CIProject project) {
-        final File src = project.getSources();
+        final File src = workspace.get(project);
         final IOFileFilter mavenFilter = new NameFileFilter(MAVEN_CONFIGURATION);
 
         return listFiles(src, mavenFilter, FILE).size() == 1;
@@ -115,7 +115,6 @@ class JenkinsConfigurationBuilder {
         return "gradlew build";
     }
 
-    //TODO: maybe remove and change to simple string replacement
     @Experimental("JAXB configuration loader")
     private static class JaxbConfigSupport {
 
