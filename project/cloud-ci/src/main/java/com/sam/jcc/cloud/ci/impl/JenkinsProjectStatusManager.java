@@ -2,22 +2,21 @@ package com.sam.jcc.cloud.ci.impl;
 
 import com.offbytwo.jenkins.JenkinsServer;
 import com.offbytwo.jenkins.model.Build;
-import com.offbytwo.jenkins.model.ComputerSet;
-import com.offbytwo.jenkins.model.Executor;
+import com.offbytwo.jenkins.model.BuildResult;
 import com.offbytwo.jenkins.model.JobWithDetails;
 import com.sam.jcc.cloud.ci.CIProject;
 import com.sam.jcc.cloud.ci.CIProjectStatus;
 import com.sam.jcc.cloud.ci.exception.CIException;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Predicate;
 
+import static com.offbytwo.jenkins.model.BuildResult.FAILURE;
+import static com.offbytwo.jenkins.model.BuildResult.SUCCESS;
 import static com.sam.jcc.cloud.ci.CIProjectStatus.COMPLETED;
 import static com.sam.jcc.cloud.ci.CIProjectStatus.FAILED;
 import static com.sam.jcc.cloud.ci.CIProjectStatus.IN_PROGRESS;
 import static com.sam.jcc.cloud.ci.CIProjectStatus.UNREGISTERED;
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 /**
@@ -41,58 +40,31 @@ class JenkinsProjectStatusManager {
     }
 
     public CIProjectStatus getStatusNotSecured(CIProject project) throws IOException {
-        if (exist(project)) {
-            if (inProgress(project)) return IN_PROGRESS;
-            if (isFailed(project)) return FAILED;
-            if (isCompleted(project)) return COMPLETED;
+        final JobWithDetails job = loadJob(project);
+
+        if (nonNull(job)) {
+            if (isInProgress(job)) return IN_PROGRESS;
+            if (hasLastResult(job, FAILURE)) return FAILED;
+            if (hasLastResult(job, SUCCESS)) return COMPLETED;
         }
         return UNREGISTERED;
-    }
-
-    public boolean exist(CIProject project) throws IOException {
-        return nonNull(loadJob(project));
-    }
-
-    private boolean inProgress(CIProject project) throws IOException {
-        final JobWithDetails job = loadJob(project);
-
-        final Optional<Executor> executor = getExecutors(server)
-                .stream()
-                .filter(byProjectExecutionFilter(project))
-                .findFirst();
-
-        return job.isInQueue() || executor.isPresent();
-    }
-
-    public boolean isFailed(CIProject project) throws IOException {
-        final JobWithDetails job = loadJob(project);
-
-        Build last = job.getLastBuild();
-        Build failed = job.getLastUnsuccessfulBuild();
-        return failed.equals(last);
-    }
-
-    public boolean isCompleted(CIProject project) throws IOException {
-        final JobWithDetails job = loadJob(project);
-
-        Build last = job.getLastBuild();
-        Build failed = job.getLastSuccessfulBuild();
-        return failed.equals(last);
     }
 
     private JobWithDetails loadJob(CIProject project) throws IOException {
         return server.getJob(project.getName());
     }
 
-    private List<Executor> getExecutors(JenkinsServer server) throws IOException {
-        final ComputerSet set = server.getComputerSet();
-        return set.getComputers().get(0).getExecutors();
+    private boolean isInProgress(JobWithDetails job) throws IOException {
+        return job.isInQueue() || isNull(getLastBuildResult(job));
     }
 
-    private Predicate<Executor> byProjectExecutionFilter(CIProject project) {
-        final String name = project.getName();
+    private boolean hasLastResult(JobWithDetails job, BuildResult expected) throws IOException {
+        final BuildResult result = getLastBuildResult(job);
+        return result.equals(expected);
+    }
 
-        return e -> nonNull(e.getCurrentExecutable()) &&
-                e.getCurrentExecutable().getUrl().contains(name);
+    private BuildResult getLastBuildResult(JobWithDetails job) throws IOException {
+        final Build lastBuild = job.getLastBuild();
+        return lastBuild.details().getResult();
     }
 }
