@@ -45,7 +45,7 @@ class JenkinsPluginInstaller {
     public JenkinsPluginInstaller(JenkinsServer server) {
         this.server = server;
         this.client = extractHttpClient(server);
-        maxInstallTimeOut = Long.valueOf(getProperty("jenkins.install.timeout"));
+        this.maxInstallTimeOut = Long.valueOf(getProperty("jenkins.install.timeout"));
     }
 
     public void install(Set<Entry<String, String>> plugins) {
@@ -102,7 +102,7 @@ class JenkinsPluginInstaller {
         }
     }
 
-    //TODO: missed something unknown important installation step, needs Jenkins restart
+    //TODO: missed something important installation step, needs Jenkins restart
     private void refreshPlugins() {
         throw new NotImplementedCloudException();
     }

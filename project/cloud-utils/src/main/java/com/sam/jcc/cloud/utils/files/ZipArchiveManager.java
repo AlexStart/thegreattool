@@ -1,13 +1,12 @@
 package com.sam.jcc.cloud.utils.files;
 
+import com.sam.jcc.cloud.exception.InternalCloudException;
 import lombok.extern.slf4j.Slf4j;
 import net.lingala.zip4j.exception.ZipException;
 import net.lingala.zip4j.model.ZipParameters;
 import net.lingala.zip4j.util.Zip4jConstants;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Component;
-
-import com.sam.jcc.cloud.exception.InternalCloudException;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,14 +29,6 @@ public class ZipArchiveManager {
 
     public boolean isZip(File file) {
         return file.getName().endsWith(".zip");
-    }
-
-    public ZipFile getZipFile(File file) {
-        try {
-            return new ZipFile(file);
-        } catch (IOException e) {
-            throw new InternalCloudException(e);
-        }
     }
 
     public String readEntry(ZipFile zip, ZipEntry entry) {
