@@ -29,7 +29,10 @@ import static org.springframework.util.ReflectionUtils.makeAccessible;
  * @since 18-Dec-16
  */
 @Slf4j
-@Experimental()
+@Experimental(
+        "Checks installed plugins, installs new plugins, " +
+        "but after installation needs in Jenkins restart"
+)
 class JenkinsPluginInstaller {
 
     private static final String INSTALLATION_PATH = "/pluginManager/installNecessaryPlugins";
@@ -99,7 +102,7 @@ class JenkinsPluginInstaller {
         }
     }
 
-    //TODO: missed something unknown important installation step, need Jenkins restart
+    //TODO: missed something unknown important installation step, needs Jenkins restart
     private void refreshPlugins() {
         throw new NotImplementedCloudException();
     }
