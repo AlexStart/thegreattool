@@ -43,6 +43,8 @@ public class Jenkins implements CIServer {
     @Getter(AccessLevel.PACKAGE)
     private JenkinsServer server;
 
+    @VisibleForTesting
+    @Getter(AccessLevel.PACKAGE)
     private ItemStorage<CIProject> workspace;
 
     private JenkinsConfigurationBuilder builder;

@@ -1,6 +1,8 @@
 package com.sam.jcc.cloud.ci.impl;
 
 import com.sam.jcc.cloud.ci.CIProject;
+import com.sam.jcc.cloud.ci.exception.CIBuildNotFoundException;
+import com.sam.jcc.cloud.ci.exception.CIProjectNotFoundException;
 import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
 import org.junit.Before;
 import org.junit.Rule;
@@ -11,6 +13,7 @@ import org.springframework.core.io.ClassPathResource;
 import java.io.File;
 import java.io.InputStream;
 
+import static com.sam.jcc.cloud.PropertyResolver.setProperty;
 import static com.sam.jcc.cloud.ci.CIProjectStatus.*;
 import static java.lang.Thread.sleep;
 import static org.apache.commons.io.IOUtils.closeQuietly;
@@ -52,7 +55,8 @@ public class JenkinsTest {
     }
 
     @Test
-    public void knowsBuildFails() throws Exception {
+    //TODO: fails
+    public void knowsAboutBuildFail() throws Exception {
         final CIProject project = setUpProject("/wrong-project.zip");
 
         jenkins.create(project);
@@ -61,6 +65,46 @@ public class JenkinsTest {
 
         assertThat(jenkins.getStatus(project)).isEqualTo(FAILED);
         jenkins.delete(project);
+    }
+
+    @Test(expected = CIBuildNotFoundException.class)
+    public void failsOnGetBuildFailedProject() throws Exception {
+        final CIProject project = setUpProject("/wrong-project.zip");
+
+        jenkins.create(project);
+        jenkins.build(project);
+        waitWhileProcessing(project);
+
+        try {
+            jenkins.getBuild(project);
+        } finally {
+            jenkins.delete(project);
+        }
+    }
+
+    @Test(expected = CIProjectNotFoundException.class)
+    public void failsOnDeleteUnknown(){
+        jenkins.delete(project);
+    }
+
+    @Test(expected = CIProjectNotFoundException.class)
+    public void failsOnBuildUnknown(){
+        jenkins.build(project);
+    }
+
+    @Test(expected = CIProjectNotFoundException.class)
+    public void failsOnGetBuildUnknown(){
+        jenkins.getBuild(project);
+    }
+
+    @Test
+    @SuppressWarnings("deprecation")
+    public void runsInSelectedDirectory() throws Exception {
+        final File workspace = temp.newFolder();
+        setProperty("ci.workspace.folder", workspace.getAbsolutePath());
+
+        final Jenkins jenkins = new Jenkins();
+        assertThat(jenkins.getWorkspace().getRoot()).isEqualTo(workspace);
     }
 
     @Test

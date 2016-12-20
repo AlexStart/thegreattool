@@ -51,6 +51,12 @@ public class PropertyResolver {
         return tryResolveInjections(value);
     }
 
+    @Deprecated
+    @VisibleForTesting
+    public static void setProperty(String key, String value) {
+        INSTANCE.configuration.setProperty(key, value);
+    }
+
     //TODO: use PropertyPlaceholderConfigurer
     private String tryResolveInjections(String value) {
         if (value.contains("${user.home}")) {
