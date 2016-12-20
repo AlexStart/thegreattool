@@ -67,4 +67,16 @@ ci:
   error:
     default:
       en: "Continuous Integration Error"
-      ru: "Ошибка системы непрерывной интеграции"
+      ru: "Ошибка в работе с CI"
+  project:
+    notFound:
+      en: "Project {0} not found!"
+      ru: "Проект {0} не найден!"
+  build:
+    notFound:
+      en: "Build of {0} not found!"
+      ru: "Сборка {0} не найдена!"
+  server:
+    notAvailable:
+      en: "CI Server connection error"
+      ru: "Ошибка при подключении к серверу CI"
