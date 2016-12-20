@@ -26,6 +26,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.offbytwo.jenkins</groupId>
+            <artifactId>jenkins-client</artifactId>
+            <version>0.3.6</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.sam.jcc</groupId>
             <artifactId>cloud-test-parent</artifactId>
             <version>${project.version}</version>

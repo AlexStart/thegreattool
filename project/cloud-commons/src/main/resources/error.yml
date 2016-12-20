@@ -60,5 +60,11 @@ vcs:
       ru: "Протокол {0} не поддерживается!"
   repository:
     exist:
-      en: "Repository {0} already exist!"
+      en: "Repository {0} already exists!"
       ru: "Репозиторий {0} уже существует!"
+
+ci:
+  error:
+    default:
+      en: "Continuous Integration Error"
+      ru: "Ошибка системы непрерывной интеграции"
