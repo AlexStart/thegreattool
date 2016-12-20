@@ -17,7 +17,7 @@ public class GitFileStorage extends GitAbstractStorage {
 
     @Override
     public String getRepositoryURI(VCSRepository repo) {
-        final String uri = get(repo).toURI().getSchemeSpecificPart().substring(1);
+        final String uri = storage.get(repo).toURI().getSchemeSpecificPart().substring(1);
         return protocol + uri;
     }
 
