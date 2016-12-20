@@ -7,11 +7,15 @@ import static org.apache.commons.io.filefilter.DirectoryFileFilter.DIRECTORY;
 import static org.apache.commons.io.filefilter.FileFileFilter.FILE;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 
 import com.sam.jcc.cloud.PropertyResolver;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
@@ -101,6 +105,14 @@ public class FileManager {
 	public void write(byte[] content, File target) {
 		try {
 			Files.write(content, target);
+		} catch (IOException e) {
+			throw new InternalCloudException(e);
+		}
+	}
+
+	public void write(InputStream content, File target) {
+		try (final OutputStream out = new FileOutputStream(target)) {
+			IOUtils.copy(content, out);
 		} catch (IOException e) {
 			throw new InternalCloudException(e);
 		}
