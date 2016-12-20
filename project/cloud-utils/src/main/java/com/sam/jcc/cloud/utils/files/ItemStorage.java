@@ -15,7 +15,7 @@ import java.util.function.Function;
 public class ItemStorage<T> {
 
     @Getter
-    private File baseDir;
+    private File root;
 
     private final Function<T, String> itemMapper;
 
@@ -59,7 +59,7 @@ public class ItemStorage<T> {
     }
 
     private File getNotSecured(T item) {
-        return new File(baseDir, itemMapper.apply(item));
+        return new File(root, itemMapper.apply(item));
     }
 
     private void failOnNotExist(T item) {
@@ -68,11 +68,11 @@ public class ItemStorage<T> {
         }
     }
 
-    public void setBaseDir(File base) {
-        if (!base.exists()) {
-            files.createHiddenDir(base);
+    public void setRoot(File newRoot) {
+        if (!newRoot.exists()) {
+            files.createHiddenDir(newRoot);
         }
-        baseDir = base;
+        root = newRoot;
     }
 
     public static class ItemNotFoundException extends InternalCloudException {
