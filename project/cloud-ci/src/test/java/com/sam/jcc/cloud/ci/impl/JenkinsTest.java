@@ -14,7 +14,7 @@ import java.io.File;
 import java.io.InputStream;
 
 import static com.sam.jcc.cloud.PropertyResolver.setProperty;
-import static com.sam.jcc.cloud.ci.CIProjectStatus.*;
+import static com.sam.jcc.cloud.ci.CIBuildStatus.*;
 import static java.lang.Thread.sleep;
 import static org.apache.commons.io.IOUtils.closeQuietly;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -45,11 +45,11 @@ public class JenkinsTest {
         jenkins.build(project);
         waitWhileProcessing(project);
 
-        final InputStream build = jenkins.getBuild(project);
+        final InputStream build = jenkins.getLastSuccessfulBuild(project);
         assertThat(build).isNotNull();
         closeQuietly(build);
 
-        assertThat(jenkins.getStatus(project)).isEqualTo(COMPLETED);
+        assertThat(jenkins.getLastBuildStatus(project)).isEqualTo(SUCCESSFUL);
 
         jenkins.delete(project);
     }
@@ -63,7 +63,7 @@ public class JenkinsTest {
         jenkins.build(project);
         waitWhileProcessing(project);
 
-        assertThat(jenkins.getStatus(project)).isEqualTo(FAILED);
+        assertThat(jenkins.getLastBuildStatus(project)).isEqualTo(FAILED);
         jenkins.delete(project);
     }
 
@@ -76,7 +76,7 @@ public class JenkinsTest {
         waitWhileProcessing(project);
 
         try {
-            jenkins.getBuild(project);
+            jenkins.getLastSuccessfulBuild(project);
         } finally {
             jenkins.delete(project);
         }
@@ -94,7 +94,7 @@ public class JenkinsTest {
 
     @Test(expected = CIProjectNotFoundException.class)
     public void failsOnGetBuildUnknown(){
-        jenkins.getBuild(project);
+        jenkins.getLastSuccessfulBuild(project);
     }
 
     @Test
@@ -109,11 +109,11 @@ public class JenkinsTest {
 
     @Test
     public void checksUnknownProjects() {
-        assertThat(jenkins.getStatus(project)).isEqualTo(UNREGISTERED);
+        assertThat(jenkins.getLastBuildStatus(project)).isEqualTo(UNKNOWN);
     }
 
     void waitWhileProcessing(CIProject p) throws Exception {
-        while (jenkins.getStatus(p) == IN_PROGRESS) sleep(100L);
+        while (jenkins.getLastBuildStatus(p) == IN_PROGRESS) sleep(100L);
     }
 
     CIProject setUpProject(String src) throws Exception {

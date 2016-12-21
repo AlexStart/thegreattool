@@ -7,7 +7,7 @@ import com.offbytwo.jenkins.model.Build;
 import com.offbytwo.jenkins.model.BuildWithDetails;
 import com.offbytwo.jenkins.model.JobWithDetails;
 import com.sam.jcc.cloud.ci.CIProject;
-import com.sam.jcc.cloud.ci.CIProjectStatus;
+import com.sam.jcc.cloud.ci.CIBuildStatus;
 import com.sam.jcc.cloud.ci.CIServer;
 import com.sam.jcc.cloud.ci.exception.CIBuildNotFoundException;
 import com.sam.jcc.cloud.ci.exception.CIException;
@@ -44,11 +44,12 @@ public class Jenkins implements CIServer {
     private JenkinsServer server;
 
     @VisibleForTesting
+    //TODO: maybe transfer to CIServer
     @Getter(AccessLevel.PACKAGE)
     private ItemStorage<CIProject> workspace;
 
+    private JenkinsBuildManager buildManager;
     private JenkinsConfigurationBuilder builder;
-    private JenkinsProjectStatusManager statusManager;
 
     public Jenkins() {
         server = new JenkinsServer(
@@ -66,8 +67,8 @@ public class Jenkins implements CIServer {
         workspace = new ItemStorage<>(CIProject::getName);
         workspace.setRoot(new File(getProperty("ci.workspace.folder")));
 
+        buildManager = new JenkinsBuildManager(server);
         builder = new JenkinsConfigurationBuilder(workspace);
-        statusManager = new JenkinsProjectStatusManager(server);
     }
 
     @SuppressWarnings("unchecked")
@@ -113,8 +114,8 @@ public class Jenkins implements CIServer {
     }
 
     @Override
-    public InputStream getBuild(CIProject project) {
-        final Build build = loadJob(project).getLastBuild();
+    public InputStream getLastSuccessfulBuild(CIProject project) {
+        final Build build = loadJob(project).getLastSuccessfulBuild();
 
         if (build.equals(BUILD_HAS_NEVER_RAN)) {
             throw new CIBuildNotFoundException(project);
@@ -147,8 +148,8 @@ public class Jenkins implements CIServer {
     }
 
     @Override
-    public CIProjectStatus getStatus(CIProject project) {
-        return statusManager.getStatus(project);
+    public CIBuildStatus getLastBuildStatus(CIProject project) {
+        return buildManager.getStatus(project);
     }
 
     private JobWithDetails loadJob(CIProject project) {

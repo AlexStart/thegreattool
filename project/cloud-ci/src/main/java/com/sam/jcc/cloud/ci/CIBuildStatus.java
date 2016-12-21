@@ -4,10 +4,10 @@ package com.sam.jcc.cloud.ci;
  * @author Alexey Zhytnik
  * @since 19-Dec-16
  */
-public enum CIProjectStatus {
+public enum CIBuildStatus {
 
-    UNREGISTERED,
+    UNKNOWN,
     IN_PROGRESS,
-    COMPLETED,
+    SUCCESSFUL,
     FAILED
 }

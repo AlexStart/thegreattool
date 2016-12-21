@@ -97,7 +97,7 @@ public class CIHelper {
         final CIProject project = parse(sources);
         final File zip = files.createTempFile(project.getName(), ".zip");
 
-        final InputStream build = jenkins.getBuild(project);
+        final InputStream build = jenkins.getLastSuccessfulBuild(project);
         try {
             files.write(build, zip);
         } finally {
@@ -106,8 +106,8 @@ public class CIHelper {
         return zip;
     }
 
-    private CIProjectStatus getStatus(String ci, File project) {
-        return jenkins.getStatus(parse(project));
+    private CIBuildStatus getStatus(String ci, File project) {
+        return jenkins.getLastBuildStatus(parse(project));
     }
 
     private void updateSources(String ci, File project) {
