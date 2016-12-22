@@ -1,18 +1,15 @@
 package com.sam.jcc.cloud.ci.impl;
 
 import com.sam.jcc.cloud.ci.CIProject;
+import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.ItemStorage;
-import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import org.springframework.core.io.ClassPathResource;
-
-import java.io.File;
-import java.text.MessageFormat;
 
 import static com.sam.jcc.cloud.ci.impl.JenkinsConfigurationBuilder.MAVEN_ARTIFACTS;
+import static com.sam.jcc.cloud.ci.impl.JenkinsUtil.loadProject;
 import static org.apache.commons.lang3.SystemUtils.IS_OS_WINDOWS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.atLeastOnce;
@@ -39,8 +36,11 @@ public class JenkinsConfigurationBuilderTest {
         workspace = spy(new ItemStorage<>(CIProject::getName));
         workspace.setRoot(temp.newFolder());
 
-        mavenProject = project("maven");
-        gradleProject = project("gradle");
+        mavenProject = loadProject("maven", temp.newFolder());
+        copySourcesIntoWorkspace(mavenProject);
+
+        gradleProject = loadProject("gradle", temp.newFolder());
+        copySourcesIntoWorkspace(gradleProject);
 
         builder = new JenkinsConfigurationBuilder(workspace);
     }
@@ -79,21 +79,14 @@ public class JenkinsConfigurationBuilderTest {
 
     @Test
     public void knowsProjectTypes() {
-        assertThat(builder.isMaven(workspace.get(mavenProject))).isTrue();
-        assertThat(builder.isMaven(workspace.get(gradleProject))).isFalse();
+        assertThat(builder.isMaven(mavenProject.getSources())).isTrue();
+        assertThat(builder.isMaven(gradleProject.getSources())).isFalse();
     }
 
-    CIProject project(String type) throws Exception {
-        final CIProject p = new CIProject();
-        p.setArtifactId("Project-" + type);
-
-        final String path = MessageFormat.format("/{0}-project.zip", type);
-        copyProjectSourcesIntoFolder(path, workspace.create(p));
-        return p;
-    }
-
-    void copyProjectSourcesIntoFolder(String project, File dir) throws Exception {
-        final File sources = new ClassPathResource(project).getFile();
-        new ZipArchiveManager().unzip(sources, dir);
+    void copySourcesIntoWorkspace(CIProject project) {
+        new FileManager().copyDir(
+                project.getSources(),
+                workspace.create(project)
+        );
     }
 }

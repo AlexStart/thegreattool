@@ -10,10 +10,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import java.io.IOException;
-
 import static com.sam.jcc.cloud.ci.CIBuildStatus.UNKNOWN;
-import static com.sam.jcc.cloud.ci.impl.JenkinsUtil.correctProject;
+import static com.sam.jcc.cloud.ci.impl.JenkinsUtil.loadProject;
 import static com.sam.jcc.cloud.ci.impl.JenkinsUtil.getJenkins;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -36,7 +34,7 @@ public class JenkinsJobManagerTest {
         jenkins = getJenkins(temp.newFolder());
         jobManager = new JenkinsJobManager(jenkins.getServer());
 
-        project = correctProject(temp.newFolder());
+        project = loadProject("maven", temp.newFolder());
         jenkins.create(project);
     }
 
@@ -68,8 +66,8 @@ public class JenkinsJobManagerTest {
     }
 
     CIProject unknownProject() throws Exception {
-        final CIProject project = correctProject(temp.newFolder());
-        project.setArtifactId("some unknown");
+        final CIProject project = loadProject("maven", temp.newFolder());
+        project.setArtifactId("unknown");
         return project;
     }
 }

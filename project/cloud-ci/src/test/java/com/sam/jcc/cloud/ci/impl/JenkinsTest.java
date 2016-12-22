@@ -13,8 +13,8 @@ import java.io.InputStream;
 import static com.sam.jcc.cloud.ci.CIBuildStatus.FAILED;
 import static com.sam.jcc.cloud.ci.CIBuildStatus.IN_PROGRESS;
 import static com.sam.jcc.cloud.ci.CIBuildStatus.SUCCESSFUL;
-import static com.sam.jcc.cloud.ci.impl.JenkinsUtil.correctProject;
 import static com.sam.jcc.cloud.ci.impl.JenkinsUtil.getJenkins;
+import static com.sam.jcc.cloud.ci.impl.JenkinsUtil.loadProject;
 import static com.sam.jcc.cloud.ci.impl.JenkinsUtil.projectWithFailedTest;
 import static java.lang.Thread.sleep;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -35,7 +35,7 @@ public class JenkinsTest {
     @Before
     public void setUp() throws Exception {
         jenkins = getJenkins(temp.newFolder());
-        project = correctProject(temp.newFolder());
+        project = loadProject("maven", temp.newFolder());
     }
 
     @Test
@@ -44,8 +44,18 @@ public class JenkinsTest {
         jenkins.delete(project);
     }
 
-    @Test(timeout = 60_000L)
-    public void buildsProject() throws Exception {
+    @Test(timeout = 120_000L)
+    public void buildsMavenProject() throws Exception {
+        buildProject(project);
+    }
+
+    @Test(timeout = 120_000L)
+    public void buildsGradleProject() throws Exception {
+        final CIProject gradleProject = loadProject("gradle", temp.newFolder());
+        buildProject(gradleProject);
+    }
+
+    void buildProject(CIProject project) throws Exception {
         jenkins.create(project);
         jenkins.build(project);
         waitWhileProcessing(project);
@@ -59,7 +69,7 @@ public class JenkinsTest {
         jenkins.delete(project);
     }
 
-    @Test(expected = CIBuildNotFoundException.class, timeout = 60_000L)
+    @Test(expected = CIBuildNotFoundException.class, timeout = 120_000L)
     public void failsOnGetFailedBuild() throws Exception {
         final CIProject project = projectWithFailedTest(temp.newFolder());
 

@@ -7,6 +7,7 @@ import org.springframework.core.io.ClassPathResource;
 import java.io.File;
 
 import static com.sam.jcc.cloud.ci.impl.Jenkins.defaultJenkinsServer;
+import static java.text.MessageFormat.format;
 
 /**
  * @author Alexey Zhytnik
@@ -22,17 +23,19 @@ public final class JenkinsUtil {
         return new Jenkins(defaultJenkinsServer(), workspace);
     }
 
-    public static CIProject correctProject(File projectDir) throws Exception {
-        return setUpProject("/maven-project.zip", projectDir);
+    public static CIProject loadProject(String type, File projectDir) throws Exception {
+        return setUpProject(type, projectDir);
     }
 
     public static CIProject projectWithFailedTest(File projectDir) throws Exception {
-        return setUpProject("/wrong-project.zip", projectDir);
+        return setUpProject("wrong", projectDir);
     }
 
-    private static CIProject setUpProject(String pathToSrc, File target) throws Exception {
+    private static CIProject setUpProject(String type, File target) throws Exception {
         final CIProject p = new CIProject();
-        p.setArtifactId("TempProject");
+        p.setArtifactId("TempProject-" + type);
+
+        final String pathToSrc = format("/{0}-project.zip", type);
         p.setSources(copyProjectSourcesInto(pathToSrc, target));
         return p;
     }
