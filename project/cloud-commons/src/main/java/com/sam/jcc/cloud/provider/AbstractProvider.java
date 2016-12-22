@@ -25,7 +25,7 @@ public abstract class AbstractProvider<T> extends AbstractCRUD<T> implements IPr
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private final List<IEventManager<T>> eventManagers;
+    protected final List<IEventManager<T>> eventManagers;
 
     @Setter(value = PACKAGE)
     private Map<String, String> names;
