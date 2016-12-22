@@ -58,12 +58,12 @@ public class JenkinsTest {
         }
     }
 
-    @Test(timeout = 120_000L)
+    @Test(timeout = 45_000L)
     public void buildsMavenProject() throws Exception {
         buildProject(project);
     }
 
-    @Test(timeout = 120_000L)
+    @Test(timeout = 45_000L)
     public void buildsGradleProject() throws Exception {
         final CIProject gradleProject = loadProject("gradle", temp.newFolder());
         buildProject(gradleProject);
@@ -83,7 +83,7 @@ public class JenkinsTest {
         jenkins.delete(project);
     }
 
-    @Test(expected = CIBuildNotFoundException.class, timeout = 120_000L)
+    @Test(expected = CIBuildNotFoundException.class, timeout = 45_000L)
     public void failsOnGetFailedBuild() throws Exception {
         final CIProject project = projectWithFailedTest(temp.newFolder());
 
