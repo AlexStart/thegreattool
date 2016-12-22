@@ -70,10 +70,10 @@ public class CIHelperTest {
         try {
             executeWith("getBuild", project);
             fail("should not return failed build");
-        } catch (CIBuildNotFoundException ignored) {
+        } catch (CIBuildNotFoundException expected) {}
+        finally {
+            executeWith("delete", project);
         }
-
-        executeWith("delete", project);
     }
 
     void executeWith(String operation, File project) {

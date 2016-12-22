@@ -72,6 +72,9 @@ ci:
     notFound:
       en: "Project {0} not found!"
       ru: "Проект {0} не найден!"
+    exist:
+      en: "CI for {0} already exists!"
+      ru: "CI для {0} уже существует!"
   build:
     notFound:
       en: "Build of {0} not found!"

@@ -2,7 +2,9 @@ package com.sam.jcc.cloud.ci.impl;
 
 import com.sam.jcc.cloud.ci.CIProject;
 import com.sam.jcc.cloud.ci.exception.CIBuildNotFoundException;
+import com.sam.jcc.cloud.ci.exception.CIProjectAlreadyExistsException;
 import com.sam.jcc.cloud.ci.exception.CIProjectNotFoundException;
+import com.sam.jcc.cloud.event.DefaultLoggingEventManager;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -13,10 +15,17 @@ import java.io.InputStream;
 import static com.sam.jcc.cloud.ci.CIBuildStatus.FAILED;
 import static com.sam.jcc.cloud.ci.CIBuildStatus.IN_PROGRESS;
 import static com.sam.jcc.cloud.ci.CIBuildStatus.SUCCESSFUL;
+import static com.sam.jcc.cloud.ci.CIProjectStatus.CONFIGURED;
+import static com.sam.jcc.cloud.ci.CIProjectStatus.CREATED;
+import static com.sam.jcc.cloud.ci.CIProjectStatus.DELETED;
+import static com.sam.jcc.cloud.ci.CIProjectStatus.HAS_BUILD;
+import static com.sam.jcc.cloud.ci.CIProjectStatus.HAS_NO_BUILD;
+import static com.sam.jcc.cloud.ci.CIProjectStatus.UPDATED;
 import static com.sam.jcc.cloud.ci.impl.JenkinsUtil.getJenkins;
 import static com.sam.jcc.cloud.ci.impl.JenkinsUtil.loadProject;
 import static com.sam.jcc.cloud.ci.impl.JenkinsUtil.projectWithFailedTest;
 import static java.lang.Thread.sleep;
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
@@ -35,6 +44,8 @@ public class JenkinsTest {
     @Before
     public void setUp() throws Exception {
         jenkins = getJenkins(temp.newFolder());
+        jenkins.setEventManagers(singletonList(new DefaultLoggingEventManager<>()));
+
         project = loadProject("maven", temp.newFolder());
     }
 
@@ -42,6 +53,19 @@ public class JenkinsTest {
     public void creates() {
         jenkins.create(project);
         jenkins.delete(project);
+    }
+
+    @Test
+    public void checksExistence() {
+        jenkins.create(project);
+
+        try {
+            jenkins.create(project);
+            fail("should check existence");
+        } catch (CIProjectAlreadyExistsException expected) {}
+        finally {
+            jenkins.delete(project);
+        }
     }
 
     @Test(timeout = 120_000L)
@@ -56,8 +80,14 @@ public class JenkinsTest {
     }
 
     void buildProject(CIProject project) throws Exception {
+        assertThat(project.getStatus()).isEqualTo(CONFIGURED);
+
         jenkins.create(project);
+        assertThat(project.getStatus()).isEqualTo(CREATED);
+
         jenkins.build(project);
+        assertThat(project.getStatus()).isEqualTo(UPDATED);
+
         waitWhileProcessing(project);
 
         assertThat(jenkins.getLastBuildStatus(project)).isEqualTo(SUCCESSFUL);
@@ -65,8 +95,10 @@ public class JenkinsTest {
         try (InputStream build = jenkins.getLastSuccessfulBuild(project)) {
             assertThat(build).isNotNull();
         }
+        assertThat(project.getStatus()).isEqualTo(HAS_BUILD);
 
         jenkins.delete(project);
+        assertThat(project.getStatus()).isEqualTo(DELETED);
     }
 
     @Test(expected = CIBuildNotFoundException.class, timeout = 120_000L)
@@ -84,6 +116,7 @@ public class JenkinsTest {
         } finally {
             jenkins.delete(project);
         }
+        assertThat(project.getStatus()).isEqualTo(HAS_NO_BUILD);
     }
 
     @Test(expected = CIProjectNotFoundException.class)

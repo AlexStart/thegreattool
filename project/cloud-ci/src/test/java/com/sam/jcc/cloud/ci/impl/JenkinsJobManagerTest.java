@@ -50,6 +50,12 @@ public class JenkinsJobManagerTest {
     }
 
     @Test
+    public void knowsJobExist() throws Exception {
+        assertThat(jobManager.hasJob(project)).isTrue();
+        assertThat(jobManager.hasJob(unknownProject())).isFalse();
+    }
+
+    @Test
     public void getsBuildStatus() {
         final CIBuildStatus status = jobManager.getBuildStatus(project);
         assertThat(status).isEqualTo(UNKNOWN);

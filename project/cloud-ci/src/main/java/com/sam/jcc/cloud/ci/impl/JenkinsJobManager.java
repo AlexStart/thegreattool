@@ -20,6 +20,7 @@ import static com.sam.jcc.cloud.ci.CIBuildStatus.IN_PROGRESS;
 import static com.sam.jcc.cloud.ci.CIBuildStatus.SUCCESSFUL;
 import static com.sam.jcc.cloud.ci.CIBuildStatus.UNKNOWN;
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 /**
  * @author Alexey Zhytnik
@@ -34,13 +35,21 @@ class JenkinsJobManager {
     }
 
     public JobWithDetails loadJob(CIProject project) {
-        try {
-            final JobWithDetails job = server.getJob(project.getName());
+        final JobWithDetails job = getJob(project);
 
-            if (isNull(job)) {
-                throw new CIProjectNotFoundException(project);
-            }
-            return job;
+        if (isNull(job)) {
+            throw new CIProjectNotFoundException(project);
+        }
+        return job;
+    }
+
+    public boolean hasJob(CIProject project) {
+        return nonNull(getJob(project));
+    }
+
+    private JobWithDetails getJob(CIProject project) {
+        try {
+            return server.getJob(project.getName());
         } catch (IOException e) {
             throw new CIException(e);
         }
