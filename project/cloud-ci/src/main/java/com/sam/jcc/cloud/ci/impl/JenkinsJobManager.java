@@ -4,17 +4,18 @@ import com.offbytwo.jenkins.JenkinsServer;
 import com.offbytwo.jenkins.model.Build;
 import com.offbytwo.jenkins.model.BuildResult;
 import com.offbytwo.jenkins.model.JobWithDetails;
-import com.sam.jcc.cloud.ci.CIProject;
 import com.sam.jcc.cloud.ci.CIBuildStatus;
+import com.sam.jcc.cloud.ci.CIProject;
 import com.sam.jcc.cloud.ci.exception.CIException;
+import com.sam.jcc.cloud.ci.exception.CIProjectNotFoundException;
 
 import java.io.IOException;
 
 import static com.offbytwo.jenkins.model.BuildResult.FAILURE;
 import static com.offbytwo.jenkins.model.BuildResult.SUCCESS;
-import static com.sam.jcc.cloud.ci.CIBuildStatus.SUCCESSFUL;
 import static com.sam.jcc.cloud.ci.CIBuildStatus.FAILED;
 import static com.sam.jcc.cloud.ci.CIBuildStatus.IN_PROGRESS;
+import static com.sam.jcc.cloud.ci.CIBuildStatus.SUCCESSFUL;
 import static com.sam.jcc.cloud.ci.CIBuildStatus.UNKNOWN;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -23,23 +24,36 @@ import static java.util.Objects.nonNull;
  * @author Alexey Zhytnik
  * @since 16-Dec-16
  */
-class JenkinsBuildManager {
+class JenkinsJobManager {
 
     private JenkinsServer server;
 
-    public JenkinsBuildManager(JenkinsServer server) {
+    public JenkinsJobManager(JenkinsServer server) {
         this.server = server;
     }
 
-    public CIBuildStatus getStatus(CIProject project) {
+    public JobWithDetails loadJob(CIProject project) {
         try {
-            return getStatusNotSecured(project);
+            final JobWithDetails job = server.getJob(project.getName());
+
+            if (isNull(job)) {
+                throw new CIProjectNotFoundException(project);
+            }
+            return job;
         } catch (IOException e) {
             throw new CIException(e);
         }
     }
 
-    private CIBuildStatus getStatusNotSecured(CIProject project) throws IOException {
+    public CIBuildStatus getBuildStatus(CIProject project) {
+        try {
+            return getStatus(project);
+        } catch (IOException e) {
+            throw new CIException(e);
+        }
+    }
+
+    private CIBuildStatus getStatus(CIProject project) throws IOException {
         final JobWithDetails job = loadJob(project);
 
         if (nonNull(job)) {
@@ -48,10 +62,6 @@ class JenkinsBuildManager {
             if (hasLastResult(job, SUCCESS)) return SUCCESSFUL;
         }
         return UNKNOWN;
-    }
-
-    private JobWithDetails loadJob(CIProject project) throws IOException {
-        return server.getJob(project.getName());
     }
 
     private boolean isInProgress(JobWithDetails job) throws IOException {

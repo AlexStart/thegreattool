@@ -6,18 +6,16 @@ import com.offbytwo.jenkins.model.Artifact;
 import com.offbytwo.jenkins.model.Build;
 import com.offbytwo.jenkins.model.BuildWithDetails;
 import com.offbytwo.jenkins.model.JobWithDetails;
-import com.sam.jcc.cloud.ci.CIProject;
 import com.sam.jcc.cloud.ci.CIBuildStatus;
+import com.sam.jcc.cloud.ci.CIProject;
 import com.sam.jcc.cloud.ci.CIServer;
 import com.sam.jcc.cloud.ci.exception.CIBuildNotFoundException;
 import com.sam.jcc.cloud.ci.exception.CIException;
-import com.sam.jcc.cloud.ci.exception.CIProjectNotFoundException;
 import com.sam.jcc.cloud.ci.exception.CIServerNotAvailableException;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.ItemStorage;
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +28,6 @@ import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.Sets.newHashSet;
 import static com.offbytwo.jenkins.model.Build.BUILD_HAS_NEVER_RAN;
 import static com.sam.jcc.cloud.PropertyResolver.getProperty;
-import static java.util.Objects.isNull;
 
 /**
  * @author Alexey Zhytnik
@@ -39,24 +36,22 @@ import static java.util.Objects.isNull;
 public class Jenkins implements CIServer {
 
     @VisibleForTesting
-    @Setter(AccessLevel.NONE)
     @Getter(AccessLevel.PACKAGE)
     private JenkinsServer server;
 
     @VisibleForTesting
-    //TODO: maybe transfer to CIServer
     @Getter(AccessLevel.PACKAGE)
     private ItemStorage<CIProject> workspace;
 
-    private JenkinsBuildManager buildManager;
+    private JenkinsJobManager jobManager;
     private JenkinsConfigurationBuilder builder;
 
     public Jenkins() {
-        server = new JenkinsServer(
-                URI.create(getProperty("ci.host")),
-                getProperty("ci.user"),
-                getProperty("ci.password")
-        );
+        this(defaultJenkinsServer(), workspace());
+    }
+
+    public Jenkins(JenkinsServer jenkins, File root) {
+        server = jenkins;
 
         if (!server.isRunning()) {
             throw new CIServerNotAvailableException();
@@ -65,9 +60,9 @@ public class Jenkins implements CIServer {
         installRequiredPlugins();
 
         workspace = new ItemStorage<>(CIProject::getName);
-        workspace.setRoot(new File(getProperty("ci.workspace.folder")));
+        workspace.setRoot(root);
 
-        buildManager = new JenkinsBuildManager(server);
+        jobManager = new JenkinsJobManager(server);
         builder = new JenkinsConfigurationBuilder(workspace);
     }
 
@@ -96,7 +91,7 @@ public class Jenkins implements CIServer {
 
     @Override
     public void build(CIProject project) {
-        final JobWithDetails job = loadJob(project);
+        final JobWithDetails job = jobManager.loadJob(project);
         updateSources(project);
         try {
             job.build(true);
@@ -115,7 +110,7 @@ public class Jenkins implements CIServer {
 
     @Override
     public InputStream getLastSuccessfulBuild(CIProject project) {
-        final Build build = loadJob(project).getLastSuccessfulBuild();
+        final Build build = jobManager.loadJob(project).getLastSuccessfulBuild();
 
         if (build.equals(BUILD_HAS_NEVER_RAN)) {
             throw new CIBuildNotFoundException(project);
@@ -138,8 +133,8 @@ public class Jenkins implements CIServer {
 
     @Override
     public void delete(CIProject project) {
-        loadJob(project);
         try {
+            jobManager.loadJob(project);
             server.deleteJob(project.getName(), true);
             workspace.delete(project);
         } catch (IOException e) {
@@ -149,23 +144,18 @@ public class Jenkins implements CIServer {
 
     @Override
     public CIBuildStatus getLastBuildStatus(CIProject project) {
-        return buildManager.getStatus(project);
+        return jobManager.getBuildStatus(project);
     }
 
-    private JobWithDetails loadJob(CIProject project) {
-        try {
-            final JobWithDetails job = server.getJob(project.getName());
-
-            if (isNull(job)) {
-                throw new CIProjectNotFoundException(project);
-            }
-            return job;
-        } catch (IOException e) {
-            throw new CIException(e);
-        }
+    private static File workspace() {
+        return new File(getProperty("ci.workspace.folder"));
     }
 
-    @VisibleForTesting void setWorkspace(File workspace) {
-        this.workspace.setRoot(workspace);
+    static JenkinsServer defaultJenkinsServer() {
+        return new JenkinsServer(
+                URI.create(getProperty("ci.host")),
+                getProperty("ci.user"),
+                getProperty("ci.password")
+        );
     }
 }

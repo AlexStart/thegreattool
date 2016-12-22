@@ -13,8 +13,10 @@ import org.springframework.core.io.ClassPathResource;
 import java.io.File;
 import java.io.InputStream;
 
-import static com.sam.jcc.cloud.PropertyResolver.setProperty;
-import static com.sam.jcc.cloud.ci.CIBuildStatus.*;
+import static com.sam.jcc.cloud.ci.CIBuildStatus.FAILED;
+import static com.sam.jcc.cloud.ci.CIBuildStatus.IN_PROGRESS;
+import static com.sam.jcc.cloud.ci.CIBuildStatus.SUCCESSFUL;
+import static com.sam.jcc.cloud.ci.impl.JenkinsUtil.getJenkins;
 import static java.lang.Thread.sleep;
 import static org.apache.commons.io.IOUtils.closeQuietly;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,13 +35,11 @@ public class JenkinsTest {
 
     @Before
     public void setUp() throws Exception {
-        jenkins = new Jenkins();
-        jenkins.setWorkspace(temp.newFolder());
-
+        jenkins = getJenkins(temp.newFolder());
         project = setUpProject("/maven-project.zip");
     }
 
-    @Test
+    @Test(timeout = 60_000L)
     public void buildsApp() throws Exception {
         jenkins.create(project);
         jenkins.build(project);
@@ -54,8 +54,7 @@ public class JenkinsTest {
         jenkins.delete(project);
     }
 
-    @Test
-    //TODO: fails
+    @Test(timeout = 60_000L)
     public void knowsAboutBuildFail() throws Exception {
         final CIProject project = setUpProject("/wrong-project.zip");
 
@@ -67,7 +66,7 @@ public class JenkinsTest {
         jenkins.delete(project);
     }
 
-    @Test(expected = CIBuildNotFoundException.class)
+    @Test(expected = CIBuildNotFoundException.class, timeout = 60_000L)
     public void failsOnGetBuildFailedProject() throws Exception {
         final CIProject project = setUpProject("/wrong-project.zip");
 
@@ -83,33 +82,18 @@ public class JenkinsTest {
     }
 
     @Test(expected = CIProjectNotFoundException.class)
-    public void failsOnDeleteUnknown(){
+    public void failsOnDeleteUnknown() {
         jenkins.delete(project);
     }
 
     @Test(expected = CIProjectNotFoundException.class)
-    public void failsOnBuildUnknown(){
+    public void failsOnBuildUnknown() {
         jenkins.build(project);
     }
 
     @Test(expected = CIProjectNotFoundException.class)
-    public void failsOnGetBuildUnknown(){
+    public void failsOnGetBuildUnknown() {
         jenkins.getLastSuccessfulBuild(project);
-    }
-
-    @Test
-    @SuppressWarnings("deprecation")
-    public void runsInSelectedDirectory() throws Exception {
-        final File workspace = temp.newFolder();
-        setProperty("ci.workspace.folder", workspace.getAbsolutePath());
-
-        final Jenkins jenkins = new Jenkins();
-        assertThat(jenkins.getWorkspace().getRoot()).isEqualTo(workspace);
-    }
-
-    @Test
-    public void checksUnknownProjects() {
-        assertThat(jenkins.getLastBuildStatus(project)).isEqualTo(UNKNOWN);
     }
 
     void waitWhileProcessing(CIProject p) throws Exception {

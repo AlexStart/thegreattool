@@ -1,5 +1,6 @@
 package com.sam.jcc.cloud.ci.impl;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.sam.jcc.cloud.ci.CIProject;
 import com.sam.jcc.cloud.ci.exception.CIException;
 import com.sam.jcc.cloud.ci.impl.JenkinsProjectConfiguration.Builders.HudsonTasksBatchFile;
@@ -56,7 +57,7 @@ class JenkinsConfigurationBuilder {
 
         setUpProjectDir(config, project);
 
-        boolean maven = isMaven(project);
+        boolean maven = isMaven(workspace.get(project));
         setUpBuilder(config, maven);
         setUpArtifacts(config, maven);
 
@@ -95,10 +96,8 @@ class JenkinsConfigurationBuilder {
                 .setArtifacts(artifacts);
     }
 
-    public boolean isMaven(CIProject project) {
-        final File src = workspace.get(project);
-        final IOFileFilter mavenFilter = new NameFileFilter(MAVEN_CONFIGURATION);
-
+    @VisibleForTesting boolean isMaven(File src) {
+        IOFileFilter mavenFilter = new NameFileFilter(MAVEN_CONFIGURATION);
         return listFiles(src, mavenFilter, FILE).size() == 1;
     }
 

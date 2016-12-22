@@ -15,14 +15,12 @@ public interface CIServer {
     void create(CIProject project);
 
     /**
-     * Updates sources of CIProject in the server workspace,
-     * activates a build-task of CIProject
+     * Activates a build-task of CIProject with latest sources.
      */
     void build(CIProject project);
 
     /**
-     * Deletes a build-task of CIProject and
-     * its sources from the server workspace.
+     * Deletes CIProject build-task and its sources.
      */
     void delete(CIProject project);
 

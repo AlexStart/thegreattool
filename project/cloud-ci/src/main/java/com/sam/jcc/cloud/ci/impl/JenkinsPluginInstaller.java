@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
 import static com.sam.jcc.cloud.PropertyResolver.getProperty;
@@ -33,7 +32,7 @@ class JenkinsPluginInstaller {
 
     private static final String INSTALLATION_PATH = "/pluginManager/installNecessaryPlugins";
 
-    private long maxInstallTimeOut;
+    private long maxInstallTimeOut = Long.valueOf(getProperty("jenkins.install.timeout"));
 
     private JenkinsServer server;
     private JenkinsHttpClient client;
@@ -41,15 +40,12 @@ class JenkinsPluginInstaller {
     public JenkinsPluginInstaller(JenkinsServer server) {
         this.server = server;
         this.client = extractHttpClient(server);
-        this.maxInstallTimeOut = Long.valueOf(getProperty("jenkins.install.timeout"));
     }
 
     public void install(Set<Entry<String, String>> plugins) {
-        final Set<Entry<String, String>> pluginsForInstall = plugins.stream()
+        plugins.stream()
                 .filter(p -> !isInstalled(p.getKey()))
-                .collect(Collectors.toSet());
-
-        pluginsForInstall.forEach(this::installAndWait);
+                .forEach(this::installAndWait);
     }
 
     private boolean isInstalled(String name) {
@@ -64,35 +60,35 @@ class JenkinsPluginInstaller {
 
     private void installAndWait(Entry<String, String> plugin) {
         install(plugin);
-        waitInstallation(plugin);
+        waitForInstall(plugin);
     }
 
     private void install(Entry<String, String> plugin) {
         log.info("{}-{} will be installed", plugin.getKey(), plugin.getValue());
-
         try {
-            client.post_xml(
-                    INSTALLATION_PATH,
-                    installPluginQuery(plugin.getKey(), plugin.getValue())
-            );
+            client.post_xml(INSTALLATION_PATH, installPluginQuery(plugin));
         } catch (IOException e) {
             throw new CIException(e);
         }
     }
 
-    private String installPluginQuery(String name, String version) {
+    private String installPluginQuery(Entry<String, String> plugin) {
+        final String name = plugin.getKey();
+        final String version = plugin.getValue();
         return format("<jenkins><install plugin=\"{0}@{1}\"/></jenkins>", name, version);
     }
 
-    private void waitInstallation(Entry<String, String> plugin) {
+    private void waitForInstall(Entry<String, String> plugin) {
+        if (!isInstalled(plugin.getKey())) {
+            log.info("Waiting for {}-{} install", plugin.getKey(), plugin.getValue());
+        }
         long remaining = maxInstallTimeOut;
 
         while (!isInstalled(plugin.getKey()) && remaining > 0L) {
-            log.info("Waiting for {}-{} installation", plugin.getKey(), plugin.getValue());
-
-            sleepUninterruptibly(1_000L, MILLISECONDS);
-            remaining -= 1_000L;
+            sleepUninterruptibly(500L, MILLISECONDS);
+            remaining -= 500L;
         }
+        log.info("{}-{} was installed", plugin.getKey(), plugin.getValue());
     }
 
     private JenkinsHttpClient extractHttpClient(JenkinsServer server) {
