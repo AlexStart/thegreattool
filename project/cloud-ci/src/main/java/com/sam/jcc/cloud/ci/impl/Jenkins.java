@@ -8,22 +8,16 @@ import com.offbytwo.jenkins.model.BuildWithDetails;
 import com.offbytwo.jenkins.model.JobWithDetails;
 import com.sam.jcc.cloud.ci.CIBuildStatus;
 import com.sam.jcc.cloud.ci.CIProject;
-import com.sam.jcc.cloud.ci.CIProjectStatus;
 import com.sam.jcc.cloud.ci.CIServer;
 import com.sam.jcc.cloud.ci.exception.CIBuildNotFoundException;
 import com.sam.jcc.cloud.ci.exception.CIException;
 import com.sam.jcc.cloud.ci.exception.CIProjectAlreadyExistsException;
 import com.sam.jcc.cloud.ci.exception.CIServerNotAvailableException;
-import com.sam.jcc.cloud.i.IEventManager;
-import com.sam.jcc.cloud.i.ILoggable;
+import com.sam.jcc.cloud.exception.NotImplementedCloudException;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.ItemStorage;
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -34,24 +28,17 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 
-import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.Sets.newHashSet;
 import static com.offbytwo.jenkins.model.Build.BUILD_HAS_NEVER_RAN;
 import static com.sam.jcc.cloud.PropertyResolver.getProperty;
-import static com.sam.jcc.cloud.ci.CIProjectStatus.CREATED;
-import static com.sam.jcc.cloud.ci.CIProjectStatus.DELETED;
-import static com.sam.jcc.cloud.ci.CIProjectStatus.HAS_BUILD;
-import static com.sam.jcc.cloud.ci.CIProjectStatus.HAS_NO_BUILD;
-import static com.sam.jcc.cloud.ci.CIProjectStatus.UPDATED;
 
 /**
  * @author Alexey Zhytnik
  * @since 15-Dec-16
  */
-@Slf4j
 @Component
-public class Jenkins implements CIServer, ILoggable {
+public class Jenkins implements CIServer {
 
     @VisibleForTesting
     @Getter(AccessLevel.PACKAGE)
@@ -63,10 +50,6 @@ public class Jenkins implements CIServer, ILoggable {
 
     private JenkinsJobManager jobManager;
     private JenkinsConfigurationBuilder builder;
-
-    @Setter
-    @Autowired
-    private List<IEventManager<CIProject>> eventManagers = newArrayList();
 
     public Jenkins() {
         this(defaultJenkinsServer(), defaultWorkspace());
@@ -99,6 +82,11 @@ public class Jenkins implements CIServer, ILoggable {
     }
 
     @Override
+    public boolean isEnabled() {
+        return server.isRunning();
+    }
+
+    @Override
     public void create(CIProject project) {
         failOnExist(project);
         try {
@@ -106,7 +94,6 @@ public class Jenkins implements CIServer, ILoggable {
             updateSources(project);
             final String config = builder.build(project);
             server.createJob(project.getName(), config, true);
-            updateStatus(project, CREATED);
         } catch (IOException e) {
             workspace.delete(project);
             throw new CIException(e);
@@ -128,7 +115,6 @@ public class Jenkins implements CIServer, ILoggable {
         } catch (IOException e) {
             throw new CIException(e);
         }
-        updateStatus(project, UPDATED);
     }
 
     private void updateSources(CIProject project) {
@@ -144,7 +130,6 @@ public class Jenkins implements CIServer, ILoggable {
         final Build build = jobManager.loadJob(project).getLastSuccessfulBuild();
 
         if (build.equals(BUILD_HAS_NEVER_RAN)) {
-            updateStatus(project, HAS_NO_BUILD);
             throw new CIBuildNotFoundException(project);
         }
         try {
@@ -155,12 +140,9 @@ public class Jenkins implements CIServer, ILoggable {
                     .findFirst();
 
             if (!artifact.isPresent()) {
-                updateStatus(project, HAS_NO_BUILD);
                 throw new CIBuildNotFoundException(project);
             }
-            final InputStream stream = details.downloadArtifact(artifact.get());
-            updateStatus(project, HAS_BUILD);
-            return stream;
+            return details.downloadArtifact(artifact.get());
         } catch (IOException | URISyntaxException e) {
             throw new CIException(e);
         }
@@ -172,25 +154,19 @@ public class Jenkins implements CIServer, ILoggable {
             jobManager.loadJob(project);
             server.deleteJob(project.getName(), true);
             workspace.delete(project);
-            updateStatus(project, DELETED);
         } catch (IOException e) {
             throw new CIException(e);
         }
     }
 
     @Override
-    public CIBuildStatus getLastBuildStatus(CIProject project) {
-        return jobManager.getBuildStatus(project);
-    }
-
-    private void updateStatus(CIProject project, CIProjectStatus status) {
-        project.setStatus(status);
-        eventManagers.forEach(manager -> manager.fireEvent(project, this));
+    public List<CIProject> getAllProjects() {
+        throw new NotImplementedCloudException();
     }
 
     @Override
-    public Logger getLogger() {
-        return log;
+    public CIBuildStatus getLastBuildStatus(CIProject project) {
+        return jobManager.getBuildStatus(project);
     }
 
     private static File defaultWorkspace() {

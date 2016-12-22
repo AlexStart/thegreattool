@@ -1,12 +1,15 @@
 package com.sam.jcc.cloud.ci;
 
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * @author Alexey Zhytnik
  * @since 16-Dec-16
  */
 public interface CIServer {
+
+    boolean isEnabled();
 
     /**
      * Creates a build-task of CIProject,
@@ -27,4 +30,6 @@ public interface CIServer {
     InputStream getLastSuccessfulBuild(CIProject project);
 
     CIBuildStatus getLastBuildStatus(CIProject project);
+
+    List<CIProject> getAllProjects();
 }
