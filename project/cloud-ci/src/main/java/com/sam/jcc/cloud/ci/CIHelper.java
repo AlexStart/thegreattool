@@ -12,7 +12,6 @@ import java.util.Map.Entry;
 
 import static java.text.MessageFormat.format;
 import static java.util.Arrays.stream;
-import static org.apache.commons.io.IOUtils.closeQuietly;
 
 /**
  * @author Alexey Zhytnik
@@ -22,9 +21,18 @@ public class CIHelper {
 
     private static ZipArchiveManager zipManager = new ZipArchiveManager();
 
-    private CIServer jenkins = new Jenkins();
+    private CIServer jenkins;
+
     private ProjectParser parser = new ProjectParser();
     private FileManager files = new FileManager();
+
+    public CIHelper() {
+        jenkins = new Jenkins();
+    }
+
+    CIHelper(CIServer jenkins) {
+        this.jenkins = jenkins;
+    }
 
     public static void main(String[] args) {
         failOnIllegalFormat(args);
@@ -70,11 +78,11 @@ public class CIHelper {
                 return;
             }
             case "getBuild": {
-                System.out.println(getBuild(ci, project));
+                System.out.print(getBuild(ci, project));
                 return;
             }
             case "getStatus": {
-                System.out.println(getStatus(ci, project));
+                System.out.print(getStatus(ci, project));
                 return;
             }
             case "update": {
@@ -88,9 +96,7 @@ public class CIHelper {
     }
 
     private void createNewProject(String ci, File project) {
-        final CIProject p = parse(project);
-        jenkins.create(p);
-        jenkins.build(p);
+        jenkins.create(parse(project));
     }
 
     private File getBuild(String ci, File sources) {
@@ -98,11 +104,7 @@ public class CIHelper {
         final File zip = files.createTempFile(project.getName(), ".zip");
 
         final InputStream build = jenkins.getLastSuccessfulBuild(project);
-        try {
-            files.write(build, zip);
-        } finally {
-            closeQuietly(build);
-        }
+        files.write(build, zip);
         return zip;
     }
 
@@ -124,12 +126,12 @@ public class CIHelper {
         final CIProject p = new CIProject();
         p.setGroupId(metadata.getKey());
         p.setArtifactId(metadata.getValue());
-        p.setSources(extractSources(p, zip));
+        p.setSources(extractSources(zip));
         return p;
     }
 
-    private File extractSources(CIProject project, File zip) {
-        final File temp = new FileManager().createTempFile(project.getName(), ".tmp");
+    private File extractSources(File zip) {
+        final File temp = new FileManager().createTempDir();
         temp.deleteOnExit();
 
         zipManager.unzip(zip, temp);

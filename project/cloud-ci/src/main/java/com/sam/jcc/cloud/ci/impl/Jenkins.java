@@ -47,7 +47,7 @@ public class Jenkins implements CIServer {
     private JenkinsConfigurationBuilder builder;
 
     public Jenkins() {
-        this(defaultJenkinsServer(), workspace());
+        this(defaultJenkinsServer(), defaultWorkspace());
     }
 
     public Jenkins(JenkinsServer jenkins, File root) {
@@ -147,11 +147,11 @@ public class Jenkins implements CIServer {
         return jobManager.getBuildStatus(project);
     }
 
-    private static File workspace() {
+    private static File defaultWorkspace() {
         return new File(getProperty("ci.workspace.folder"));
     }
 
-    static JenkinsServer defaultJenkinsServer() {
+    public static JenkinsServer defaultJenkinsServer() {
         return new JenkinsServer(
                 URI.create(getProperty("ci.host")),
                 getProperty("ci.user"),
