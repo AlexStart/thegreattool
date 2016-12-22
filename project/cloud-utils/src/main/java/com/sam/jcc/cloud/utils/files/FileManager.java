@@ -3,9 +3,11 @@ package com.sam.jcc.cloud.utils.files;
 import static java.nio.file.Files.setAttribute;
 import static org.apache.commons.io.FileUtils.copyDirectory;
 import static org.apache.commons.io.FileUtils.listFiles;
+import static org.apache.commons.io.IOUtils.closeQuietly;
 import static org.apache.commons.io.filefilter.DirectoryFileFilter.DIRECTORY;
 import static org.apache.commons.io.filefilter.FileFileFilter.FILE;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -111,10 +113,12 @@ public class FileManager {
 	}
 
 	public void write(InputStream content, File target) {
-		try (final OutputStream out = new FileOutputStream(target)) {
+		try (final OutputStream out = new BufferedOutputStream(new FileOutputStream(target))) {
 			IOUtils.copy(content, out);
 		} catch (IOException e) {
 			throw new InternalCloudException(e);
+		} finally {
+			closeQuietly(content);
 		}
 	}
 
