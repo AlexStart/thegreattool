@@ -11,6 +11,8 @@ import com.sam.jcc.cloud.ci.exception.CIProjectNotFoundException;
 
 import java.io.IOException;
 
+import static com.offbytwo.jenkins.model.Build.BUILD_HAS_NEVER_RAN;
+import static com.offbytwo.jenkins.model.BuildResult.BUILDING;
 import static com.offbytwo.jenkins.model.BuildResult.FAILURE;
 import static com.offbytwo.jenkins.model.BuildResult.SUCCESS;
 import static com.sam.jcc.cloud.ci.CIBuildStatus.FAILED;
@@ -18,7 +20,6 @@ import static com.sam.jcc.cloud.ci.CIBuildStatus.IN_PROGRESS;
 import static com.sam.jcc.cloud.ci.CIBuildStatus.SUCCESSFUL;
 import static com.sam.jcc.cloud.ci.CIBuildStatus.UNKNOWN;
 import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 
 /**
  * @author Alexey Zhytnik
@@ -56,25 +57,32 @@ class JenkinsJobManager {
     private CIBuildStatus getStatus(CIProject project) throws IOException {
         final JobWithDetails job = loadJob(project);
 
-        if (nonNull(job)) {
-            if (isInProgress(job)) return IN_PROGRESS;
-            if (hasLastResult(job, FAILURE)) return FAILED;
-            if (hasLastResult(job, SUCCESS)) return SUCCESSFUL;
-        }
+        if (isInProgress(job)) return IN_PROGRESS;
+        if (hasLastResult(job, FAILURE)) return FAILED;
+        if (hasLastResult(job, SUCCESS)) return SUCCESSFUL;
         return UNKNOWN;
     }
 
     private boolean isInProgress(JobWithDetails job) throws IOException {
-        return job.isInQueue() || isNull(getLastBuildResult(job));
+        return job.isInQueue() || getBuildResult(job) == BUILDING;
     }
 
     private boolean hasLastResult(JobWithDetails job, BuildResult expected) throws IOException {
-        final BuildResult result = getLastBuildResult(job);
+        final BuildResult result = getBuildResult(job);
         return result.equals(expected);
     }
 
-    private BuildResult getLastBuildResult(JobWithDetails job) throws IOException {
+    private BuildResult getBuildResult(JobWithDetails job) throws IOException {
         final Build lastBuild = job.getLastBuild();
-        return lastBuild.details().getResult();
+
+        if (!lastBuild.equals(BUILD_HAS_NEVER_RAN)) {
+            final BuildResult result = lastBuild.details().getResult();
+
+            if (result == null) {
+                return BuildResult.BUILDING;
+            }
+            return result;
+        }
+        return BuildResult.UNKNOWN;
     }
 }

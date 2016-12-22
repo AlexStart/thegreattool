@@ -96,6 +96,7 @@ class JenkinsConfigurationBuilder {
                 .setArtifacts(artifacts);
     }
 
+    //TODO: maybe transfer functionality to ProjectParser, but ProjectParser works with zip
     @VisibleForTesting boolean isMaven(File src) {
         IOFileFilter mavenFilter = new NameFileFilter(MAVEN_CONFIGURATION);
         return listFiles(src, mavenFilter, FILE).size() == 1;
