@@ -17,7 +17,7 @@ import static com.sam.jcc.cloud.ci.CIProjectStatus.CONFIGURED;
 @Data
 public class CIProject implements ICIMetadata, IStatusable {
 
-    private final static String CI_PREFIX = getProperty("ci.prefix");
+    public final static String CI_PREFIX = getProperty("ci.prefix");
 
     private String groupId;
     private String artifactId;

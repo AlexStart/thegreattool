@@ -10,6 +10,7 @@ import com.sam.jcc.cloud.ci.exception.CIException;
 import com.sam.jcc.cloud.ci.exception.CIProjectNotFoundException;
 
 import java.io.IOException;
+import java.util.List;
 
 import static com.offbytwo.jenkins.model.Build.BUILD_HAS_NEVER_RAN;
 import static com.offbytwo.jenkins.model.BuildResult.BUILDING;
@@ -19,8 +20,10 @@ import static com.sam.jcc.cloud.ci.CIBuildStatus.FAILED;
 import static com.sam.jcc.cloud.ci.CIBuildStatus.IN_PROGRESS;
 import static com.sam.jcc.cloud.ci.CIBuildStatus.SUCCESSFUL;
 import static com.sam.jcc.cloud.ci.CIBuildStatus.UNKNOWN;
+import static com.sam.jcc.cloud.ci.CIProject.CI_PREFIX;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
+import static java.util.stream.Collectors.toList;
 
 /**
  * @author Alexey Zhytnik
@@ -41,6 +44,25 @@ class JenkinsJobManager {
             throw new CIProjectNotFoundException(project);
         }
         return job;
+    }
+
+    public List<CIProject> loadAllManagedProjects() {
+        try {
+            return server.getJobs()
+                    .keySet().stream()
+                    .filter(job -> job.startsWith(CI_PREFIX))
+                    .map(this::projectByName)
+                    .collect(toList());
+        } catch (IOException e) {
+            throw new CIException(e);
+        }
+    }
+
+    private CIProject projectByName(String name) {
+        final CIProject project = new CIProject();
+        final String artifactId = name.substring(CI_PREFIX.length());
+        project.setArtifactId(artifactId);
+        return project;
     }
 
     public boolean hasJob(CIProject project) {

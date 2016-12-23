@@ -27,6 +27,7 @@ public interface CIServer {
      */
     void delete(CIProject project);
 
+    //TODO: change to byte[]
     InputStream getLastSuccessfulBuild(CIProject project);
 
     CIBuildStatus getLastBuildStatus(CIProject project);

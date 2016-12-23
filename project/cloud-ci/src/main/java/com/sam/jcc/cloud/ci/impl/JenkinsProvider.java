@@ -1,14 +1,16 @@
-package com.sam.jcc.cloud.ci;
+package com.sam.jcc.cloud.ci.impl;
 
+import com.sam.jcc.cloud.ci.CIProject;
+import com.sam.jcc.cloud.ci.CIProjectStatus;
 import com.sam.jcc.cloud.ci.exception.CIBuildNotFoundException;
 import com.sam.jcc.cloud.ci.exception.CIServerNotAvailableException;
-import com.sam.jcc.cloud.ci.impl.Jenkins;
-import com.sam.jcc.cloud.exception.NotImplementedCloudException;
 import com.sam.jcc.cloud.i.IEventManager;
 import com.sam.jcc.cloud.i.ci.ICIMetadata;
 import com.sam.jcc.cloud.i.ci.ICIProvider;
 import com.sam.jcc.cloud.provider.AbstractProvider;
 import com.sam.jcc.cloud.provider.UnsupportedTypeException;
+import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -31,6 +33,7 @@ public class JenkinsProvider extends AbstractProvider<ICIMetadata> implements IC
 
     @Setter
     @Autowired
+    @Getter(AccessLevel.PACKAGE)
     private Jenkins jenkins;
 
     public JenkinsProvider(List<IEventManager<ICIMetadata>> iEventManagers) {
@@ -82,7 +85,7 @@ public class JenkinsProvider extends AbstractProvider<ICIMetadata> implements IC
             final InputStream build = jenkins.getLastSuccessfulBuild(project);
             project.setBuild(build);
             updateStatus(project, HAS_BUILD);
-        } catch (CIBuildNotFoundException e){
+        } catch (CIBuildNotFoundException e) {
             updateStatus(project, HAS_NO_BUILD);
             throw e;
         }
@@ -105,12 +108,14 @@ public class JenkinsProvider extends AbstractProvider<ICIMetadata> implements IC
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<ICIMetadata> findAll() {
-        throw new NotImplementedCloudException();
+        final List<CIProject> projects = jenkins.getAllProjects();
+        return (List<ICIMetadata>) (List<?>) projects;
     }
 
-    private void checkAccess(){
-        if(!jenkins.isEnabled()){
+    private void checkAccess() {
+        if (!jenkins.isEnabled()) {
             throw new CIServerNotAvailableException();
         }
     }

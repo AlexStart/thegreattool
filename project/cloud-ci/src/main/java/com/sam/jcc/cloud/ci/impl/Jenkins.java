@@ -13,7 +13,6 @@ import com.sam.jcc.cloud.ci.exception.CIBuildNotFoundException;
 import com.sam.jcc.cloud.ci.exception.CIException;
 import com.sam.jcc.cloud.ci.exception.CIProjectAlreadyExistsException;
 import com.sam.jcc.cloud.ci.exception.CIServerNotAvailableException;
-import com.sam.jcc.cloud.exception.NotImplementedCloudException;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.ItemStorage;
 import lombok.AccessLevel;
@@ -161,7 +160,7 @@ public class Jenkins implements CIServer {
 
     @Override
     public List<CIProject> getAllProjects() {
-        throw new NotImplementedCloudException();
+        return jobManager.loadAllManagedProjects();
     }
 
     @Override
