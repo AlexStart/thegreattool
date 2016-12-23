@@ -131,7 +131,7 @@ public class Jenkins implements CIServer {
         final Build build = jobManager.loadJob(project).getLastSuccessfulBuild();
 
         if (build.equals(BUILD_HAS_NEVER_RAN)) {
-            throw new CIBuildNotFoundException(project);
+            throw new CIBuildNotFoundException(project, getLastBuildStatus(project));
         }
         try {
             final BuildWithDetails details = build.details();
@@ -141,7 +141,7 @@ public class Jenkins implements CIServer {
                     .findFirst();
 
             if (!artifact.isPresent()) {
-                throw new CIBuildNotFoundException(project);
+                throw new CIBuildNotFoundException(project, getLastBuildStatus(project));
             }
             final InputStream stream = details.downloadArtifact(artifact.get());
             return getBytes(stream);

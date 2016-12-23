@@ -77,8 +77,21 @@ ci:
       ru: "CI для {0} уже существует!"
   build:
     notFound:
-      en: "Build of {0} not found!"
-      ru: "Сборка {0} не найдена!"
+      en: "Successful build not found, last build status was {1}, details: {0}"
+      ru: "Успешная сборка не найдена, последний статус {1}, details: {0}"
+    status:
+      failed:
+        en: "FAILED"
+        ru: "ПРОВАЛЕН"
+      unknown:
+        en: "UNKNOWN"
+        ru: "НЕИЗВЕСТЕН"
+      inProgress:
+        en: "IN PROGRESS"
+        ru: "В ПРОЦЕССЕ"
+      successful:
+        en: "SUCCESSFUL"
+        ru: "УСПЕШНО"
   server:
     notAvailable:
       en: "CI Server connection error"
