@@ -32,7 +32,7 @@ class JenkinsPluginInstaller {
 
     private static final String INSTALLATION_PATH = "/pluginManager/installNecessaryPlugins";
 
-    private long maxInstallTimeOut = Long.valueOf(getProperty("jenkins.install.timeout"));
+    private long maxInstallTimeOut = Long.valueOf(getProperty("ci.jenkins.install.timeout"));
 
     private JenkinsServer server;
     private JenkinsHttpClient client;
