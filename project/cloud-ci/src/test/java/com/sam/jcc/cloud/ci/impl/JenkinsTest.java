@@ -4,20 +4,14 @@ import com.sam.jcc.cloud.ci.CIProject;
 import com.sam.jcc.cloud.ci.exception.CIBuildNotFoundException;
 import com.sam.jcc.cloud.ci.exception.CIProjectAlreadyExistsException;
 import com.sam.jcc.cloud.ci.exception.CIProjectNotFoundException;
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
 
 import java.io.InputStream;
 
 import static com.sam.jcc.cloud.ci.CIBuildStatus.FAILED;
-import static com.sam.jcc.cloud.ci.CIBuildStatus.IN_PROGRESS;
 import static com.sam.jcc.cloud.ci.CIBuildStatus.SUCCESSFUL;
-import static com.sam.jcc.cloud.ci.impl.JenkinsUtil.getJenkins;
-import static com.sam.jcc.cloud.ci.impl.JenkinsUtil.loadProject;
-import static com.sam.jcc.cloud.ci.impl.JenkinsUtil.projectWithFailedTest;
-import static java.lang.Thread.sleep;
+import static com.sam.jcc.cloud.ci.util.CIProjectTemplates.loadProject;
+import static com.sam.jcc.cloud.ci.util.CIProjectTemplates.projectWithFailedTest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
@@ -25,17 +19,11 @@ import static org.assertj.core.api.Assertions.fail;
  * @author Alexey Zhytnik
  * @since 16-Dec-16
  */
-public class JenkinsTest {
+public class JenkinsTest extends JenkinsBaseTest {
 
-    @Rule
-    public TemporaryFolder temp = new TemporaryFolder();
-
-    Jenkins jenkins;
     CIProject project;
 
-    @Before
     public void setUp() throws Exception {
-        jenkins = getJenkins(temp.newFolder());
         project = loadProject("maven", temp.newFolder());
     }
 
@@ -118,9 +106,5 @@ public class JenkinsTest {
     @Test(expected = CIProjectNotFoundException.class)
     public void failsOnGetStatusOfUnknown() {
         jenkins.getLastBuildStatus(project);
-    }
-
-    void waitWhileProcessing(CIProject p) throws Exception {
-        while (jenkins.getLastBuildStatus(p) == IN_PROGRESS) sleep(100L);
     }
 }

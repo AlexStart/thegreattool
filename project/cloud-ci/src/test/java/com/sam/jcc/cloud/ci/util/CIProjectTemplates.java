@@ -1,4 +1,4 @@
-package com.sam.jcc.cloud.ci.impl;
+package com.sam.jcc.cloud.ci.util;
 
 import com.sam.jcc.cloud.ci.CIProject;
 import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
@@ -6,21 +6,15 @@ import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
 
-import static com.sam.jcc.cloud.ci.impl.Jenkins.defaultJenkinsServer;
 import static java.text.MessageFormat.format;
 
 /**
  * @author Alexey Zhytnik
  * @since 22-Dec-16
  */
-public final class JenkinsUtil {
+public final class CIProjectTemplates {
 
-    private JenkinsUtil() {
-    }
-
-    //TODO: maybe change to another Jenkins server
-    public static Jenkins getJenkins(File workspace) {
-        return new Jenkins(defaultJenkinsServer(), workspace);
+    private CIProjectTemplates() {
     }
 
     public static CIProject loadProject(String type, File projectDir) throws Exception {

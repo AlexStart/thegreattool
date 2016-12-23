@@ -1,18 +1,17 @@
 package com.sam.jcc.cloud.ci;
 
 import com.sam.jcc.cloud.ci.exception.CIBuildNotFoundException;
+import com.sam.jcc.cloud.ci.impl.JenkinsBaseTest;
 import com.sam.jcc.cloud.utils.files.TempFile;
 import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.SystemOutRule;
-import org.junit.rules.TemporaryFolder;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
 
-import static com.sam.jcc.cloud.ci.impl.JenkinsUtil.getJenkins;
 import static java.lang.Thread.sleep;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
@@ -21,10 +20,7 @@ import static org.assertj.core.api.Assertions.fail;
  * @author Alexey Zhytnik
  * @since 21-Dec-16
  */
-public class CIHelperTest {
-
-    @Rule
-    public TemporaryFolder temp = new TemporaryFolder();
+public class CIHelperTest extends JenkinsBaseTest {
 
     @Rule
     public SystemOutRule out = new SystemOutRule().enableLog();
@@ -35,7 +31,7 @@ public class CIHelperTest {
     @Before
     public void setUp() throws Exception {
         project = gradleProjectSources();
-        helper = new CIHelper(getJenkins(temp.newFolder()));
+        helper = new CIHelper(jenkins);
     }
 
     @Test

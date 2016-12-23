@@ -1,13 +1,9 @@
 package com.sam.jcc.cloud.ci.impl;
 
 import com.sam.jcc.cloud.ci.CIProject;
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
 
-import static com.sam.jcc.cloud.ci.CIBuildStatus.IN_PROGRESS;
-import static com.sam.jcc.cloud.ci.impl.JenkinsUtil.loadProject;
+import static com.sam.jcc.cloud.ci.util.CIProjectTemplates.loadProject;
 import static com.trilead.ssh2.util.IOUtils.closeQuietly;
 import static java.lang.Thread.sleep;
 import static java.util.Collections.emptyList;
@@ -19,20 +15,14 @@ import static org.mockito.Mockito.when;
  * @author Alexey Zhytnik
  * @since 23-Dec-16
  */
-public class JenkinsProviderTest {
-
-    @Rule
-    public TemporaryFolder temp = new TemporaryFolder();
-
-    Jenkins jenkins;
+public class JenkinsProviderTest extends JenkinsBaseTest {
 
     CIProject project;
     JenkinsProvider provider;
 
-    @Before
     public void setUp() throws Exception {
         provider = new JenkinsProvider(emptyList());
-        provider.setJenkins(getJenkins());
+        provider.setJenkins(jenkins);
 
         project = loadProject("maven", temp.newFolder());
     }
@@ -46,7 +36,7 @@ public class JenkinsProviderTest {
     public void checksAccessToServer() {
         assertThat(provider.isEnabled()).isTrue();
 
-        jenkins = spy(jenkins);
+        Jenkins jenkins = spy(this.jenkins);
         when(jenkins.isEnabled()).thenReturn(false);
         provider.setJenkins(jenkins);
 
@@ -98,14 +88,5 @@ public class JenkinsProviderTest {
                 .extracting("artifactId").containsOnly(expected);
 
         provider.delete(project);
-    }
-
-    void waitWhileProcessing(CIProject p) throws Exception {
-        while (jenkins.getLastBuildStatus(p) == IN_PROGRESS) sleep(100L);
-    }
-
-    Jenkins getJenkins() throws Exception {
-        jenkins = JenkinsUtil.getJenkins(temp.newFolder());
-        return new Jenkins(jenkins.getServer(), temp.newFolder());
     }
 }

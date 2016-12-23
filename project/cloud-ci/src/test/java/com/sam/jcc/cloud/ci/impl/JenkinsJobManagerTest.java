@@ -5,33 +5,22 @@ import com.sam.jcc.cloud.ci.CIBuildStatus;
 import com.sam.jcc.cloud.ci.CIProject;
 import com.sam.jcc.cloud.ci.exception.CIProjectNotFoundException;
 import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
 
 import static com.sam.jcc.cloud.ci.CIBuildStatus.UNKNOWN;
-import static com.sam.jcc.cloud.ci.impl.JenkinsUtil.loadProject;
-import static com.sam.jcc.cloud.ci.impl.JenkinsUtil.getJenkins;
+import static com.sam.jcc.cloud.ci.util.CIProjectTemplates.loadProject;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Alexey Zhytnik
  * @since 21-Dec-16
  */
-public class JenkinsJobManagerTest {
+public class JenkinsJobManagerTest extends JenkinsBaseTest {
 
-    @Rule
-    public TemporaryFolder temp = new TemporaryFolder();
-
-    Jenkins jenkins;
     CIProject project;
-
     JenkinsJobManager jobManager;
 
-    @Before
     public void setUp() throws Exception {
-        jenkins = getJenkins(temp.newFolder());
         jobManager = new JenkinsJobManager(jenkins.getServer());
 
         project = loadProject("maven", temp.newFolder());
