@@ -1,6 +1,5 @@
 package com.sam.jcc.cloud.ci;
 
-import java.io.InputStream;
 import java.util.List;
 
 /**
