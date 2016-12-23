@@ -15,7 +15,6 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.InputStream;
 import java.util.List;
 
 import static com.sam.jcc.cloud.ci.CIProjectStatus.CREATED;
@@ -82,7 +81,7 @@ public class JenkinsProvider extends AbstractProvider<ICIMetadata> implements IC
         final CIProject project = asCIProject(m);
 
         try {
-            final InputStream build = jenkins.getLastSuccessfulBuild(project);
+            final byte[] build = jenkins.getLastSuccessfulBuild(project);
             project.setBuild(build);
             updateStatus(project, HAS_BUILD);
         } catch (CIBuildNotFoundException e) {

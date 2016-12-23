@@ -31,6 +31,8 @@ import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.Sets.newHashSet;
 import static com.offbytwo.jenkins.model.Build.BUILD_HAS_NEVER_RAN;
 import static com.sam.jcc.cloud.PropertyResolver.getProperty;
+import static org.apache.commons.io.IOUtils.closeQuietly;
+import static org.springframework.util.StreamUtils.copyToByteArray;
 
 /**
  * @author Alexey Zhytnik
@@ -125,7 +127,7 @@ public class Jenkins implements CIServer {
     }
 
     @Override
-    public InputStream getLastSuccessfulBuild(CIProject project) {
+    public byte[] getLastSuccessfulBuild(CIProject project) {
         final Build build = jobManager.loadJob(project).getLastSuccessfulBuild();
 
         if (build.equals(BUILD_HAS_NEVER_RAN)) {
@@ -141,9 +143,19 @@ public class Jenkins implements CIServer {
             if (!artifact.isPresent()) {
                 throw new CIBuildNotFoundException(project);
             }
-            return details.downloadArtifact(artifact.get());
+            final InputStream stream = details.downloadArtifact(artifact.get());
+            return getBytes(stream);
         } catch (IOException | URISyntaxException e) {
             throw new CIException(e);
+        }
+    }
+
+    private byte[] getBytes(InputStream stream) throws IOException {
+        try {
+            return copyToByteArray(stream);
+        } catch (IOException e) {
+            closeQuietly(stream);
+            throw e;
         }
     }
 

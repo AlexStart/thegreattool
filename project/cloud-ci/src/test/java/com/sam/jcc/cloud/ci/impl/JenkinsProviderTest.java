@@ -4,7 +4,6 @@ import com.sam.jcc.cloud.ci.CIProject;
 import org.junit.Test;
 
 import static com.sam.jcc.cloud.ci.util.CIProjectTemplates.loadProject;
-import static com.trilead.ssh2.util.IOUtils.closeQuietly;
 import static java.lang.Thread.sleep;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -57,7 +56,6 @@ public class JenkinsProviderTest extends JenkinsBaseTest {
         final CIProject build = (CIProject) provider.read(project);
         assertThat(build.getBuild()).isNotNull();
 
-        closeQuietly(build.getBuild());
         provider.delete(project);
     }
 
@@ -71,7 +69,6 @@ public class JenkinsProviderTest extends JenkinsBaseTest {
         final CIProject build = (CIProject) provider.read(project);
         assertThat(build.getBuild()).isNotNull();
 
-        closeQuietly(build.getBuild());
         provider.delete(project);
     }
 

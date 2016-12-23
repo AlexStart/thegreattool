@@ -6,8 +6,6 @@ import com.sam.jcc.cloud.ci.exception.CIProjectAlreadyExistsException;
 import com.sam.jcc.cloud.ci.exception.CIProjectNotFoundException;
 import org.junit.Test;
 
-import java.io.InputStream;
-
 import static com.sam.jcc.cloud.ci.CIBuildStatus.FAILED;
 import static com.sam.jcc.cloud.ci.CIBuildStatus.SUCCESSFUL;
 import static com.sam.jcc.cloud.ci.util.CIProjectTemplates.loadProject;
@@ -65,9 +63,7 @@ public class JenkinsTest extends JenkinsBaseTest {
 
         assertThat(jenkins.getLastBuildStatus(project)).isEqualTo(SUCCESSFUL);
 
-        try (InputStream build = jenkins.getLastSuccessfulBuild(project)) {
-            assertThat(build).isNotNull();
-        }
+        assertThat(jenkins.getLastSuccessfulBuild(project)).isNotNull();
         jenkins.delete(project);
     }
 
@@ -81,8 +77,9 @@ public class JenkinsTest extends JenkinsBaseTest {
 
         assertThat(jenkins.getLastBuildStatus(project)).isEqualTo(FAILED);
 
-        try (InputStream build = jenkins.getLastSuccessfulBuild(project)) {
-            fail("Should not return failed build, but was: " + build);
+        try{
+            jenkins.getLastSuccessfulBuild(project);
+            fail("Should not return failed build");
         } finally {
             jenkins.delete(project);
         }

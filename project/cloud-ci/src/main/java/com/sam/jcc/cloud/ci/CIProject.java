@@ -23,7 +23,7 @@ public class CIProject implements ICIMetadata, IStatusable {
     private String artifactId;
 
     private File sources;
-    private InputStream build;
+    private byte[] build;
 
     private CIProjectStatus status = CONFIGURED;
 

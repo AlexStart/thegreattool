@@ -6,7 +6,6 @@ import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
 import com.sam.jcc.cloud.utils.parsers.ProjectParser;
 
 import java.io.File;
-import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Map.Entry;
 
@@ -103,7 +102,7 @@ public class CIHelper {
         final CIProject project = parse(sources);
         final File zip = files.createTempFile(project.getName(), ".zip");
 
-        final InputStream build = jenkins.getLastSuccessfulBuild(project);
+        final byte[] build = jenkins.getLastSuccessfulBuild(project);
         files.write(build, zip);
         return zip;
     }
