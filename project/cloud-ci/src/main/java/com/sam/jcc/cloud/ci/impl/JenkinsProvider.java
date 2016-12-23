@@ -62,10 +62,8 @@ public class JenkinsProvider extends AbstractProvider<ICIMetadata> implements IC
         final CIProject project = asCIProject(m);
 
         jenkins.create(project);
+        jenkins.build(project);
         updateStatus(project, CREATED);
-
-        jenkins.build(asCIProject(m));
-        updateStatus(m, UPDATED);
 
         return project;
     }

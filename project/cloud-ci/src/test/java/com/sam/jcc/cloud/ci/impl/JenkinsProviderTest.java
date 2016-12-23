@@ -1,12 +1,22 @@
 package com.sam.jcc.cloud.ci.impl;
 
 import com.sam.jcc.cloud.ci.CIProject;
+import com.sam.jcc.cloud.ci.exception.CIBuildNotFoundException;
+import com.sam.jcc.cloud.event.DefaultLoggingEventManager;
 import org.junit.Test;
 
+import static com.sam.jcc.cloud.ci.CIProjectStatus.CONFIGURED;
+import static com.sam.jcc.cloud.ci.CIProjectStatus.CREATED;
+import static com.sam.jcc.cloud.ci.CIProjectStatus.DELETED;
+import static com.sam.jcc.cloud.ci.CIProjectStatus.HAS_BUILD;
+import static com.sam.jcc.cloud.ci.CIProjectStatus.HAS_NO_BUILD;
+import static com.sam.jcc.cloud.ci.CIProjectStatus.UPDATED;
 import static com.sam.jcc.cloud.ci.util.CIProjectTemplates.loadProject;
+import static com.sam.jcc.cloud.ci.util.CIProjectTemplates.projectWithFailedTest;
 import static java.lang.Thread.sleep;
-import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
@@ -20,7 +30,7 @@ public class JenkinsProviderTest extends JenkinsBaseTest {
     JenkinsProvider provider;
 
     public void setUp() throws Exception {
-        provider = new JenkinsProvider(emptyList());
+        provider = new JenkinsProvider(singletonList(new DefaultLoggingEventManager<>()));
         provider.setJenkins(jenkins);
 
         project = loadProject("maven", temp.newFolder());
@@ -50,13 +60,36 @@ public class JenkinsProviderTest extends JenkinsBaseTest {
 
     @Test
     public void reads() throws Exception {
+        assertThat(project.getStatus()).isEqualTo(CONFIGURED);
+
         provider.create(project);
+        assertThat(project.getStatus()).isEqualTo(CREATED);
+
         waitWhileProcessing(project);
 
         final CIProject build = (CIProject) provider.read(project);
         assertThat(build.getBuild()).isNotNull();
+        assertThat(project.getStatus()).isEqualTo(HAS_BUILD);
 
         provider.delete(project);
+        assertThat(project.getStatus()).isEqualTo(DELETED);
+    }
+
+    @Test
+    public void failsWithFailedBuild() throws Exception {
+        final CIProject project = projectWithFailedTest(temp.newFolder());
+
+        provider.create(project);
+        waitWhileProcessing(project);
+
+        try {
+            provider.read(project);
+            fail("should not return failed build");
+        } catch (CIBuildNotFoundException expected) {
+            assertThat(project.getStatus()).isEqualTo(HAS_NO_BUILD);
+        } finally {
+            provider.delete(project);
+        }
     }
 
     @Test
@@ -64,6 +97,8 @@ public class JenkinsProviderTest extends JenkinsBaseTest {
         provider.create(project);
         sleep(250L);
         provider.update(project);
+        assertThat(project.getStatus()).isEqualTo(UPDATED);
+
         waitWhileProcessing(project);
 
         final CIProject build = (CIProject) provider.read(project);
