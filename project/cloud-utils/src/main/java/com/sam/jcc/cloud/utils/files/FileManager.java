@@ -5,12 +5,14 @@ import static org.apache.commons.io.FileUtils.copyDirectory;
 import static org.apache.commons.io.FileUtils.listFiles;
 import static org.apache.commons.io.filefilter.DirectoryFileFilter.DIRECTORY;
 import static org.apache.commons.io.filefilter.FileFileFilter.FILE;
+import static org.apache.commons.lang3.SystemUtils.IS_OS_WINDOWS;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import com.sam.jcc.cloud.PropertyResolver;
+import com.sam.jcc.cloud.i.Experimental;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.ClassPathResource;
@@ -58,12 +60,18 @@ public class FileManager {
 		}
 	}
 
+	@Experimental(
+	        "Currently supported only for Windows OS, " +
+            "Unix hidden files must to start with '.'"
+    )
 	public void createHiddenDir(File file) {
 		createDir(file);
+		if (!IS_OS_WINDOWS) return;
+
 		try {
 			setAttribute(file.toPath(), "dos:hidden", true);
 		} catch (IOException e) {
-			log.warn("Maybe OS doesn't support this way creation of hidden directory, {0}", e);
+			log.warn("Maybe OS doesn't support this way of creation of hidden directory, {0}", e);
 		}
 	}
 
