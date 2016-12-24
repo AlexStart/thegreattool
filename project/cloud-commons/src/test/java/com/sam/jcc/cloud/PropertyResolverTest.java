@@ -3,8 +3,10 @@ package com.sam.jcc.cloud;
 import com.sam.jcc.cloud.PropertyResolver.PropertyNotFoundException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.reloading.FileChangedReloadingStrategy;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -18,18 +20,24 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class PropertyResolverTest {
 
-    static final String EXIST_KEY = "cloud.translations";
+    static final String EXIST_PRODUCTION_KEY = "cloud.translations";
 
     PropertyResolver resolver;
 
-    @Before
-    public void setUpStrategy() throws Exception {
-        final FileChangedReloadingStrategy strategy = new FileChangedReloadingStrategy();
-        strategy.setRefreshDelay(100L);
-        final PropertiesConfiguration configuration = new PropertiesConfiguration(getPropertyFile());
-        configuration.setReloadingStrategy(strategy);
+    PropertiesConfiguration configuration;
 
+    @Before
+    public void setUp() throws Exception {
+        final FileChangedReloadingStrategy strategy = new FileChangedReloadingStrategy();
+        strategy.setRefreshDelay(500L);
+        configuration = new PropertiesConfiguration(getPropertyFile());
+        configuration.setReloadingStrategy(strategy);
         resolver = new PropertyResolver(configuration);
+    }
+
+    @After
+    public void reset() {
+        configuration.clear();
     }
 
     @Test
@@ -41,27 +49,26 @@ public class PropertyResolverTest {
         assertThat(resolver.getValue("value")).isEqualTo("updated_value");
     }
 
-    @Test(expected = PropertyNotFoundException.class)
-    public void failsOnUnknown() throws Exception {
-        rewriteConfig("");
-        resolver.getValue("value");
-    }
-
     @Test
-    public void getsProperty() {
-        assertThat(PropertyResolver.getProperty(EXIST_KEY))
+    public void getsProperty() throws Exception {
+        assertThat(PropertyResolver.getProperty(EXIST_PRODUCTION_KEY))
                 .isNotNull()
                 .isNotEmpty();
+    }
+
+    @Test(expected = PropertyNotFoundException.class)
+    public void failsOnUnknown() throws Exception {
+        resolver.getValue("unknown_key");
     }
 
     void rewriteConfig(String content) throws Exception {
         try (PrintWriter writer = new PrintWriter(getPropertyFile())) {
             writer.print(content);
         }
-        sleep(200);
+        sleep(1000L);
     }
 
     File getPropertyFile() throws Exception {
-        return new File(getClass().getResource("/test.properties").toURI());
+        return new ClassPathResource("/test.properties").getFile();
     }
 }

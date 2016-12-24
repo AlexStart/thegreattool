@@ -38,8 +38,8 @@ translation:
 
 property:
   notFound:
-    en: "Property {0} not found!"
-    ru: "Проперти {0} не найдена!"
+    en: "Property with key=\"{0}\" not found!"
+    ru: "Проперти c ключом=\"{0}\" не найдена!"
 
 unsupported:
   item:
