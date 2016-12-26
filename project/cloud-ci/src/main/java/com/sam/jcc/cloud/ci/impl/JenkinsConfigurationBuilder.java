@@ -111,9 +111,9 @@ class JenkinsConfigurationBuilder {
             }
         }
         if (maven) {
-            return "mvnw install";
+            return "./mvnw install";
         }
-        return "gradlew build";
+        return "./gradlew build";
     }
 
     @Experimental("JAXB configuration loader")
