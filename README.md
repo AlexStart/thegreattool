@@ -12,3 +12,6 @@ Thank you for considering contributing to the The Grand Tour! The contribution g
 ## Security Vulnerabilities
 
 If you discover a security vulnerability within Test Project, please send an e-mail to A.Katovich@sam-solutions.com. All security vulnerabilities will be promptly addressed.
+
+## Continuous integration
+Jenkins
