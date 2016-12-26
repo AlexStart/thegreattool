@@ -1,0 +1,301 @@
+<div id="body" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	class="container main_area">
+
+	<jsp:output omit-xml-declaration="yes" />
+
+	<div class="container marketing">
+
+		<div class="row indent">
+			<div class="col-md-12">
+
+				<div id="carousel-example-generic" class="carousel slide"
+					data-ride="carousel">
+					<!-- Indicators -->
+					<ol class="carousel-indicators">
+						<li data-target="#carousel-example-generic" data-slide-to="0"
+							class="active"></li>
+						<li data-target="#carousel-example-generic" data-slide-to="1"></li>
+						<li data-target="#carousel-example-generic" data-slide-to="2"></li>
+					</ol>
+
+					<div class="carousel-inner">
+						<div class="item active slide1">
+							<img src="${context_path}/images/carousel-bg.png" alt="" />
+
+							<div class="carousel-caption">
+								<div class="col-md-11">
+									<h1>
+										<spring:message code="welcome" />
+									</h1>
+
+									<p>
+										<spring:message code="welcome_descr" />
+									</p>
+								</div>
+
+								<div class="col-md-1">
+									<img src="${context_path}/images/carousel-icon.png" />
+								</div>
+
+							</div>
+						</div>
+
+						<div class="item slide2">
+							<img src="${context_path}/images/carousel-bg.png" alt="" />
+
+							<div class="carousel-caption">
+								<div class="col-md-11">
+									<h1>
+										<spring:message code="what_is_cloud" />
+									</h1>
+
+									<p>
+										<spring:message code="what_is_cloud_descr" />
+									</p>
+								</div>
+
+								<div class="col-md-1">
+									<img src="${context_path}/images/carousel-icon.png" />
+								</div>
+
+							</div>
+						</div>
+
+						<div class="item slide3">
+							<img src="${context_path}/images/carousel-bg.png" alt="" />
+
+							<div class="carousel-caption">
+								<div class="col-md-11">
+									<h1>
+										<spring:message code="what_is_eng" />
+									</h1>
+
+									<p>
+										<spring:message code="what_is_eng_descr" />
+									</p>
+								</div>
+
+								<div class="col-md-1">
+									<img src="${context_path}/images/carousel-icon.png" />
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!--Controls-->
+					<a class="left carousel-control" href="#carousel-example-generic"
+						data-slide="prev"> <span
+						class="glyphicon glyphicon-chevron-left"></span>
+					</a> <a class="right carousel-control" href="#carousel-example-generic"
+						data-slide="next"> <span
+						class="glyphicon glyphicon-chevron-right"></span>
+					</a>
+
+
+				</div>
+			</div>
+		</div>
+
+		<hr class="featurette-divider" />
+
+
+		<!-- ROW1: Three columns of text below the carousel -->
+		<div class="row">
+			<div class="col-lg-4">
+				<spring:message code="apps" var="apps" />
+				<img alt="${apps}" class="img-circle"
+					style="width: 140px; height: 140px;"
+					src="${context_path}/images/applications.png" />
+				<h2>${apps}</h2>
+				<p>
+					<spring:message code="apps_index_descr" />
+				</p>
+				<p>
+					<a role="button" href="${root_context}apps" class="btn btn-default">View
+						details »</a>
+				</p>
+			</div>
+			<!-- /.col-lg-4 -->
+			<div class="col-lg-4">
+				<img alt="140x140" data-src="holder.js/140x140" class="img-circle"
+					style="width: 140px; height: 140px;"
+					src="${context_path}/images/repositories.png" />
+				<h2>
+					<spring:message code="vcs" />
+				</h2>
+				<p>
+					<spring:message code="vcs_index_descr" />
+				</p>
+				<p>
+					<a role="button" href="#" class="btn btn-default">View details
+						»</a>
+				</p>
+			</div>
+			<!-- /.col-lg-4 -->
+			<div class="col-lg-4">
+				<img alt="140x140" data-src="holder.js/140x140" class="img-circle"
+					style="width: 140px; height: 140px;"
+					src="${context_path}/images/build_autom.png" />
+				<h2>Build automation</h2>
+				<p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in,
+					egestas eget quam. Vestibulum id ligula porta felis euismod semper.
+					Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum
+					nibh, ut fermentum massa justo sit amet risus.</p>
+				<p>
+					<a role="button" href="#" class="btn btn-default">View details
+						»</a>
+				</p>
+			</div>
+			<!-- /.col-lg-4 -->
+		</div>
+		<!-- /.row -->
+
+		<hr class="featurette-divider" />
+
+
+		<!-- Three columns of text below the carousel -->
+		<div class="row">
+			<div class="col-lg-4">
+				<img alt="140x140" class="img-circle"
+					style="width: 140px; height: 140px;"
+					src="${context_path}/images/ci.png" />
+				<h2>Continuous integration</h2>
+				<p>Donec sed odio dui. Etiam porta sem malesuada magna mollis
+					euismod. Nullam id dolor id nibh ultricies vehicula ut id elit.
+					Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+					Praesent commodo cursus magna.</p>
+				<p>
+					<a role="button" href="#" class="btn btn-default">View details
+						»</a>
+				</p>
+			</div>
+			<!-- /.col-lg-4 -->
+			<div class="col-lg-4">
+				<img alt="140x140" data-src="holder.js/140x140" class="img-circle"
+					style="width: 140px; height: 140px;"
+					src="${context_path}/images/databases.png" />
+				<h2>Databases</h2>
+				<p>Duis mollis, est non commodo luctus, nisi erat porttitor
+					ligula, eget lacinia odio sem nec elit. Cras mattis consectetur
+					purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo,
+					tortor mauris condimentum nibh.</p>
+				<p>
+					<a role="button" href="#" class="btn btn-default">View details
+						»</a>
+				</p>
+			</div>
+			<!-- /.col-lg-4 -->
+			<div class="col-lg-4">
+				<img alt="140x140" data-src="holder.js/140x140" class="img-circle"
+					style="width: 140px; height: 140px;"
+					src="${context_path}/images/code_review.png" />
+				<h2>Code Review</h2>
+				<p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in,
+					egestas eget quam. Vestibulum id ligula porta felis euismod semper.
+					Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum
+					nibh, ut fermentum massa justo sit amet risus.</p>
+				<p>
+					<a role="button" href="#" class="btn btn-default">View details
+						»</a>
+				</p>
+			</div>
+			<!-- /.col-lg-4 -->
+		</div>
+		<!-- /.row -->
+
+		<hr class="featurette-divider" />
+
+
+		<!-- Three columns of text below the carousel -->
+		<div class="row">
+			<div class="col-lg-4">
+				<img alt="140x140" class="img-circle"
+					style="width: 140px; height: 140px;"
+					src="${context_path}/images/testing.png" />
+				<h2>Testing</h2>
+				<p>TDD, ATDD, BDD, Unittests, Autotests etc ..sed odio dui.
+					Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id
+					nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac
+					consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+				<p>
+					<a role="button" href="#" class="btn btn-default">View details
+						»</a>
+				</p>
+			</div>
+			<!-- /.col-lg-4 -->
+			<div class="col-lg-4">
+				<img alt="140x140" data-src="holder.js/140x140" class="img-circle"
+					style="width: 140px; height: 140px;"
+					src="${context_path}/images/refactoring.png" />
+				<h2>Refactoring</h2>
+				<p>Duis mollis, est non commodo luctus, nisi erat porttitor
+					ligula, eget lacinia odio sem nec elit. Cras mattis consectetur
+					purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo,
+					tortor mauris condimentum nibh.</p>
+				<p>
+					<a role="button" href="#" class="btn btn-default">View details
+						»</a>
+				</p>
+			</div>
+			<!-- /.col-lg-4 -->
+			<div class="col-lg-4">
+				<img alt="140x140" data-src="holder.js/140x140" class="img-circle"
+					style="width: 140px; height: 140px;"
+					src="${context_path}/images/sonar.png" />
+				<h2>Code Quality</h2>
+				<p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in,
+					egestas eget quam. Vestibulum id ligula porta felis euismod semper.
+					Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum
+					nibh, ut fermentum massa justo sit amet risus.</p>
+				<p>
+					<a role="button" href="#" class="btn btn-default">View details
+						»</a>
+				</p>
+			</div>
+			<!-- /.col-lg-4 -->
+		</div>
+		<!-- /.row -->
+
+		<hr class="featurette-divider" />
+
+		<!-- Three columns of text below the carousel -->
+		<div class="row">
+			<div class="col-lg-4">
+				<img alt="140x140" class="img-circle"
+					style="width: 140px; height: 140px;"
+					src="${context_path}/images/nexus.png" />
+				<h2>Deployment</h2>
+				<p>TDD, ATDD, BDD, Unittests, Autotests etc ..sed odio dui.
+					Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id
+					nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac
+					consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+				<p>
+					<a role="button" href="#" class="btn btn-default">View details
+						»</a>
+				</p>
+			</div>
+			<!-- /.col-lg-4 -->
+			<div class="col-lg-4">
+				<img alt="140x140" data-src="holder.js/140x140" class="img-circle"
+					style="width: 140px; height: 140px;"
+					src="${context_path}/images/cd.png" />
+				<h2>Continuous Delivery</h2>
+				<p>Duis mollis, est non commodo luctus, nisi erat porttitor
+					ligula, eget lacinia odio sem nec elit. Cras mattis consectetur
+					purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo,
+					tortor mauris condimentum nibh.</p>
+				<p>
+					<a role="button" href="#" class="btn btn-default">View details
+						»</a>
+				</p>
+			</div>
+			<!-- /.col-lg-4 -->
+		</div>
+		<!-- /.row -->
+		<hr class="featurette-divider" />
+
+	</div>
+
+</div>

@@ -26,6 +26,8 @@
 		<module>cloud-persistence</module>
 		<module>cloud-initializr-adapter</module>
 		<module>cloud-rules</module>
+		<module>cloud-gallery</module>
+		<module>cloud-mvc</module>
 		<module>cloud-test-parent</module>
 		<module>cloud-test</module>
 	</modules>

@@ -1,0 +1,13 @@
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+
+	<!-- Example view name: index -->
+	<definition name="*" template="/WEB-INF/tiles/template.jspx">
+		<put-attribute name="head" value="/WEB-INF/tiles/head.jspx" />
+		<put-attribute name="header" value="/WEB-INF/tiles/header.jspx" />
+		<put-attribute name="body" value="/WEB-INF/tiles/{1}.jspx" />
+		<put-attribute name="footer" value="/WEB-INF/tiles/footer.jspx" />
+	</definition>
+
+</tiles-definitions>

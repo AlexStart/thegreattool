@@ -1,0 +1,14 @@
+<div id="body" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags" xmlns:tags="tags"
+	class="container main_area marketing">
+
+	<jsp:output omit-xml-declaration="yes" />
+
+	<tags:jumbotron headline_code="apps" form_headline_code="app" main_uri="apps"
+		main_button_code="find" create_button_code="create" />
+		
+
+
+
+</div>

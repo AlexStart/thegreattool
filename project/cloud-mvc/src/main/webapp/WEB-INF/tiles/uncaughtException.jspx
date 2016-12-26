@@ -1,0 +1,43 @@
+<div id="body" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	class="container main_area marketing">
+
+	<jsp:output omit-xml-declaration="yes" />
+
+	<div class="alert alert-danger">
+		<strong>500</strong> &#160;
+		<spring:message code="error_has_occured" />
+	</div>
+
+	<button class="btn btn-lg btn-danger" type="button"
+		onclick="javascript:showStackTrace()">
+		<spring:message code="stacktrace" />
+	</button>
+
+	<div id="stackTraceBlockIdentifier" class="alert alert-danger"
+		style="display: none; margin-top: 20px">
+		<c:if
+			test="${exception ne null and exception.localizedMessage ne null and exception.localizedMessage ne ''}">
+			<strong><c:out value="${exception.localizedMessage}" /></strong>
+			<br />
+			<br />
+		</c:if>
+		<c:forEach items="${exception.stackTrace}" var="trace">
+			<c:out value="${trace}" />
+			<br />
+		</c:forEach>
+	</div>
+
+	<script type="text/javascript">
+		function showStackTrace() {
+
+			if ($("#stackTraceBlockIdentifier").is(':visible')) {
+				$("#stackTraceBlockIdentifier").hide();
+			} else {
+				$("#stackTraceBlockIdentifier").show();
+			}
+		}
+	</script>
+
+</div>
