@@ -15,6 +15,8 @@ import static org.apache.commons.lang3.SystemUtils.IS_OS_WINDOWS;
  */
 public class GitDaemonRunner {
 
+    private static boolean fixed;
+
     /**
      * Runs Git-daemon: 2 Git + 1 Git-daemon processes.
      * If push command doesn't work, maybe it's because of the Git bug.
@@ -25,6 +27,16 @@ public class GitDaemonRunner {
         final ProcessBuilder builder = new ProcessBuilder()
                 .command(getDaemonRunCommands(dir));
         try {
+
+            if (!fixed) {
+                final Process fix = new ProcessBuilder("git", "config", "--global", "sendpack.sideband", "false").start();
+                System.out.println("fix " + fix.isAlive());
+                if (fix.isAlive()) {
+                    new ProcessKiller().kill(fix);
+                }
+                fixed = true;
+            }
+
             final Process git = builder.start();
             failOnDeadState(git);
             startUpWait();
