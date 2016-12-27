@@ -3,6 +3,7 @@ package com.sam.jcc.cloud.vcs.git;
 import com.sam.jcc.cloud.vcs.utils.GitDaemonRunner;
 import com.sam.jcc.cloud.vcs.utils.ProcessKiller;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -29,6 +30,7 @@ public class GitDaemonRunnerTest {
     }
 
     @Test
+    @Ignore
     public void runsGitDaemon() throws IOException {
         final Process git = new GitDaemonRunner().run(temp.newFolder());
 
