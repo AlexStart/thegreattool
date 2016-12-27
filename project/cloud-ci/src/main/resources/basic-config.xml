@@ -40,7 +40,7 @@
         </hudson.plugins.build__timeout.BuildTimeoutWrapper>
         <hpi.CopyDataToWorkspacePlugin plugin="copy-data-to-workspace-plugin@1.0">
             <folderPath><!-- Path to our workspace --></folderPath>
-            <makeFilesExecutable>false</makeFilesExecutable>
+            <makeFilesExecutable>true</makeFilesExecutable>
             <deleteFilesAfterBuild>false</deleteFilesAfterBuild>
         </hpi.CopyDataToWorkspacePlugin>
     </buildWrappers>

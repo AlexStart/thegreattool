@@ -5,7 +5,6 @@ import com.sam.jcc.cloud.ci.exception.CIBuildNotFoundException;
 import com.sam.jcc.cloud.ci.exception.CIProjectAlreadyExistsException;
 import com.sam.jcc.cloud.ci.exception.CIProjectNotFoundException;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static com.sam.jcc.cloud.ci.CIBuildStatus.FAILED;
@@ -48,13 +47,11 @@ public class JenkinsTest extends JenkinsBaseTest {
     }
 
     @Test(timeout = 200_000L)
-    @Ignore
     public void buildsMavenProject() throws Exception {
         buildProject(project);
     }
 
     @Test(timeout = 200_000L)
-    @Ignore
     public void buildsGradleProject() throws Exception {
         final CIProject gradleProject = loadProject("gradle", temp.newFolder());
         buildProject(gradleProject);
@@ -76,7 +73,6 @@ public class JenkinsTest extends JenkinsBaseTest {
     }
 
     @Test(expected = CIBuildNotFoundException.class, timeout = 200_000L)
-    @Ignore
     public void failsOnGetFailedBuild() throws Exception {
         final CIProject project = projectWithFailedTest(temp.newFolder());
 
