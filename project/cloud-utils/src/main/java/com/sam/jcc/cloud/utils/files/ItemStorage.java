@@ -43,7 +43,7 @@ public class ItemStorage<T> {
     }
 
     public boolean isExist(T item) {
-        log.info("Checking existence of {}", item);
+        log.debug("Checking existence of {}", item);
         return getNotSecured(item).exists();
     }
 

@@ -30,7 +30,7 @@ public class JenkinsTest extends JenkinsBaseTest {
     @Test
     public void creates() throws Exception {
         jenkins.create(project);
-        deleteProject(project);
+        jenkins.delete(project);
     }
 
     @Test
@@ -42,16 +42,16 @@ public class JenkinsTest extends JenkinsBaseTest {
             fail("should check existence");
         } catch (CIProjectAlreadyExistsException expected) {}
         finally {
-            deleteProject(project);
+            jenkins.delete(project);
         }
     }
 
-    @Test(timeout = 200_000L)
+    @Test
     public void buildsMavenProject() throws Exception {
         buildProject(project);
     }
 
-    @Test(timeout = 200_000L)
+    @Test
     public void buildsGradleProject() throws Exception {
         final CIProject gradleProject = loadProject("gradle", temp.newFolder());
         buildProject(gradleProject);
@@ -64,15 +64,15 @@ public class JenkinsTest extends JenkinsBaseTest {
             jenkins.build(project);
             waitWhileProcessing(project);
 
-            assertThat(jenkins.getLastBuildStatus(project)).isEqualTo(SUCCESSFUL);
-
             assertThat(jenkins.getLastSuccessfulBuild(project)).isNotNull();
+
+            assertThat(jenkins.getLastBuildStatus(project)).isEqualTo(SUCCESSFUL);
         } finally {
-            deleteProject(project);
+            deleteQuietly(project);
         }
     }
 
-    @Test(expected = CIBuildNotFoundException.class, timeout = 200_000L)
+    @Test(expected = CIBuildNotFoundException.class)
     public void failsOnGetFailedBuild() throws Exception {
         final CIProject project = projectWithFailedTest(temp.newFolder());
 
@@ -86,7 +86,7 @@ public class JenkinsTest extends JenkinsBaseTest {
             jenkins.getLastSuccessfulBuild(project);
             fail("Should not return failed build");
         } finally {
-            deleteProject(project);
+            deleteQuietly(project);
         }
     }
 

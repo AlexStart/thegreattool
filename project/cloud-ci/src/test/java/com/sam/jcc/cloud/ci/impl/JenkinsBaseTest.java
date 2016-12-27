@@ -30,6 +30,8 @@ public abstract class JenkinsBaseTest {
     @ClassRule
     public static TemporaryFolder temp = new TemporaryFolder();
 
+    protected static final long JOB_TIMEOUT = 200_000L;
+
     protected static Jenkins jenkins;
 
     static {
@@ -46,15 +48,25 @@ public abstract class JenkinsBaseTest {
     protected final void waitWhileProcessing(CIProject project) throws Exception {
         log.info("Start wait {}", project);
         log.info("Waiting for {}", project);
-        while (jenkins.getLastBuildStatus(project) == IN_PROGRESS) sleep(100L);
+
+        long timeOut = JOB_TIMEOUT;
+
+        while (jenkins.getLastBuildStatus(project) == IN_PROGRESS && timeOut > 0L) {
+            sleep(500L);
+            timeOut -= 500L;
+        }
+
+        if (timeOut <= 0L) {
+            throw new RuntimeException("TimeOut");
+        }
         log.info("{} finished", project);
     }
 
     /**
-     * Sometimes Jenkins can be in uncoordinated state, fix it possible problem.
+     * Sometimes Jenkins does some actions with CIProject and can't immediately delete Job.
      */
-    protected final void deleteProject(CIProject project) throws Exception {
-        Thread.sleep(2_000L);
+    protected final void deleteQuietly(CIProject project) throws Exception {
+        sleep(1_500L);
         jenkins.delete(project);
     }
 

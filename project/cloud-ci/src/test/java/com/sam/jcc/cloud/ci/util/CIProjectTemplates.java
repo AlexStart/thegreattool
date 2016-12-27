@@ -27,7 +27,7 @@ public final class CIProjectTemplates {
 
     private static CIProject setUpProject(String type, File target) throws Exception {
         final CIProject p = new CIProject();
-        p.setArtifactId("TempProject-" + type);
+        p.setArtifactId(type);
 
         final String pathToSrc = format("/{0}-project.zip", type);
         p.setSources(copyProjectSourcesInto(pathToSrc, target));

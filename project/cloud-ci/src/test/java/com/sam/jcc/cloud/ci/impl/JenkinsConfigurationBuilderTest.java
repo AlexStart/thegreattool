@@ -53,10 +53,13 @@ public class JenkinsConfigurationBuilderTest {
     }
 
     @Test
-    public void configuresMavenForWindows() {
+    public void configuresMavenForDifferentOS() {
         if (IS_OS_WINDOWS) {
             assertThat(builder.build(mavenProject)).contains("mvnw.cmd install");
             assertThat(builder.build(gradleProject)).contains("gradlew.bat build");
+        } else {
+            assertThat(builder.build(mavenProject)).contains("./mvnw install");
+            assertThat(builder.build(gradleProject)).contains("./gradlew build");
         }
     }
 

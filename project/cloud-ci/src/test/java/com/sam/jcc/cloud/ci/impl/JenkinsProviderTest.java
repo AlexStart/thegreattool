@@ -4,7 +4,6 @@ import com.sam.jcc.cloud.ci.CIProject;
 import com.sam.jcc.cloud.ci.exception.CIBuildNotFoundException;
 import com.sam.jcc.cloud.event.DefaultLoggingEventManager;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static com.sam.jcc.cloud.ci.CIProjectStatus.CONFIGURED;
@@ -62,7 +61,6 @@ public class JenkinsProviderTest extends JenkinsBaseTest {
     }
 
     @Test
-    @Ignore
     public void reads() throws Exception {
         assertThat(project.getStatus()).isEqualTo(CONFIGURED);
 
@@ -71,16 +69,20 @@ public class JenkinsProviderTest extends JenkinsBaseTest {
 
         waitWhileProcessing(project);
 
-        final CIProject build = (CIProject) provider.read(project);
-        assertThat(build.getBuild()).isNotNull();
-        assertThat(project.getStatus()).isEqualTo(HAS_BUILD);
+        try {
+            final CIProject build = (CIProject) provider.read(project);
+            assertThat(build.getBuild()).isNotNull();
+            assertThat(project.getStatus()).isEqualTo(HAS_BUILD);
 
-        provider.delete(project);
-        assertThat(project.getStatus()).isEqualTo(DELETED);
+            provider.delete(project);
+            assertThat(project.getStatus()).isEqualTo(DELETED);
+        } catch (Exception e) {
+            deleteQuietly(project);
+            throw e;
+        }
     }
 
     @Test
-    @Ignore
     public void failsWithFailedBuild() throws Exception {
         final CIProject project = projectWithFailedTest(temp.newFolder());
 
@@ -93,12 +95,11 @@ public class JenkinsProviderTest extends JenkinsBaseTest {
         } catch (CIBuildNotFoundException expected) {
             assertThat(project.getStatus()).isEqualTo(HAS_NO_BUILD);
         } finally {
-            provider.delete(project);
+            deleteQuietly(project);
         }
     }
 
     @Test
-    @Ignore
     public void updates() throws Exception {
         provider.create(project);
         sleep(250L);
@@ -107,25 +108,32 @@ public class JenkinsProviderTest extends JenkinsBaseTest {
 
         waitWhileProcessing(project);
 
-        final CIProject build = (CIProject) provider.read(project);
-        assertThat(build.getBuild()).isNotNull();
+        try {
+            final CIProject build = (CIProject) provider.read(project);
+            assertThat(build.getBuild()).isNotNull();
 
-        provider.delete(project);
+            provider.delete(project);
+        } catch (Exception e) {
+            deleteQuietly(project);
+            throw e;
+        }
     }
 
     @Test
-    @Ignore
     public void findsAll() throws Exception {
         assertThat(provider.findAll()).isNotNull().isEmpty();
 
         provider.create(project);
 
-        final String expected = project.getArtifactId();
+        try {
+            final String expected = project.getArtifactId();
 
-        assertThat(provider.findAll())
-                .hasSize(1).element(0)
-                .extracting("artifactId").containsOnly(expected);
+            assertThat(provider.findAll())
+                    .hasSize(1).element(0)
+                    .extracting("artifactId").containsOnly(expected);
 
-        provider.delete(project);
+        } finally {
+            provider.delete(project);
+        }
     }
 }
