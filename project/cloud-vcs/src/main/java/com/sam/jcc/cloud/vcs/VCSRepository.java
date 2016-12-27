@@ -1,11 +1,11 @@
 package com.sam.jcc.cloud.vcs;
 
+import com.sam.jcc.cloud.i.IStatusable;
 import lombok.Data;
 
 import java.io.File;
 
-import com.sam.jcc.cloud.i.IStatusable;
-
+import static com.google.common.base.MoreObjects.toStringHelper;
 import static com.sam.jcc.cloud.PropertyResolver.getProperty;
 import static com.sam.jcc.cloud.vcs.VCSRepositoryStatus.INITIALIZED;
 
@@ -30,5 +30,14 @@ public class VCSRepository implements IStatusable {
 
     public String getName() {
         return REPOSITORY_PREFIX + artifactId;
+    }
+
+
+    @Override
+    public String toString() {
+        return toStringHelper(getClass())
+                .add("name", getName())
+                .add("status", status)
+                .toString();
     }
 }

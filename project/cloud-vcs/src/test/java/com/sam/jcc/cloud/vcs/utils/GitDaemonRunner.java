@@ -1,6 +1,7 @@
 package com.sam.jcc.cloud.vcs.utils;
 
 import com.google.common.collect.ImmutableList;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +14,7 @@ import static org.apache.commons.lang3.SystemUtils.IS_OS_WINDOWS;
  * @author Alexey Zhytnik
  * @since 05.12.2016
  */
+@Slf4j
 public class GitDaemonRunner {
 
     private static boolean fixed;
@@ -24,12 +26,14 @@ public class GitDaemonRunner {
      * @see <a href="http://stackoverflow.com/q/5520329">Git daemon bug</a>
      */
     public Process run(File dir) {
+        log.info("Run Git-daemon in {}", dir);
+
         final ProcessBuilder builder = new ProcessBuilder()
                 .command(getDaemonRunCommands(dir));
         try {
 
             if (!fixed) {
-                final Process fix = new ProcessBuilder("git", "config", "--global", "sendpack.sideband", "false").start();
+                final Process fix = new ProcessBuilder("git", "config", "--global sendpack.sideband false").start();
                 System.out.println("fix " + fix.isAlive());
                 if (fix.isAlive()) {
                     new ProcessKiller().kill(fix);
@@ -40,6 +44,7 @@ public class GitDaemonRunner {
             final Process git = builder.start();
             failOnDeadState(git);
             startUpWait();
+            log.info("Git-daemon started");
             return git;
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);

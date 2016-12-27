@@ -4,6 +4,7 @@ import com.jezhumble.javasysmon.JavaSysMon;
 import com.jezhumble.javasysmon.ProcessInfo;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.Kernel32;
+import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -25,6 +26,7 @@ import static org.springframework.util.ReflectionUtils.makeAccessible;
  * @author Alexey Zhytnik
  * @since 05-Dec-16
  */
+@Slf4j
 public class ProcessKiller {
 
     private JavaSysMon system;
@@ -44,12 +46,14 @@ public class ProcessKiller {
      */
     public void kill(Process process) {
         final int pid = getPid(process);
+        log.info("Process[pid={}] will be killed", pid);
 
         final List<ProcessInfo> processes = Arrays
                 .stream(system.processTable())
                 .collect(toList());
 
         process.destroyForcibly();
+        log.info("Process[pid={}] was killed", pid);
         killChildren(processes, pid);
     }
 
@@ -75,6 +79,7 @@ public class ProcessKiller {
             } catch (Exception child) {
                 throw e;
             }
+            log.info("Child-process[pid={}] was killed", pid);
         }
     }
 
