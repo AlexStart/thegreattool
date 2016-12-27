@@ -46,11 +46,13 @@ public class ProcessKiller {
      */
     public void kill(Process process) {
         final int pid = getPid(process);
-        log.info("Process[pid={}] will be killed", pid);
 
         final List<ProcessInfo> processes = Arrays
                 .stream(system.processTable())
                 .collect(toList());
+
+        processes.forEach(System.out::println);
+        log.info("Process[pid={}] will be killed", pid);
 
         process.destroyForcibly();
         log.info("Process[pid={}] was killed", pid);
