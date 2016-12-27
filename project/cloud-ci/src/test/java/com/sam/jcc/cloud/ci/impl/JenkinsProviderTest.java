@@ -3,6 +3,7 @@ package com.sam.jcc.cloud.ci.impl;
 import com.sam.jcc.cloud.ci.CIProject;
 import com.sam.jcc.cloud.ci.exception.CIBuildNotFoundException;
 import com.sam.jcc.cloud.event.DefaultLoggingEventManager;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -30,6 +31,7 @@ public class JenkinsProviderTest extends JenkinsBaseTest {
     CIProject project;
     JenkinsProvider provider;
 
+    @Before
     public void setUp() throws Exception {
         provider = new JenkinsProvider(singletonList(new DefaultLoggingEventManager<>()));
         provider.setJenkins(jenkins);
@@ -46,7 +48,7 @@ public class JenkinsProviderTest extends JenkinsBaseTest {
     public void checksAccessToServer() {
         assertThat(provider.isEnabled()).isTrue();
 
-        Jenkins jenkins = spy(this.jenkins);
+        Jenkins jenkins = spy(JenkinsBaseTest.jenkins);
         when(jenkins.isEnabled()).thenReturn(false);
         provider.setJenkins(jenkins);
 

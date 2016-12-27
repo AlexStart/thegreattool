@@ -13,8 +13,8 @@ import static com.sam.jcc.cloud.ci.CIBuildStatus.SUCCESSFUL;
  */
 public class CIBuildNotFoundException extends CIException {
 
-    public CIBuildNotFoundException(CIProject project, CIBuildStatus buildStatus) {
-        super("ci.build.notFound", project, toString(buildStatus));
+    public CIBuildNotFoundException(CIProject project, CIBuildStatus buildStatus, String log) {
+        super("ci.build.notFound", project, toString(buildStatus), log);
     }
 
     private static String toString(CIBuildStatus status) {

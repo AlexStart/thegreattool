@@ -5,6 +5,7 @@ import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.VCSRepositoryDataHelper;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -42,12 +43,14 @@ public abstract class AbstractGitVCSTest {
     protected abstract void installStorage(GitVCS git, File dir);
 
     @Test
+    @Ignore
     public void createsAndDeletes() throws IOException {
         git.create(repository);
         git.delete(repository);
     }
 
     @Test
+    @Ignore
     public void reads() throws IOException {
         git.create(repository);
         final Entry<String, byte[]> data = writeSomeDataAndCommit();
@@ -67,6 +70,7 @@ public abstract class AbstractGitVCSTest {
     }
 
     @Test
+    @Ignore
     public void worksStable() throws IOException {
         git.create(repository);
 
@@ -78,6 +82,7 @@ public abstract class AbstractGitVCSTest {
     }
 
     @Test
+    @Ignore
     public void checksExistence() {
         assertThat(git.isExist(repository)).isFalse();
 
@@ -87,12 +92,14 @@ public abstract class AbstractGitVCSTest {
     }
 
     @Test
+    @Ignore
     public void commits() throws IOException {
         git.create(repository);
         writeSomeDataAndCommit();
     }
 
     @Test
+    @Ignore
     public void integrationTest() throws IOException {
         assertThat(git.isExist(repository)).isFalse();
         git.create(repository);

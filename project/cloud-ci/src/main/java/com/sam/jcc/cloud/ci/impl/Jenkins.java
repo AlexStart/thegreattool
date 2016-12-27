@@ -128,10 +128,11 @@ public class Jenkins implements CIServer {
 
     @Override
     public byte[] getLastSuccessfulBuild(CIProject project) {
-        final Build build = jobManager.loadJob(project).getLastSuccessfulBuild();
+        final JobWithDetails job = jobManager.loadJob(project);
+        final Build build = job.getLastSuccessfulBuild();
 
         if (build.equals(BUILD_HAS_NEVER_RAN)) {
-            throw new CIBuildNotFoundException(project, getLastBuildStatus(project));
+            throw new CIBuildNotFoundException(project, getLastBuildStatus(project), getLog(job));
         }
         try {
             final BuildWithDetails details = build.details();
@@ -141,11 +142,23 @@ public class Jenkins implements CIServer {
                     .findFirst();
 
             if (!artifact.isPresent()) {
-                throw new CIBuildNotFoundException(project, getLastBuildStatus(project));
+                throw new CIBuildNotFoundException(project, getLastBuildStatus(project), getLog(job));
             }
             final InputStream stream = details.downloadArtifact(artifact.get());
             return getBytes(stream);
         } catch (IOException | URISyntaxException e) {
+            throw new CIException(e);
+        }
+    }
+
+    private String getLog(JobWithDetails job) {
+        final Build build = job.getLastBuild();
+
+        if (build.equals(BUILD_HAS_NEVER_RAN)) return "";
+
+        try {
+            return build.details().getConsoleOutputText();
+        } catch (IOException e) {
             throw new CIException(e);
         }
     }

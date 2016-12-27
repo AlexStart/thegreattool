@@ -1,6 +1,7 @@
 package com.sam.jcc.cloud.ci.impl;
 
 import com.offbytwo.jenkins.JenkinsServer;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Map.Entry;
@@ -20,6 +21,7 @@ public class JenkinsPluginInstallerTest extends JenkinsBaseTest {
     JenkinsServer server;
     JenkinsPluginInstaller installer;
 
+    @Before
     public void setUp() {
         server = spy(jenkins.getServer());
         installer = new JenkinsPluginInstaller(server);

@@ -5,6 +5,7 @@ import hudson.model.UpdateCenter;
 import hudson.model.UpdateSite;
 import hudson.util.FormValidation;
 import hudson.util.PersistedList;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.ExecutionException;
 
@@ -14,6 +15,7 @@ import static hudson.util.FormValidation.Kind.ERROR;
  * @author Alexey Zhytnik
  * @since 23-Dec-16
  */
+@Slf4j
 class JenkinsUpdateCenterManager {
 
     private static final String JENKINS_CENTRAL = "JenkinsCentral";
@@ -30,6 +32,8 @@ class JenkinsUpdateCenterManager {
     }
 
     public void addSite(UpdateSite site) {
+        log.info("Add {} plugin repository", site.getId());
+
         final UpdateCenter updateCenter = jenkins.getUpdateCenter();
         final PersistedList<UpdateSite> sites = updateCenter.getSites();
         sites.add(site);
@@ -45,5 +49,6 @@ class JenkinsUpdateCenterManager {
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
+        log.info("All {} plugins are loaded", site.getId());
     }
 }

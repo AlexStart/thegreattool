@@ -77,8 +77,8 @@ ci:
       ru: "CI для {0} уже существует!"
   build:
     notFound:
-      en: "Successful build not found, last build status was {1}, details: {0}"
-      ru: "Успешная сборка не найдена, последний статус {1}, details: {0}"
+      en: "Successful build not found, last build status was {1}, \n details: {0}, \n output: \n {2}"
+      ru: "Успешная сборка не найдена, последний статус {1}, \n details: {0}, \n вывод: \n {2}"
     status:
       failed:
         en: "FAILED"

@@ -5,6 +5,7 @@ import com.sam.jcc.cloud.ci.CIBuildStatus;
 import com.sam.jcc.cloud.ci.CIProject;
 import com.sam.jcc.cloud.ci.exception.CIProjectNotFoundException;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -22,6 +23,7 @@ public class JenkinsJobManagerTest extends JenkinsBaseTest {
     CIProject project;
     JenkinsJobManager jobManager;
 
+    @Before
     public void setUp() throws Exception {
         jobManager = new JenkinsJobManager(jenkins.getServer());
 

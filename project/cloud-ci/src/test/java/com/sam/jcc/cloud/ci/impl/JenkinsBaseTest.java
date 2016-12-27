@@ -2,39 +2,63 @@ package com.sam.jcc.cloud.ci.impl;
 
 import com.offbytwo.jenkins.JenkinsServer;
 import com.sam.jcc.cloud.ci.CIProject;
-import org.junit.Before;
-import org.junit.Rule;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.rules.TemporaryFolder;
 import org.jvnet.hudson.test.JenkinsRule;
 
 import java.net.URI;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 import static com.sam.jcc.cloud.ci.CIBuildStatus.IN_PROGRESS;
 import static java.lang.Thread.sleep;
+import static java.util.logging.Logger.GLOBAL_LOGGER_NAME;
 
 /**
  * @author Alexey Zhytnik
  * @since 23-Dec-16
  */
+@Slf4j
 public abstract class JenkinsBaseTest {
 
-    @Rule
-    public JenkinsRule jenkinsRule = new JenkinsRule();
-    @Rule
-    public TemporaryFolder temp = new TemporaryFolder();
+    @ClassRule
+    public static JenkinsRule jenkinsRule = new JenkinsRule();
 
-    protected Jenkins jenkins;
+    @ClassRule
+    public static TemporaryFolder temp = new TemporaryFolder();
 
-    @Before
-    public final void startUp() throws Exception {
+    protected static Jenkins jenkins;
+
+    static {
+        disableJenkinsUglyLogging();
+    }
+
+    @BeforeClass
+    public static void startUpJenkins() throws Exception {
+        log.info("Jenkins started");
         jenkins = new Jenkins(getJenkins(), temp.newFolder());
-        setUp();
+        log.info("Jenkins fully configured");
     }
 
-    public void setUp() throws Exception {
+    protected final void waitWhileProcessing(CIProject project) throws Exception {
+        log.info("Start wait {}", project);
+        log.info("Waiting for {}", project);
+        while (jenkins.getLastBuildStatus(project) == IN_PROGRESS) sleep(100L);
+        log.info("{} finished", project);
     }
 
-    private JenkinsServer getJenkins() throws Exception {
+    /**
+     * Sometimes Jenkins can be in uncoordinated state, fix it possible problem.
+     */
+    protected final void deleteProject(CIProject project) throws Exception {
+        Thread.sleep(2_000L);
+        jenkins.delete(project);
+    }
+
+    private static JenkinsServer getJenkins() throws Exception {
         setUpPluginRepository();
         final URI uri = jenkinsRule.getURL().toURI();
         return new JenkinsServer(uri);
@@ -44,11 +68,14 @@ public abstract class JenkinsBaseTest {
      * Test Jenkins Server has only limited local plugin repository.
      * Adds Jenkins Central plugin repository.
      */
-    private void setUpPluginRepository() {
+    private static void setUpPluginRepository() {
         new JenkinsUpdateCenterManager(jenkinsRule.getInstance()).addJenkinsCentral();
     }
 
-    protected final void waitWhileProcessing(CIProject project) throws Exception {
-        while (jenkins.getLastBuildStatus(project) == IN_PROGRESS) sleep(100L);
+    private static void disableJenkinsUglyLogging() {
+        LogManager.getLogManager().reset();
+
+        final Logger global = Logger.getLogger(GLOBAL_LOGGER_NAME);
+        global.setLevel(Level.OFF);
     }
 }
