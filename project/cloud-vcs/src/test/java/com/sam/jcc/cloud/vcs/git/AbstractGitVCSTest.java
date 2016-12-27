@@ -91,8 +91,7 @@ public abstract class AbstractGitVCSTest {
         assertThat(git.isExist(repository)).isTrue();
     }
 
-    @Test
-    @Ignore
+    @Test(timeout = 10_000L)
     public void commits() throws IOException {
         git.create(repository);
         writeSomeDataAndCommit();

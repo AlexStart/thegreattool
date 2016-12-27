@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static java.text.MessageFormat.format;
+import static org.apache.commons.lang3.SystemUtils.IS_OS_WINDOWS;
 
 /**
  * @author Alexey Zhytnik
@@ -54,7 +55,14 @@ public class GitDaemonRunner {
 
     private String getWalkingDir(File dir) {
         final String path = dir.getAbsolutePath();
-        return format("--base-path=\"{0}\"", path);
+        return getOsDependentBasePathKey(path);
+    }
+
+    private String getOsDependentBasePathKey(String path) {
+        if (IS_OS_WINDOWS) return format("--base-path=\"{0}\"", path);
+
+        final String preparedPath = path.replace(" ", "\\ ");
+        return format("--base-path={0}", preparedPath);
     }
 
     private void failOnDeadState(Process p) {

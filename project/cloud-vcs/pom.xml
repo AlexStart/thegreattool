@@ -43,10 +43,10 @@
             <artifactId>java-gitlab-api</artifactId>
             <version>${gitlab.api.version}</version>
             <exclusions>
-            	<exclusion>
-            		<artifactId>jackson-core</artifactId>
-            		<groupId>com.fasterxml.jackson.core</groupId>
-            	</exclusion>
+                <exclusion>
+                    <artifactId>jackson-core</artifactId>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -75,9 +75,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.outr.javasysmon</groupId>
-            <artifactId>javasysmon_2.10</artifactId>
-            <version>0.3.4</version>
+            <groupId>com.danielflower.apprunner</groupId>
+            <artifactId>javasysmon</artifactId>
+            <version>0.3.5.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
