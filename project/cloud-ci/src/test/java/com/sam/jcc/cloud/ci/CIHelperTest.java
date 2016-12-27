@@ -5,6 +5,7 @@ import com.sam.jcc.cloud.ci.impl.JenkinsBaseTest;
 import com.sam.jcc.cloud.utils.files.TempFile;
 import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.SystemOutRule;
@@ -35,6 +36,7 @@ public class CIHelperTest extends JenkinsBaseTest {
     }
 
     @Test
+    @Ignore
     public void buildsProject() throws Exception {
         executeWith("create", project);
 
@@ -55,6 +57,7 @@ public class CIHelperTest extends JenkinsBaseTest {
     }
 
     @Test
+    @Ignore
     public void knowsAboutFail() throws Exception {
         final File project = projectWithFail();
 

@@ -3,6 +3,7 @@ package com.sam.jcc.cloud.ci.impl;
 import com.sam.jcc.cloud.ci.CIProject;
 import com.sam.jcc.cloud.ci.exception.CIBuildNotFoundException;
 import com.sam.jcc.cloud.event.DefaultLoggingEventManager;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static com.sam.jcc.cloud.ci.CIProjectStatus.CONFIGURED;
@@ -59,6 +60,7 @@ public class JenkinsProviderTest extends JenkinsBaseTest {
     }
 
     @Test
+    @Ignore
     public void reads() throws Exception {
         assertThat(project.getStatus()).isEqualTo(CONFIGURED);
 
@@ -76,6 +78,7 @@ public class JenkinsProviderTest extends JenkinsBaseTest {
     }
 
     @Test
+    @Ignore
     public void failsWithFailedBuild() throws Exception {
         final CIProject project = projectWithFailedTest(temp.newFolder());
 
@@ -93,6 +96,7 @@ public class JenkinsProviderTest extends JenkinsBaseTest {
     }
 
     @Test
+    @Ignore
     public void updates() throws Exception {
         provider.create(project);
         sleep(250L);
@@ -108,6 +112,7 @@ public class JenkinsProviderTest extends JenkinsBaseTest {
     }
 
     @Test
+    @Ignore
     public void findsAll() throws Exception {
         assertThat(provider.findAll()).isNotNull().isEmpty();
 
