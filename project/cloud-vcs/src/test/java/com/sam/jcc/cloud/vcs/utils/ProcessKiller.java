@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import static com.sun.jna.platform.win32.WinNT.HANDLE;
+import static java.text.MessageFormat.format;
+import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.SystemUtils.IS_OS_UNIX;
 import static org.apache.commons.lang3.SystemUtils.IS_OS_WINDOWS;
@@ -50,13 +52,28 @@ public class ProcessKiller {
         final List<ProcessInfo> processes = Arrays
                 .stream(system.processTable())
                 .collect(toList());
+        printProcessDump(processes);
 
-        processes.forEach(System.out::println);
         log.info("Process[pid={}] will be killed", pid);
-
         process.destroyForcibly();
+
         log.info("Process[pid={}] was killed", pid);
         killChildren(processes, pid);
+    }
+
+    private void printProcessDump(List<ProcessInfo> processes) {
+        final String dump = processes
+                .stream()
+                .filter(process -> !process.getName().equals("<unknown>"))
+                .map(process ->
+                        format("Process[name={0},pid={1},command={2}]",
+                                process.getName(),
+                                process.getPid(),
+                                process.getCommand())
+                )
+                .collect(joining("\n"));
+
+        log.info(dump);
     }
 
     private void killChildren(List<ProcessInfo> processes, int parentPid) {
@@ -81,8 +98,8 @@ public class ProcessKiller {
             } catch (Exception child) {
                 throw e;
             }
-            log.info("Child-process[pid={}] was killed", pid);
         }
+        log.info("Child-process[pid={}] was killed", pid);
     }
 
     /**

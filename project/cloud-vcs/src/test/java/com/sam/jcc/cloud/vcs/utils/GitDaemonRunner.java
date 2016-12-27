@@ -31,16 +31,6 @@ public class GitDaemonRunner {
         final ProcessBuilder builder = new ProcessBuilder()
                 .command(getDaemonRunCommands(dir));
         try {
-
-            if (!fixed) {
-                final Process fix = new ProcessBuilder("git", "config", "--global sendpack.sideband false").start();
-                System.out.println("fix " + fix.isAlive());
-                if (fix.isAlive()) {
-                    new ProcessKiller().kill(fix);
-                }
-                fixed = true;
-            }
-
             final Process git = builder.start();
             failOnDeadState(git);
             startUpWait();
