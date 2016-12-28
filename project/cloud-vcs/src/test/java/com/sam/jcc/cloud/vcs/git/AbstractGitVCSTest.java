@@ -1,23 +1,24 @@
 package com.sam.jcc.cloud.vcs.git;
 
-import com.sam.jcc.cloud.event.DefaultLoggingEventManager;
-import com.sam.jcc.cloud.utils.files.FileManager;
-import com.sam.jcc.cloud.vcs.VCSRepository;
-import com.sam.jcc.cloud.vcs.VCSRepositoryDataHelper;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import static java.util.Collections.singletonList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.entry;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Map.Entry;
 import java.util.Random;
 
-import static java.util.Collections.singletonList;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.entry;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
+
+import com.sam.jcc.cloud.event.DefaultLoggingEventManager;
+import com.sam.jcc.cloud.utils.files.FileManager;
+import com.sam.jcc.cloud.vcs.VCSRepository;
+import com.sam.jcc.cloud.vcs.VCSRepositoryDataHelper;
 
 /**
  * @author Alexey Zhytnik
@@ -28,8 +29,8 @@ public abstract class AbstractGitVCSTest {
     @Rule
     public TemporaryFolder temp = new TemporaryFolder();
 
-    private GitVCS git = new GitVCS();
-    private VCSRepository repository = VCSRepositoryDataHelper.repository();
+    private final GitVCS git = new GitVCS();
+    private final VCSRepository repository = VCSRepositoryDataHelper.repository();
 
     @Before
     public final void setUp() throws IOException {

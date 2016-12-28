@@ -1,14 +1,11 @@
 package com.sam.jcc.cloud.vcs.utils;
 
-import com.google.common.collect.ImmutableList;
-import lombok.extern.slf4j.Slf4j;
-
 import java.io.File;
-import java.io.IOException;
-import java.util.List;
+import java.net.InetSocketAddress;
 
-import static java.text.MessageFormat.format;
-import static org.apache.commons.lang3.SystemUtils.IS_OS_WINDOWS;
+import org.eclipse.jgit.transport.Daemon;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author Alexey Zhytnik
@@ -17,64 +14,44 @@ import static org.apache.commons.lang3.SystemUtils.IS_OS_WINDOWS;
 @Slf4j
 public class GitDaemonRunner {
 
-    private static boolean fixed;
+	private Daemon daemon;
+	private final String host;
+	private final int port;
 
-    /**
-     * Runs Git-daemon: 2 Git + 1 Git-daemon processes.
-     * If push command doesn't work, maybe it's because of the Git bug.
-     *
-     * @see <a href="http://stackoverflow.com/q/5520329">Git daemon bug</a>
-     */
-    public Process run(File dir) {
-        log.info("Run Git-daemon in {}", dir);
+	public GitDaemonRunner(String host, int port) {
+		this.host = host;
+		this.port = port;
+	}
 
-        final ProcessBuilder builder = new ProcessBuilder()
-                .command(getDaemonRunCommands(dir));
-        try {
-            final Process git = builder.start();
-            startUpWait();
-            failOnDeadState(git);
-            log.info("Git-daemon started");
-            return git;
-        } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
+	public void start(File dir) {
+		log.info("Run Git-daemon in {}", dir);
 
-    /**
-     * Sometimes disappearing parent-child relationship.
-     * Needs for launch all Git processes.
-     */
-    private void startUpWait() throws InterruptedException {
-        Thread.sleep(600);
-    }
+		try {
+			daemon = new Daemon(new InetSocketAddress(host, port));
+			daemon.start();
+			log.info("Git-daemon started");
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 
-    private List<String> getDaemonRunCommands(File dir) {
-        return ImmutableList.of(
-                "git",
-                "daemon",
-                "--reuseaddr",
-                getWalkingDir(dir),
-                "--export-all",
-                "--enable=receive-pack"
-        );
-    }
+	public void stop() {
+		if (daemon != null) {
+			daemon.stop();
+		}
+	}
 
-    private String getWalkingDir(File dir) {
-        final String path = dir.getAbsolutePath();
-        return getOsDependentBasePathKey(path);
-    }
+	public String getHost() {
+		if (daemon != null) {
+			return daemon.getAddress().getHostName();
+		}
+		return null;
+	}
 
-    private String getOsDependentBasePathKey(String path) {
-        if (IS_OS_WINDOWS) return format("--base-path=\"{0}\"", path);
-
-        final String preparedPath = path.replace(" ", "\\ ");
-        return format("--base-path={0}", preparedPath);
-    }
-
-    private void failOnDeadState(Process p) {
-        if (!p.isAlive()) {
-            throw new RuntimeException("Git-daemon was not started!");
-        }
-    }
+	public int getPort() {
+		if (daemon != null) {
+			return daemon.getAddress().getPort();
+		}
+		return -1;
+	}
 }

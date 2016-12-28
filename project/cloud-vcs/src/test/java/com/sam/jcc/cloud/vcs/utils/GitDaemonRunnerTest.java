@@ -1,14 +1,13 @@
 package com.sam.jcc.cloud.vcs.utils;
 
+import static org.assertj.core.api.Java6Assertions.assertThat;
+
+import java.io.IOException;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-
-import java.io.IOException;
-
-import static org.apache.commons.lang3.SystemUtils.IS_OS_WINDOWS;
-import static org.assertj.core.api.Java6Assertions.assertThat;
 
 /**
  * @author Alexey Zhytnik
@@ -16,20 +15,23 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
  */
 public class GitDaemonRunnerTest {
 
-    @Rule
-    public TemporaryFolder temp = new TemporaryFolder();
+	@Rule
+	public TemporaryFolder temp = new TemporaryFolder();
 
-    @Before
-    public void needsInstalledGit() {
-        if (IS_OS_WINDOWS) {
-            assertThat(System.getenv("path")).containsIgnoringCase("git");
-        }
-    }
+	@Before
+	public void needsInstalledGit() {
+		assertThat(System.getenv("path")).containsIgnoringCase("git");
+	}
 
-    @Test(timeout = 10_000L)
-    public void runsGitDaemon() throws IOException {
-        final Process git = new GitDaemonRunner().run(temp.newFolder());
-
-        new ProcessKiller().kill(git);
-    }
+	@Test(timeout = 10_000L)
+	public void runsGitDaemon() throws IOException {
+		// TODO use properties instead
+		GitDaemonRunner gitDaemonRunner = new GitDaemonRunner("localhost", 19418);
+		gitDaemonRunner.start(temp.newFolder());
+		//
+		System.out.println(gitDaemonRunner.getHost());
+		System.out.println(gitDaemonRunner.getPort());
+		//
+		gitDaemonRunner.stop();
+	}
 }

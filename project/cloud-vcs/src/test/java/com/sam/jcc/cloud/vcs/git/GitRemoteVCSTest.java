@@ -6,7 +6,6 @@ import org.junit.After;
 import org.junit.Before;
 
 import com.sam.jcc.cloud.vcs.utils.GitDaemonRunner;
-import com.sam.jcc.cloud.vcs.utils.ProcessKiller;
 
 /**
  * @author Alexey Zhytnik
@@ -15,7 +14,7 @@ import com.sam.jcc.cloud.vcs.utils.ProcessKiller;
 public class GitRemoteVCSTest extends AbstractGitVCSTest {
 
     File dir;
-    Process daemon;
+    GitDaemonRunner daemon;
 
     @Override
     protected void installStorage(GitVCS git, File dir) {
@@ -29,11 +28,13 @@ public class GitRemoteVCSTest extends AbstractGitVCSTest {
 
     @Before
     public void startUpGitDaemon() {
-        daemon = new GitDaemonRunner().run(dir);
+    	// TODO use properties
+    	daemon = new GitDaemonRunner("localhost", 19418);
+		daemon.start(dir);
     }
 
     @After
     public void shutDownGitDaemon() {
-        new ProcessKiller().kill(daemon);
+    	daemon.stop();
     }
 }
