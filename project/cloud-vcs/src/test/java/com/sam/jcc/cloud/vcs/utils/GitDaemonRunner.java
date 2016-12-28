@@ -32,8 +32,8 @@ public class GitDaemonRunner {
                 .command(getDaemonRunCommands(dir));
         try {
             final Process git = builder.start();
-            failOnDeadState(git);
             startUpWait();
+            failOnDeadState(git);
             log.info("Git-daemon started");
             return git;
         } catch (IOException | InterruptedException e) {
