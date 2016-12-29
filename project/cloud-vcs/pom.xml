@@ -68,18 +68,6 @@
             <version>1.16.1</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>net.java.dev.jna</groupId>
-            <artifactId>jna-platform</artifactId>
-            <version>4.0.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.danielflower.apprunner</groupId>
-            <artifactId>javasysmon</artifactId>
-            <version>0.3.5.0</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>

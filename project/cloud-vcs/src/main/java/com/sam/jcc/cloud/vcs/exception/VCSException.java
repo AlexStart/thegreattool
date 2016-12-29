@@ -9,7 +9,7 @@ import com.sam.jcc.cloud.exception.CloudException;
 public class VCSException extends CloudException {
 
     public VCSException(Throwable cause) {
-        super("vcs.error.default", cause);
+        super(cause, "vcs.error.default");
     }
 
     protected VCSException(String key, Object... args) {
