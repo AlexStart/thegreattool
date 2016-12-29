@@ -1,12 +1,13 @@
 package com.sam.jcc.cloud.vcs.git;
 
-import com.sam.jcc.cloud.vcs.AbstractVCSStorageTest;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
  * @author Alexey Zhytnik
  * @since 28.11.2016
  */
+@Ignore
 public class GitHubTest extends AbstractVCSStorageTest<GitHubServer> {
 
     @Override
