@@ -1,18 +1,18 @@
 package com.sam.jcc.cloud.utils.files;
 
+import static com.sam.jcc.cloud.utils.SystemUtils.isWindowsOS;
 import static java.nio.file.Files.setAttribute;
 import static org.apache.commons.io.FileUtils.copyDirectory;
 import static org.apache.commons.io.FileUtils.listFiles;
 import static org.apache.commons.io.filefilter.DirectoryFileFilter.DIRECTORY;
 import static org.apache.commons.io.filefilter.FileFileFilter.FILE;
-import static org.apache.commons.lang3.SystemUtils.IS_OS_WINDOWS;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import com.sam.jcc.cloud.PropertyResolver;
-import com.sam.jcc.cloud.i.Experimental;
+import com.sam.jcc.cloud.i.OSDependent;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.ClassPathResource;
@@ -60,13 +60,13 @@ public class FileManager {
 		}
 	}
 
-	@Experimental(
+	@OSDependent(
 	        "Currently supported only for Windows OS, " +
             "Unix hidden files must to start with '.'"
     )
 	public void createHiddenDir(File file) {
 		createDir(file);
-		if (!IS_OS_WINDOWS) return;
+		if (!isWindowsOS()) return;
 
 		try {
 			setAttribute(file.toPath(), "dos:hidden", true);

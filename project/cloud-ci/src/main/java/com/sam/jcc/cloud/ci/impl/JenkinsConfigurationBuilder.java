@@ -7,6 +7,7 @@ import com.sam.jcc.cloud.ci.impl.JenkinsProjectConfiguration.Builders.HudsonTask
 import com.sam.jcc.cloud.ci.impl.JenkinsProjectConfiguration.Builders.HudsonTasksShell;
 import com.sam.jcc.cloud.exception.InternalCloudException;
 import com.sam.jcc.cloud.i.Experimental;
+import com.sam.jcc.cloud.i.OSDependent;
 import com.sam.jcc.cloud.utils.files.ItemStorage;
 import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.commons.io.filefilter.NameFileFilter;
@@ -22,10 +23,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
+import static com.sam.jcc.cloud.utils.SystemUtils.isWindowsOS;
 import static com.sam.jcc.cloud.utils.parsers.ProjectParser.MAVEN_CONFIGURATION;
 import static org.apache.commons.io.FileUtils.listFiles;
 import static org.apache.commons.io.filefilter.FileFileFilter.FILE;
-import static org.apache.commons.lang3.SystemUtils.IS_OS_WINDOWS;
 
 /**
  * @author Alexey Zhytnik
@@ -74,9 +75,9 @@ class JenkinsConfigurationBuilder {
     }
 
     private void setUpBuilder(JenkinsProjectConfiguration config, boolean isMaven) {
-        final String command = getOSDependentBuildCommand(isMaven);
+        final String command = getBuildCommand(isMaven);
 
-        if (IS_OS_WINDOWS) {
+        if (isWindowsOS()) {
             HudsonTasksBatchFile cmdCommand = new HudsonTasksBatchFile();
             cmdCommand.setCommand(command);
             config.getBuilders().setHudsonTasksBatchFile(cmdCommand);
@@ -102,8 +103,9 @@ class JenkinsConfigurationBuilder {
         return listFiles(src, mavenFilter, FILE).size() == 1;
     }
 
-    private String getOSDependentBuildCommand(boolean maven) {
-        if (IS_OS_WINDOWS) {
+    @OSDependent("Supported for Windows & Unix")
+    private String getBuildCommand(boolean maven) {
+        if (isWindowsOS()) {
             if (maven) {
                 return "mvnw.cmd install";
             } else {
