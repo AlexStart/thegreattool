@@ -6,7 +6,6 @@ import com.sam.jcc.cloud.ci.CIProject;
 import com.sam.jcc.cloud.ci.exception.CIProjectNotFoundException;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static com.sam.jcc.cloud.ci.CIBuildStatus.UNKNOWN;
@@ -17,7 +16,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Alexey Zhytnik
  * @since 21-Dec-16
  */
-@Ignore
 public class JenkinsJobManagerTest extends JenkinsBaseTest {
 
     CIProject project;
