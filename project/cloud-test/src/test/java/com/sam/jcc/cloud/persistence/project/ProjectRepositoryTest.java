@@ -72,7 +72,7 @@ public class ProjectRepositoryTest {
 
     @Test
     public void findByGroupIdAndArtifactId() {
-        assertThat(repository.findByGroupIdAndArtifactId("com.example", "demo-maven")).isNotNull();
+        assertThat(repository.findByGroupIdAndArtifactId("com.example", "demo-maven")).isPresent();
     }
 
     @Test(expected = JpaSystemException.class)

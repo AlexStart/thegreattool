@@ -15,6 +15,12 @@ project:
     error:
       en: "Project metadata {0} is invalid!"
       ru: "Метаданные проекта {0} не валидны!"
+  notFound:
+    en: "Project with metadata {0} not found!"
+    ru: "Проект c метаданными {0} не найден!"
+  exist:
+    en: "Project with metadata {0} already exists!"
+    ru: "Проект c метаданными {0} уже существует!"
 
 parser:
   metadata:

@@ -8,10 +8,10 @@ import static java.lang.String.format;
 
 import java.util.List;
 
+import com.sam.jcc.cloud.project.dao.ExtendProjectMetadataDao;
 import com.sam.jcc.cloud.provider.UnsupportedTypeException;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.sam.jcc.cloud.crud.ICRUD;
 import com.sam.jcc.cloud.i.IEventManager;
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import com.sam.jcc.cloud.i.project.IProjectProvider;
@@ -25,7 +25,7 @@ public abstract class ProjectProvider extends AbstractProvider<IProjectMetadata>
     @Autowired
     private ProjectBuilder builder;
     @Autowired
-    private ICRUD<ProjectMetadata> dao;
+    private ExtendProjectMetadataDao dao;
     @Autowired
     private ProjectValidator validator;
     @Autowired
@@ -33,9 +33,12 @@ public abstract class ProjectProvider extends AbstractProvider<IProjectMetadata>
     @Autowired
     private SourceProcessor srcProcessor;
 
+    private String projectType;
+
     @Autowired
-    public ProjectProvider(List<IEventManager<IProjectMetadata>> eventManagers) {
+    public ProjectProvider(List<IEventManager<IProjectMetadata>> eventManagers, String projectType) {
         super(eventManagers);
+        this.projectType = projectType;
     }
 
     @Override
@@ -92,7 +95,6 @@ public abstract class ProjectProvider extends AbstractProvider<IProjectMetadata>
         return dao.read(asProjectMetadata(m));
     }
 
-    //TODO: add fail on unknown ProjectMetadata
     @Override
     public IProjectMetadata update(IProjectMetadata metadata) {
         return dao.update(build(metadata));
@@ -111,7 +113,7 @@ public abstract class ProjectProvider extends AbstractProvider<IProjectMetadata>
     @Override
     @SuppressWarnings("unchecked")
     public List<IProjectMetadata> findAll() {
-        return (List<IProjectMetadata>) dao.findAll();
+        return (List<IProjectMetadata>) dao.findAllByProjectType(projectType);
     }
 
     private void setStatus(IProjectMetadata m, ProjectStatus status) {

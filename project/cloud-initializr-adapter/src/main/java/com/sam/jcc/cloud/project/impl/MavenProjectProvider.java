@@ -20,7 +20,7 @@ import com.sam.jcc.cloud.project.ProjectProvider;
 public class MavenProjectProvider extends ProjectProvider {
 
 	public MavenProjectProvider(List<IEventManager<IProjectMetadata>> eventManagers) {
-		super(eventManagers);
+		super(eventManagers, "maven-project");
 	}
 
 	@Override

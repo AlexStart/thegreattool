@@ -20,7 +20,7 @@ import com.sam.jcc.cloud.project.ProjectProvider;
 public class GradleProjectProvider extends ProjectProvider {
 
 	public GradleProjectProvider(List<IEventManager<IProjectMetadata>> eventManagers) {
-		super(eventManagers);
+		super(eventManagers, "gradle-project");
 	}
 
 	@Override
