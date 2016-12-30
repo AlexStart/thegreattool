@@ -64,7 +64,7 @@ public class ItemStorage<T> {
     }
 
     public List<T> getItems(){
-        return files.getAllDirectoryFiles(root)
+        return files.getDirectoryFiles(root)
                 .stream()
                 .map(builder)
                 .collect(toList());
