@@ -34,6 +34,7 @@ public class ProjectParser implements IParser<File> {
     private ZipArchiveManager zipManager = new ZipArchiveManager();
 
     @Override
+    //TODO: what is default project structure? Searches a config in root folder and in sub-folders.
     public Entry<String, String> parse(File project) {
         log.info("Parse {}", project);
 
