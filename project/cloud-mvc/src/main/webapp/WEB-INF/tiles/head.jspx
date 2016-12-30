@@ -1,0 +1,47 @@
+<head xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:security="http://www.springframework.org/security/tags"
+	xmlns:tiles="http://tiles.apache.org/tags-tiles"
+	xmlns:spring="http://www.springframework.org/tags">
+
+<jsp:directive.page contentType="text/html;charset=UTF-8" />
+<jsp:output omit-xml-declaration="yes" />
+
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+
+<spring:message code="site" var="site" />
+
+<title>${site}</title>
+
+<meta name="keywords" content="cloud" />
+
+<meta name="description" content="${site}" />
+
+<!-- BOOSTRAP compiled and minified CSS -->
+<link rel="stylesheet"
+	href="http://getbootstrap.com/dist/css/bootstrap.min.css">
+<!--  -->
+</link>
+
+<!-- Optional theme -->
+<link rel="stylesheet"
+	href="http://getbootstrap.com/dist/css/bootstrap-theme.min.css">
+<!--  -->
+</link>
+
+
+<link rel="stylesheet"
+	href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+<!--  -->
+</link>
+
+
+<spring:url value="/resources" var="context_path" scope="request" />
+<spring:url value="/" var="root_context" scope="request" />
+
+<link rel="stylesheet" type="text/css"
+	href="${context_path}/css/main.css">
+<!--  -->
+</link>
+
+</head>

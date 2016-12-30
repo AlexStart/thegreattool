@@ -1,0 +1,23 @@
+<div id="body" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags" xmlns:tags="tags"
+	class="container main_area marketing">
+
+	<jsp:output omit-xml-declaration="yes" />
+
+	<h2>${model.appName}</h2>
+
+	<form role="form" method="post">
+		<div class="form-group">
+			<label>Profile</label> <select class="input-large form-control">
+				<option value="">Select a Profile</option>
+				<c:forEach items="${profiles}" var="profile">
+					<option value=""><spring:message code="${profile}"/></option>
+				</c:forEach>
+			</select>
+		</div>
+	</form>
+
+
+
+</div>

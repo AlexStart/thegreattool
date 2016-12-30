@@ -10,24 +10,34 @@
 		<version>0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>cloud-rules</artifactId>
-	<name>SaM Java Cloud :: Cloud Business Rules</name>
+	<artifactId>cloud-gallery</artifactId>
+	<name>SaM Java Cloud :: Cloud Gallery</name>
+	<description>SaM Java Cloud Gallery of Custom UI Components</description>
 
+	<properties>
+		<spring.boot.version>1.4.2.RELEASE</spring.boot.version>
+	</properties>
 
 	<dependencies>
-
 		<dependency>
-			<groupId>com.sam.jcc</groupId>
-			<artifactId>cloud-initializr-adapter</artifactId>
-			<version>${project.version}</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<version>${spring.boot.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>log4j-over-slf4j</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>logback-classic</artifactId>
+					<groupId>ch.qos.logback</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>logback-core</artifactId>
+					<groupId>ch.qos.logback</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
-
-		<dependency>
-			<groupId>com.thoughtworks.xstream</groupId>
-			<artifactId>xstream</artifactId>
-			<version>1.4.9</version>
-		</dependency>
-
 	</dependencies>
 
 	<build>
