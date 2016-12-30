@@ -19,8 +19,10 @@ import com.sam.jcc.cloud.project.ProjectProvider;
 @Component
 public class GradleProjectProvider extends ProjectProvider {
 
+	private static final String GRADLE_PROJECT = "gradle-project";
+
 	public GradleProjectProvider(List<IEventManager<IProjectMetadata>> eventManagers) {
-		super(eventManagers, "gradle-project");
+		super(eventManagers, GRADLE_PROJECT);
 	}
 
 	@Override
@@ -30,7 +32,7 @@ public class GradleProjectProvider extends ProjectProvider {
 
 		final ProjectMetadata m = (ProjectMetadata) metadata;
 		final String name = m.getProjectType();
-		return name != null && name.equals("gradle-project");
+		return name != null && name.equals(GRADLE_PROJECT);
 	}
 
 }

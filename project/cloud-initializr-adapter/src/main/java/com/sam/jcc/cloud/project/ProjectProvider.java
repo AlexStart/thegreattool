@@ -57,9 +57,9 @@ public abstract class ProjectProvider extends AbstractProvider<IProjectMetadata>
 
     @Override
     public IProjectMetadata preprocess(IProjectMetadata m) {
-        setStatus(m, UNPROCESSED);
+        updateStatus(m, UNPROCESSED);
         validator.validate(asProjectMetadata(m));
-        setStatus(m, PRE_PROCESSED);
+        updateStatus(m, PRE_PROCESSED);
         return m;
     }
 
@@ -67,7 +67,7 @@ public abstract class ProjectProvider extends AbstractProvider<IProjectMetadata>
     public IProjectMetadata process(IProjectMetadata m) {
         final ProjectMetadata project = asProjectMetadata(m);
         srcProcessor.process(project);
-        setStatus(m, PROCESSED);
+        updateStatus(m, PROCESSED);
         return m;
     }
 
@@ -81,7 +81,7 @@ public abstract class ProjectProvider extends AbstractProvider<IProjectMetadata>
             builder.reset(metadata);
             throw e;
         }
-        setStatus(m, POST_PROCESSED);
+        updateStatus(m, POST_PROCESSED);
         return m;
     }
 
@@ -116,8 +116,9 @@ public abstract class ProjectProvider extends AbstractProvider<IProjectMetadata>
         return (List<IProjectMetadata>) dao.findAllByProjectType(projectType);
     }
 
-    private void setStatus(IProjectMetadata m, ProjectStatus status) {
-        asProjectMetadata(m).setStatus(status);
+    private void updateStatus(IProjectMetadata project, ProjectStatus status) {
+        asProjectMetadata(project).setStatus(status);
+        eventManagers.forEach(manager -> manager.fireEvent(project, this));
     }
 
     private ProjectMetadata asProjectMetadata(IProjectMetadata metadata) {
