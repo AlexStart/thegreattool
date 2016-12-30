@@ -9,7 +9,7 @@ import com.sam.jcc.cloud.exception.CloudException;
 public class CIException extends CloudException {
 
     public CIException(Throwable cause) {
-        super("ci.error.default", cause);
+        super(cause, "ci.error.default");
     }
 
     protected CIException(String key, Object... args) {
