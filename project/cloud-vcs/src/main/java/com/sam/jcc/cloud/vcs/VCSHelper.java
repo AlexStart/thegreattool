@@ -5,15 +5,14 @@ import static java.util.Arrays.stream;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.Map.Entry;
 
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.TempFile;
 import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
-import com.sam.jcc.cloud.utils.parsers.ProjectParser;
 import com.sam.jcc.cloud.vcs.git.GitFileStorage;
 import com.sam.jcc.cloud.vcs.git.GitRemoteStorage;
 import com.sam.jcc.cloud.vcs.git.GitVCS;
+import com.sam.jcc.cloud.vcs.git.VCSRepositoryBuilder;
 
 /**
  * @author Alexey Zhytnik
@@ -25,12 +24,10 @@ public class VCSHelper {
     private static ZipArchiveManager zipManager = new ZipArchiveManager();
 
     private final FileManager files;
-    private final ProjectParser parser;
     private final VCS<VCSCredentials> vcs;
 
     public VCSHelper(String protocol) {
         files = new FileManager();
-        parser = new ProjectParser();
         vcs = new GitVCS();
 
         setUpStorageByProtocol(protocol);
@@ -38,7 +35,6 @@ public class VCSHelper {
 
     VCSHelper(VCSStorage<VCSCredentials> storage) {
         files = new FileManager();
-        parser = new ProjectParser();
 
         vcs = new GitVCS();
         vcs.setStorage(storage);
@@ -167,12 +163,6 @@ public class VCSHelper {
     }
 
     private VCSRepository parse(File project) {
-        final Entry<String, String> metadata = parser.parse(project);
-
-        final VCSRepository repo = new VCSRepository();
-        repo.setGroupId(metadata.getKey());
-        repo.setArtifactId(metadata.getValue());
-        repo.setSources(project);
-        return repo;
+        return new VCSRepositoryBuilder().apply(project);
     }
 }

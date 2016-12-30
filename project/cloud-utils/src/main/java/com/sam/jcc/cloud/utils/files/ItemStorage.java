@@ -5,7 +5,10 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
+import java.util.List;
 import java.util.function.Function;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * @author Alexey Zhytnik
@@ -17,12 +20,14 @@ public class ItemStorage<T> {
     @Getter
     private File root;
 
-    private final Function<T, String> itemMapper;
+    private final Function<File, T> builder;
+    private final Function<T, String> mapper;
 
     private final FileManager files = new FileManager();
 
-    public ItemStorage(Function<T, String> itemMapper) {
-        this.itemMapper = itemMapper;
+    public ItemStorage(Function<T, String> mapper, Function<File, T> itemBuilder) {
+        this.mapper = mapper;
+        this.builder = itemBuilder;
     }
 
     public File create(T item) {
@@ -58,8 +63,15 @@ public class ItemStorage<T> {
         return dir;
     }
 
+    public List<T> getItems(){
+        return files.getAllDirectoryFiles(root)
+                .stream()
+                .map(builder)
+                .collect(toList());
+    }
+
     private File getNotSecured(T item) {
-        return new File(root, itemMapper.apply(item));
+        return new File(root, mapper.apply(item));
     }
 
     private void failOnNotExist(T item) {

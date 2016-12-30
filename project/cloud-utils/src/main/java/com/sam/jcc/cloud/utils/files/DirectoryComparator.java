@@ -78,7 +78,7 @@ public final class DirectoryComparator {
 
     private List<File> allFiles(File dir) {
         return files
-                .getDirectoryFiles(dir)
+                .getAllDirectoryFiles(dir)
                 .stream()
                 .sorted(
                         Comparator

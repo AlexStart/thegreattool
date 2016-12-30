@@ -65,7 +65,7 @@ public class Jenkins implements CIServer {
 
         installRequiredPlugins();
 
-        workspace = new ItemStorage<>(CIProject::getName);
+        workspace = new ItemStorage<>(CIProject::getName, null);
         workspace.setRoot(root);
 
         jobManager = new JenkinsJobManager(server);

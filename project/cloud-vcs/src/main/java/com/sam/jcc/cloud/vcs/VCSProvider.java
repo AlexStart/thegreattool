@@ -1,100 +1,101 @@
-/**
- * 
- */
 package com.sam.jcc.cloud.vcs;
-
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sam.jcc.cloud.i.IEventManager;
 import com.sam.jcc.cloud.i.vcs.IVCSMetadata;
 import com.sam.jcc.cloud.i.vcs.IVCSProvider;
 import com.sam.jcc.cloud.provider.AbstractProvider;
+import com.sam.jcc.cloud.provider.UnsupportedTypeException;
+import com.sam.jcc.cloud.vcs.git.GitAbstractStorage;
+import com.sam.jcc.cloud.vcs.git.GitVCS;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.annotation.PostConstruct;
+import java.util.List;
+
+import static com.sam.jcc.cloud.vcs.VCSRepositoryStatus.*;
 
 /**
  * @author olegk
- *
+ * @author Alexey Zhytnik
  */
 public abstract class VCSProvider extends AbstractProvider<IVCSMetadata> implements IVCSProvider {
 
-	@Autowired
-	public VCSProvider(List<IEventManager<IVCSMetadata>> eventManagers) {
-		super(eventManagers);
-	}
+    @Autowired
+    private GitVCS git;
 
-	@Override
-	public IVCSMetadata read(IVCSMetadata t) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Autowired
+    public VCSProvider(List<IEventManager<IVCSMetadata>> eventManagers) {
+        super(eventManagers);
+    }
 
-	@Override
-	public IVCSMetadata update(IVCSMetadata t) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @PostConstruct
+    public void setUp() {
+        final GitAbstractStorage storage = getStorage();
+        storage.installBaseRepository();
+        git.setStorage(storage);
+    }
 
-	@Override
-	public void delete(IVCSMetadata t) {
-		// TODO Auto-generated method stub
-		
-	}
+    protected abstract GitAbstractStorage getStorage();
 
-	@Override
-	public List<? super IVCSMetadata> findAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public boolean supports(IVCSMetadata metadata) {
+        return metadata instanceof VCSRepository;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.sam.jcc.cloud.i.IProvider#getI18NName()
-	 */
-	
+    @Override
+    public IVCSMetadata read(IVCSMetadata repo) {
+        git.read(asVCSRepository(repo));
+        updateStatus(repo, CLONED);
+        return repo;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.sam.jcc.cloud.i.IProvider#supports(java.lang.Object)
-	 */
-	@Override
-	public boolean supports(IVCSMetadata t) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public IVCSMetadata update(IVCSMetadata repo) {
+        git.commit(asVCSRepository(repo));
+        updateStatus(repo, COMMITED);
+        updateStatus(repo, PUSHED);
+        return repo;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.sam.jcc.cloud.i.IProvider#preprocess(java.lang.Object)
-	 */
-	@Override
-	public IVCSMetadata preprocess(IVCSMetadata t) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public void delete(IVCSMetadata repo) {
+        git.delete(asVCSRepository(repo));
+        updateStatus(repo, DELETED);
+    }
 
-	/* (non-Javadoc)
-	 * @see com.sam.jcc.cloud.i.IProvider#process(java.lang.Object)
-	 */
-	@Override
-	public IVCSMetadata process(IVCSMetadata t) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<? super IVCSMetadata> findAll() {
+        return (List<IVCSMetadata>) (List<?>) git.getAllRepositories();
+    }
 
-	/* (non-Javadoc)
-	 * @see com.sam.jcc.cloud.i.IProvider#postprocess(java.lang.Object)
-	 */
-	@Override
-	public IVCSMetadata postprocess(IVCSMetadata t) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public IVCSMetadata preprocess(IVCSMetadata m) {
+        return asVCSRepository(m);
+    }
 
-	/* (non-Javadoc)
-	 * @see com.sam.jcc.cloud.i.IProvider#isEnabled()
-	 */
-	@Override
-	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public IVCSMetadata process(IVCSMetadata repo) {
+        git.create(asVCSRepository(repo));
+        updateStatus(repo, CREATED);
+        return repo;
+    }
 
+    @Override
+    public IVCSMetadata postprocess(IVCSMetadata m) {
+        return asVCSRepository(m);
+    }
+
+    //TODO: common functionality
+    private void updateStatus(IVCSMetadata m, VCSRepositoryStatus status) {
+        asVCSRepository(m).setStatus(status);
+        eventManagers.forEach(manager -> manager.fireEvent(m, this));
+    }
+
+    private VCSRepository asVCSRepository(IVCSMetadata metadata) {
+        if (!supports(metadata)) {
+            throw new UnsupportedTypeException(metadata);
+        }
+        return (VCSRepository) metadata;
+    }
 }

@@ -34,7 +34,7 @@ public class JenkinsConfigurationBuilderTest {
 
     @Before
     public void setUp() throws Exception {
-        workspace = spy(new ItemStorage<>(CIProject::getName));
+        workspace = spy(new ItemStorage<>(CIProject::getName, null));
         workspace.setRoot(temp.newFolder());
 
         mavenProject = loadProject("maven", temp.newFolder());

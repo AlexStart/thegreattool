@@ -1,6 +1,7 @@
 package com.sam.jcc.cloud.vcs;
 
 import com.sam.jcc.cloud.i.IStatusable;
+import com.sam.jcc.cloud.i.vcs.IVCSMetadata;
 import lombok.Data;
 
 import java.io.File;
@@ -14,7 +15,7 @@ import static com.sam.jcc.cloud.vcs.VCSRepositoryStatus.INITIALIZED;
  * @since 25.11.2016
  */
 @Data
-public class VCSRepository implements IStatusable {
+public class VCSRepository implements IVCSMetadata, IStatusable {
 
     /**
      * Sets once time, because of a lot of logic depends on name of VCSRepository.

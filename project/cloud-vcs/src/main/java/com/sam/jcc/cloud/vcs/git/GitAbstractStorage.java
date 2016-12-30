@@ -4,6 +4,7 @@ import static com.sam.jcc.cloud.PropertyResolver.getProperty;
 import static java.util.Optional.empty;
 
 import java.io.File;
+import java.util.List;
 import java.util.Optional;
 
 import com.sam.jcc.cloud.utils.files.ItemStorage;
@@ -26,12 +27,12 @@ import lombok.extern.slf4j.Slf4j;
  * @since 06.12.2016
  */
 @Slf4j
-abstract class GitAbstractStorage implements VCSStorage<VCSCredentials> {
+public abstract class GitAbstractStorage implements VCSStorage<VCSCredentials> {
 
     protected final ItemStorage<VCSRepository> storage;
 
     public GitAbstractStorage() {
-        storage = new ItemStorage<>(VCSRepository::getName);
+        storage = new ItemStorage<>(VCSRepository::getName, new VCSRepositoryBuilder());
     }
 
     @Override
@@ -64,6 +65,11 @@ abstract class GitAbstractStorage implements VCSStorage<VCSCredentials> {
         } catch (ItemNotFoundException e) {
             throw new VCSRepositoryNotFoundException(repo);
         }
+    }
+
+    @Override
+    public List<VCSRepository> getAllRepositories() {
+        return storage.getItems();
     }
 
     @Override

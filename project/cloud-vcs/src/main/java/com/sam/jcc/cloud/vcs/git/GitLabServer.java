@@ -1,5 +1,6 @@
 package com.sam.jcc.cloud.vcs.git;
 
+import com.sam.jcc.cloud.exception.NotImplementedCloudException;
 import com.sam.jcc.cloud.i.Experimental;
 import com.sam.jcc.cloud.vcs.exception.VCSRepositoryNotFoundException;
 import com.sam.jcc.cloud.vcs.exception.VCSException;
@@ -11,6 +12,7 @@ import org.gitlab.api.models.GitlabProject;
 import org.gitlab.api.models.GitlabSession;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -64,6 +66,11 @@ public class GitLabServer implements VCSStorage<GitCredentials> {
     @Override
     public Optional<GitCredentials> getCredentialsProvider() {
         return of(new GitCredentials(user, password));
+    }
+
+    @Override
+    public List<VCSRepository> getAllRepositories() {
+        throw new NotImplementedCloudException();
     }
 
     @Override
