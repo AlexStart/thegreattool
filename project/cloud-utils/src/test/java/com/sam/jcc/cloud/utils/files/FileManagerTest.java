@@ -107,6 +107,20 @@ public class FileManagerTest {
     }
 
     @Test
+    public void getDirectoryFiles() throws IOException {
+        final File dir = temp.newFolder();
+
+        final File root = new File(dir, "root");
+        root.mkdir();
+        final File file = new File(dir, "file");
+        file.createNewFile();
+        final File child = new File(root, "child");
+        child.createNewFile();
+
+        assertThat(fileManager.getDirectoryFiles(dir)).containsOnly(root, file);
+    }
+
+    @Test
     public void writesToFile() throws IOException {
         final File file = temp.newFile();
         final byte[] content = randomContent();
