@@ -5,11 +5,7 @@ import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.VCSRepositoryDataHelper;
 import com.sam.jcc.cloud.vcs.utils.GitDaemon;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
@@ -64,35 +60,39 @@ public class GitRemoteVCSTest {
     @Test
     public void reads() throws IOException {
         git.create(repository);
-        final Entry<String, byte[]> data = writeSomeDataAndCommit();
+        try {
+            final Entry<String, byte[]> data = writeSomeDataAndCommit();
 
-        final File dest = temp.newFolder();
-        repository.setSources(dest);
+            final File dest = temp.newFolder();
+            repository.setSources(dest);
 
-        git.read(repository);
-        assertThat(dest.listFiles()).isNotNull().isNotEmpty();
+            git.read(repository);
+            assertThat(dest.listFiles()).isNotNull().isNotEmpty();
 
-        final File copy = new File(dest, data.getKey());
+            final File copy = new File(dest, data.getKey());
 
-        assertThat(copy)
-                .exists()
-                .isFile()
-                .hasBinaryContent(data.getValue());
-
-        invalidateAndDelete(repository);
+            assertThat(copy)
+                    .exists()
+                    .isFile()
+                    .hasBinaryContent(data.getValue());
+        } finally {
+            invalidateAndDelete(repository);
+        }
     }
 
     @Test
     public void worksStable() throws IOException {
         git.create(repository);
 
-        writeSomeDataAndCommit();
-        writeSomeDataAndCommit();
+        try {
+            writeSomeDataAndCommit();
+            writeSomeDataAndCommit();
 
-        repository.setSources(temp.newFolder());
-        git.read(repository);
-
-        invalidateAndDelete(repository);
+            repository.setSources(temp.newFolder());
+            git.read(repository);
+        } finally {
+            invalidateAndDelete(repository);
+        }
     }
 
     @Test
@@ -104,14 +104,18 @@ public class GitRemoteVCSTest {
         assertThat(git.isExist(repository)).isTrue();
 
         invalidateAndDelete(repository);
+
+        assertThat(git.isExist(repository)).isFalse();
     }
 
     @Test
     public void commits() throws IOException {
         git.create(repository);
-        writeSomeDataAndCommit();
-
-        invalidateAndDelete(repository);
+        try {
+            writeSomeDataAndCommit();
+        } finally {
+            invalidateAndDelete(repository);
+        }
     }
 
     @Test
@@ -121,17 +125,18 @@ public class GitRemoteVCSTest {
         assertThat(git.isExist(repository)).isTrue();
 
         repository.setSources(temp.newFolder());
-        writeSomeDataAndCommit();
+        try {
+            writeSomeDataAndCommit();
 
-        repository.setSources(temp.newFolder());
-        git.read(repository);
+            repository.setSources(temp.newFolder());
+            git.read(repository);
 
-        assertThat(repository.getSources().listFiles())
-                .isNotNull()
-                .isNotEmpty();
-
-        invalidateAndDelete(repository);
-        assertThat(git.isExist(repository)).isFalse();
+            assertThat(repository.getSources().listFiles())
+                    .isNotNull()
+                    .isNotEmpty();
+        } finally {
+            invalidateAndDelete(repository);
+        }
     }
 
     void invalidateAndDelete(VCSRepository repository) throws IOException {
