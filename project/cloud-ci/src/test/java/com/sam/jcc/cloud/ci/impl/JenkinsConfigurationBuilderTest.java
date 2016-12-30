@@ -10,7 +10,8 @@ import org.junit.rules.TemporaryFolder;
 
 import static com.sam.jcc.cloud.ci.impl.JenkinsConfigurationBuilder.MAVEN_ARTIFACTS;
 import static com.sam.jcc.cloud.ci.util.CIProjectTemplates.loadProject;
-import static org.apache.commons.lang3.SystemUtils.IS_OS_WINDOWS;
+import static com.sam.jcc.cloud.utils.SystemUtils.resetOSSettings;
+import static com.sam.jcc.cloud.utils.SystemUtils.setWindowsOS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.spy;
@@ -53,13 +54,17 @@ public class JenkinsConfigurationBuilderTest {
     }
 
     @Test
-    public void configuresMavenForDifferentOS() {
-        if (IS_OS_WINDOWS) {
+    public void configuresProjectsForDifferentOS() {
+        try{
+            setWindowsOS(true);
             assertThat(builder.build(mavenProject)).contains("mvnw.cmd install");
             assertThat(builder.build(gradleProject)).contains("gradlew.bat build");
-        } else {
+
+            setWindowsOS(false);
             assertThat(builder.build(mavenProject)).contains("./mvnw install");
             assertThat(builder.build(gradleProject)).contains("./gradlew build");
+        } finally {
+            resetOSSettings();
         }
     }
 

@@ -8,10 +8,10 @@ import org.junit.rules.TemporaryFolder;
 import java.io.File;
 import java.io.IOException;
 
+import static com.sam.jcc.cloud.utils.SystemUtils.isWindowsOS;
 import static com.sam.jcc.cloud.utils.files.TestFileUtils.createInnerFile;
 import static com.sam.jcc.cloud.utils.files.TestFileUtils.randomContent;
 import static java.lang.System.getProperty;
-import static org.apache.commons.lang3.SystemUtils.IS_OS_WINDOWS;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 /**
@@ -65,7 +65,7 @@ public class FileManagerTest {
                 .canRead()
                 .canWrite();
 
-        if (IS_OS_WINDOWS) assertThat(file.isHidden()).isTrue();
+        if (isWindowsOS()) assertThat(file.isHidden()).isTrue();
     }
 
     @Test

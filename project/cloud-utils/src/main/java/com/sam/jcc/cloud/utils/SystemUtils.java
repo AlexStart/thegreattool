@@ -33,7 +33,7 @@ public class SystemUtils {
         isWindows = windowsOS;
     }
 
-    @VisibleForTesting public static void reset() {
+    @VisibleForTesting public static void resetOSSettings() {
         setUp();
     }
 }
