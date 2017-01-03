@@ -5,6 +5,7 @@ package com.sam.jcc.cloud.project.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sam.jcc.cloud.i.IEventManager;
@@ -21,6 +22,7 @@ public class GradleProjectProvider extends ProjectProvider {
 
 	private static final String GRADLE_PROJECT = "gradle-project";
 
+	@Autowired
 	public GradleProjectProvider(List<IEventManager<IProjectMetadata>> eventManagers) {
 		super(eventManagers, GRADLE_PROJECT);
 	}

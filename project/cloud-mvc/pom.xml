@@ -116,7 +116,20 @@
 
 		<dependency>
 			<groupId>com.sam.jcc</groupId>
+			<artifactId>cloud-commons</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>com.sam.jcc</groupId>
 			<artifactId>cloud-initializr-adapter</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sam.jcc</groupId>
+			<artifactId>cloud-persistence</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
@@ -125,6 +138,14 @@
 			<artifactId>cloud-rules</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+
+
+		<dependency>
+			<groupId>io.spring.initializr</groupId>
+			<artifactId>initializr-generator</artifactId>
+			<version>1.0.0.BUILD-SNAPSHOT</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>jstl</groupId>
