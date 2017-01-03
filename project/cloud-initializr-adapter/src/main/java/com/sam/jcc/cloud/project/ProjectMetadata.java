@@ -42,9 +42,9 @@ public class ProjectMetadata implements IProjectMetadata, IStatusable {
     @Override
     public String toString() {
         return toStringHelper(getClass())
-                .add("project", projectName)
-                .add("artifactId", artifactId)
+                .add("name", projectName)
                 .add("groupId", groupId)
+                .add("artifactId", artifactId)
                 .toString();
     }
 }

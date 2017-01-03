@@ -1,17 +1,18 @@
 package com.sam.jcc.cloud.utils.files;
 
-import static com.sam.jcc.cloud.utils.files.TestFileUtils.createInnerFile;
-import static com.sam.jcc.cloud.utils.files.TestFileUtils.randomContent;
-import static java.lang.System.getProperty;
-import static org.assertj.core.api.Java6Assertions.assertThat;
-
-import java.io.File;
-import java.io.IOException;
-
 import com.sam.jcc.cloud.exception.InternalCloudException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+
+import java.io.File;
+import java.io.IOException;
+
+import static com.sam.jcc.cloud.utils.SystemUtils.isWindowsOS;
+import static com.sam.jcc.cloud.utils.files.TestFileUtils.createInnerFile;
+import static com.sam.jcc.cloud.utils.files.TestFileUtils.randomContent;
+import static java.lang.System.getProperty;
+import static org.assertj.core.api.Java6Assertions.assertThat;
 
 /**
  * @author Alexey Zhytnik
@@ -63,7 +64,8 @@ public class FileManagerTest {
                 .isDirectory()
                 .canRead()
                 .canWrite();
-        assertThat(file.isHidden()).isTrue();
+
+        if (isWindowsOS()) assertThat(file.isHidden()).isTrue();
     }
 
     @Test
@@ -105,6 +107,20 @@ public class FileManagerTest {
     }
 
     @Test
+    public void getDirectoryFiles() throws IOException {
+        final File dir = temp.newFolder();
+
+        final File root = new File(dir, "root");
+        root.mkdir();
+        final File file = new File(dir, "file");
+        file.createNewFile();
+        final File child = new File(root, "child");
+        child.createNewFile();
+
+        assertThat(fileManager.getDirectoryFiles(dir)).containsOnly(root, file);
+    }
+
+    @Test
     public void writesToFile() throws IOException {
         final File file = temp.newFile();
         final byte[] content = randomContent();
@@ -115,12 +131,12 @@ public class FileManagerTest {
     }
 
     @Test(expected = InternalCloudException.class)
-    public void failsOnUnknownResource(){
+    public void failsOnUnknownResource() {
         fileManager.getResource(getClass(), "unknown resource");
     }
 
     @Test
-    public void loadsResource(){
+    public void loadsResource() {
         final File resource = fileManager.getResource(getClass(), "/gradle-project.zip");
         assertThat(resource).isNotNull().exists();
     }

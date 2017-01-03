@@ -43,10 +43,10 @@
             <artifactId>java-gitlab-api</artifactId>
             <version>${gitlab.api.version}</version>
             <exclusions>
-            	<exclusion>
-            		<artifactId>jackson-core</artifactId>
-            		<groupId>com.fasterxml.jackson.core</groupId>
-            	</exclusion>
+                <exclusion>
+                    <artifactId>jackson-core</artifactId>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -66,18 +66,6 @@
             <groupId>com.github.stefanbirkner</groupId>
             <artifactId>system-rules</artifactId>
             <version>1.16.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.java.dev.jna</groupId>
-            <artifactId>jna-platform</artifactId>
-            <version>4.0.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.outr.javasysmon</groupId>
-            <artifactId>javasysmon_2.10</artifactId>
-            <version>0.3.4</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

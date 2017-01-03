@@ -1,14 +1,18 @@
-package com.sam.jcc.cloud.project;
+package com.sam.jcc.cloud.project.dao;
 
-import com.sam.jcc.cloud.crud.ICRUD;
+import com.sam.jcc.cloud.exception.InternalCloudException;
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import com.sam.jcc.cloud.persistence.project.ProjectMetadataEntity;
 import com.sam.jcc.cloud.persistence.project.ProjectRepository;
+import com.sam.jcc.cloud.project.ProjectAlreadyExistException;
+import com.sam.jcc.cloud.project.ProjectMetadata;
+import com.sam.jcc.cloud.project.ProjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static java.util.stream.Collectors.toList;
@@ -19,7 +23,7 @@ import static java.util.stream.Collectors.toList;
  */
 @Component
 @Transactional
-class ProjectMetadataDao implements ICRUD<ProjectMetadata> {
+public class ProjectMetadataDao implements ExtendProjectMetadataDao {
 
     @Autowired
     private ProjectRepository repository;
@@ -31,6 +35,9 @@ class ProjectMetadataDao implements ICRUD<ProjectMetadata> {
 
     @Override
     public ProjectMetadata create(ProjectMetadata metadata) {
+        if (searchNotSecured(metadata).isPresent()) {
+            throw new ProjectAlreadyExistException(metadata);
+        }
         return save(metadata);
     }
 
@@ -62,13 +69,23 @@ class ProjectMetadataDao implements ICRUD<ProjectMetadata> {
 
     @Override
     public List<IProjectMetadata> findAll() {
-        return newArrayList(repository.findAll())
+        throw new InternalCloudException();
+    }
+
+    @Override
+    public List<ProjectMetadata> findAllByProjectType(String projectType) {
+        return newArrayList(repository.findByProjectType(projectType))
                 .stream()
                 .map(entityConverter::convert)
                 .collect(toList());
     }
 
     private ProjectMetadataEntity search(ProjectMetadata metadata) {
+        return searchNotSecured(metadata)
+                .orElseThrow(() -> new ProjectNotFoundException(metadata));
+    }
+
+    private Optional<ProjectMetadataEntity> searchNotSecured(ProjectMetadata metadata) {
         return repository.findByGroupIdAndArtifactId(
                 metadata.getGroupId(),
                 metadata.getArtifactId()

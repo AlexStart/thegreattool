@@ -19,8 +19,10 @@ import com.sam.jcc.cloud.project.ProjectProvider;
 @Component
 public class MavenProjectProvider extends ProjectProvider {
 
+	private static final String MAVEN_PROJECT = "maven-project";
+
 	public MavenProjectProvider(List<IEventManager<IProjectMetadata>> eventManagers) {
-		super(eventManagers);
+		super(eventManagers, MAVEN_PROJECT);
 	}
 
 	@Override
@@ -30,7 +32,7 @@ public class MavenProjectProvider extends ProjectProvider {
 
 		final ProjectMetadata m = (ProjectMetadata) metadata;
 		final String name = m.getProjectType();
-		return name != null && name.equals("maven-project");
+		return name != null && name.equals(MAVEN_PROJECT);
 	}
 
 }

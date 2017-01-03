@@ -1,6 +1,8 @@
 package com.sam.jcc.cloud.vcs.git;
 
+import com.sam.jcc.cloud.utils.files.ItemStorage.ItemNotFoundException;
 import com.sam.jcc.cloud.vcs.VCSRepository;
+import com.sam.jcc.cloud.vcs.exception.VCSRepositoryNotFoundException;
 import com.sam.jcc.cloud.vcs.exception.VCSUnknownProtocolException;
 import org.springframework.stereotype.Component;
 
@@ -17,8 +19,12 @@ public class GitFileStorage extends GitAbstractStorage {
 
     @Override
     public String getRepositoryURI(VCSRepository repo) {
-        final String uri = get(repo).toURI().getSchemeSpecificPart().substring(1);
-        return protocol + uri;
+        try {
+            final String uri = storage.get(repo).getAbsolutePath();
+            return protocol + uri;
+        } catch (ItemNotFoundException e) {
+            throw new VCSRepositoryNotFoundException(repo);
+        }
     }
 
     @Override

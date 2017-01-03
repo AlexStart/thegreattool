@@ -1,7 +1,8 @@
-package com.sam.jcc.cloud.project;
+package com.sam.jcc.cloud.project.dao;
 
 import com.sam.jcc.cloud.persistence.project.Dependency;
 import com.sam.jcc.cloud.persistence.project.ProjectMetadataEntity;
+import com.sam.jcc.cloud.project.ProjectMetadata;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

@@ -18,7 +18,7 @@ public abstract class CloudException extends RuntimeException {
         super(translateAndFill(key, args), cause);
     }
 
-    private static String translateAndFill(String key, Object[] args) {
+    protected static String translateAndFill(String key, Object... args) {
         final String translation = ExceptionTranslationResolver.getTranslation(key);
 
         if (args.length != 0) {

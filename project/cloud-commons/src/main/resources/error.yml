@@ -15,6 +15,12 @@ project:
     error:
       en: "Project metadata {0} is invalid!"
       ru: "Метаданные проекта {0} не валидны!"
+  notFound:
+    en: "Project with metadata {0} not found!"
+    ru: "Проект c метаданными {0} не найден!"
+  exist:
+    en: "Project with metadata {0} already exists!"
+    ru: "Проект c метаданными {0} уже существует!"
 
 parser:
   metadata:
@@ -38,8 +44,8 @@ translation:
 
 property:
   notFound:
-    en: "Property {0} not found!"
-    ru: "Проперти {0} не найдена!"
+    en: "Property with key=\"{0}\" not found!"
+    ru: "Проперти c ключом=\"{0}\" не найдена!"
 
 unsupported:
   item:
@@ -60,5 +66,39 @@ vcs:
       ru: "Протокол {0} не поддерживается!"
   repository:
     exist:
-      en: "Repository {0} already exist!"
+      en: "Repository {0} already exists!"
       ru: "Репозиторий {0} уже существует!"
+
+ci:
+  error:
+    default:
+      en: "Continuous Integration Error"
+      ru: "Ошибка в работе с CI"
+  project:
+    notFound:
+      en: "Project {0} not found!"
+      ru: "Проект {0} не найден!"
+    exist:
+      en: "CI for {0} already exists!"
+      ru: "CI для {0} уже существует!"
+  build:
+    notFound:
+      en: "Successful build not found, last build status was {1}, \n details: {0}, \n output: \n {2}"
+      ru: "Успешная сборка не найдена, последний статус {1}, \n details: {0}, \n вывод: \n {2}"
+    status:
+      failed:
+        en: "FAILED"
+        ru: "ПРОВАЛЕН"
+      unknown:
+        en: "UNKNOWN"
+        ru: "НЕИЗВЕСТЕН"
+      inProgress:
+        en: "IN PROGRESS"
+        ru: "В ПРОЦЕССЕ"
+      successful:
+        en: "SUCCESSFUL"
+        ru: "УСПЕШНО"
+  server:
+    notAvailable:
+      en: "CI Server connection error"
+      ru: "Ошибка при подключении к серверу CI"

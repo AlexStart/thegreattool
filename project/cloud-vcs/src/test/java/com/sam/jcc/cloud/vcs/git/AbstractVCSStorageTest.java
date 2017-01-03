@@ -1,8 +1,9 @@
-package com.sam.jcc.cloud.vcs;
+package com.sam.jcc.cloud.vcs.git;
 
+import com.sam.jcc.cloud.vcs.VCSRepository;
+import com.sam.jcc.cloud.vcs.VCSStorage;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static com.sam.jcc.cloud.vcs.VCSRepositoryDataHelper.repository;
@@ -23,7 +24,6 @@ public abstract class AbstractVCSStorageTest<T extends VCSStorage<?>> {
     public abstract void setUp();
 
     @Test
-    @Ignore
     public void createsAndChecksExistence() throws Exception {
         assertThat(server.isExist(repository)).isFalse();
 
@@ -35,10 +35,6 @@ public abstract class AbstractVCSStorageTest<T extends VCSStorage<?>> {
 
     @After
     public void tearDown() {
-        try {
-            server.delete(repository);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        server.delete(repository);
     }
 }

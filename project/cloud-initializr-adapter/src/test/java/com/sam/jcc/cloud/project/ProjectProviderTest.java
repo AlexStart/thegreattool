@@ -12,6 +12,7 @@ import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.spy;
 
 import com.sam.jcc.cloud.provider.UnsupportedTypeException;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
@@ -29,7 +30,6 @@ import com.sam.jcc.cloud.project.impl.MavenProjectProvider;
  */
 @SpringBootTest
 @RunWith(SpringRunner.class)
-
 public class ProjectProviderTest {
 
 	@Autowired
@@ -37,6 +37,16 @@ public class ProjectProviderTest {
 
 	@Autowired
 	GradleProjectProvider gradleProvider;
+
+	@After
+    public void reset(){
+	    mavenProvider
+                .findAll()
+                .forEach(mavenProvider::delete);
+	    gradleProvider
+                .findAll()
+                .forEach(gradleProvider::delete);
+    }
 
 	@Test
 	public void getsName() {
@@ -64,6 +74,28 @@ public class ProjectProviderTest {
 		assertThat(mavenProvider.supports(gradleProject())).isFalse();
 		assertThat(gradleProvider.supports(mavenProject())).isFalse();
 		assertThat(gradleProvider.supports(gradleProject())).isTrue();
+	}
+
+	@Test(expected = ProjectAlreadyExistException.class)
+	public void failsOnDuplicate() {
+		final ProjectMetadata project = mavenProject();
+		mavenProvider.create(project);
+		mavenProvider.create(project);
+	}
+
+    @Test(expected = ProjectNotFoundException.class)
+    public void failsOnReadUnknown() {
+        mavenProvider.read(mavenProject());
+    }
+
+    @Test(expected = ProjectNotFoundException.class)
+    public void failsOnUpdateUnknown() {
+        gradleProvider.update(gradleProject());
+    }
+
+	@Test(expected = ProjectNotFoundException.class)
+	public void failsOnDeleteUnknown() {
+		gradleProvider.delete(gradleProject());
 	}
 
 	@Test

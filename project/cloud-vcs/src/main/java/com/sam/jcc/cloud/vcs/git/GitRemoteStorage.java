@@ -1,9 +1,10 @@
 package com.sam.jcc.cloud.vcs.git;
 
-import com.sam.jcc.cloud.vcs.exception.VCSUnknownProtocolException;
 import com.sam.jcc.cloud.vcs.VCSRepository;
+import com.sam.jcc.cloud.vcs.exception.VCSUnknownProtocolException;
 
 import static com.sam.jcc.cloud.PropertyResolver.getProperty;
+import static java.lang.Integer.valueOf;
 import static java.text.MessageFormat.format;
 
 /**
@@ -12,12 +13,14 @@ import static java.text.MessageFormat.format;
  */
 public class GitRemoteStorage extends GitAbstractStorage {
 
-    private String host = getProperty("git.server.host");
+    private String host = getProperty("git.remote.server.host");
+    private Integer port = valueOf(getProperty("git.remote.server.port"));
+
     private String protocol = getProperty("protocols.git");
 
     @Override
     public String getRepositoryURI(VCSRepository repo) {
-        return format("{0}{1}/{2}", protocol, host, repo.getName());
+        return format("{0}{1}:{2}/{3}", protocol, host, Integer.toString(port), repo.getName());
     }
 
     @Override

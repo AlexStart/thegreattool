@@ -1,14 +1,11 @@
 package com.sam.jcc.cloud.vcs.git;
 
-import com.sam.jcc.cloud.i.IEventManager;
-import com.sam.jcc.cloud.i.ILoggable;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.TempFile;
 import com.sam.jcc.cloud.vcs.VCS;
 import com.sam.jcc.cloud.vcs.VCSCredentials;
 import com.sam.jcc.cloud.vcs.exception.VCSException;
 import com.sam.jcc.cloud.vcs.VCSRepository;
-import com.sam.jcc.cloud.vcs.VCSRepositoryStatus;
 import com.sam.jcc.cloud.vcs.VCSStorage;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,17 +20,12 @@ import org.eclipse.jgit.api.TransportCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.URIish;
-import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 import java.util.List;
-
-import static com.google.common.collect.Lists.newArrayList;
 
 /**
  * @author Alexey Zhytnik
@@ -41,21 +33,13 @@ import static com.google.common.collect.Lists.newArrayList;
  */
 @Slf4j
 @Component
-public class GitVCS implements VCS<VCSCredentials>, ILoggable{
+public class GitVCS implements VCS<VCSCredentials>{
 
     @Setter
     @Getter
     private VCSStorage<VCSCredentials> storage;
 
     private FileManager files = new FileManager();
-
-    /**
-     * List creation exists for easy work without Spring.
-     * In beans eventManagers will be automatically changed.
-     */
-    @Setter
-    @Autowired
-    private List<IEventManager<VCSRepository>> eventManagers = newArrayList();
 
     @Override
     public boolean isExist(VCSRepository repo) {
@@ -65,14 +49,17 @@ public class GitVCS implements VCS<VCSCredentials>, ILoggable{
     @Override
     public void delete(VCSRepository repo) {
         storage.delete(repo);
-        updateStatus(repo, VCSRepositoryStatus.DELETED);
+    }
+
+    @Override
+    public void create(VCSRepository repo) {
+        storage.create(repo);
     }
 
     @Override
     public void read(VCSRepository repo) {
         try {
             clone(repo);
-            updateStatus(repo, VCSRepositoryStatus.CLONED);
 
             //TODO: transfer to top level
             final File metadata = new File(repo.getSources(), ".git");
@@ -81,12 +68,6 @@ public class GitVCS implements VCS<VCSCredentials>, ILoggable{
         } catch (GitAPIException e) {
             throw new VCSException(e);
         }
-    }
-
-    @Override
-    public void create(VCSRepository repo) {
-        storage.create(repo);
-        updateStatus(repo, VCSRepositoryStatus.CREATED);
     }
 
     @Override
@@ -103,17 +84,18 @@ public class GitVCS implements VCS<VCSCredentials>, ILoggable{
 
                 add(git);
                 commit(git);
-                updateStatus(repo, VCSRepositoryStatus.COMMITED);
-
                 push(git);
-                updateStatus(repo, VCSRepositoryStatus.PUSHED);
 
                 git.getRepository().close();
             } catch (GitAPIException | URISyntaxException | IOException e) {
-                eventManagers.forEach(manager -> manager.fireEvent(repo, this));
                 throw new VCSException(e);
             }
         }
+    }
+
+    @Override
+    public List<VCSRepository> getAllRepositories() {
+        return storage.getAllRepositories();
     }
 
     private void clone(VCSRepository repo) throws GitAPIException {
@@ -162,13 +144,10 @@ public class GitVCS implements VCS<VCSCredentials>, ILoggable{
     }
 
     private void clear(File dir) throws GitAPIException {
-        final File[] files = dir.listFiles();
-
-        if (files != null) {
-            Arrays.stream(files)
-                    .filter(f -> !f.getName().equals(".git"))
-                    .forEach(this.files::delete);
-        }
+        files.getDirectoryFiles(dir)
+                .stream()
+                .filter(f -> !f.getName().equals(".git"))
+                .forEach(this.files::delete);
     }
 
     private void add(Git git) throws GitAPIException {
@@ -195,20 +174,10 @@ public class GitVCS implements VCS<VCSCredentials>, ILoggable{
         push.call();
     }
 
-    private void updateStatus(VCSRepository repo, VCSRepositoryStatus status) {
-        repo.setStatus(status);
-        eventManagers.forEach(manager -> manager.fireEvent(repo, this));
-    }
-
     private void setCredentials(TransportCommand<?, ?> command) {
         if (storage.getCredentialsProvider().isPresent()) {
             CredentialsProvider cp = (CredentialsProvider) storage.getCredentialsProvider().get();
             command.setCredentialsProvider(cp);
         }
-    }
-
-    @Override
-    public Logger getLogger() {
-        return log;
     }
 }

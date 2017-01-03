@@ -1,6 +1,8 @@
 package com.sam.jcc.cloud.utils.files;
 
+import static com.sam.jcc.cloud.utils.SystemUtils.isWindowsOS;
 import static java.nio.file.Files.setAttribute;
+import static java.util.Collections.emptyList;
 import static org.apache.commons.io.FileUtils.copyDirectory;
 import static org.apache.commons.io.FileUtils.listFiles;
 import static org.apache.commons.io.filefilter.DirectoryFileFilter.DIRECTORY;
@@ -8,9 +10,12 @@ import static org.apache.commons.io.filefilter.FileFileFilter.FILE;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.sam.jcc.cloud.PropertyResolver;
+import com.sam.jcc.cloud.i.OSDependent;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.ClassPathResource;
@@ -58,12 +63,18 @@ public class FileManager {
 		}
 	}
 
+	@OSDependent(
+	        "Currently supported only for Windows OS, " +
+            "Unix hidden files must to start with '.'"
+    )
 	public void createHiddenDir(File file) {
 		createDir(file);
+		if (!isWindowsOS()) return;
+
 		try {
 			setAttribute(file.toPath(), "dos:hidden", true);
 		} catch (IOException e) {
-			log.warn("Maybe OS doesn't support this way creation of hidden directory, {0}", e);
+			log.warn("Maybe OS doesn't support this way of creation of hidden directory, {0}", e);
 		}
 	}
 
@@ -115,9 +126,16 @@ public class FileManager {
 		}
 	}
 
-	List<File> getDirectoryFiles(File dir) {
+	List<File> getAllDirectoryFiles(File dir) {
 		return (List<File>) listFiles(dir, FILE, DIRECTORY);
 	}
+
+    public List<File> getDirectoryFiles(File dir) {
+        final File[] files = dir.listFiles();
+
+        if (files == null) return emptyList();
+        return Arrays.stream(files).collect(Collectors.toList());
+    }
 
 	int getNesting(File file) {
 		try {

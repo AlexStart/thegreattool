@@ -1,6 +1,7 @@
 package com.sam.jcc.cloud.vcs.git;
 
 import com.sam.jcc.cloud.PropertyResolver;
+import com.sam.jcc.cloud.exception.NotImplementedCloudException;
 import com.sam.jcc.cloud.i.Experimental;
 import com.sam.jcc.cloud.vcs.exception.VCSRepositoryNotFoundException;
 import com.sam.jcc.cloud.vcs.exception.VCSUnknownProtocolException;
@@ -65,6 +66,11 @@ public class GitHubServer implements VCSStorage<GitCredentials> {
     @Override
     public Optional<GitCredentials> getCredentialsProvider() {
         return of(new GitCredentials(user, password));
+    }
+
+    @Override
+    public List<VCSRepository> getAllRepositories() {
+        throw new NotImplementedCloudException();
     }
 
     @Override
