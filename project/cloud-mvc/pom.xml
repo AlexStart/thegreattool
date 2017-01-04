@@ -125,6 +125,12 @@
 			<groupId>com.sam.jcc</groupId>
 			<artifactId>cloud-initializr-adapter</artifactId>
 			<version>${project.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>initializr-web</artifactId>
+					<groupId>io.spring.initializr</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -194,6 +200,10 @@
 				<exclusion>
 					<groupId>jboss</groupId>
 					<artifactId>javassist</artifactId>
+				</exclusion>
+				<exclusion>
+					<artifactId>freemarker</artifactId>
+					<groupId>org.freemarker</groupId>
 				</exclusion>
 			</exclusions>
 		</dependency>
