@@ -21,6 +21,7 @@
 		<jetty.stop_port>9393</jetty.stop_port>
 		<apache.tiles.version>3.0.7</apache.tiles.version>
 		<spring.version>4.3.4.RELEASE</spring.version>
+		<groovy.version>2.4.7</groovy.version>
 	</properties>
 
 	<repositories>
@@ -157,6 +158,12 @@
 			<groupId>jstl</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>${groovy.version}</version>
 		</dependency>
 
 		<!-- PROVIDED -->
