@@ -27,9 +27,7 @@ import com.sam.jcc.cloud.PropertyResolver;
 @EnableJpaRepositories("com.sam.jcc.cloud.persistence")
 public class DatabaseConfiguration {
 
-    //TODO: temp solution, needs condition
     @Bean
-    //@Profile("prod")
     public DataSource dataSource() {
         final DriverManagerDataSource ds = new DriverManagerDataSource();
 

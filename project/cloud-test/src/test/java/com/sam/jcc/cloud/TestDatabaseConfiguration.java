@@ -1,10 +1,11 @@
 package com.sam.jcc.cloud;
 
+import javax.sql.DataSource;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-
-import javax.sql.DataSource;
 
 /**
  * @author Alexey Zhytnik
@@ -14,6 +15,7 @@ import javax.sql.DataSource;
 public class TestDatabaseConfiguration {
 
     @Bean
+    @Primary
     public DataSource inMemoryDataSource() {
         final DriverManagerDataSource ds = new DriverManagerDataSource();
         ds.setUrl("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
