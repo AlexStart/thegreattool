@@ -13,6 +13,11 @@ spring:
   jackson:
     serialization:
      write-dates-as-timestamps: false
+  resources:
+    chain:
+      strategy:
+        content:
+          enabled: true
 
 initializr:
   env:
@@ -24,26 +29,45 @@ initializr:
           - versionRange: "[1.2.3.RELEASE,1.3.0.M1)"
             version: Angel.SR6
           - versionRange: "[1.3.0.M1,1.3.9.BUILD-SNAPSHOT)"
-            version: Brixton.SR6
+            version: Brixton.SR7
           - versionRange: "[1.3.9.BUILD-SNAPSHOT,1.4.0.RELEASE)"
             version: Brixton.BUILD-SNAPSHOT
             repositories: spring-snapshots,spring-milestones
-          - versionRange: "[1.4.0.RELEASE,1.4.3.BUILD-SNAPSHOT)"
-            version: Camden.SR2
-          - versionRange: 1.4.3.BUILD-SNAPSHOT
+          - versionRange: "[1.4.0.RELEASE,1.4.4.BUILD-SNAPSHOT)"
+            version: Camden.SR3
+          - versionRange: "[1.4.4.BUILD-SNAPSHOT, 1.5.0.M1)"
             version: Camden.BUILD-SNAPSHOT
+            repositories: spring-snapshots,spring-milestones
+          - versionRange: "1.5.0.M1"
+            version: Dalston.BUILD-SNAPSHOT
             repositories: spring-snapshots,spring-milestones
       cloud-dataflow-bom:
         groupId: org.springframework.cloud
         artifactId: spring-cloud-dataflow-dependencies
-        version: 1.0.1.RELEASE
         additionalBoms: [cloud-bom]
-        repositories: spring-snapshots,spring-milestones
+        mappings:
+          - versionRange: "[1.3.2.RELEASE,1.4.0.M1)"
+            version: 1.0.1.RELEASE
+          - versionRange: "[1.4.0.M1,1.4.4.BUILD-SNAPSHOT)"
+            version: 1.1.0.RELEASE
+          - versionRange: 1.4.4.BUILD-SNAPSHOT
+            version: 1.1.1.BUILD-SNAPSHOT
+            repositories: spring-snapshots,spring-milestones
       cloud-services-bom:
         groupId: io.pivotal.spring.cloud
         artifactId: spring-cloud-services-dependencies
-        version: 1.3.0.RELEASE
         additionalBoms: [cloud-bom]
+        mappings:
+          - versionRange: "[1.3.0.RELEASE,1.3.9.BUILD-SNAPSHOT)"
+            version: 1.2.1.RELEASE
+          - versionRange: "[1.3.9.BUILD-SNAPSHOT,1.4.0.RELEASE)"
+            version: 1.2.2.BUILD-SNAPSHOT
+            repositories: spring-snapshots,spring-milestones
+          - versionRange: "[1.4.0.RELEASE,1.4.4.BUILD-SNAPSHOT)"
+            version: 1.3.1.RELEASE
+          - versionRange: "[1.4.4.BUILD-SNAPSHOT, 1.5.0.M1)"
+            version: 1.3.2.BUILD-SNAPSHOT
+            repositories: spring-snapshots,spring-milestones
       experimental-reactive-bom:
         groupId: org.springframework.boot.experimental
         artifactId: spring-boot-dependencies-web-reactive
@@ -52,11 +76,11 @@ initializr:
       vaadin-bom:
         groupId: com.vaadin
         artifactId: vaadin-bom
-        version: 7.7.3
+        version: 7.7.5
     gradle:
       dependency-management-plugin-version: 0.6.0.RELEASE
     kotlin:
-      version: 1.0.5-2
+      version: 1.0.6
   dependencies:
     - name: Core
       content:
@@ -172,7 +196,7 @@ initializr:
             - versionRange: "[1.2.0.RELEASE,1.4.0.RELEASE)"
               version: 1.0.2
             - versionRange: 1.4.0.RELEASE
-              version: 1.1.0
+              version: 1.1.1
         - name: Rest Repositories
           id: data-rest
           weight: 10
@@ -254,8 +278,11 @@ initializr:
           description: Persistence support using MyBatis
           groupId: org.mybatis.spring.boot
           artifactId: mybatis-spring-boot-starter
-          version: 1.1.1
-          versionRange: 1.3.0.RELEASE
+          mappings:
+            - versionRange: "[1.3.0.RELEASE,1.4.0.M2)"
+              version: 1.1.1
+            - versionRange: 1.4.0.M2
+              version: 1.2.0
         - name: JDBC
           id: jdbc
           description: JDBC databases
@@ -483,12 +510,6 @@ initializr:
           description: Circuit breaker metric aggregation using spring-cloud-netflix with Turbine and server-sent events
           groupId: org.springframework.cloud
           artifactId: spring-cloud-starter-turbine
-        - name: Turbine AMQP
-          id: cloud-turbine-amqp
-          description: Circuit breaker metric aggregation using spring-cloud-netflix with Turbine and AMQP
-          versionRange: "[1.2.0.RELEASE,1.3.0.M5]"
-          groupId: org.springframework.cloud
-          artifactId: spring-cloud-starter-turbine-amqp
         - name: Turbine Stream
           id: cloud-turbine-stream
           description: Circuit breaker metric aggregation using spring-cloud-netflix with Turbine and Spring Cloud Stream (choose a specific Stream binder implementation to complement this)
@@ -645,7 +666,7 @@ initializr:
           starter: false
     - name: Pivotal Cloud Foundry
       bom: cloud-services-bom
-      versionRange: 1.3.0.RELEASE
+      versionRange: "[1.3.0.RELEASE,1.5.0.M1)"
       content:
         - name: Config Client (PCF)
           id: scs-config-client
@@ -693,7 +714,7 @@ initializr:
           description: Integration using Apache Camel
           groupId: org.apache.camel
           artifactId: camel-spring-boot-starter
-          version: 2.18.0
+          version: 2.18.1
         - name: JMS (ActiveMQ)
           id: activemq
           description: Java Message Service API via Apache ActiveMQ
