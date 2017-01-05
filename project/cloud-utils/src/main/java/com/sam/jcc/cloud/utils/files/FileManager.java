@@ -14,15 +14,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.sam.jcc.cloud.PropertyResolver;
-import com.sam.jcc.cloud.i.OSDependent;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 import com.google.common.io.Files;
+import com.sam.jcc.cloud.PropertyResolver;
 import com.sam.jcc.cloud.exception.InternalCloudException;
+import com.sam.jcc.cloud.i.OSDependent;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,6 +45,10 @@ public class FileManager {
 	}
 
 	public void delete(File dir) {
+		if (dir == null) {
+			return; // otherwise it kills current dir! TODO 
+		}
+		
 		if (dir.isDirectory()) {
 			cleanDir(dir);
 		}
@@ -96,7 +100,7 @@ public class FileManager {
 		}
 	}
 
-	public TempFile createTempDir() {
+	public static TempFile createTempDir() {
 		return new TempFile(Files.createTempDir());
 	}
 

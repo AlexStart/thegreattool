@@ -2,6 +2,8 @@ package com.sam.jcc.cloud.project;
 
 import static java.util.Collections.singletonList;
 
+import com.sam.jcc.cloud.utils.files.FileManager;
+
 /**
  * @author Alexey Zhytnik
  * @since 15.11.2016
@@ -35,6 +37,9 @@ class ProjectMetadataHelper {
         project.setVersion("0.0.1-SNAPSHOT");
         project.setWebAppPackaging(false);
         project.setDescription(projectType + " basic template");
+        
+        project.setDirectory(FileManager.createTempDir());
+        
         return project;
     }
 }
