@@ -5,6 +5,8 @@
 	xmlns:ehcache="http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
 
+	<import resource="spring-beans-context.xml" />
+
 	<import resource="spring-mvc-context.xml" />
 
 

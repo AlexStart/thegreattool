@@ -10,8 +10,19 @@
 	<context:annotation-config />
 
 	<!-- Beans with annotations are detected only in this package (and subprojects) -->
-	<context:component-scan
-		base-package="com.sam.jcc.cloud,io.spring.initializr.generator" />
+	<context:component-scan base-package="com.sam.jcc.cloud" />
 
+	<!-- Initializr beans -->
+	<bean id="projectGenerator" class="io.spring.initializr.generator.ProjectGenerator" />
+	<bean class="io.spring.initializr.metadata.InitializrMetadata" />
+	<bean class="io.spring.initializr.metadata.SimpleInitializrMetadataProvider" />
+	<util:list id="emptyList"
+		value-type="io.spring.initializr.generator.ProjectRequestPostProcessor" />
+	<bean class="io.spring.initializr.generator.ProjectRequestResolver">
+		<constructor-arg ref="emptyList" />
+	</bean>
+	<bean class="io.spring.initializr.util.GroovyTemplate" />
+	<bean class="io.spring.initializr.generator.ProjectResourceLocator" />
+	<!-- end of Initializr beans -->
 
 </beans>
