@@ -7,7 +7,4 @@
 
 	<import resource="spring-beans-context.xml" />
 
-	<import resource="spring-mvc-context.xml" />
-
-
 </beans>

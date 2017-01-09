@@ -131,6 +131,10 @@
 					<artifactId>initializr-web</artifactId>
 					<groupId>io.spring.initializr</groupId>
 				</exclusion>
+				<exclusion>
+					<artifactId>org.springframework</artifactId>
+					<groupId>spring-webmvc</groupId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 
