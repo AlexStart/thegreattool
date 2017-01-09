@@ -11,7 +11,7 @@
 		<java.version>1.8</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<sam.nexus>linux-uvio.sam-solutions.net</sam.nexus>
-		<spring.version>4.3.4.RELEASE</spring.version>
+		<spring.version>4.3.5.RELEASE</spring.version>
 		<slf4j.version>1.7.21</slf4j.version>
 		<commons-lang3.version>3.5</commons-lang3.version>
 		<commons-io.version>2.5</commons-io.version>

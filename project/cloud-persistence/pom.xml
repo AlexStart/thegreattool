@@ -15,6 +15,7 @@
     <name>SaM Java Cloud :: Cloud Persistence</name>
 
     <properties>
+    	<spring.version>4.3.5.RELEASE</spring.version>
         <h2.driver.version>1.4.193</h2.driver.version>
         <mysql.driver.version>6.0.5</mysql.driver.version>
         <mongo.driver.version>3.3.0</mongo.driver.version>
@@ -47,7 +48,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
-            <version>4.3.4.RELEASE</version>
+            <version>${spring.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.aspectj</groupId>

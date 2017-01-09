@@ -15,7 +15,7 @@
     <name>SaM Java Cloud :: Continuous Integration </name>
 
     <properties>
-        <spring.version>4.3.4.RELEASE</spring.version>
+        <spring.version>4.3.5.RELEASE</spring.version>
     </properties>
 
     <dependencies>
