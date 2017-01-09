@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sam.jcc.cloud.i.app.IAppMetadata;
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
+import com.sam.jcc.cloud.mvc.dto.AppDTO;
+import com.sam.jcc.cloud.mvc.service.AppService;
 import com.sam.jcc.cloud.rules.service.IService;
 
 /**
@@ -22,21 +24,24 @@ import com.sam.jcc.cloud.rules.service.IService;
 @RestController
 @RequestMapping("/api")
 public class ApiController {
+	
+	@Autowired
+	private AppService appService;	
 
 	@Autowired
-	private IService<IAppMetadata> appService;
+	private IService<IAppMetadata> appProviderService;
 
 	@Autowired
-	private IService<IProjectMetadata> projectService;
+	private IService<IProjectMetadata> projectProviderService;
 
 	@RequestMapping(value = "apps", method = RequestMethod.GET)
-	public @ResponseBody List<? super IAppMetadata> findAllApps() {
-		return appService.findAll();
+	public @ResponseBody List<? super AppDTO> findAllApps() {
+		return appService.convertModels(appProviderService.findAll());
 	}
 
 	@RequestMapping(value = "projects", method = RequestMethod.GET)
 	public @ResponseBody List<? super IProjectMetadata> findAllProjects() {
-		return projectService.findAll();
+		return projectProviderService.findAll();
 	}
 
 }

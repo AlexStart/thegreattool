@@ -6,6 +6,8 @@ package com.sam.jcc.cloud.i.app;
  */
 public interface IAppMetadata {
 
+	Long getId();
+	
     String getProjectName();
 
     void setProjectName(String projectName);

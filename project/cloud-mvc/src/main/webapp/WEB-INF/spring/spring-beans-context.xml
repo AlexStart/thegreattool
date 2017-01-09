@@ -25,4 +25,14 @@
 	<bean class="io.spring.initializr.generator.ProjectResourceLocator" />
 	<!-- end of Initializr beans -->
 
+	<bean id="conversionService"
+		class="org.springframework.context.support.ConversionServiceFactoryBean">
+		<property name="converters">
+			<set>
+				<bean class="com.sam.jcc.cloud.mvc.dto.AppConverter" />
+				<bean class="com.sam.jcc.cloud.mvc.dto.AppMetadataConverter" />
+			</set>
+		</property>
+	</bean>
+
 </beans>
