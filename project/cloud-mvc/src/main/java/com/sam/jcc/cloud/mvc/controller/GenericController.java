@@ -101,8 +101,5 @@ public abstract class GenericController<T> implements ICRUD<T> {
 		return models;
 	}
 
-	public List<? super T> postGetJSONs(ModelMap model) {
-		return initView(model);
-	}
-
+	
 }

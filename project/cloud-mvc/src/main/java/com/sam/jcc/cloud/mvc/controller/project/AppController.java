@@ -46,11 +46,6 @@ public class AppController extends GenericController<IProjectMetadata> {
 		return super.post(model, form);
 	}
 
-	@Override
-	@RequestMapping(value = "/json", method = RequestMethod.POST)
-	public @ResponseBody List<? super IProjectMetadata> postGetJSONs(ModelMap model) {
-		return super.postGetJSONs(model);
-	}
 
 	@Override
 	@RequestMapping(method = RequestMethod.GET)

@@ -133,8 +133,8 @@
 			});
 			//
 			$.ajax({
-				type : "POST",
-				url : "${root_context}${main_uri}/json",
+				type : "GET",
+				url : "${root_context}api/${main_uri}",
 				data : {}
 			}).done(function(json) {
 				$("#postBlockIdentifier img").css({
