@@ -39,4 +39,11 @@ MongoDataProvider:
     en: "MongoDB"
   description:
     ru: "NoSQL"
-    en: "NoSQL"                      
+    en: "NoSQL"
+AppProvider:
+  name:
+    ru: "AppProvider"
+    en: "AppProvider"
+  description:
+    ru: "AppProvider"
+    en: "AppProvider"
