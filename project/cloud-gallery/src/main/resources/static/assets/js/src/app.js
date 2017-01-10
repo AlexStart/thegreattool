@@ -13,6 +13,7 @@
         vm.save = save;
         vm.remove = remove;
         vm.update = update;
+        vm.reset = refresh;
 
         var APP = '/apps/';
 

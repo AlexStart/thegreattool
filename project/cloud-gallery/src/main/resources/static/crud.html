@@ -65,16 +65,35 @@
 				</table>
                 <br>
 
-                <ng-form name="form" novalidate>
-                    <label for="name">Name</label>
-                    <input id="name" type="text" ng-model="vm.app.name" required>
-                    <br>
-                    <br>
+                <form name="vm.form" novalidate>
+                    <fieldset>
+                        <legend>Work with App</legend>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input id="name" type="text" ng-model="vm.app.name" required>
+                        </div>
 
-                    <button ng-click="vm.save(vm.app)" ng-disabled="!form.$valid">Create</button>
-                    <button ng-click="vm.update(vm.app)" ng-disabled="!form.$valid || !vm.app.id">Update</button>
-                    <button ng-click="vm.remove(vm.app)" ng-disabled="!form.$valid || !vm.app.id">Delete</button>
-                </ng-form>
+                        <button type="submit"
+                                class="btn btn-primary"
+                                ng-click="vm.save(vm.app)"
+                                ng-disabled="!vm.form.$valid || vm.app.id">Create</button>
+
+                        <button type="submit"
+                                class="btn btn-primary"
+                                ng-click="vm.update(vm.app)"
+                                ng-disabled="!vm.form.$valid || !vm.app.id">Update</button>
+
+                        <button type="submit"
+                                class="btn btn-primary"
+                                ng-click="vm.remove(vm.app)"
+                                ng-disabled="!vm.form.$valid || !vm.app.id">Delete</button>
+
+                        <button type="submit"
+                                class="btn btn-primary"
+                                ng-click="vm.reset()"
+                                ng-disabled="!(vm.app.name || vm.app.id)">Reset</button>
+                    </fieldset>
+                </form>
 			</div>
 		</div>
 
