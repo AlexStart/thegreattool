@@ -20,7 +20,17 @@
         activate();
 
         function activate() {
-            vm.apps = new NgTableParams({}, {counts: [], getData: findAll});
+            vm.apps = new NgTableParams(
+                {
+                    count: 8
+                },
+                {
+                    getData: search,
+                    counts: [4, 8, 12],
+                    paginationMinBlocks: 1,
+                    paginationMaxBlocks: 5
+                }
+            );
             vm.app = {id: undefined, name: ''};
         }
 
@@ -40,11 +50,25 @@
                 .then(refresh);
         }
 
+        function search(params) {
+            var page = params.page() - 1;
+            var size = params.count();
+
+            return $http.get(APP + 'search', {params: {page: page, size: size}})
+                .then(response => {
+                    var data = response.data;
+                    params.total(data.totalElements);
+                    return data.content;
+                });
+        }
+
+        /* DEBUG */
         function findAll() {
             return $http.get(APP)
                 .then(response => response.data);
         }
 
+        /* TODO: delete single element of last page */
         function refresh() {
             vm.app = {id: undefined, name: ''};
             vm.apps.reload();
