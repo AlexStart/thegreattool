@@ -21,7 +21,7 @@ public class MetadataResponse<T> {
         final MetadataResponse<T> response = new MetadataResponse<>();
 
         response.setData(data);
-        response.setType(METADATA_RESOLVER.describe(data));
+        response.setType(METADATA_RESOLVER.resolve(data));
         return response;
     }
 }

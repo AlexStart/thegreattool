@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Set;
 
 import static java.util.Collections.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.entry;
 
 /**
  * @author Alexey Zhytnik
@@ -19,10 +21,16 @@ public class MetadataResolverTest {
     private MetadataResolver resolver = new MetadataResolver();
 
     @Test
-    public void test() {
-        final Map<String, Object> type = resolver.describe(testData());
+    public void resolves() {
+        final Map<String, Object> type = resolver.resolve(testData());
 
-        System.out.println(type);
+        assertThat(type).contains(
+                entry("strField", "string"),
+                entry("intField", "number"),
+                entry("dateField", "date")
+        );
+        assertThat(type.get("mapField")).isNotNull();
+        assertThat(type.get("setField")).isEqualTo(singletonMap(0, "number"));
     }
 
 

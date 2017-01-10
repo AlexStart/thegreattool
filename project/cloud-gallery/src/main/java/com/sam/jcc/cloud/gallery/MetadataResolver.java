@@ -48,17 +48,17 @@ public class MetadataResolver {
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
 
-    public Map<String, Object> describe(Object data) {
+    public Map<String, Object> resolve(Object data) {
         if (isList(data)) data = transform((List<?>) data);
 
         return transform(data)
                 .entrySet()
                 .stream()
-                .map(this::describe)
+                .map(this::resolve)
                 .collect(toMap(Entry::getKey, Entry::getValue));
     }
 
-    private Entry<String, Object> describe(Entry<String, Object> e) {
+    private Entry<String, Object> resolve(Entry<String, Object> e) {
         if (!containsValue(e)) return entry(e, NULL_TYPE);
 
         if (isPrimitive(e)) {
@@ -68,7 +68,7 @@ public class MetadataResolver {
                 return entry(e, getType(e));
             }
         }
-        return entry(e, describe(e.getValue()));
+        return entry(e, resolve(e.getValue()));
     }
 
     @SuppressWarnings("unchecked")
