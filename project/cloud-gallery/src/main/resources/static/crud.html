@@ -74,24 +74,25 @@
                         </div>
 
                         <button type="submit"
-                                class="btn btn-primary"
+                                class="btn btn-info"
                                 ng-click="vm.save(vm.app)"
-                                ng-disabled="!vm.form.$valid || vm.app.id">Create</button>
+                                ng-disabled="!vm.form.$valid"
+                                ng-hide="vm.app.id">Create</button>
 
                         <button type="submit"
-                                class="btn btn-primary"
+                                class="btn btn-info"
                                 ng-click="vm.update(vm.app)"
-                                ng-disabled="!vm.form.$valid || !vm.app.id">Update</button>
+                                ng-hide="!vm.form.$valid || !vm.app.id">Update</button>
 
                         <button type="submit"
-                                class="btn btn-primary"
+                                class="btn btn-info"
                                 ng-click="vm.remove(vm.app)"
-                                ng-disabled="!vm.form.$valid || !vm.app.id">Delete</button>
+                                ng-hide="!vm.form.$valid || !vm.app.id">Delete</button>
 
                         <button type="submit"
-                                class="btn btn-primary"
+                                class="btn btn-info"
                                 ng-click="vm.reset()"
-                                ng-disabled="!(vm.app.name || vm.app.id)">Reset</button>
+                                ng-hide="!(vm.app.name || vm.app.id)">Cancel</button>
                     </fieldset>
                 </form>
 			</div>
