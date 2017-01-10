@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"  ng-app="app">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,13 +12,20 @@
 <title>Java Cloud Gallery</title>
 
 <!-- Bootstrap core CSS -->
-<link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="../../assets/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <link href="../../assets/css/ie10-viewport-bug-workaround.css"
 	rel="stylesheet">
 
-<!-- Custom styles for this template -->
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
+	<link rel="stylesheet"; href="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.css">
+	<script src="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.js"></script>
+
+	<script src="assets/js/src/app.js" type="text/javascript"></script>
+
+
+        <!-- Custom styles for this template -->
 <link href="gallery.css" rel="stylesheet">
 
 <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
@@ -46,6 +53,29 @@
 					<li class="active"><a href="#">Simple CRUD Component</a></li>
 				</ul>
 			</nav>
+		</div>
+
+
+		<div>
+			<div ng-controller="galleryCtrl as vm">
+				<table ng-table="vm.apps" class="table">
+					<tr ng-repeat="app in $data">
+						<td title="'Name'" ng-click="vm.app=app.data">{{app.data.name}}</td>
+					</tr>
+				</table>
+                <br>
+
+                <ng-form name="form" novalidate>
+                    <label for="name">Name</label>
+                    <input id="name" type="text" ng-model="vm.app.name" required>
+                    <br>
+                    <br>
+
+                    <button ng-click="vm.save(vm.app)" ng-disabled="!form.$valid">Create</button>
+                    <button ng-click="vm.update(vm.app)" ng-disabled="!form.$valid || !vm.app.id">Update</button>
+                    <button ng-click="vm.remove(vm.app)" ng-disabled="!form.$valid || !vm.app.id">Delete</button>
+                </ng-form>
+			</div>
 		</div>
 
 
