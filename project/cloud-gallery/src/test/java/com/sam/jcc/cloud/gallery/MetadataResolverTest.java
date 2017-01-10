@@ -8,9 +8,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static java.util.Collections.*;
+import static java.util.Collections.singleton;
+import static java.util.Collections.singletonList;
+import static java.util.Collections.singletonMap;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.entry;
 
 /**
  * @author Alexey Zhytnik
@@ -21,16 +22,18 @@ public class MetadataResolverTest {
     private MetadataResolver resolver = new MetadataResolver();
 
     @Test
+    //TODO: need spec
     public void resolves() {
         final Map<String, Object> type = resolver.resolve(testData());
 
-        assertThat(type).contains(
-                entry("strField", "string"),
-                entry("intField", "number"),
-                entry("dateField", "date")
+        assertThat(type).containsOnlyKeys(
+                "strField",
+                "intField",
+                "setField",
+                "mapField",
+                "dateField",
+                "nullField"
         );
-        assertThat(type.get("mapField")).isNotNull();
-        assertThat(type.get("setField")).isEqualTo(singletonMap(0, "number"));
     }
 
 

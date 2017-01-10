@@ -13,7 +13,7 @@ public class MetadataResponse<T> {
 
     private T data;
 
-    private Map<String, Object> type;
+    private Map<String, Object> metadata;
 
     private static final MetadataResolver METADATA_RESOLVER = new MetadataResolver();
 
@@ -21,7 +21,7 @@ public class MetadataResponse<T> {
         final MetadataResponse<T> response = new MetadataResponse<>();
 
         response.setData(data);
-        response.setType(METADATA_RESOLVER.resolve(data));
+        response.setMetadata(METADATA_RESOLVER.resolve(data));
         return response;
     }
 }
