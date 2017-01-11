@@ -1,9 +1,9 @@
 package com.sam.jcc.cloud.providers;
 
 import com.sam.jcc.cloud.app.AppMetadata;
-import com.sam.jcc.cloud.app.AppMetadataValidationException;
 import com.sam.jcc.cloud.app.AppProvider;
 import com.sam.jcc.cloud.i.app.IAppMetadata;
+import com.sam.jcc.cloud.utils.project.ArtifactIdValidator.AppMetadataValidationException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

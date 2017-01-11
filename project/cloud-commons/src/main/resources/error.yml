@@ -21,6 +21,10 @@ project:
   exist:
     en: "Project with metadata {0} already exists!"
     ru: "Проект c метаданными {0} уже существует!"
+  artifactId:
+    notValid:
+      en: "App name isn't valid!"
+      ru: "Неправильное имя приложения!"
 
 parser:
   metadata:
@@ -102,8 +106,3 @@ ci:
     notAvailable:
       en: "CI Server connection error"
       ru: "Ошибка при подключении к серверу CI"
-app:
-  metadata:
-    notValid:
-      en: "App name isn't valid!"
-      ru: "Неправильное имя приложения!"

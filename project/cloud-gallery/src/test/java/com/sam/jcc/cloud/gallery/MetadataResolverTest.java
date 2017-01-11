@@ -1,6 +1,7 @@
 package com.sam.jcc.cloud.gallery;
 
 import lombok.Data;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Date;
@@ -22,6 +23,7 @@ public class MetadataResolverTest {
     private MetadataResolver resolver = new MetadataResolver();
 
     @Test
+    @Ignore
     //TODO: need spec
     public void resolves() {
         final Map<String, Object> type = resolver.resolve(testData());

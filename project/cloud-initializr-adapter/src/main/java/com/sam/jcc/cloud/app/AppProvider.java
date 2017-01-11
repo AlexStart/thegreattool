@@ -4,6 +4,8 @@ import com.sam.jcc.cloud.i.IEventManager;
 import com.sam.jcc.cloud.i.app.IAppMetadata;
 import com.sam.jcc.cloud.i.app.IAppProvider;
 import com.sam.jcc.cloud.provider.AbstractProvider;
+import com.sam.jcc.cloud.utils.project.ArtifactIdValidator;
+import com.sam.jcc.cloud.utils.project.ArtifactIdValidator.AppMetadataValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +24,7 @@ public class AppProvider extends AbstractProvider<IAppMetadata> implements IAppP
     private AppMetadataDao dao;
 
     @Autowired
-    private AppMetadataValidator validator;
+    private ArtifactIdValidator nameValidator;
 
     @Autowired
     public AppProvider(List<IEventManager<IAppMetadata>> eventManagers) {
@@ -45,7 +47,7 @@ public class AppProvider extends AbstractProvider<IAppMetadata> implements IAppP
 
         final String name = m.getProjectName().trim().toLowerCase();
         m.setProjectName(name);
-        validator.validate(m);
+        nameValidator.validate(m.getProjectName());
         return m;
     }
 
