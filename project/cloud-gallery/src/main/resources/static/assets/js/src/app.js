@@ -32,6 +32,7 @@
                 }
             );
             vm.app = {id: undefined, name: ''};
+            vm.apps.metadata = undefined;
         }
 
         function save(app) {
@@ -57,9 +58,16 @@
             return $http.get(APP + 'search', {params: {page: page, size: size}})
                 .then(response => {
                     var data = response.data;
+                    updateMetadata(data);
                     params.total(data.totalElements);
                     return data.content;
                 });
+        }
+
+        function updateMetadata(data) {
+            if (data.content.length == 0) return;
+
+            vm.apps.metadata = data.content[0].metadata;
         }
 
         /* DEBUG */

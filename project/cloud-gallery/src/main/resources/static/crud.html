@@ -60,16 +60,16 @@
 			<div ng-controller="galleryCtrl as vm">
 				<table ng-table="vm.apps" class="table table-condensed table-bordered table-striped">
 					<tr ng-repeat="app in $data">
-						<td title="'Name'" ng-click="vm.app=app.data">{{app.data.name}}</td>
+						<td title="vm.apps.metadata.name.translation" ng-click="vm.app=app.data">{{app.data.name}}</td>
 					</tr>
 				</table>
                 <br>
 
                 <form name="vm.form" novalidate>
                     <fieldset>
-                        <legend>Work with App</legend>
+                        <legend>{{vm.apps.metadata.class.translation}}</legend>
                         <div class="form-group">
-                            <label for="name">Name</label>
+                            <label for="name">{{vm.apps.metadata.name.translation}}</label>
                             <input id="name" type="text" ng-model="vm.app.name" required>
                         </div>
 

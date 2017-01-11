@@ -50,6 +50,7 @@ public class MetadataResolver {
                 build();
 
         TRANSLATIONS = ImmutableMap.<String, Map<String, String>>builder().
+                put("com.sam.jcc.cloud.gallery.App", singletonMap("ru", "Test App")).
                 put("com.sam.jcc.cloud.gallery.App.id", singletonMap("ru", "ID")).
                 put("com.sam.jcc.cloud.gallery.App.name", singletonMap("ru", "Name")).
                 build();
@@ -61,10 +62,13 @@ public class MetadataResolver {
     }
 
     public Map<String, Object> resolve(Object data) {
-        return resolve(data, getPath(data));
+        final Map<String, Object> metadata = resolve(data, getPath(data));
+        final Entry<String, Object> clazz = entry(data);
+        metadata.put(clazz.getKey(), clazz.getValue());
+        return metadata;
     }
 
-    public Map<String, Object> resolve(Object data, String path) {
+    private Map<String, Object> resolve(Object data, String path) {
         if (isList(data)) data = transform((List<?>) data);
 
         return transform(data)
@@ -148,6 +152,20 @@ public class MetadataResolver {
         return new SimpleEntry<>(
                 last.getKey(),
                 of("type", type, "translation", translation)
+        );
+    }
+
+    //TODO: temp solution
+    private Entry<String, Object> entry(Object data) {
+        final Map<String, String> translations = TRANSLATIONS.getOrDefault(
+                getPath(data),
+                singletonMap("en", "ABSENT_TRANSLATION")
+        );
+        final String translation = translations.getOrDefault(getLocale().getLanguage(), "UNKNOWN_LOCALE");
+
+        return new SimpleEntry<>(
+                "class",
+                of("type", "object", "translation", translation)
         );
     }
 
