@@ -22,11 +22,11 @@
         function activate() {
             vm.apps = new NgTableParams(
                 {
-                    count: 8
+                    count: 5
                 },
                 {
                     getData: search,
-                    counts: [4, 8, 12],
+                    counts: [5, 10, 25],
                     paginationMinBlocks: 1,
                     paginationMaxBlocks: 5
                 }
