@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.sam.jcc.cloud")
 public class GalleryStarter {
     public static void main(String[] args) {
         SpringApplication.run(GalleryStarter.class, args);

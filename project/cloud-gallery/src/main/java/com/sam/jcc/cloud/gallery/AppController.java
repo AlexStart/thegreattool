@@ -1,5 +1,7 @@
 package com.sam.jcc.cloud.gallery;
 
+import com.sam.jcc.cloud.utils.project.ArtifactIdValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +32,9 @@ import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 @RequestMapping("/apps")
 public class AppController {
 
+    @Autowired
+    ArtifactIdValidator nameValidator;
+
     Map<UUID, App> apps = newLinkedHashMap();
 
     {
@@ -48,8 +53,9 @@ public class AppController {
 
     @RequestMapping(method = POST)
     public UUID create(@RequestBody App app) {
-        final UUID id = UUID.randomUUID();
+        nameValidator.validate(app.getName());
 
+        final UUID id = UUID.randomUUID();
         app.setId(id);
         apps.put(id, app);
         return id;
@@ -91,6 +97,7 @@ public class AppController {
 
     @RequestMapping(method = PUT)
     public void update(@RequestBody App app) {
+        nameValidator.validate(app.getName());
         apps.get(app.getId()).setName(app.getName());
     }
 }

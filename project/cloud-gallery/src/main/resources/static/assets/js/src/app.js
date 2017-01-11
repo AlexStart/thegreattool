@@ -38,30 +38,34 @@
         function save(app) {
             $http.post(APP, app)
                 .then(response => app.id = response.data)
-                .then(refresh);
+                .then(refresh)
+                .catch(onError);
         }
 
         function update(app) {
             $http.put(APP, app)
-                .then(refresh);
+                .then(refresh)
+                .catch(onError);
         }
 
         function remove(app) {
             $http.delete(APP + app.id)
-                .then(refresh);
+                .then(refresh)
+                .catch(onError);
         }
 
         function search(params) {
             var page = params.page() - 1;
             var size = params.count();
 
-            return $http.get(APP + 'search', {params: {page: page, size: size, sort:"date,DESC"}})
+            return $http.get(APP + 'search', {params: {page: page, size: size, sort: "date,DESC"}})
                 .then(response => {
                     var data = response.data;
                     updateMetadata(data);
                     params.total(data.totalElements);
                     return data.content;
-                });
+                })
+                .catch(onError);
         }
 
         function updateMetadata(data) {
@@ -73,13 +77,19 @@
         /* DEBUG */
         function findAll() {
             return $http.get(APP)
-                .then(response => response.data);
+                .then(response => response.data)
+                .catch(onError);
         }
 
         /* TODO: delete single element of last page */
         function refresh() {
             vm.app = {id: undefined, name: ''};
             vm.apps.reload();
+        }
+
+        function onError(error) {
+            var msg = '[message=\'' + error.data.message + '\']';
+            alert(error.data.error + msg);
         }
     }
 })();
