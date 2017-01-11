@@ -1,6 +1,7 @@
 package com.sam.jcc.cloud.providers;
 
 import com.sam.jcc.cloud.app.AppMetadata;
+import com.sam.jcc.cloud.app.AppMetadataValidationException;
 import com.sam.jcc.cloud.app.AppProvider;
 import com.sam.jcc.cloud.i.app.IAppMetadata;
 import org.junit.Before;
@@ -20,8 +21,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 public class AppProviderTest {
 
-    static final String PROJECT_NAME = "Test-Project";
-
     @Autowired
     AppProvider appProvider;
 
@@ -30,7 +29,7 @@ public class AppProviderTest {
     @Before
     public void setUp() {
         project = new AppMetadata();
-        project.setProjectName(PROJECT_NAME);
+        project.setProjectName("Test-Project");
     }
 
     @Test
@@ -40,7 +39,7 @@ public class AppProviderTest {
         assertThat(appProvider.findAll()).hasSize(1);
 
         project = appProvider.read(project);
-        assertThat(project.getProjectName()).isEqualTo(PROJECT_NAME);
+        assertThat(project.getProjectName()).isEqualTo("test-project");
 
         project.setProjectName("updated");
         project = appProvider.update(project);
@@ -49,5 +48,17 @@ public class AppProviderTest {
 
         appProvider.delete(project);
         assertThat(appProvider.findAll()).isEmpty();
+    }
+
+    @Test(expected = AppMetadataValidationException.class)
+    public void failsOnEmptyName() {
+        appProvider.preprocess(new AppMetadata());
+    }
+
+    @Test(expected = AppMetadataValidationException.class)
+    public void failsOnNotValid() {
+        final AppMetadata metadata = new AppMetadata();
+        metadata.setProjectName("Not valid name");
+        appProvider.preprocess(metadata);
     }
 }

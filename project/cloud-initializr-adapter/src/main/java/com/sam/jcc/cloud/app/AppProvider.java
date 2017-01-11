@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static java.util.Objects.isNull;
+
 /**
  * @author Alexey Zhytnik
  * @since 09.01.2017
@@ -18,6 +20,9 @@ public class AppProvider extends AbstractProvider<IAppMetadata> implements IAppP
 
     @Autowired
     private AppMetadataDao dao;
+
+    @Autowired
+    private AppMetadataValidator validator;
 
     @Autowired
     public AppProvider(List<IEventManager<IAppMetadata>> eventManagers) {
@@ -36,7 +41,12 @@ public class AppProvider extends AbstractProvider<IAppMetadata> implements IAppP
 
     @Override
     public IAppMetadata preprocess(IAppMetadata m) {
-        return asAppMetadata(m);
+        if (isNull(m.getProjectName())) throw new AppMetadataValidationException("");
+
+        final String name = m.getProjectName().trim().toLowerCase();
+        m.setProjectName(name);
+        validator.validate(m);
+        return m;
     }
 
     @Override

@@ -102,3 +102,8 @@ ci:
     notAvailable:
       en: "CI Server connection error"
       ru: "Ошибка при подключении к серверу CI"
+app:
+  metadata:
+    notValid:
+      en: "App name \"{0}\" isn't valid!"
+      ru: "Неправильное имя приложения \"{0}\"!"
