@@ -105,5 +105,5 @@ ci:
 app:
   metadata:
     notValid:
-      en: "App name \"{0}\" isn't valid!"
-      ru: "Неправильное имя приложения \"{0}\"!"
+      en: "App name isn't valid!"
+      ru: "Неправильное имя приложения!"

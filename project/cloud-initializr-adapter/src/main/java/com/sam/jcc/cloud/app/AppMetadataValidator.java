@@ -14,7 +14,7 @@ class AppMetadataValidator {
 
     public void validate(IAppMetadata app) {
         if (!isValidName(app)) {
-            throw new AppMetadataValidationException(app.getProjectName());
+            throw new AppMetadataValidationException();
         }
     }
 

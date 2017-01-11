@@ -41,7 +41,7 @@ public class AppProvider extends AbstractProvider<IAppMetadata> implements IAppP
 
     @Override
     public IAppMetadata preprocess(IAppMetadata m) {
-        if (isNull(m.getProjectName())) throw new AppMetadataValidationException("");
+        if (isNull(m.getProjectName())) throw new AppMetadataValidationException();
 
         final String name = m.getProjectName().trim().toLowerCase();
         m.setProjectName(name);

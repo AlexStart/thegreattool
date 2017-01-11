@@ -7,7 +7,7 @@ import com.sam.jcc.cloud.exception.BusinessCloudException;
  * @since 11.01.2017
  */
 public class AppMetadataValidationException extends BusinessCloudException {
-    public AppMetadataValidationException(String name) {
-        super("app.metadata.notValid", name);
+    public AppMetadataValidationException() {
+        super("app.metadata.notValid");
     }
 }
