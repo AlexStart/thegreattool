@@ -55,7 +55,7 @@
             var page = params.page() - 1;
             var size = params.count();
 
-            return $http.get(APP + 'search', {params: {page: page, size: size}})
+            return $http.get(APP + 'search', {params: {page: page, size: size, sort:"date,DESC"}})
                 .then(response => {
                     var data = response.data;
                     updateMetadata(data);

@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import static com.google.common.collect.Lists.reverse;
 import static com.google.common.collect.Maps.newLinkedHashMap;
 import static com.sam.jcc.cloud.gallery.MetadataResponse.response;
 import static java.util.stream.Collectors.toList;
@@ -65,10 +66,7 @@ public class AppController {
     @RequestMapping(value = "search", method = GET)
     public Page<MetadataResponse<App>> loadByPage(@PageableDefault Pageable page) {
 
-        final List<MetadataResponse<App>> selected = apps
-                .values()
-                .stream()
-                .collect(toList())
+        final List<MetadataResponse<App>> selected = reverse(apps.values().stream().collect(toList()))
                 .subList(
                         page.getOffset(),
                         getFinishIndex(page)
