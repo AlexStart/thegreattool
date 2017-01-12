@@ -1,8 +1,12 @@
 package com.sam.jcc.cloud.gallery;
 
+import com.sam.jcc.cloud.TranslationResolver;
 import lombok.Data;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
 import java.util.List;
@@ -18,17 +22,22 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Alexey Zhytnik
  * @since 09.01.2017
  */
+@RunWith(SpringRunner.class)
+@ContextConfiguration(classes = {
+        MetadataResolver.class,
+        TranslationResolver.class
+})
 public class MetadataResolverTest {
 
-    private MetadataResolver resolver = new MetadataResolver();
+    @Autowired
+    MetadataResolver resolver;
 
     @Test
-    @Ignore
-    //TODO: need spec
     public void resolves() {
         final Map<String, Object> type = resolver.resolve(testData());
 
         assertThat(type).containsOnlyKeys(
+                "class",
                 "strField",
                 "intField",
                 "setField",
@@ -37,7 +46,6 @@ public class MetadataResolverTest {
                 "nullField"
         );
     }
-
 
     TestData testData() {
         final TestData data = new TestData();

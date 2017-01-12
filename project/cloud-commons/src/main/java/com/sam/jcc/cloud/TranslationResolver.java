@@ -1,5 +1,6 @@
 package com.sam.jcc.cloud;
 
+import static com.google.common.collect.ImmutableMap.of;
 import static com.google.common.collect.Maps.newHashMap;
 import static java.util.Arrays.copyOfRange;
 import static java.util.Arrays.stream;
@@ -89,6 +90,6 @@ public class TranslationResolver {
     }
 
     public Map<String, String> getMetadata(String key) {
-        return metadata.get(key);
+        return metadata.getOrDefault(key, of("en", "UNKNOWN", "ru", "UNKNOWN"));
     }
 }
