@@ -66,6 +66,8 @@ public class AppController {
 
     @RequestMapping(method = GET)
     public List<MetadataResponse<App>> loadAll() {
+        if (apps.isEmpty()) throw new MetadataNotFoundException();
+
         return apps.values()
                 .stream()
                 .map(responseBuilder::build)
@@ -74,6 +76,7 @@ public class AppController {
 
     @RequestMapping(value = "search", method = GET)
     public Page<MetadataResponse<App>> loadByPage(@PageableDefault Pageable page) {
+        if (apps.isEmpty()) throw new MetadataNotFoundException();
 
         final List<MetadataResponse<App>> selected = reverse(apps.values().stream().collect(toList()))
                 .subList(
