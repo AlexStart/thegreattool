@@ -7,19 +7,9 @@ package com.sam.jcc.cloud.mvc.dto;
  * @author olegk
  *
  */
-public class AppDTO {
-
-	private Long id;
+public class AppDTO extends BaseDTO {
 
 	private String projectName;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getProjectName() {
 		return projectName;

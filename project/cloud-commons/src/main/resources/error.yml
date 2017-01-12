@@ -52,6 +52,9 @@ unsupported:
     type:
       en: "Type of {0} is not supported!"
       ru: "Тип {0} не поддерживается!"
+  call:
+      en: "Operation is forbidden!"
+      ru: "Операция не может быть проведена!!"
 vcs:
   error:
     default:

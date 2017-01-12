@@ -1,13 +1,14 @@
 /**
  * 
  */
-package com.sam.jcc.cloud.mvc.dto;
+package com.sam.jcc.cloud.mvc.dto.converter;
 
 import java.util.Map;
 
 import org.springframework.core.convert.converter.Converter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sam.jcc.cloud.mvc.dto.AppDTO;
 
 /**
  * @author olegk

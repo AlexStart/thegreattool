@@ -29,8 +29,9 @@
 		class="org.springframework.context.support.ConversionServiceFactoryBean">
 		<property name="converters">
 			<set>
-				<bean class="com.sam.jcc.cloud.mvc.dto.AppConverter" />
-				<bean class="com.sam.jcc.cloud.mvc.dto.AppMetadataConverter" />
+				<bean class="com.sam.jcc.cloud.mvc.dto.converter.AppConverter" />
+				<bean class="com.sam.jcc.cloud.mvc.dto.converter.AppMetadataConverter" />
+				<bean class="com.sam.jcc.cloud.mvc.dto.converter.VCSConverter" />
 			</set>
 		</property>
 	</bean>

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.sam.jcc.cloud.mvc.controller.app;
+package com.sam.jcc.cloud.mvc.controller;
 
 import java.util.List;
 import java.util.Map;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sam.jcc.cloud.i.app.IAppMetadata;
-import com.sam.jcc.cloud.mvc.controller.GenericController;
 import com.sam.jcc.cloud.mvc.dto.AppDTO;
 import com.sam.jcc.cloud.mvc.service.AppService;
 import com.sam.jcc.cloud.rules.service.IService;

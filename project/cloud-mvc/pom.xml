@@ -141,6 +141,12 @@
 
 		<dependency>
 			<groupId>com.sam.jcc</groupId>
+			<artifactId>cloud-vcs</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sam.jcc</groupId>
 			<artifactId>cloud-persistence</artifactId>
 			<version>${project.version}</version>
 		</dependency>

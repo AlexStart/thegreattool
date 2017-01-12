@@ -1,11 +1,12 @@
 /**
  * 
  */
-package com.sam.jcc.cloud.mvc.dto;
+package com.sam.jcc.cloud.mvc.dto.converter;
 
 import org.springframework.core.convert.converter.Converter;
 
 import com.sam.jcc.cloud.i.app.IAppMetadata;
+import com.sam.jcc.cloud.mvc.dto.AppDTO;
 
 /**
  * @author olegk
