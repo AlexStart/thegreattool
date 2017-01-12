@@ -71,7 +71,7 @@ button:
 state:
   disabled:
     metadata:
-      ru: "Не доступно"
+      ru: "Недоступно"
       en: "Disabled"
 com:
   sam:
