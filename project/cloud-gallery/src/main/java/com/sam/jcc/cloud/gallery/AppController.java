@@ -1,5 +1,6 @@
 package com.sam.jcc.cloud.gallery;
 
+import com.sam.jcc.cloud.gallery.MetadataResponseBuilder.MetadataResponse;
 import com.sam.jcc.cloud.utils.project.ArtifactIdValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,7 +18,6 @@ import java.util.UUID;
 
 import static com.google.common.collect.Lists.reverse;
 import static com.google.common.collect.Maps.newLinkedHashMap;
-import static com.sam.jcc.cloud.gallery.MetadataResponse.response;
 import static java.util.stream.Collectors.toList;
 import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -35,6 +35,9 @@ public class AppController {
     @Autowired
     ArtifactIdValidator nameValidator;
 
+    @Autowired
+    MetadataResponseBuilder responseBuilder;
+
     Map<UUID, App> apps = newLinkedHashMap();
 
     {
@@ -48,7 +51,7 @@ public class AppController {
 
     @RequestMapping(value = "{id}", method = GET)
     public MetadataResponse<App> findById(@PathVariable UUID id) {
-        return response(apps.get(id));
+        return responseBuilder.build(apps.get(id));
     }
 
     @RequestMapping(method = POST)
@@ -65,7 +68,7 @@ public class AppController {
     public List<MetadataResponse<App>> loadAll() {
         return apps.values()
                 .stream()
-                .map(MetadataResponse::response)
+                .map(responseBuilder::build)
                 .collect(toList());
     }
 
@@ -78,7 +81,7 @@ public class AppController {
                         getFinishIndex(page)
                 )
                 .stream()
-                .map(MetadataResponse::response)
+                .map(responseBuilder::build)
                 .collect(toList());
 
         return new PageImpl<>(selected, page, apps.size());

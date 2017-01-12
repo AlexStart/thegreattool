@@ -1,8 +1,10 @@
 package com.sam.jcc.cloud.gallery;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.common.collect.ImmutableMap;
+import com.sam.jcc.cloud.TranslationResolver;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -13,8 +15,8 @@ import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
+import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS;
 import static com.google.common.collect.ImmutableMap.of;
-import static java.util.Collections.singletonMap;
 import static java.util.Objects.nonNull;
 import static java.util.stream.Collectors.toMap;
 import static org.apache.commons.lang3.ClassUtils.isPrimitiveOrWrapper;
@@ -24,6 +26,7 @@ import static org.springframework.context.i18n.LocaleContextHolder.getLocale;
  * @author Alexey Zhytnik
  * @since 09.01.2017
  */
+@Component
 public class MetadataResolver {
 
     private static final String DATE_TYPE = "date";
@@ -35,8 +38,8 @@ public class MetadataResolver {
 
     private static final Map<Class, String> METADATA;
 
-    //TODO: temp solution
-    private static final Map<String, Map<String, String>> TRANSLATIONS;
+    @Autowired
+    private TranslationResolver translations;
 
     private final ObjectMapper mapper;
 
@@ -48,23 +51,17 @@ public class MetadataResolver {
                 put(Double.class, NUMBER_TYPE).
                 put(Integer.class, NUMBER_TYPE).
                 build();
-
-        TRANSLATIONS = ImmutableMap.<String, Map<String, String>>builder().
-                put("com.sam.jcc.cloud.gallery.App", singletonMap("ru", "Test App")).
-                put("com.sam.jcc.cloud.gallery.App.id", singletonMap("ru", "ID")).
-                put("com.sam.jcc.cloud.gallery.App.name", singletonMap("ru", "Name")).
-                build();
     }
 
     public MetadataResolver() {
         mapper = new ObjectMapper();
-        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        mapper.disable(WRITE_DATES_AS_TIMESTAMPS);
     }
 
-    public Map<String, Object> resolve(Object data) {
-        final Map<String, Object> metadata = resolve(data, getPath(data));
-        final Entry<String, Object> clazz = entry(data);
-        metadata.put(clazz.getKey(), clazz.getValue());
+    public Map<String, Object> resolve(Object obj) {
+        final String path = obj.getClass().getCanonicalName();
+        final Map<String, Object> metadata = resolve(obj, path);
+        metadata.put("class", getTranslationByPath(path));
         return metadata;
     }
 
@@ -81,14 +78,15 @@ public class MetadataResolver {
     private Entry<String, Object> resolve(Entry<String, Object> e, String path) {
         if (!containsValue(e)) return entry(e, NULL_TYPE, path);
 
-        if (isPrimitive(e)) {
+        if (isPrimitiveType(e)) {
             if (isDate(e)) {
                 return entry(e, DATE_TYPE, path);
             } else {
-                return entry(e, getType(e), path);
+                return entry(e, getTypeName(e), path);
             }
         }
-        return entry(e, resolve(e.getValue(), getPath(e, path)), path);
+        final Map<String, Object> subType = resolve(e.getValue(), getFieldPath(path, e));
+        return entry(e, subType, path);
     }
 
     @SuppressWarnings("unchecked")
@@ -100,13 +98,13 @@ public class MetadataResolver {
         return nonNull(entry.getValue());
     }
 
-    private boolean isPrimitive(Entry<String, Object> entry) {
+    private boolean isPrimitiveType(Entry<String, Object> entry) {
         final Class<?> clazz = entry.getValue().getClass();
         return isPrimitiveOrWrapper(clazz) || clazz.equals(String.class);
     }
 
-    private boolean isList(Object data) {
-        return data instanceof List;
+    private boolean isList(Object obj) {
+        return obj instanceof List;
     }
 
     private boolean isDate(Entry<String, Object> entry) {
@@ -133,43 +131,23 @@ public class MetadataResolver {
                         ));
     }
 
-    private String getType(Entry<String, Object> entry) {
+    private String getTypeName(Entry<String, Object> entry) {
         return METADATA.get(entry.getValue().getClass());
     }
 
-    private String getPath(Object data) {
-        return data.getClass().getCanonicalName();
-    }
-
-    //TODO: temp solution
     private Entry<String, Object> entry(Entry<String, Object> last, Object type, String path) {
-        final Map<String, String> translations = TRANSLATIONS.getOrDefault(
-                getPath(last, path),
-                singletonMap("en", "ABSENT_TRANSLATION")
-        );
-        final String translation = translations.getOrDefault(getLocale().getLanguage(), "UNKNOWN_LOCALE");
+        final String fieldPath = getFieldPath(path, last);
+        final String translation = getTranslationByPath(fieldPath);
 
-        return new SimpleEntry<>(
-                last.getKey(),
-                of("type", type, "translation", translation)
-        );
+        return new SimpleEntry<>(last.getKey(), of("type", type, "translation", translation));
     }
 
-    //TODO: temp solution
-    private Entry<String, Object> entry(Object data) {
-        final Map<String, String> translations = TRANSLATIONS.getOrDefault(
-                getPath(data),
-                singletonMap("en", "ABSENT_TRANSLATION")
-        );
-        final String translation = translations.getOrDefault(getLocale().getLanguage(), "UNKNOWN_LOCALE");
-
-        return new SimpleEntry<>(
-                "class",
-                of("type", "object", "translation", translation)
-        );
+    private String getTranslationByPath(String path) {
+        final String lang = getLocale().getLanguage();
+        return translations.getMetadata(path).get(lang);
     }
 
-    private String getPath(Entry<String, Object> field, String path) {
+    private String getFieldPath(String path, Entry<String, Object> field) {
         return path + "." + field.getKey();
     }
 }

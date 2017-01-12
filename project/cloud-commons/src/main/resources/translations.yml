@@ -47,3 +47,20 @@ AppProvider:
   description:
     ru: "AppProvider"
     en: "AppProvider"
+com:
+  sam:
+    jcc:
+      cloud:
+        gallery:
+          App:
+            metadata:
+              ru: "Приложение"
+              en: "App"
+            id:
+              metadata:
+                ru: "Идентификатор"
+                en: "Identifier"
+            name:
+              metadata:
+                ru: "Имя"
+                en: "Name"
