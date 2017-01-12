@@ -210,10 +210,20 @@
             vm.items.reload();
         }
 
-        /* TODO: delete single element of last page */
         function refreshAll() {
             reset();
-            vm.items.reload();
+
+            /* The table has previous state in this place,
+               if there's single item & current page isn't first - manual page changing.
+             */
+            if (vm.items.data.length == 1) {
+                var currPage = vm.items.page();
+                if (currPage > 0) {
+                    vm.items.page(currPage - 1);
+                }
+            } else {
+                vm.items.reload();
+            }
         }
 
         function reset() {
