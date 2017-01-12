@@ -32,6 +32,7 @@ public class MetadataResolver {
     private static final String NULL_TYPE = "object";
     private static final String STRING_TYPE = "string";
     private static final String NUMBER_TYPE = "number";
+    private static final String BOOLEAN_TYPE = "boolean";
 
     private static final String JACKSON_DATE_FORMAT = "yyyy-MM-dd";
 
@@ -49,6 +50,7 @@ public class MetadataResolver {
                 put(Long.class, NUMBER_TYPE).
                 put(Double.class, NUMBER_TYPE).
                 put(Integer.class, NUMBER_TYPE).
+                put(Boolean.class, BOOLEAN_TYPE).
                 build();
     }
 

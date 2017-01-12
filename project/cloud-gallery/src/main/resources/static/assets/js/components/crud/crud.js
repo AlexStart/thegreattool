@@ -6,11 +6,14 @@
 
     ngApp.factory('translationService', translationService);
 
-    translationService.$inject = ['$http'];
+    translationService.$inject = ['$http', '$cacheFactory'];
 
-    function translationService($http) {
+    function translationService($http, $cacheFactory) {
+        var cache = $cacheFactory('translations');
+
         return {
-            translate: translate
+            translate: translate,
+            getCached: getCached
         };
 
         function translate(keys) {
@@ -31,6 +34,23 @@
                     return translations;
                 })
                 .catch(onError);
+        }
+
+        function getCached(key) {
+            if (!cache.get(key)) cache.put(key, '');
+
+            var value = cache.get(key);
+
+            if (!value.length) {
+                cache.put(key, ' ');
+
+                $http.get('translations', {params: {keys: key}})
+                    .then(response => {
+                        cache.put(key, response.data[key]);
+                    })
+                    .catch(onError);
+            }
+            return value;
         }
     }
 
@@ -100,6 +120,7 @@
         vm.remove = remove;
         vm.update = update;
         vm.refresh = refresh;
+        vm.getDisabledTitle = getDisabledTitle;
 
         vm.$onInit = () => {
             crudService.setAPI(vm.api + '/');
@@ -131,6 +152,10 @@
 
         function select(item) {
             vm.item = angular.copy(item);
+        }
+
+        function getDisabledTitle() {
+            return translationService.getCached('state.disabled');
         }
 
         function save(item) {
@@ -173,7 +198,7 @@
         }
 
         /* TODO: delete single element of last page */
-        function refreshAll(){
+        function refreshAll() {
             reset();
             vm.items.reload();
         }

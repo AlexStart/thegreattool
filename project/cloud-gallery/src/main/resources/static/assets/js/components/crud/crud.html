@@ -1,7 +1,11 @@
 <div>
     <table ng-table="vm.items" class="table table-condensed table-bordered table-striped">
         <tr ng-repeat="item in $data">
-            <td title="vm.items.metadata.name.translation" ng-click="vm.select(item.data)" class="row">{{item.data.name}}</td>
+            <td title="vm.items.metadata.name.translation"
+                ng-click="vm.select(item.data)"
+                class="row"
+                ng-attr-title="{{!item.data.disabled ? '' : vm.getDisabledTitle()}}"
+                ng-style="item.data.disabled && {'background-color':'#D3D3D3'}">{{item.data.name}}</td>
         </tr>
     </table>
     <br>
@@ -24,13 +28,13 @@
             <button type="submit"
                     class="btn btn-info"
                     ng-click="vm.update(vm.item)"
-                    ng-hide="!vm.form.$valid || !vm.item.id">{{vm.buttons.update}}
+                    ng-hide="!vm.form.$valid || !vm.item.id || vm.item.disabled">{{vm.buttons.update}}
             </button>
 
             <button type="submit"
                     class="btn btn-info"
                     ng-click="vm.remove(vm.item)"
-                    ng-hide="!vm.form.$valid || !vm.item.id">{{vm.buttons.remove}}
+                    ng-hide="!vm.form.$valid || !vm.item.id || vm.item.disabled">{{vm.buttons.remove}}
             </button>
 
             <button type="submit"

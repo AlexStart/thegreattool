@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
 import static com.google.common.collect.Lists.reverse;
@@ -41,10 +42,15 @@ public class AppController {
     Map<UUID, App> apps = newLinkedHashMap();
 
     {
+        final Random rand = new Random();
+
         for (int i = 0; i < 100; i++) {
             final App app = new App();
+
             app.setId(UUID.randomUUID());
             app.setName("default-app-" + i);
+            app.setDisabled(rand.nextBoolean());
+
             apps.put(app.getId(), app);
         }
     }

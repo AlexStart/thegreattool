@@ -68,6 +68,11 @@ button:
     metadata:
       ru: "Обновить"
       en: "Refresh"
+state:
+  disabled:
+    metadata:
+      ru: "Не доступно"
+      en: "Disabled"
 com:
   sam:
     jcc:

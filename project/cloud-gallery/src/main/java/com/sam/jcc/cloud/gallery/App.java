@@ -13,4 +13,5 @@ public class App {
 
     private UUID id;
     private String name;
+    private Boolean disabled;
 }
