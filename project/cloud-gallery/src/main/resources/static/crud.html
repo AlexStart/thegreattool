@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"  ng-app="app">
+<html lang="en"  ng-app="ngApp">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,14 +18,12 @@
 <link href="../../assets/css/ie10-viewport-bug-workaround.css"
 	rel="stylesheet">
 
-	<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
+	<script src="//code.angularjs.org/snapshot/angular.min.js"></script>
 	<link rel="stylesheet" href="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.css">
 	<script src="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.js"></script>
+	<script src="assets/js/components/crud/crud.js"></script>
 
-	<script src="assets/js/src/app.js" type="text/javascript"></script>
-
-
-        <!-- Custom styles for this template -->
+	<!-- Custom styles for this template -->
 <link href="gallery.css" rel="stylesheet">
 
 <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
@@ -55,49 +53,7 @@
 			</nav>
 		</div>
 
-
-		<div>
-			<div ng-controller="galleryCtrl as vm">
-				<table ng-table="vm.apps" class="table table-condensed table-bordered table-striped">
-					<tr ng-repeat="app in $data">
-						<td title="vm.apps.metadata.name.translation" ng-click="vm.app=app.data" class="row">{{app.data.name}}</td>
-					</tr>
-				</table>
-                <br>
-
-                <form name="vm.form" novalidate>
-                    <fieldset>
-                        <legend>{{vm.apps.metadata.class}}</legend>
-                        <div class="form-group">
-                            <label for="name">{{vm.apps.metadata.name.translation}}</label>
-                            <input id="name" type="text" ng-model="vm.app.name" required class="form-control">
-                        </div>
-
-                        <button type="submit"
-                                class="btn btn-info"
-                                ng-click="vm.save(vm.app)"
-                                ng-disabled="!vm.form.$valid"
-                                ng-hide="vm.app.id">Create</button>
-
-                        <button type="submit"
-                                class="btn btn-info"
-                                ng-click="vm.update(vm.app)"
-                                ng-hide="!vm.form.$valid || !vm.app.id">Update</button>
-
-                        <button type="submit"
-                                class="btn btn-info"
-                                ng-click="vm.remove(vm.app)"
-                                ng-hide="!vm.form.$valid || !vm.app.id">Delete</button>
-
-                        <button type="submit"
-                                class="btn btn-info"
-                                ng-click="vm.reset()"
-                                ng-hide="!(vm.app.name || vm.app.id)">Cancel</button>
-                    </fieldset>
-                </form>
-			</div>
-		</div>
-
+		<crud api="apps"></crud>
 
 		<!-- Site footer -->
 		<footer class="footer">
