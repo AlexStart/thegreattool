@@ -60,7 +60,7 @@
 			<div ng-controller="galleryCtrl as vm">
 				<table ng-table="vm.apps" class="table table-condensed table-bordered table-striped">
 					<tr ng-repeat="app in $data">
-						<td title="vm.apps.metadata.name.translation" ng-click="vm.app=app.data">{{app.data.name}}</td>
+						<td title="vm.apps.metadata.name.translation" ng-click="vm.app=app.data" class="row">{{app.data.name}}</td>
 					</tr>
 				</table>
                 <br>
