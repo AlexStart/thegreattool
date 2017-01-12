@@ -1,0 +1,27 @@
+<div id="body" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form" xmlns:tags="tags"
+	class="container main_area marketing">
+
+	<jsp:output omit-xml-declaration="yes" />
+
+	<spring:message code="vcss" var="vcss" />
+
+	<h2>${vcss}</h2>
+
+	<div class="dropdown">
+		<button class="btn btn-default dropdown-toggle" type="button"
+			id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+			aria-expanded="true">
+			<span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+			<c:forEach items="${models}" var="model">
+				<li><a href="#">${model.name}</a></li>
+			</c:forEach>
+		</ul>
+	</div>
+
+
+</div>

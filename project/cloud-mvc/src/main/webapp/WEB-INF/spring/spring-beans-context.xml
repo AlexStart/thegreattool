@@ -3,9 +3,9 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:util="http://www.springframework.org/schema/util"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd 
-	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd 
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<context:annotation-config />
 
@@ -24,5 +24,16 @@
 	<bean class="io.spring.initializr.util.GroovyTemplate" />
 	<bean class="io.spring.initializr.generator.ProjectResourceLocator" />
 	<!-- end of Initializr beans -->
+
+	<bean id="conversionService"
+		class="org.springframework.context.support.ConversionServiceFactoryBean">
+		<property name="converters">
+			<set>
+				<bean class="com.sam.jcc.cloud.mvc.dto.converter.AppConverter" />
+				<bean class="com.sam.jcc.cloud.mvc.dto.converter.AppMetadataConverter" />
+				<bean class="com.sam.jcc.cloud.mvc.dto.converter.VCSConverter" />
+			</set>
+		</property>
+	</bean>
 
 </beans>

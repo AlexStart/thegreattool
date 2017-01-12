@@ -5,6 +5,7 @@
 	xmlns:security="http://www.springframework.org/security/tags"
 	xmlns:tiles="http://tiles.apache.org/tags-tiles" version="2.1">
 
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
 
 	<spring:message code="email" var="email" />
@@ -12,6 +13,7 @@
 	<spring:message code="signin" var="signin" />
 	<spring:message code="en" var="en" />
 	<spring:message code="ru" var="ru" />
+	<spring:message code="logout" var="logout" />
 
 	<!-- Header -->
 
@@ -23,16 +25,42 @@
 					class="navbar-brand"><spring:message code="site" /></a>
 			</div>
 			<div class="navbar-collapse collapse" style="float: left">
-				<form role="form" class="navbar-form navbar-right">
-					<div class="form-group">
-						<input type="text" class="form-control" placeholder="${email}" />
-					</div>
-					<div class="form-group">
-						<input type="password" class="form-control"
-							placeholder="${password}" />
-					</div>
-					<button class="btn btn-success" type="submit">${signin}</button>
-				</form>
+
+
+				<security:authorize access="isAnonymous()">
+
+					<form role="form" class="navbar-form navbar-right"
+						action="${root_context}resources/j_spring_security_check"
+						method="POST">
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="${email}"
+								name="jcl_usr" />
+						</div>
+						<div class="form-group">
+							<input type="password" class="form-control"
+								placeholder="${password}" name="jcl_passw" />
+						</div>
+						<button class="btn btn-success" type="submit">${signin}</button>
+					</form>
+
+				</security:authorize>
+
+
+				<security:authorize access="isAuthenticated()">
+
+					<form role="form" class="navbar-form navbar-right"
+						action="${root_context}resources/j_spring_security_logout">
+
+
+						<security:authentication property="principal.username"
+							var="principalUsername" />
+
+						<!-- TODO i18n label -->
+						<button class="btn btn-success" type="submit"
+							title="${principalUsername}">${logout}</button>
+					</form>
+
+				</security:authorize>
 
 			</div>
 			<!--/.navbar-collapse -->

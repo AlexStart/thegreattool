@@ -118,8 +118,18 @@ body {
 }
 
 .disabled {
-    z-index: 1000;
-    background-color: lightgrey;
-    opacity: 0.6;
-    pointer-events: none;
+	z-index: 1000;
+	background-color: lightgrey;
+	opacity: 0.6;
+	pointer-events: none;
+}
+
+.carousel-inner h1 {
+	white-space: nowrap;
+}
+
+.footer {
+	bottom: 0;
+	position: absolute;
+	width: 100%;
 }

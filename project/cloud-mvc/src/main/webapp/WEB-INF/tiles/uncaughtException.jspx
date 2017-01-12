@@ -10,10 +10,13 @@
 		<spring:message code="error_has_occured" />
 	</div>
 
-	<button class="btn btn-lg btn-danger" type="button"
-		onclick="javascript:showStackTrace()">
-		<spring:message code="stacktrace" />
-	</button>
+	<c:if
+		test="${exception ne null and exception.localizedMessage ne null and exception.localizedMessage ne ''}">
+		<button class="btn btn-lg btn-danger" type="button"
+			onclick="javascript:showStackTrace()">
+			<spring:message code="stacktrace" />
+		</button>
+	</c:if>
 
 	<div id="stackTraceBlockIdentifier" class="alert alert-danger"
 		style="display: none; margin-top: 20px">

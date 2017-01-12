@@ -4,60 +4,68 @@
 package com.sam.jcc.cloud.mvc.controller;
 
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.core.convert.ConversionService;
 import org.springframework.ui.ModelMap;
 
-import com.sam.jcc.cloud.crud.ICRUD;
 import com.sam.jcc.cloud.rules.service.IService;
 
 /**
  * @author Alec Kotovich
  * 
  */
-public abstract class GenericController<T> implements ICRUD<T> {
+public abstract class GenericController<T, I> {
 
-	protected IService<T> serviceDelegate;
+	private IService<I> serviceDelegate;
 
-	public GenericController(IService<T> serviceDelegate) {
+	protected ConversionService conversionService;
+
+	public GenericController(IService<I> serviceDelegate, ConversionService conversionService) {
 		this.serviceDelegate = serviceDelegate;
+		this.conversionService = conversionService;
 	}
-	
+
 	protected abstract String view();
 
 	protected abstract T emptyFormMetadata();
 
+	protected abstract Map<String, String> convertDTO(T form);
 
-	@Override
-	public T create(T model) {
-		return serviceDelegate.create(model);
+	protected abstract T convertModel(I model);
+	
+	protected abstract List<? super T> convertModels(List<? super I> models);
+	
+	private I create(Map<String, String> i) {
+		return serviceDelegate.create(i);
 	}
 
-	@Override
-	public T read(T model) {
+	private I read(I model) {
 		return serviceDelegate.read(model);
 	}
 
-	@Override
-	public T update(T model) {
-		return serviceDelegate.update(model);
+	private I update(Map<String, String> i) {
+		return serviceDelegate.update(i);
 	}
 
-	@Override
-	public void delete(T model) {
-		serviceDelegate.delete(model);
+	private void delete(Map<String, String> i) {
+		serviceDelegate.delete(i);
 	}
 
-	@Override
-	public List<? super T> findAll() {
+	private List<? super I> findAll() {
 		return serviceDelegate.findAll();
 	}
-	
+
 	public String post(ModelMap model, T form) {
-		T created = serviceDelegate.create(form);
+		Map<String, String> i = convertDTO(form);
+		I created = create(i);
+		T resultDTO = null;
 		if (created == null) {
-			created = emptyFormMetadata();
+			resultDTO = emptyFormMetadata();
+		} else {
+			resultDTO = convertModel(created);
 		}
-		model.addAttribute("model", created);
+		model.addAttribute("model", resultDTO);
 		initView(model);
 		return view();
 	}
@@ -75,34 +83,37 @@ public abstract class GenericController<T> implements ICRUD<T> {
 	}
 
 	public String put(ModelMap model, T form) {
-		T updated = serviceDelegate.update(form);
+		Map<String, String> i = convertDTO(form);
+		I updated = update(i);
+		T resultDTO = null;
 		if (updated == null) {
-			updated = emptyFormMetadata();
+			resultDTO = emptyFormMetadata();
+		} else {
+			resultDTO = convertModel(updated);
 		}
-		model.addAttribute("model", updated);
+		model.addAttribute("model", resultDTO);
 		initView(model);
 		return view();
 	}
 
 	public String delete(ModelMap model, T entry) {
-		serviceDelegate.delete(entry);
+		Map<String, String> i = convertDTO(entry);
+		delete(i);
 		model.addAttribute("model", emptyFormMetadata());
 		initView(model);
 		return view();
 	}
-	
+
 	public void findAndDelete(T entry) {
-		serviceDelegate.findAndDelete(entry);
-	}	
+		Map<String, String> i = convertDTO(entry);
+		serviceDelegate.findAndDelete(i);
+	}
 
 	protected List<? super T> initView(ModelMap model) {
-		List<? super T> models = findAll();
-		model.addAttribute("models", models);
-		return models;
+		List<? super I> models = findAll();
+		List<? super T> dtos = convertModels(models);
+		model.addAttribute("models", dtos);
+		return dtos;
 	}
-
-	public List<? super T> postGetJSONs(ModelMap model) {
-		return initView(model);
-	}
-
+	
 }

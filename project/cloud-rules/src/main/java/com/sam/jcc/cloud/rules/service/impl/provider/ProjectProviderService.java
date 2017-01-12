@@ -4,6 +4,7 @@
 package com.sam.jcc.cloud.rules.service.impl.provider;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -50,7 +51,25 @@ public class ProjectProviderService implements IService<IProjectMetadata> {
 	}
 
 	@Override
-	public void findAndDelete(IProjectMetadata entry) {
+	public IProjectMetadata create(Map<String, String> props) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void delete(Map<String, String> props) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public IProjectMetadata update(Map<String, String> props) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void findAndDelete(Map<String, String> props) {
 		// TODO Auto-generated method stub
 		
 	}
