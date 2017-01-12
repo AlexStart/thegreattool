@@ -19,6 +19,7 @@ import java.util.UUID;
 
 import static com.google.common.collect.Lists.reverse;
 import static com.google.common.collect.Maps.newLinkedHashMap;
+import static java.lang.Thread.sleep;
 import static java.util.stream.Collectors.toList;
 import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -61,8 +62,10 @@ public class AppController {
     }
 
     @RequestMapping(method = POST)
-    public UUID create(@RequestBody App app) {
+    public UUID create(@RequestBody App app) throws Exception {
         nameValidator.validate(app.getName());
+
+        sleep(/*emulation of hard work*/500L);
 
         final UUID id = UUID.randomUUID();
         app.setId(id);
