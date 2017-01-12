@@ -6,10 +6,12 @@
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
 
+	<spring:message code="backtotop" var="backtotop" />
+
 	<!--  -->
-	<footer>
+	<footer id="footer" class="footer">
 		<p class="pull-right">
-			<a href="#">Back to top</a>
+			<a href="#">${backtotop}</a>
 		</p>
 		<p class="center-block">
 			&#160;
