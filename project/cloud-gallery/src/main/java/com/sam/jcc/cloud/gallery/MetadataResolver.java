@@ -20,7 +20,6 @@ import static com.google.common.collect.ImmutableMap.of;
 import static java.util.Objects.nonNull;
 import static java.util.stream.Collectors.toMap;
 import static org.apache.commons.lang3.ClassUtils.isPrimitiveOrWrapper;
-import static org.springframework.context.i18n.LocaleContextHolder.getLocale;
 
 /**
  * @author Alexey Zhytnik
@@ -143,8 +142,7 @@ public class MetadataResolver {
     }
 
     private String getTranslationByPath(String path) {
-        final String lang = getLocale().getLanguage();
-        return translations.getMetadata(path).get(lang);
+        return translations.getLocalizedMetadata(path);
     }
 
     private String getFieldPath(String path, Entry<String, Object> field) {

@@ -18,25 +18,25 @@
                     class="btn btn-info"
                     ng-click="vm.save(vm.item)"
                     ng-disabled="!vm.form.$valid"
-                    ng-hide="vm.item.id">Create
+                    ng-hide="vm.item.id">{{vm.buttons.create}}
             </button>
 
             <button type="submit"
                     class="btn btn-info"
                     ng-click="vm.update(vm.item)"
-                    ng-hide="!vm.form.$valid || !vm.item.id">Update
+                    ng-hide="!vm.form.$valid || !vm.item.id">{{vm.buttons.update}}
             </button>
 
             <button type="submit"
                     class="btn btn-info"
                     ng-click="vm.remove(vm.item)"
-                    ng-hide="!vm.form.$valid || !vm.item.id">Delete
+                    ng-hide="!vm.form.$valid || !vm.item.id">{{vm.buttons.remove}}
             </button>
 
             <button type="submit"
                     class="btn btn-info"
                     ng-click="vm.reset()"
-                    ng-hide="!(vm.item.name || vm.item.id)">Cancel
+                    ng-hide="!(vm.item.name || vm.item.id)">{{vm.buttons.cancel}}
             </button>
         </fieldset>
     </form>

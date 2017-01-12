@@ -4,6 +4,37 @@
     var ngApp = angular.module('ngApp', ['ngTable']);
 
 
+    ngApp.factory('translationService', translationService);
+
+    translationService.$inject = ['$http'];
+
+    function translationService($http) {
+        return {
+            translate: translate
+        };
+
+        function translate(keys) {
+            keys = keys.split(',');
+
+            return $http.get('translations', {params: {keys: keys}})
+                .then(response => {
+                    var data = response.data;
+
+                    var translations = {};
+
+                    for (var property in data) {
+                        if (!data.hasOwnProperty(property)) continue;
+
+                        var key = property.split('.').slice(-1)[0];
+                        translations[key] = data[property];
+                    }
+                    return translations;
+                })
+                .catch(onError);
+        }
+    }
+
+
     ngApp.factory('crudService', crudService);
 
     crudService.$inject = ['$http'];
@@ -58,9 +89,9 @@
 
     ngApp.controller('crudCtrl', crudCtrl);
 
-    crudCtrl.$inject = ['NgTableParams', 'crudService'];
+    crudCtrl.$inject = ['NgTableParams', 'crudService', 'translationService'];
 
-    function crudCtrl(NgTableParams, crudService) {
+    function crudCtrl(NgTableParams, crudService, translationService) {
         var vm = this;
 
         vm.save = save;
@@ -70,6 +101,11 @@
 
         vm.$onInit = () => {
             crudService.setAPI(vm.api + '/');
+
+            translationService
+                .translate(vm.buttons)
+                .then(buttons => vm.buttons = buttons);
+
             refresh();
         };
 
@@ -131,11 +167,6 @@
             vm.item = {id: undefined, name: ''};
             vm.items.reload();
         }
-
-        function onError(error) {
-            var msg = '[message=\'' + error.data.message + '\']';
-            alert(error.data.error + msg);
-        }
     }
 
 
@@ -144,7 +175,8 @@
         controller: crudCtrl,
         controllerAs: 'vm',
         bindings: {
-            api: '@'
+            api: '@',
+            buttons: '@'
         }
     });
 
@@ -152,5 +184,14 @@
         var scripts = document.getElementsByTagName("script");
         var last = scripts[scripts.length - 1].src;
         return last.substring(0, last.lastIndexOf('/') + 1);
+    }
+
+    function onError(error) {
+        if (error.data) {
+            var msg = '[message=\'' + error.data.message + '\']';
+            alert(error.data.error + msg);
+        } else {
+            alert(error);
+        }
     }
 })();

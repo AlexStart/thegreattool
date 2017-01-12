@@ -47,6 +47,23 @@ AppProvider:
   description:
     ru: "AppProvider"
     en: "AppProvider"
+button:
+  create:
+    metadata:
+      ru: "Создать"
+      en: "Create"
+  remove:
+    metadata:
+      ru: "Удалить"
+      en: "Remove"
+  update:
+    metadata:
+      ru: "Обновить"
+      en: "Update"
+  cancel:
+    metadata:
+      ru: "Отменить"
+      en: "Cancel"
 com:
   sam:
     jcc:

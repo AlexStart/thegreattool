@@ -1,23 +1,21 @@
 package com.sam.jcc.cloud;
 
-import static com.google.common.collect.ImmutableMap.of;
-import static com.google.common.collect.Maps.newHashMap;
-import static java.util.Arrays.copyOfRange;
-import static java.util.Arrays.stream;
-import static java.util.stream.Collectors.joining;
-
-import java.util.Map;
-import java.util.Properties;
-
-import javax.annotation.PostConstruct;
-
+import com.sam.jcc.cloud.i.IProvider;
+import lombok.Setter;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
-import com.sam.jcc.cloud.i.IProvider;
+import javax.annotation.PostConstruct;
+import java.util.Map;
+import java.util.Properties;
 
-import lombok.Setter;
+import static com.google.common.collect.Maps.newHashMap;
+import static java.util.Arrays.copyOfRange;
+import static java.util.Arrays.stream;
+import static java.util.Collections.emptyMap;
+import static java.util.stream.Collectors.joining;
+import static org.springframework.context.i18n.LocaleContextHolder.getLocale;
 
 /**
  * @author Alexey Zhytnik
@@ -89,7 +87,10 @@ public class TranslationResolver {
         return descriptions.get(provider.getSimpleName());
     }
 
-    public Map<String, String> getMetadata(String key) {
-        return metadata.getOrDefault(key, of("en", "UNKNOWN", "ru", "UNKNOWN"));
+    public String getLocalizedMetadata(String key) {
+        final String lang = getLocale().getLanguage();
+        return metadata
+                .getOrDefault(key, emptyMap())
+                .getOrDefault(lang, "UNKNOWN");
     }
 }
