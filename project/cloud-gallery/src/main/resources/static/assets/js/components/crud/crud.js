@@ -95,9 +95,11 @@
         var vm = this;
 
         vm.save = save;
+        vm.reset = reset;
+        vm.select = select;
         vm.remove = remove;
         vm.update = update;
-        vm.reset = refresh;
+        vm.refresh = refresh;
 
         vm.$onInit = () => {
             crudService.setAPI(vm.api + '/');
@@ -127,24 +129,28 @@
             vm.items.metadata = undefined;
         }
 
+        function select(item) {
+            vm.item = angular.copy(item);
+        }
+
         function save(item) {
             crudService
                 .save(item)
-                .then(refresh)
+                .then(refreshAll)
                 .catch(onError);
         }
 
         function update(item) {
             crudService
                 .update(item)
-                .then(refresh)
+                .then(refreshAll)
                 .catch(onError);
         }
 
         function remove(item) {
             crudService
                 .remove(item)
-                .then(refresh)
+                .then(refreshAll)
                 .catch(onError);
         }
 
@@ -162,10 +168,18 @@
             return data;
         }
 
-        /* TODO: delete single element of last page */
         function refresh() {
-            vm.item = {id: undefined, name: ''};
             vm.items.reload();
+        }
+
+        /* TODO: delete single element of last page */
+        function refreshAll(){
+            reset();
+            vm.items.reload();
+        }
+
+        function reset() {
+            vm.item = {id: undefined, name: ''};
         }
     }
 

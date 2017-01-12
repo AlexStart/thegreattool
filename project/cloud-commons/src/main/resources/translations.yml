@@ -64,6 +64,10 @@ button:
     metadata:
       ru: "Отменить"
       en: "Cancel"
+  refresh:
+    metadata:
+      ru: "Обновить"
+      en: "Refresh"
 com:
   sam:
     jcc:
