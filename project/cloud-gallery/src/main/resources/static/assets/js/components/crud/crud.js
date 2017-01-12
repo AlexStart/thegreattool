@@ -119,8 +119,8 @@
         vm.select = select;
         vm.remove = remove;
         vm.update = update;
+        vm.status = status;
         vm.refresh = refresh;
-        vm.getDisabledTitle = getDisabledTitle;
 
         vm.$onInit = () => {
             crudService.setAPI(vm.api + '/');
@@ -154,7 +154,8 @@
             vm.item = angular.copy(item);
         }
 
-        function getDisabledTitle() {
+        function status(item) {
+            if (!item.data.disabled) return '';
             return translationService.getCached('state.disabled');
         }
 

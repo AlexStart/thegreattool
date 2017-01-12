@@ -4,7 +4,7 @@
             <td title="vm.items.metadata.name.translation"
                 ng-click="vm.select(item.data)"
                 class="row"
-                ng-attr-title="{{!item.data.disabled ? '' : vm.getDisabledTitle()}}"
+                ng-attr-title="{{vm.status(item)}}"
                 ng-style="item.data.disabled && {'background-color':'#D3D3D3'}">{{item.data.name}}</td>
         </tr>
     </table>
