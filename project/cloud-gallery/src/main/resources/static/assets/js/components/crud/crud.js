@@ -2,6 +2,7 @@
     'use strict';
 
     var ngApp = angular.module('ngApp', ['ngTable', 'angular-loading-bar']);
+    var context = getBasePath();
 
 
     ngApp.config(loadingBarConfig);
@@ -70,7 +71,7 @@
         };
 
         function configure() {
-            return $http.get('crud.json').then(response => {
+            return $http.get(context + 'crud.json').then(response => {
                 var data = response.data;
                 api = data.url + '/';
                 return data;
@@ -225,7 +226,7 @@
 
 
     ngApp.component('crud', {
-        templateUrl: getBasePath() + 'crud.html',
+        templateUrl: context + 'crud.html',
         controller: crudCtrl,
         controllerAs: 'vm',
         bindings: {}
