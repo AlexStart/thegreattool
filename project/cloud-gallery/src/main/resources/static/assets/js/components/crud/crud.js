@@ -29,22 +29,8 @@
         };
 
         function translate(keys) {
-            keys = keys.split(',');
-
-            return $http.get('translations', {params: {keys: keys}})
-                .then(response => {
-                    var data = response.data;
-
-                    var translations = {};
-
-                    for (var property in data) {
-                        if (!data.hasOwnProperty(property)) continue;
-
-                        var key = property.split('.').slice(-1)[0];
-                        translations[key] = data[property];
-                    }
-                    return translations;
-                })
+            return $http.get('translations', {params: eval(keys)})
+                .then(response => response.data)
                 .catch(onError);
         }
 
@@ -69,22 +55,26 @@
 
     ngApp.factory('crudService', crudService);
 
-    crudService.$inject = ['$http'];
+    crudService.$inject = ['$http', '$q'];
 
-    function crudService($http) {
+    function crudService($http, $q) {
+        var api = null;
+
         return {
             save: save,
-            setAPI: setAPI,
             remove: remove,
             update: update,
             search: search,
-            findAll: findAll
+            findAll: findAll,
+            configure: configure,
         };
 
-        var api = null;
-
-        function setAPI(url) {
-            api = url;
+        function configure() {
+            return $http.get('crud.json').then(response => {
+                var data = response.data;
+                api = data.url + '/';
+                return data;
+            });
         }
 
         function save(item) {
@@ -100,7 +90,7 @@
         }
 
         function search(params) {
-            if (!api) return [];
+            if (!api) return $q(resolve => resolve([]));
 
             var page = params.page() - 1;
             var size = params.count();
@@ -135,13 +125,14 @@
         vm.refresh = refresh;
 
         vm.$onInit = () => {
-            crudService.setAPI(vm.api + '/');
-
-            translationService
-                .translate(vm.buttons)
-                .then(buttons => vm.buttons = buttons);
-
-            refresh();
+            crudService
+                .configure()
+                .then(data => {
+                    translationService
+                        .translate(data.custom.buttons)
+                        .then(buttons => vm.buttons = buttons);
+                })
+                .then(refresh);
         };
 
         activate();
@@ -158,8 +149,9 @@
                     paginationMaxBlocks: 5
                 }
             );
-            vm.item = {id: undefined, name: ''};
             vm.items.metadata = undefined;
+            vm.item = {id: undefined, name: ''};
+            vm.buttons = {};
         }
 
         function select(item) {
@@ -236,10 +228,7 @@
         templateUrl: getBasePath() + 'crud.html',
         controller: crudCtrl,
         controllerAs: 'vm',
-        bindings: {
-            api: '@',
-            buttons: '@'
-        }
+        bindings: {}
     });
 
     function getBasePath() {
