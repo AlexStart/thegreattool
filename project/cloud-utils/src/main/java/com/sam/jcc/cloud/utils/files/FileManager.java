@@ -121,7 +121,8 @@ public class FileManager {
 		}
 	}
 
-	public File getResource(Class<?> clazz, String path) {
+	//TODO: remove object calls
+	public static File getResource(Class<?> clazz, String path) {
 		try {
 			final ClassPathResource resource = new ClassPathResource(path, clazz);
 			return resource.getFile();
