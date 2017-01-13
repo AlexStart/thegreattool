@@ -1,0 +1,52 @@
+<div>
+    <table ng-table="vm.items" class="table table-condensed table-bordered table-striped">
+        <tr ng-repeat="item in $data">
+            <td title="vm.items.metadata.name.translation"
+                ng-click="vm.select(item.data)"
+                class="row"
+                ng-attr-title="{{vm.status(item)}}"
+                ng-style="item.data.disabled && {'background-color':'#D3D3D3'}">{{item.data.name}}</td>
+        </tr>
+    </table>
+    <br>
+
+    <form name="vm.form" novalidate>
+        <fieldset>
+            <legend>{{vm.items.metadata.class}}</legend>
+            <div class="form-group">
+                <label for="name">{{vm.items.metadata.name.translation}}</label>
+                <input id="name" type="text" ng-model="vm.item.name" required class="form-control">
+            </div>
+
+            <button type="submit"
+                    class="btn btn-info"
+                    ng-click="vm.save(vm.item)"
+                    ng-disabled="!vm.form.$valid"
+                    ng-hide="vm.item.id">{{vm.buttons.create}}
+            </button>
+
+            <button type="submit"
+                    class="btn btn-info"
+                    ng-click="vm.update(vm.item)"
+                    ng-hide="!vm.form.$valid || !vm.item.id || vm.item.disabled">{{vm.buttons.update}}
+            </button>
+
+            <button type="submit"
+                    class="btn btn-info"
+                    ng-click="vm.remove(vm.item)"
+                    ng-hide="!vm.form.$valid || !vm.item.id || vm.item.disabled">{{vm.buttons.remove}}
+            </button>
+
+            <button type="submit"
+                    class="btn btn-info"
+                    ng-click="vm.refresh()">{{vm.buttons.refresh}}
+            </button>
+
+            <button type="submit"
+                    class="btn btn-info"
+                    ng-click="vm.reset()"
+                    ng-hide="!(vm.item.name || vm.item.id)">{{vm.buttons.cancel}}
+            </button>
+        </fieldset>
+    </form>
+</div>

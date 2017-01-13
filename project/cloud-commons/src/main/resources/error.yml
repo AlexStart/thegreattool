@@ -21,6 +21,14 @@ project:
   exist:
     en: "Project with metadata {0} already exists!"
     ru: "Проект c метаданными {0} уже существует!"
+  artifactId:
+    notValid:
+      en: "App name isn't valid!"
+      ru: "Неправильное имя приложения!"
+  metadata:
+    notFound:
+      en: "No data available"
+      ru: "Нет данных"
 
 parser:
   metadata:
