@@ -2,7 +2,11 @@
     'use strict';
 
     var ngApp = angular.module('ngApp', ['ngTable', 'angular-loading-bar']);
-    var context = getBasePath();
+
+    var config = {
+        context: getContext(),
+        component: {path: getComponentPath()}
+    };
 
 
     ngApp.config(loadingBarConfig);
@@ -21,6 +25,7 @@
 
     translationService.$inject = ['$http', '$cacheFactory'];
 
+    //TODO: change getting of context path
     function translationService($http, $cacheFactory) {
         var cache = $cacheFactory('translations');
 
@@ -30,7 +35,7 @@
         };
 
         function translate(keys) {
-            return $http.get('translations', {params: eval(keys)})
+            return $http.get(config.context + 'translations', {params: eval(keys)})
                 .then(response => response.data)
                 .catch(onError);
         }
@@ -43,7 +48,7 @@
             if (!value.length) {
                 cache.put(key, ' ');
 
-                $http.get('translations', {params: {keys: key}})
+                $http.get(config.context + 'translations', {params: {keys: key}})
                     .then(response => {
                         cache.put(key, response.data[key]);
                     })
@@ -71,9 +76,9 @@
         };
 
         function configure() {
-            return $http.get(context + 'crud.json').then(response => {
+            return $http.get(config.component.path + 'crud.json').then(response => {
                 var data = response.data;
-                api = data.url + '/';
+                api = config.context + data.url + '/';
                 return data;
             });
         }
@@ -226,13 +231,20 @@
 
 
     ngApp.component('crud', {
-        templateUrl: context + 'crud.html',
+        templateUrl: config.component.path + 'crud.html',
         controller: crudCtrl,
         controllerAs: 'vm',
         bindings: {}
     });
 
-    function getBasePath() {
+    /*DEPRECATED, TODO: It's not Angular way!!!*/
+
+    function getContext() {
+        var path = window.location.href;
+        return path.substring(0, path.lastIndexOf("/") + 1);
+    }
+
+    function getComponentPath() {
         var scripts = document.getElementsByTagName("script");
         var last = scripts[scripts.length - 1].src;
         return last.substring(0, last.lastIndexOf('/') + 1);
