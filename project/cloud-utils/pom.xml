@@ -13,6 +13,10 @@
 	<artifactId>cloud-utils</artifactId>
 	<name>SaM Java Cloud :: Utils</name>
 
+	<properties>
+		<groovy.version>2.4.7</groovy.version>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.sam.jcc</groupId>
@@ -45,7 +49,14 @@
 			<type>pom</type>
 			<scope>test</scope>
 		</dependency>
-	</dependencies>
+
+		<!-- for gradle.build parsing, temp -->
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>${groovy.version}</version>
+		</dependency>
+    </dependencies>
 
 	<build>
 		<plugins>

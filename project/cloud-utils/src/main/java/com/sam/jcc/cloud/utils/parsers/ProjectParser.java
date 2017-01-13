@@ -39,17 +39,12 @@ public class ProjectParser implements IParser<File> {
         log.info("Parse {}", project);
 
         try (ZipFile zip = new ZipFile(project)) {
-            final Optional<? extends ZipEntry> type = zip.stream()
-                    .filter(nestedFilter())
-                    .sorted(nestedComparator())
-                    .filter(isMavenOrGradleEntry())
-                    .findFirst();
-            if (!type.isPresent()) failOnNotFound(project);
+            final ZipEntry type = searchType(project, zip);
 
-            log.info("In {} found \"{}\" config file", project, type.get().getName());
-            final String config = zipManager.readEntry(zip, type.get());
+            log.info("In {} found \"{}\" config file", project, type.getName());
+            final String config = zipManager.readEntry(zip, type);
 
-            if (isMaven(type.get())) {
+            if (isMaven(type)) {
                 return mavenParser.parse(config);
             } else {
                 return gradleParser.parse(config);
@@ -57,6 +52,33 @@ public class ProjectParser implements IParser<File> {
         } catch (IOException e) {
             throw new InternalCloudException(e);
         }
+    }
+
+    public boolean isMaven(File project) {
+        try (ZipFile zip = new ZipFile(project)) {
+            return isMaven(searchType(project, zip));
+        } catch (IOException e) {
+            throw new InternalCloudException(e);
+        }
+    }
+
+    public String getConfiguration(File project) {
+        try (ZipFile zip = new ZipFile(project)) {
+            final ZipEntry type = searchType(project, zip);
+            return zipManager.readEntry(zip, type);
+        } catch (IOException e) {
+            throw new InternalCloudException(e);
+        }
+    }
+
+    private ZipEntry searchType(File project, ZipFile zip) {
+        final Optional<? extends ZipEntry> type = zip.stream()
+                .filter(nestedFilter())
+                .sorted(nestedComparator())
+                .filter(isMavenOrGradleEntry())
+                .findFirst();
+        if (!type.isPresent()) failOnNotFound(project);
+        return type.get();
     }
 
     private Predicate<ZipEntry> nestedFilter() {

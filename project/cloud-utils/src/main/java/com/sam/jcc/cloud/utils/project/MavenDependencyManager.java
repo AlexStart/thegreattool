@@ -2,7 +2,7 @@ package com.sam.jcc.cloud.utils.project;
 
 import com.sam.jcc.cloud.exception.InternalCloudException;
 import com.sam.jcc.cloud.i.Experimental;
-import lombok.Data;
+import com.sam.jcc.cloud.utils.project.DependencyManager.Dependency;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -35,7 +35,7 @@ import static org.w3c.dom.Node.TEXT_NODE;
  * @author Alexey Zhytnik
  * @since 13.01.2017
  */
-class MavenDependencyManager {
+class MavenDependencyManager implements IDependencyManager<Dependency> {
 
     private static final String SCOPE_TAG = "scope";
     private static final String VERSION_TAG = "version";
@@ -46,20 +46,15 @@ class MavenDependencyManager {
 
     private final XmlSupport xmlSupport = new XmlSupport();
 
+    @Override
     public String add(File config, Dependency dependency) {
         final Document doc = xmlSupport.getDocument(config);
 
-        failOnExistence(config, dependency);
         add(doc, getDependencyTag(doc), dependency);
         return xmlSupport.toString(doc);
     }
 
-    private void failOnExistence(File config, Dependency dependency) {
-        if (getAllDependencies(config).contains(dependency)) {
-            throw new InternalCloudException();
-        }
-    }
-
+    @Override
     public List<Dependency> getAllDependencies(File config) {
         return getDependencies(config)
                 .stream()
@@ -114,14 +109,6 @@ class MavenDependencyManager {
         final Optional<Node> scope = xmlSupport.find(node, SCOPE_TAG);
         scope.ifPresent(s -> d.setScope(xmlSupport.value(s).get()));
         return d;
-    }
-
-    @Data
-    public static class Dependency {
-        private String artifactId;
-        private String groupId;
-        private String version;
-        private String scope = "compile";
     }
 
     @Experimental("XML DOM parser wrapper")
