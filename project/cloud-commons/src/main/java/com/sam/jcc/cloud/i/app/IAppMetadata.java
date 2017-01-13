@@ -8,6 +8,8 @@ public interface IAppMetadata {
 
 	Long getId();
 	
+	void setId(Long id);
+	
     String getProjectName();
 
     void setProjectName(String projectName);
