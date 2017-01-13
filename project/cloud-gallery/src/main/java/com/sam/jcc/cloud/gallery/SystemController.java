@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import static java.util.stream.Collectors.toMap;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -23,7 +23,11 @@ public class SystemController {
     TranslationResolver translations;
 
     @RequestMapping(value = "translations", method = GET)
-    public Map<String, String> getTranslations(@RequestParam List<String> keys) {
-        return keys.stream().collect(toMap(Object::toString, translations::getLocalizedMetadata));
+    public Map<String, String> getTranslations(@RequestParam Map<String, String> keys) {
+        return keys.entrySet().stream().collect(toMap(Entry::getKey, this::translate));
+    }
+
+    private String translate(Entry<String, String> entry) {
+        return translations.getLocalizedMetadata(entry.getValue());
     }
 }
