@@ -45,7 +45,6 @@ public class DependencyManagerTest {
         final Dependency dependency = dependencies.get(0);
 
         assertThat(dependency.getVersion()).isEqualTo("19.0");
-        assertThat(dependency.getScope()).isEqualTo("compile");
         assertThat(dependency.getArtifactId()).isEqualTo("guava");
         assertThat(dependency.getGroupId()).isEqualTo("com.google.guava");
     }
