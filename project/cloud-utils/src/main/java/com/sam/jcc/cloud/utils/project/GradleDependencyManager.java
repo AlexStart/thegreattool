@@ -37,7 +37,7 @@ class GradleDependencyManager implements IDependencyManager<Dependency> {
         GROUP_PATTERN = Pattern.compile("group:\\s*'(.*?)'|group:\\s*\"(.*?)\"");
         VERSION_PATTERN = Pattern.compile("version:\\s*'(.*?)'|version:\\s*\"(.*?)\"");
         DEPENDENCIES_PATTERN = Pattern.compile("dependencies\\s*\\{(((?!dependencies).|\\s)*?)}\\s*");
-        SHORT_DEFINITION = Pattern.compile("((.*)\\([',\"](\\S+):(\\S+):(\\S+)[',\"]\\))|((.*)\\([',\"](\\S+):(\\S+)[',\"]\\))");
+        SHORT_DEFINITION = Pattern.compile(".*\\([',\"](\\S+):(\\S+):(\\S+)[',\"]\\)|.*\\([',\"](\\S+):(\\S+)[',\"]\\)");
     }
 
     @Override
@@ -91,13 +91,13 @@ class GradleDependencyManager implements IDependencyManager<Dependency> {
 
         if (!m.find()) throw new InternalCloudException();
 
-        if (nonNull(m.group(3))) {
-            d.setGroupId(m.group(3));
-            d.setArtifactId(m.group(4));
-            d.setVersion(m.group(5));
+        if (nonNull(m.group(1))) {
+            d.setGroupId(m.group(1));
+            d.setArtifactId(m.group(2));
+            d.setVersion(m.group(3));
         } else {
-            d.setGroupId(m.group(8));
-            d.setArtifactId(m.group(9));
+            d.setGroupId(m.group(4));
+            d.setArtifactId(m.group(5));
         }
     }
 

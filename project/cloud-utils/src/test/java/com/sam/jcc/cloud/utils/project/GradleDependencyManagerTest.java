@@ -33,12 +33,13 @@ public class GradleDependencyManagerTest {
     @Test
     public void getsDependenciesInShortStyle() {
         final List<Dependency> dependencies = manager.extractDependencies(
-                "compile('org.springframework.boot:spring-boot-starter-web\")"
+                "compile('org.springframework.boot:spring-boot-starter-web:1.2.3\")"
         );
 
         assertThat(dependencies).hasSize(1);
         final Dependency d = dependencies.get(0);
 
+        assertThat(d.getVersion()).isEqualTo("1.2.3");
         assertThat(d.getScope()).isEqualTo("compile");
         assertThat(d.getGroupId()).isEqualTo("org.springframework.boot");
         assertThat(d.getArtifactId()).isEqualTo("spring-boot-starter-web");
