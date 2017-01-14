@@ -26,7 +26,6 @@ public class DependencyManagerTest {
                 .contains("junit", "4.12", "test");
     }
 
-
     @Test
     public void addsInGradle() {
         final String config = manager.add(gradleConfiguration(), guavaDependency());
