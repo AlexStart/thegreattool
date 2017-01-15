@@ -119,7 +119,7 @@ public class JenkinsProvider extends AbstractProvider<ICIMetadata> implements IC
 
     private void updateStatus(ICIMetadata project, CIProjectStatus status) {
         asCIProject(project).setStatus(status);
-        eventManagers.forEach(manager -> manager.fireEvent(project, this));
+        notify(project);
     }
 
     private CIProject asCIProject(ICIMetadata metadata) {

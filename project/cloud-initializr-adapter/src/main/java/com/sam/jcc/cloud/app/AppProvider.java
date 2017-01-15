@@ -87,7 +87,7 @@ public class AppProvider extends AbstractProvider<IAppMetadata> implements IAppP
 
     private void updateStatus(IAppMetadata app, AppMetadataStatus status) {
         asAppMetadata(app).setStatus(status);
-        eventManagers.forEach(manager -> manager.fireEvent(app, this));
+        notify(app);
     }
 
     private AppMetadata asAppMetadata(IAppMetadata metadata) {

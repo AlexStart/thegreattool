@@ -89,7 +89,7 @@ public abstract class VCSProvider extends AbstractProvider<IVCSMetadata> impleme
     //TODO: common functionality
     private void updateStatus(IVCSMetadata m, VCSRepositoryStatus status) {
         asVCSRepository(m).setStatus(status);
-        eventManagers.forEach(manager -> manager.fireEvent(m, this));
+        notify(m);
     }
 
     private VCSRepository asVCSRepository(IVCSMetadata metadata) {
