@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 
 import static com.google.common.base.Charsets.UTF_8;
 import static java.lang.String.format;
+import static java.lang.System.lineSeparator;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static java.util.Optional.empty;
@@ -36,7 +37,7 @@ class GradleDependencyManager implements IDependencyManager<Dependency> {
         NAME_PATTERN = Pattern.compile("name:\\s*'(.*?)'|name:\\s*\"(.*?)\"");
         GROUP_PATTERN = Pattern.compile("group:\\s*'(.*?)'|group:\\s*\"(.*?)\"");
         VERSION_PATTERN = Pattern.compile("version:\\s*'(.*?)'|version:\\s*\"(.*?)\"");
-        DEPENDENCIES_PATTERN = Pattern.compile("dependencies\\s*\\{(((?!dependencies).|\\s)*?)}\\s*");
+        DEPENDENCIES_PATTERN = Pattern.compile("\\ndependencies\\s*\\{((.|\\s)*)}");
         SHORT_DEFINITION = Pattern.compile(".*\\([',\"](\\S+):(\\S+):(\\S+)[',\"]\\)|.*\\([',\"](\\S+):(\\S+)[',\"]\\)");
     }
 
@@ -64,7 +65,7 @@ class GradleDependencyManager implements IDependencyManager<Dependency> {
 
     @VisibleForTesting List<Dependency> extractDependencies(String dependencies) {
         return Arrays
-                .stream(dependencies.split("\t\n|\n"))
+                .stream(dependencies.split(lineSeparator()))
                 .map(String::trim)
                 .filter(s -> !s.isEmpty())
                 .map(this::parse)

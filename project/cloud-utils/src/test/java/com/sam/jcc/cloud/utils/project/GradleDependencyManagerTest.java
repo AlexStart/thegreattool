@@ -3,8 +3,10 @@ package com.sam.jcc.cloud.utils.project;
 import com.sam.jcc.cloud.utils.project.DependencyManager.Dependency;
 import org.junit.Test;
 
+import java.io.File;
 import java.util.List;
 
+import static com.sam.jcc.cloud.utils.files.FileManager.getResource;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 /**
@@ -14,6 +16,14 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 public class GradleDependencyManagerTest {
 
     GradleDependencyManager manager = new GradleDependencyManager();
+
+    @Test
+    public void readsBuildGradle() {
+        assertThat(manager.getAllDependencies(gradleConfiguration()))
+                .hasSize(3)
+                .extracting("artifactId")
+                .containsOnly("junit", "spring-boot-starter-web", "spring-boot-starter-test");
+    }
 
     @Test
     public void getsDependencies() {
@@ -43,5 +53,9 @@ public class GradleDependencyManagerTest {
         assertThat(d.getScope()).isEqualTo("compile");
         assertThat(d.getGroupId()).isEqualTo("org.springframework.boot");
         assertThat(d.getArtifactId()).isEqualTo("spring-boot-starter-web");
+    }
+
+    File gradleConfiguration() {
+        return getResource(getClass(), "/valid-build.gradle");
     }
 }
