@@ -26,7 +26,7 @@ public class ProjectData {
 
     private String ci;
     private String vcs;
-    private Boolean dataSupport;
+    private Boolean dataSupport = false;
 
     @Lob
     @Column(columnDefinition = "BLOB")

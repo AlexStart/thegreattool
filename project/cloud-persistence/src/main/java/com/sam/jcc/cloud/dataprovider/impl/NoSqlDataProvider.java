@@ -1,21 +1,18 @@
-package com.sam.jcc.cloud.dataprovider;
+package com.sam.jcc.cloud.dataprovider.impl;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.sam.jcc.cloud.i.IEventManager;
 import com.sam.jcc.cloud.i.data.IDataMetadata;
-import com.sam.jcc.cloud.i.data.ISqlDataProvider;
+import com.sam.jcc.cloud.i.data.INoSqlDataProvider;
 import com.sam.jcc.cloud.provider.AbstractProvider;
 
 /**
  * @author Alec Kotovich
  */
-public abstract class SqlDataProvider extends AbstractProvider<IDataMetadata> implements ISqlDataProvider {
+public abstract class NoSqlDataProvider extends AbstractProvider<IDataMetadata>implements INoSqlDataProvider {
 
-	@Autowired
-	public SqlDataProvider(List<IEventManager<IDataMetadata>> eventManagers) {
+	public NoSqlDataProvider(List<IEventManager<IDataMetadata>> eventManagers) {
 		super(eventManagers);
 	}
 
@@ -64,7 +61,7 @@ public abstract class SqlDataProvider extends AbstractProvider<IDataMetadata> im
 	@Override
 	public void delete(IDataMetadata t) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -73,5 +70,4 @@ public abstract class SqlDataProvider extends AbstractProvider<IDataMetadata> im
 		return null;
 	}
 
-	
 }
