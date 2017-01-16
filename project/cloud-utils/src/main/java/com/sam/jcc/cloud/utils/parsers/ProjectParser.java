@@ -4,10 +4,13 @@ import com.sam.jcc.cloud.exception.InternalCloudException;
 import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.filefilter.IOFileFilter;
+import org.apache.commons.io.filefilter.NameFileFilter;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map.Entry;
 import java.util.Optional;
@@ -15,7 +18,10 @@ import java.util.function.Predicate;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import static com.google.common.collect.Iterables.getOnlyElement;
 import static java.util.Comparator.comparingInt;
+import static org.apache.commons.io.FileUtils.listFiles;
+import static org.apache.commons.io.filefilter.FileFileFilter.FILE;
 
 /**
  * @author Alexey Zhytnik
@@ -25,8 +31,8 @@ import static java.util.Comparator.comparingInt;
 @Setter
 public class ProjectParser implements IParser<File> {
 
-    public static final String MAVEN_CONFIGURATION = "pom.xml";
-    public static final String GRADLE_CONFIGURATION = "build.gradle";
+    private static final String MAVEN_CONFIGURATION = "pom.xml";
+    private static final String GRADLE_CONFIGURATION = "build.gradle";
 
     private IParser<String> mavenParser = new MavenParser();
     private IParser<String> gradleParser = new GradleParser();
@@ -54,21 +60,23 @@ public class ProjectParser implements IParser<File> {
         }
     }
 
-    public boolean isMaven(File project) {
-        try (ZipFile zip = new ZipFile(project)) {
-            return isMaven(searchType(project, zip));
-        } catch (IOException e) {
-            throw new InternalCloudException(e);
-        }
+    //TODO: add test, searches only in root
+    public boolean isMaven(File sources) {
+        IOFileFilter mavenFilter = new NameFileFilter(MAVEN_CONFIGURATION);
+        return listFiles(sources, mavenFilter, FILE).size() == 1;
     }
 
-    public String getConfiguration(File project) {
-        try (ZipFile zip = new ZipFile(project)) {
-            final ZipEntry type = searchType(project, zip);
-            return zipManager.readEntry(zip, type);
-        } catch (IOException e) {
-            throw new InternalCloudException(e);
+    public File getConfiguration(File sources) {
+        final Collection<File> maven = listFiles(sources, new NameFileFilter(MAVEN_CONFIGURATION), FILE);
+        if (maven.size() == 1) {
+            return getOnlyElement(maven);
         }
+
+        final Collection<File> gradle = listFiles(sources, new NameFileFilter(GRADLE_CONFIGURATION), FILE);
+        if (gradle.size() == 1) {
+            return getOnlyElement(gradle);
+        }
+        throw new InternalCloudException();
     }
 
     private ZipEntry searchType(File project, ZipFile zip) {

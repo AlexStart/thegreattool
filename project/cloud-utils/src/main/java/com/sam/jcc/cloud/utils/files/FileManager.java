@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
@@ -100,8 +101,13 @@ public class FileManager {
 		}
 	}
 
-	public static TempFile createTempDir() {
+	public TempFile createTempDir() {
 		return new TempFile(Files.createTempDir());
+	}
+
+	public TempFile createTempFile() {
+		final String prefix = Integer.toString(new Random().nextInt());
+		return createTempFile(prefix, ".tmp");
 	}
 
 	public TempFile createTempFile(String prefix, String suffix) {

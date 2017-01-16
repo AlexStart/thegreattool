@@ -37,8 +37,9 @@ class ProjectMetadataHelper {
         project.setVersion("0.0.1-SNAPSHOT");
         project.setWebAppPackaging(false);
         project.setDescription(projectType + " basic template");
-        
-        project.setDirectory(FileManager.createTempDir());
+
+        //TODO: What is a cause?
+        project.setDirectory(new FileManager().createTempDir());
         
         return project;
     }

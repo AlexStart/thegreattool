@@ -1,6 +1,5 @@
 package com.sam.jcc.cloud.ci.impl;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.sam.jcc.cloud.ci.CIProject;
 import com.sam.jcc.cloud.ci.exception.CIException;
 import com.sam.jcc.cloud.ci.impl.JenkinsProjectConfiguration.Builders.HudsonTasksBatchFile;
@@ -9,8 +8,7 @@ import com.sam.jcc.cloud.exception.InternalCloudException;
 import com.sam.jcc.cloud.i.Experimental;
 import com.sam.jcc.cloud.i.OSDependent;
 import com.sam.jcc.cloud.utils.files.ItemStorage;
-import org.apache.commons.io.filefilter.IOFileFilter;
-import org.apache.commons.io.filefilter.NameFileFilter;
+import com.sam.jcc.cloud.utils.parsers.ProjectParser;
 import org.springframework.core.io.ClassPathResource;
 
 import javax.xml.bind.JAXBContext;
@@ -18,15 +16,11 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
 import static com.sam.jcc.cloud.utils.SystemUtils.isWindowsOS;
-import static com.sam.jcc.cloud.utils.parsers.ProjectParser.MAVEN_CONFIGURATION;
-import static org.apache.commons.io.FileUtils.listFiles;
-import static org.apache.commons.io.filefilter.FileFileFilter.FILE;
 
 /**
  * @author Alexey Zhytnik
@@ -39,6 +33,8 @@ class JenkinsConfigurationBuilder {
 
     private JaxbConfigSupport jaxbSupport;
     private ItemStorage<CIProject> workspace;
+
+    private ProjectParser parser = new ProjectParser();
 
     public JenkinsConfigurationBuilder(ItemStorage<CIProject> workspace) {
         this.workspace = workspace;
@@ -58,7 +54,7 @@ class JenkinsConfigurationBuilder {
 
         setUpProjectDir(config, project);
 
-        boolean maven = isMaven(workspace.get(project));
+        boolean maven = parser.isMaven(workspace.get(project));
         setUpBuilder(config, maven);
         setUpArtifacts(config, maven);
 
@@ -95,12 +91,6 @@ class JenkinsConfigurationBuilder {
                 .getPublishers()
                 .getHudsonTasksArtifactArchiver()
                 .setArtifacts(artifacts);
-    }
-
-    //TODO: maybe transfer functionality to ProjectParser, but ProjectParser works with zip
-    @VisibleForTesting boolean isMaven(File src) {
-        IOFileFilter mavenFilter = new NameFileFilter(MAVEN_CONFIGURATION);
-        return listFiles(src, mavenFilter, FILE).size() == 1;
     }
 
     @OSDependent("Supported for Windows & Unix")

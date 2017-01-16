@@ -2,7 +2,6 @@ package com.sam.jcc.cloud.utils.project;
 
 import com.sam.jcc.cloud.exception.InternalCloudException;
 import com.sam.jcc.cloud.utils.files.FileManager;
-import com.sam.jcc.cloud.utils.files.TempFile;
 import com.sam.jcc.cloud.utils.parsers.ProjectParser;
 import lombok.Data;
 import lombok.Setter;
@@ -29,33 +28,27 @@ public class DependencyManager implements IDependencyManager<DependencyManager.D
     private IDependencyManager<Dependency> gradleManager = new GradleDependencyManager();
 
     @Override
-    public String add(File zip, Dependency dependency) {
-        final IDependencyManager<Dependency> manager = getManager(zip);
+    public String add(File sources, Dependency dependency) {
+        final IDependencyManager<Dependency> manager = getManager(sources);
+        final File config = parser.getConfiguration(sources);
 
-        try (TempFile config = files.createTempFile(zip.getName(), ".tmp")) {
-            copyConfig(zip, config);
+        final List<Dependency> dependencies = manager.getAllDependencies(config);
+        if (dependencies.contains(dependency)) throw new InternalCloudException();
 
-            final List<Dependency> dependencies = manager.getAllDependencies(config);
-            if (dependencies.contains(dependency)) throw new InternalCloudException();
+        final String updatedConfig = manager.add(config, dependency);
 
-            return manager.add(config, dependency);
-        }
+        files.write(updatedConfig.getBytes(), config);
+        return updatedConfig;
     }
 
     @Override
-    public List<Dependency> getAllDependencies(File zip) {
-        try (TempFile config = files.createTempFile(zip.getName(), ".tmp")) {
-            copyConfig(zip, config);
-            return getManager(zip).getAllDependencies(config);
-        }
+    public List<Dependency> getAllDependencies(File sources) {
+        final File config = parser.getConfiguration(sources);
+        return getManager(sources).getAllDependencies(config);
     }
 
     private IDependencyManager<Dependency> getManager(File config) {
         return parser.isMaven(config) ? mavenManager : gradleManager;
-    }
-
-    private void copyConfig(File src, File dest) {
-        files.write(parser.getConfiguration(src).getBytes(), dest);
     }
 
     @Data

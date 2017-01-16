@@ -1,10 +1,14 @@
 package com.sam.jcc.cloud.utils.project;
 
 import com.sam.jcc.cloud.utils.files.FileManager;
+import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import static com.sam.jcc.cloud.utils.files.FileManager.getResource;
@@ -16,6 +20,9 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @since 13.01.2017
  */
 public class DependencyManagerTest {
+
+    @Rule
+    public TemporaryFolder tmp = new TemporaryFolder();
 
     DependencyManager manager;
 
@@ -90,10 +97,20 @@ public class DependencyManagerTest {
     }
 
     File gradleConfiguration() {
-        return getResource(DependencyManagerTest.class, "/gradle-project.zip");
+        return extract("/gradle-project.zip");
     }
 
     File mavenConfiguration() {
-        return getResource(DependencyManagerTest.class, "/maven-project.zip");
+        return extract("/maven-project.zip");
+    }
+
+    File extract(String name) {
+        try {
+            final File sources = tmp.newFolder();
+            new ZipArchiveManager().unzip(getResource(getClass(), name), sources);
+            return sources;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
