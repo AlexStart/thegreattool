@@ -22,7 +22,9 @@ public class DependencyManager implements IDependencyManager<DependencyManager.D
     @Autowired
     private FileManager files;
 
-    private ProjectParser parser = new ProjectParser();
+    @Setter
+    @Autowired
+    private ProjectParser parser;
 
     private IDependencyManager<Dependency> mavenManager = new MavenDependencyManager();
     private IDependencyManager<Dependency> gradleManager = new GradleDependencyManager();

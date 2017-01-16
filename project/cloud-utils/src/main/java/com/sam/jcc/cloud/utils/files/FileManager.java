@@ -10,6 +10,7 @@ import static org.apache.commons.io.filefilter.FileFileFilter.FILE;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -47,9 +48,9 @@ public class FileManager {
 
 	public void delete(File dir) {
 		if (dir == null) {
-			return; // otherwise it kills current dir! TODO 
+			return; // otherwise it kills current dir! TODO
 		}
-		
+
 		if (dir.isDirectory()) {
 			cleanDir(dir);
 		}
@@ -126,6 +127,14 @@ public class FileManager {
 			throw new InternalCloudException(e);
 		}
 	}
+
+    public void append(byte[] content, File target) {
+        try {
+            java.nio.file.Files.write(target.toPath(), content, StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            throw new InternalCloudException(e);
+        }
+    }
 
 	//TODO: remove object calls
 	public static File getResource(Class<?> clazz, String path) {

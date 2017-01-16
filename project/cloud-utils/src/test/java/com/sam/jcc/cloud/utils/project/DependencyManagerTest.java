@@ -2,6 +2,7 @@ package com.sam.jcc.cloud.utils.project;
 
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
+import com.sam.jcc.cloud.utils.parsers.ProjectParser;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -30,6 +31,7 @@ public class DependencyManagerTest {
     public void setUp() {
         manager = new DependencyManager();
         manager.setFiles(new FileManager());
+        manager.setParser(new ProjectParser());
     }
 
     @Test

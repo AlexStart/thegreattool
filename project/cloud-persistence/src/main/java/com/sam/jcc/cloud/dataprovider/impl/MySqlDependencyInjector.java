@@ -4,12 +4,13 @@ import com.sam.jcc.cloud.dataprovider.AppData;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.TempFile;
 import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
+import com.sam.jcc.cloud.utils.parsers.ProjectParser;
 import com.sam.jcc.cloud.utils.project.DependencyManager;
 import com.sam.jcc.cloud.utils.project.DependencyManager.Dependency;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.io.File;
 
 import static com.google.common.collect.ImmutableList.of;
 import static com.sam.jcc.cloud.PropertyResolver.getProperty;
@@ -28,6 +29,9 @@ class MySqlDependencyInjector {
     private FileManager files;
 
     @Autowired
+    private ProjectParser parser;
+
+    @Autowired
     private ZipArchiveManager zipManager;
 
     @Autowired
@@ -39,7 +43,11 @@ class MySqlDependencyInjector {
 
             zipManager.unzip(tmp, sources);
             dependencyManager.add(sources, dataJpaStarter());
+
             data.setSources(zipManager.zip(sources));
+
+            final File appProperties = parser.getPropertiesFile(sources);
+            files.append(properties(data).getBytes(), appProperties);
         }
     }
 
@@ -53,12 +61,13 @@ class MySqlDependencyInjector {
         return jpa;
     }
 
-    private List<String> properties(String name) {
-        return of(
-                jpa("uri", getProperty("data.template.jpa.url") + name),
-                jpa("username", getProperty("data.template.jpa.username")),
-                jpa("password", getProperty("data.template.jpa.password"))
-        );
+    private String properties(AppData data) {
+        return String.join("\n",
+                of(
+                        jpa("uri", getProperty("data.template.jpa.url") + data.getAppName()),
+                        jpa("username", getProperty("data.template.jpa.username")),
+                        jpa("password", getProperty("data.template.jpa.password"))
+                ));
     }
 
     private String jpa(String property, String value) {

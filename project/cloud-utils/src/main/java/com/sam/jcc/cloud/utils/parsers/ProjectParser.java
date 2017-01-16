@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.commons.io.filefilter.NameFileFilter;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +30,7 @@ import static org.apache.commons.io.filefilter.FileFileFilter.FILE;
  */
 @Slf4j
 @Setter
+@Component
 public class ProjectParser implements IParser<File> {
 
     private static final String MAVEN_CONFIGURATION = "pom.xml";
@@ -38,6 +40,30 @@ public class ProjectParser implements IParser<File> {
     private IParser<String> gradleParser = new GradleParser();
 
     private ZipArchiveManager zipManager = new ZipArchiveManager();
+
+    //TODO: add test, searches only in root
+    public boolean isMaven(File sources) {
+        IOFileFilter mavenFilter = new NameFileFilter(MAVEN_CONFIGURATION);
+        return listFiles(sources, mavenFilter, FILE).size() == 1;
+    }
+
+    public File getConfiguration(File sources) {
+        final Collection<File> maven = listFiles(sources, new NameFileFilter(MAVEN_CONFIGURATION), FILE);
+        if (maven.size() == 1) {
+            return getOnlyElement(maven);
+        }
+
+        final Collection<File> gradle = listFiles(sources, new NameFileFilter(GRADLE_CONFIGURATION), FILE);
+        if (gradle.size() == 1) {
+            return getOnlyElement(gradle);
+        }
+        throw new InternalCloudException();
+    }
+
+    //TODO: works only with root
+    public File getPropertiesFile(File sources) {
+        return new File(sources, "src/main/resources/application.properties");
+    }
 
     @Override
     //TODO: what is default project structure? Searches a config in root folder and in sub-folders.
@@ -58,25 +84,6 @@ public class ProjectParser implements IParser<File> {
         } catch (IOException e) {
             throw new InternalCloudException(e);
         }
-    }
-
-    //TODO: add test, searches only in root
-    public boolean isMaven(File sources) {
-        IOFileFilter mavenFilter = new NameFileFilter(MAVEN_CONFIGURATION);
-        return listFiles(sources, mavenFilter, FILE).size() == 1;
-    }
-
-    public File getConfiguration(File sources) {
-        final Collection<File> maven = listFiles(sources, new NameFileFilter(MAVEN_CONFIGURATION), FILE);
-        if (maven.size() == 1) {
-            return getOnlyElement(maven);
-        }
-
-        final Collection<File> gradle = listFiles(sources, new NameFileFilter(GRADLE_CONFIGURATION), FILE);
-        if (gradle.size() == 1) {
-            return getOnlyElement(gradle);
-        }
-        throw new InternalCloudException();
     }
 
     private ZipEntry searchType(File project, ZipFile zip) {
