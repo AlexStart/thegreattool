@@ -15,14 +15,13 @@ import java.util.List;
  * @author Alexey Zhytnik
  * @since 13.01.2017
  */
+@Setter
 @Component
 public class DependencyManager implements IDependencyManager<DependencyManager.Dependency> {
 
-    @Setter
     @Autowired
     private FileManager files;
 
-    @Setter
     @Autowired
     private ProjectParser parser;
 

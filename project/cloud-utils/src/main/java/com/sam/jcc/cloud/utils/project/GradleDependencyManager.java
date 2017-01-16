@@ -1,20 +1,18 @@
 package com.sam.jcc.cloud.utils.project;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.io.Resources;
+import com.google.common.base.Charsets;
 import com.sam.jcc.cloud.exception.InternalCloudException;
+import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.project.DependencyManager.Dependency;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.google.common.base.Charsets.UTF_8;
 import static java.lang.String.format;
 import static java.lang.System.lineSeparator;
 import static java.util.Objects.isNull;
@@ -41,6 +39,8 @@ class GradleDependencyManager implements IDependencyManager<Dependency> {
         SHORT_DEFINITION = Pattern.compile(".*\\([',\"](\\S+):(\\S+):(\\S+)[',\"]\\)|.*\\([',\"](\\S+):(\\S+)[',\"]\\)");
     }
 
+    private FileManager files = new FileManager();
+
     @Override
     public List<Dependency> getAllDependencies(File config) {
         final String dependencies = getDependenciesMatcher(config).group(1);
@@ -54,7 +54,7 @@ class GradleDependencyManager implements IDependencyManager<Dependency> {
     }
 
     private Matcher getDependenciesMatcher(File file) {
-        final String build = asString(file);
+        final String build = new String(files.read(file), Charsets.UTF_8);
         final Matcher matcher = DEPENDENCIES_PATTERN.matcher(build);
 
         if (!matcher.find()) {
@@ -125,14 +125,5 @@ class GradleDependencyManager implements IDependencyManager<Dependency> {
                 dependency.getArtifactId(),
                 dependency.getVersion()
         );
-    }
-
-    private String asString(File file) {
-        try {
-            final URL url = file.toURI().toURL();
-            return Resources.toString(url, UTF_8);
-        } catch (IOException e) {
-            throw new InternalCloudException(e);
-        }
     }
 }

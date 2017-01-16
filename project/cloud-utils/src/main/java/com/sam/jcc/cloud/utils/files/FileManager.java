@@ -17,6 +17,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
@@ -131,6 +132,14 @@ public class FileManager {
     public void append(byte[] content, File target) {
         try {
             java.nio.file.Files.write(target.toPath(), content, StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            throw new InternalCloudException(e);
+        }
+    }
+
+    public byte[] read(File file) {
+        try {
+            return IOUtils.toByteArray(file.toURI());
         } catch (IOException e) {
             throw new InternalCloudException(e);
         }

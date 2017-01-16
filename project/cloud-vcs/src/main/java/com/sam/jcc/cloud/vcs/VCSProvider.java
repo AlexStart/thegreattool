@@ -86,7 +86,6 @@ public abstract class VCSProvider extends AbstractProvider<IVCSMetadata> impleme
         return asVCSRepository(m);
     }
 
-    //TODO: common functionality
     private void updateStatus(IVCSMetadata m, VCSRepositoryStatus status) {
         asVCSRepository(m).setStatus(status);
         notify(m);

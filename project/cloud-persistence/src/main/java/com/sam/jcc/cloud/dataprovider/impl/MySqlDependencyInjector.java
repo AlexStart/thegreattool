@@ -7,6 +7,7 @@ import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
 import com.sam.jcc.cloud.utils.parsers.ProjectParser;
 import com.sam.jcc.cloud.utils.project.DependencyManager;
 import com.sam.jcc.cloud.utils.project.DependencyManager.Dependency;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,11 +16,13 @@ import java.io.File;
 import static com.google.common.collect.ImmutableList.of;
 import static com.sam.jcc.cloud.PropertyResolver.getProperty;
 import static java.lang.String.format;
+import static java.lang.System.lineSeparator;
 
 /**
  * @author Alexey Zhytnik
  * @since 16.01.2017
  */
+@Setter
 @Component
 class MySqlDependencyInjector {
 
@@ -44,10 +47,10 @@ class MySqlDependencyInjector {
             zipManager.unzip(tmp, sources);
             dependencyManager.add(sources, dataJpaStarter());
 
-            data.setSources(zipManager.zip(sources));
+            final File properties = parser.getPropertiesFile(sources);
+            files.append(settings(data).getBytes(), properties);
 
-            final File appProperties = parser.getPropertiesFile(sources);
-            files.append(properties(data).getBytes(), appProperties);
+            data.setSources(zipManager.zip(sources));
         }
     }
 
@@ -61,10 +64,10 @@ class MySqlDependencyInjector {
         return jpa;
     }
 
-    private String properties(AppData data) {
-        return String.join("\n",
+    private String settings(AppData data) {
+        return String.join(lineSeparator(),
                 of(
-                        jpa("uri", getProperty("data.template.jpa.url") + data.getAppName()),
+                        jpa("url", getProperty("data.template.jpa.url") + data.getAppName()),
                         jpa("username", getProperty("data.template.jpa.username")),
                         jpa("password", getProperty("data.template.jpa.password"))
                 ));
