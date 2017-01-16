@@ -26,13 +26,13 @@ import static java.util.Objects.isNull;
 public abstract class SqlDataProvider extends AbstractProvider<IDataMetadata> implements ISqlDataProvider {
 
     @Autowired
-    private ProjectDataRepository repository;
+    private DatabaseCreator dbCreator;
 
     @Autowired
     private MySqlDependencyInjector injector;
 
     @Autowired
-    private TableNameValidator validator;
+    private ProjectDataRepository repository;
 
     @Autowired
     public SqlDataProvider(List<IEventManager<IDataMetadata>> eventManagers) {
@@ -86,8 +86,6 @@ public abstract class SqlDataProvider extends AbstractProvider<IDataMetadata> im
         if (data.getDataSupport()) throw new InternalCloudException();
         if (isNull(data.getSources())) throw new ProjectSourcesNotFound(app);
 
-        validator.validate(app.getAppName());
-
         app.setSources(data.getSources());
         return app;
     }
@@ -100,6 +98,7 @@ public abstract class SqlDataProvider extends AbstractProvider<IDataMetadata> im
 
     @Override
     public IDataMetadata postprocess(IDataMetadata d) {
+        dbCreator.create(asAppData(d));
         return d;
     }
 
