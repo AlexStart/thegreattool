@@ -132,12 +132,12 @@ public class FileManagerTest {
 
     @Test(expected = InternalCloudException.class)
     public void failsOnUnknownResource() {
-        fileManager.getResource(getClass(), "unknown resource");
+        FileManager.getResource(getClass(), "unknown resource");
     }
 
     @Test
     public void loadsResource() {
-        final File resource = fileManager.getResource(getClass(), "/gradle-project.zip");
+        final File resource = FileManager.getResource(getClass(), "/gradle-project.zip");
         assertThat(resource).isNotNull().exists();
     }
 }

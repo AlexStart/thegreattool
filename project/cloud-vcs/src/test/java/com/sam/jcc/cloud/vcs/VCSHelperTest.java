@@ -1,5 +1,6 @@
 package com.sam.jcc.cloud.vcs;
 
+import static com.sam.jcc.cloud.utils.files.FileManager.getResource;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
@@ -13,7 +14,6 @@ import org.junit.contrib.java.lang.system.SystemOutRule;
 import org.junit.rules.TemporaryFolder;
 
 import com.sam.jcc.cloud.utils.files.DirectoryComparator;
-import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.TempFile;
 import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
 import com.sam.jcc.cloud.vcs.git.GitFileStorage;
@@ -113,6 +113,6 @@ public class VCSHelperTest {
     }
 
     File read(String resource) {
-        return new FileManager().getResource(getClass(), resource);
+        return getResource(getClass(), resource);
     }
 }
