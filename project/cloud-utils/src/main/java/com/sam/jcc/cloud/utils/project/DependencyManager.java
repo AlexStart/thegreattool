@@ -5,6 +5,8 @@ import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.TempFile;
 import com.sam.jcc.cloud.utils.parsers.ProjectParser;
 import lombok.Data;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -17,11 +19,14 @@ import java.util.List;
 @Component
 public class DependencyManager implements IDependencyManager<DependencyManager.Dependency> {
 
-    private FileManager files = new FileManager();
+    @Setter
+    @Autowired
+    private FileManager files;
+
     private ProjectParser parser = new ProjectParser();
 
-    private IDependencyManager<DependencyManager.Dependency> mavenManager = new MavenDependencyManager();
-    private IDependencyManager<DependencyManager.Dependency> gradleManager = new GradleDependencyManager();
+    private IDependencyManager<Dependency> mavenManager = new MavenDependencyManager();
+    private IDependencyManager<Dependency> gradleManager = new GradleDependencyManager();
 
     @Override
     public String add(File zip, Dependency dependency) {

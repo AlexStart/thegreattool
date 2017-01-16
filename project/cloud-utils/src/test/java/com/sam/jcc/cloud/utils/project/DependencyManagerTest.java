@@ -1,5 +1,7 @@
 package com.sam.jcc.cloud.utils.project;
 
+import com.sam.jcc.cloud.utils.files.FileManager;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
@@ -15,7 +17,13 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class DependencyManagerTest {
 
-    DependencyManager manager = new DependencyManager();
+    DependencyManager manager;
+
+    @Before
+    public void setUp() {
+        manager = new DependencyManager();
+        manager.setFiles(new FileManager());
+    }
 
     @Test
     public void addsInMaven() {

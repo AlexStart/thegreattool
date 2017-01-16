@@ -78,7 +78,7 @@ class GradleDependencyManager implements IDependencyManager<Dependency> {
         getNonNullGroup(SCOPE_PATTER, s).ifPresent(d::setScope);
 
         if (isShotDefinition(s)) {
-            fillShort(d, s);
+            parseShort(d, s);
         } else {
             getNonNullGroup(GROUP_PATTERN, s).ifPresent(d::setGroupId);
             getNonNullGroup(NAME_PATTERN, s).ifPresent(d::setArtifactId);
@@ -87,7 +87,11 @@ class GradleDependencyManager implements IDependencyManager<Dependency> {
         return d;
     }
 
-    private void fillShort(Dependency d, String s) {
+    private boolean isShotDefinition(String def) {
+        return def.endsWith(")");
+    }
+
+    private void parseShort(Dependency d, String s) {
         final Matcher m = SHORT_DEFINITION.matcher(s);
 
         if (!m.find()) throw new InternalCloudException();
@@ -100,10 +104,6 @@ class GradleDependencyManager implements IDependencyManager<Dependency> {
             d.setGroupId(m.group(4));
             d.setArtifactId(m.group(5));
         }
-    }
-
-    private boolean isShotDefinition(String def) {
-        return def.endsWith(")");
     }
 
     private Optional<String> getNonNullGroup(Pattern pattern, String s) {
