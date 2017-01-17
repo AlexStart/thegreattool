@@ -61,6 +61,14 @@ public class PropertyResolverTest {
         resolver.getValue("unknown_key");
     }
 
+    @Test
+    public void systemPropertiesHasHighestPriority() throws Exception {
+        rewriteConfig("system_key=property_value");
+        System.setProperty("system_key", "system_value");
+
+        assertThat(resolver.getValue("system_key")).isEqualTo("system_value");
+    }
+
     void rewriteConfig(String content) throws Exception {
         try (PrintWriter writer = new PrintWriter(getPropertyFile())) {
             writer.print(content);

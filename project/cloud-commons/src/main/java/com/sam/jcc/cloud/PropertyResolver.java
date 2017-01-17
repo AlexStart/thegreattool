@@ -8,6 +8,7 @@ import org.apache.commons.configuration.reloading.FileChangedReloadingStrategy;
 import org.springframework.stereotype.Component;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 /**
  * @author Alexey Zhytnik
@@ -43,6 +44,9 @@ public class PropertyResolver {
     }
 
     @VisibleForTesting String getValue(String key) {
+        final String systemValue = System.getProperty(key);
+        if (nonNull(systemValue)) return systemValue;
+
         final String value = configuration.getString(key);
 
         if (isNull(value)) {
