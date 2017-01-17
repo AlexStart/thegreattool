@@ -1,6 +1,6 @@
 package com.sam.jcc.cloud;
 
-import com.mysql.cj.jdbc.MysqlDataSource;
+import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
