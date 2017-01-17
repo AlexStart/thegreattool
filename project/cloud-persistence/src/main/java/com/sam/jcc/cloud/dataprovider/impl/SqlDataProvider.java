@@ -26,7 +26,7 @@ import static java.util.Objects.isNull;
 public abstract class SqlDataProvider extends AbstractProvider<IDataMetadata> implements ISqlDataProvider {
 
     @Autowired
-    private DatabaseCreator dbCreator;
+    private DatabaseManager dbManager;
 
     @Autowired
     private MySqlDependencyInjector injector;
@@ -98,7 +98,7 @@ public abstract class SqlDataProvider extends AbstractProvider<IDataMetadata> im
 
     @Override
     public IDataMetadata postprocess(IDataMetadata d) {
-        dbCreator.create(asAppData(d));
+        dbManager.create(asAppData(d));
         return d;
     }
 

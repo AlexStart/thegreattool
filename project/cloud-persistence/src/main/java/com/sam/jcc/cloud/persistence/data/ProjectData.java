@@ -1,13 +1,19 @@
 package com.sam.jcc.cloud.persistence.data;
 
 import com.sam.jcc.cloud.i.Experimental;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.Column;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Lob;
+import java.sql.Blob;
+
+import static com.sam.jcc.cloud.persistence.data.BlobUtil.*;
 
 /**
  * @author Alexey Zhytnik
@@ -28,7 +34,16 @@ public class ProjectData {
     private String vcs;
     private Boolean dataSupport = false;
 
-    @Lob
-    @Column(columnDefinition = "BLOB")
-    private byte[] sources;
+    @Access(AccessType.FIELD)
+    @Setter(AccessLevel.NONE)
+    @Getter(AccessLevel.NONE)
+    private Blob data = EMPTY;
+
+    public void setSources(byte[] sources) {
+        data = blob(sources);
+    }
+
+    public byte[] getSources() {
+        return bytes(data);
+    }
 }

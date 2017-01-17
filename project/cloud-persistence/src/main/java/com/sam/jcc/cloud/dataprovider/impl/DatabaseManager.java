@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * @since 16.01.2017
  */
 @Component
-class DatabaseCreator {
+public class DatabaseManager {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -23,5 +23,12 @@ class DatabaseCreator {
         validator.validate(name);
 
         jdbcTemplate.execute("CREATE DATABASE " + name);
+    }
+
+    public void drop(AppData data) {
+        final String name = data.getAppName();
+        validator.validate(name);
+
+        jdbcTemplate.execute("DROP DATABASE IF EXISTS " + name);
     }
 }

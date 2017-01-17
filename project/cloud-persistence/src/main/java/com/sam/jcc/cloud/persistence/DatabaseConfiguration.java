@@ -9,6 +9,7 @@ import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -29,6 +30,7 @@ import com.sam.jcc.cloud.PropertyResolver;
 public class DatabaseConfiguration {
 
     @Bean
+    @Profile("prod")
     public DataSource dataSource() {
         final DriverManagerDataSource ds = new DriverManagerDataSource();
 
@@ -40,20 +42,21 @@ public class DatabaseConfiguration {
     }
 
     @Bean
-    public JpaTransactionManager transactionManager(DataSource dataSource) {
+    public JpaTransactionManager transactionManager(DataSource dataSource, Properties hibernateProperties) {
         final JpaTransactionManager txManager = new JpaTransactionManager();
-        txManager.setEntityManagerFactory(entityManagerFactory(dataSource).getObject());
+        txManager.setEntityManagerFactory(entityManagerFactory(dataSource, hibernateProperties).getObject());
         return txManager;
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource,
+                                                                       Properties hibernateProperties) {
         final LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
 
         factory.setDataSource(dataSource);
         factory.setPersistenceProviderClass(HibernatePersistenceProvider.class);
         factory.setPackagesToScan("com.sam.jcc.cloud.persistence");
-        factory.setJpaProperties(getHibernateProperties());
+        factory.setJpaProperties(hibernateProperties);
         return factory;
     }
 
@@ -71,12 +74,15 @@ public class DatabaseConfiguration {
         return flyway;
     }
 
-    private Properties getHibernateProperties() {
+    //TODO: remove test dependency
+    @Bean
+    @Profile("!MySQL-Test")
+    public Properties hibernateProperties() {
         final Properties props = new Properties();
 
-        props.put("hibernate.dialect", property("hibernate.dialect"));
-        props.put("hibernate.show_sql", property("hibernate.show_sql"));
-        props.put("hibernate.hbm2ddl.auto", property("hibernate.hbm2ddl.auto"));
+        props.put("hibernate.dialect", property("db.hibernate.dialect"));
+        props.put("hibernate.show_sql", property("db.hibernate.show_sql"));
+        props.put("hibernate.hbm2ddl.auto", property("db.hibernate.hbm2ddl.auto"));
         return props;
     }
 
