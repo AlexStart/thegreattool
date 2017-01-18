@@ -2,8 +2,6 @@ package com.sam.jcc.cloud.dataprovider.impl;
 
 import com.sam.jcc.cloud.dataprovider.AppData;
 import com.sam.jcc.cloud.utils.files.FileManager;
-import com.sam.jcc.cloud.utils.files.TempFile;
-import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
 import com.sam.jcc.cloud.utils.parsers.ProjectParser;
 import com.sam.jcc.cloud.utils.project.DependencyManager;
 import com.sam.jcc.cloud.utils.project.DependencyManager.Dependency;
@@ -32,26 +30,24 @@ class MySqlDependencyInjector {
     private FileManager files;
 
     @Autowired
-    private ProjectParser parser;
+    private UnzipSandbox sandbox;
 
     @Autowired
-    private ZipArchiveManager zipManager;
+    private ProjectParser parser;
 
     @Autowired
     private DependencyManager dependencyManager;
 
     public void inject(AppData data) {
-        try (TempFile tmp = files.createTempFile(); TempFile sources = files.createTempDir()) {
-            files.write(data.getSources(), tmp);
+        final byte[] updated = sandbox.apply(data.getSources(), sources -> inject(data, sources));
+        data.setSources(updated);
+    }
 
-            zipManager.unzip(tmp, sources);
-            dependencyManager.add(sources, dataJpaStarter());
+    private void inject(AppData data, File sources) {
+        dependencyManager.add(sources, dataJpaStarter());
 
-            final File properties = parser.getPropertiesFile(sources);
-            files.append(settings(data).getBytes(), properties);
-
-            data.setSources(zipManager.zip(sources));
-        }
+        final File properties = parser.getPropertiesFile(sources);
+        files.append(settings(data).getBytes(), properties);
     }
 
     private Dependency dataJpaStarter() {

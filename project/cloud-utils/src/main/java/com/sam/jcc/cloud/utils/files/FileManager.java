@@ -1,5 +1,6 @@
 package com.sam.jcc.cloud.utils.files;
 
+import static com.google.common.base.Charsets.UTF_8;
 import static com.sam.jcc.cloud.utils.SystemUtils.isWindowsOS;
 import static java.nio.file.Files.setAttribute;
 import static java.util.Collections.emptyList;
@@ -121,6 +122,15 @@ public class FileManager {
 		}
 	}
 
+	public void createFile(File file){
+        try {
+            Files.createParentDirs(file);
+            Files.touch(file);
+        } catch (IOException e) {
+            throw new InternalCloudException(e);
+        }
+    }
+
 	public void write(byte[] content, File target) {
 		try {
 			Files.write(content, target);
@@ -143,6 +153,10 @@ public class FileManager {
         } catch (IOException e) {
             throw new InternalCloudException(e);
         }
+    }
+
+    public String toString(File file) {
+        return new String(read(file), UTF_8);
     }
 
 	public static File getResource(Class<?> clazz, String path) {

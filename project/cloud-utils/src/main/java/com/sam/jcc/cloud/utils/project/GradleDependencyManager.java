@@ -1,7 +1,6 @@
 package com.sam.jcc.cloud.utils.project;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Charsets;
 import com.sam.jcc.cloud.exception.InternalCloudException;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.project.DependencyManager.Dependency;
@@ -54,7 +53,7 @@ class GradleDependencyManager implements IDependencyManager<Dependency> {
     }
 
     private Matcher getDependenciesMatcher(File file) {
-        final String build = new String(files.read(file), Charsets.UTF_8);
+        final String build = files.toString(file);
         final Matcher matcher = DEPENDENCIES_PATTERN.matcher(build);
 
         if (!matcher.find()) {

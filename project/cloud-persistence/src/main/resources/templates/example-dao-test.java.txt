@@ -1,0 +1,69 @@
+package ${package};
+
+import com.sam.jcc.cloud.persistence.data.Example;
+import com.sam.jcc.cloud.persistence.data.ExampleDAO;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+/**
+ * @author The Great Tool
+ * @since ${created}
+ */
+@SpringBootTest
+@RunWith(SpringRunner.class)
+public class ExampleDAOTest {
+
+    @Autowired
+    ExampleDAO dao;
+
+    Example example;
+
+    @Before
+    public void setUp() {
+        example = new Example();
+        example.setData("some data");
+
+        dao.deleteAll();
+    }
+
+    @Test
+    public void creates() {
+        dao.save(example);
+
+        assertThat(dao.findAll()).containsOnly(example);
+    }
+
+    @Test
+    public void reads() {
+        dao.save(example);
+
+        final Example saved = dao.findOne(example.getId());
+        assertThat(saved).isEqualTo(example);
+    }
+
+    @Test
+    public void updates() {
+        dao.save(example);
+
+        example.setData("updated");
+        dao.save(example);
+
+        final Example saved = dao.findOne(example.getId());
+        assertThat(saved).isEqualTo(example);
+    }
+
+    @Test
+    public void deletes() {
+        dao.save(example);
+        assertThat(dao.findAll()).containsOnly(example);
+
+        dao.delete(example);
+        assertThat(dao.count()).isZero();
+    }
+}

@@ -5,6 +5,7 @@ import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
 import com.sam.jcc.cloud.utils.parsers.ProjectParser;
 import com.sam.jcc.cloud.utils.project.DependencyManager;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -17,11 +18,11 @@ import java.io.File;
 import java.io.IOException;
 
 import static com.sam.jcc.cloud.utils.files.FileManager.getResource;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Alexey Zhytnik
- * @since 17-Jan-17
+ * @since 18.01.2017
  */
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {
@@ -30,46 +31,42 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
         ProjectParser.class,
         ZipArchiveManager.class,
         DependencyManager.class,
-        MySqlDependencyInjector.class
+        MySqlDependencyInjector.class,
+        SourceGenerator.class,
 })
-public class MySqlDependencyInjectorTest {
+public class SourceGeneratorTest {
+
+    static final String ENTITY = "src/main/java/com/zhytnik/app/persistence/entity/Example.java";
+    static final String DAO = "src/main/java/com/zhytnik/app/persistence/repository/ExampleDao.java";
+    static final String TEST = "src/test/java/com/zhytnik/app/persistence/repository/ExampleDaoTest.java";
 
     @Rule
     public TemporaryFolder tmp = new TemporaryFolder();
 
     @Autowired
     FileManager files;
+
     @Autowired
     ZipArchiveManager manager;
 
-
     @Autowired
-    MySqlDependencyInjector injector;
+    SourceGenerator generator;
+
+    @Before
+    public void setUp() {
+        generator.setGroupId("com.zhytnik");
+    }
 
     @Test
-    public void injects() throws IOException {
+    public void generates() throws IOException {
         final AppData app = mavenApp();
-        injector.inject(app);
-
-        assertThat(app.getSources()).isNotNull();
+        generator.generate(app);
 
         final File sources = readSources(app);
 
-        assertThat(readProperties(sources)).contains(
-                "spring.datasource.url",
-                "spring.datasource.username",
-                "spring.datasource.password"
-        );
-
-        assertThat(readPom(sources)).contains("spring-boot-starter-data-jpa");
-    }
-
-    AppData mavenApp() throws IOException {
-        final AppData data = new AppData();
-
-        data.setAppName("project");
-        data.setSources(files.read(getResource(getClass(), "/maven-project.zip")));
-        return data;
+        assertThat(new File(sources, DAO)).exists();
+        assertThat(new File(sources, TEST)).exists();
+        assertThat(new File(sources, ENTITY)).exists();
     }
 
     File readSources(AppData app) throws IOException {
@@ -80,13 +77,11 @@ public class MySqlDependencyInjectorTest {
         return dir;
     }
 
-    String readProperties(File sources) {
-        File config = new File(sources, "src/main/resources/application.properties");
-        return files.toString(config);
-    }
+    AppData mavenApp() throws IOException {
+        final AppData data = new AppData();
 
-    String readPom(File sources) {
-        File config = new File(sources, "pom.xml");
-        return files.toString(config);
+        data.setAppName("app");
+        data.setSources(files.read(getResource(getClass(), "/maven-project.zip")));
+        return data;
     }
 }
