@@ -37,8 +37,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SourceGeneratorTest {
 
     static final String ENTITY = "src/main/java/com/zhytnik/app/persistence/entity/Example.java";
-    static final String DAO = "src/main/java/com/zhytnik/app/persistence/repository/ExampleDao.java";
-    static final String TEST = "src/test/java/com/zhytnik/app/persistence/repository/ExampleDaoTest.java";
+    static final String DAO = "src/main/java/com/zhytnik/app/persistence/repository/ExampleDAO.java";
+    static final String TEST = "src/test/java/com/zhytnik/app/persistence/repository/ExampleDAOTest.java";
 
     @Rule
     public TemporaryFolder tmp = new TemporaryFolder();
