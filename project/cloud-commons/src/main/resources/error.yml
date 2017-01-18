@@ -12,6 +12,10 @@ internal:
     default:
       en: "Internal exception"
       ru: "Внутренняя ошибка"
+  validation:
+    error:
+      en: "Validation exception"
+      ru: "Ошибка валидации"
 
 persistence:
   entity:

@@ -64,20 +64,23 @@ public class AppProviderService implements IService<IAppMetadata> {
 
 	@Override
 	public void delete(Map<String, String> props) {
-		// TODO Auto-generated method stub
-
+		IAppMetadata project = new AppMetadata();
+		project.setId(Long.valueOf(props.get("id")));
+		appProvider.delete(project);
 	}
 
 	@Override
 	public IAppMetadata update(Map<String, String> props) {
-		// TODO Auto-generated method stub
-		return null;
+		IAppMetadata project = new AppMetadata();
+		project.setId(Long.valueOf(props.get("id")));
+		project.setProjectName(props.get("projectName"));
+		IAppMetadata updated = appProvider.update(project);
+		return updated;
 	}
 
 	@Override
 	public void findAndDelete(Map<String, String> props) {
 		// TODO Auto-generated method stub
-
 	}
 
 }

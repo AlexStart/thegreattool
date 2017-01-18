@@ -90,3 +90,17 @@ com:
               metadata:
                 ru: "Имя"
                 en: "Name"
+        mvc:
+          dto:
+            AppDTO:
+              metadata:
+                ru: "Приложение"
+                en: "Application name"
+              id:
+                metadata:
+                  ru: "Идентификатор"
+                  en: "Identifier"
+              name:
+                metadata:
+                  ru: "Название"
+                  en: "Name"                

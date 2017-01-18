@@ -1,0 +1,12 @@
+{
+  "url": "api/apps",
+  "custom": {
+    "buttons": {
+      "create": "button.create",
+      "update": "button.update",
+      "remove": "button.remove",
+      "cancel": "button.cancel",
+      "refresh": "button.refresh"
+    }
+  }
+}

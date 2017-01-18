@@ -6,18 +6,11 @@
 
 	<jsp:output omit-xml-declaration="yes" />
 
-	<tags:jumbotron headline_code="apps" form_headline_code="app"
-		main_uri="apps" main_button_code="find" create_button_code="create" />
-
-	<form:form method="post" modelAttribute="model">
-		<div class="form-group">
-			<label for="new_app_name">Application name</label>
-			<!--  -->
-			<form:input type="textbox" class="form-control" id="new_app_name"
-				placeholder="Enter new application name" path="name"/>
-		</div>
-	</form:form>
-
-
+	<div style="max-width: 680px; width: auto; margin: auto;">
+		<h2>
+			<spring:message code="apps" />
+		</h2>
+		<crud />
+	</div>
 
 </div>
