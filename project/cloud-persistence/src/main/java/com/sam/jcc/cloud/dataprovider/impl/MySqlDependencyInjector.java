@@ -67,9 +67,9 @@ class MySqlDependencyInjector {
     private String settings(AppData data) {
         return String.join(lineSeparator(),
                 of(
-                        jpa("url", getProperty("data.template.jpa.url") + data.getAppName()),
-                        jpa("username", getProperty("data.template.jpa.username")),
-                        jpa("password", getProperty("data.template.jpa.password"))
+                        jpa("url", getProperty("db.mysql.url") + data.getAppName()),
+                        jpa("username", getProperty("db.mysql.user")),
+                        jpa("password", getProperty("db.mysql.password"))
                 ));
     }
 
