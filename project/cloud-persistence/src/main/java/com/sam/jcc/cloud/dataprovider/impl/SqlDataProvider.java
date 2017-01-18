@@ -4,7 +4,6 @@ import com.sam.jcc.cloud.dataprovider.AppData;
 import com.sam.jcc.cloud.dataprovider.AppDataStatus;
 import com.sam.jcc.cloud.dataprovider.ProjectSourcesNotFound;
 import com.sam.jcc.cloud.exception.InternalCloudException;
-import com.sam.jcc.cloud.exception.NotSupportedOperationException;
 import com.sam.jcc.cloud.i.IEventManager;
 import com.sam.jcc.cloud.i.data.IDataMetadata;
 import com.sam.jcc.cloud.i.data.ISqlDataProvider;
@@ -12,6 +11,7 @@ import com.sam.jcc.cloud.persistence.data.ProjectData;
 import com.sam.jcc.cloud.persistence.data.ProjectDataRepository;
 import com.sam.jcc.cloud.persistence.exception.EntityNotFoundException;
 import com.sam.jcc.cloud.provider.AbstractProvider;
+import com.sam.jcc.cloud.provider.UnsupportedCallException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -51,22 +51,22 @@ public abstract class SqlDataProvider extends AbstractProvider<IDataMetadata> im
 
     @Override
     public IDataMetadata read(IDataMetadata d) {
-        throw new NotSupportedOperationException();
+        throw new UnsupportedCallException();
     }
 
     @Override
     public IDataMetadata create(IDataMetadata d) {
-        throw new NotSupportedOperationException();
+        throw new UnsupportedCallException();
     }
 
     @Override
     public void delete(IDataMetadata d) {
-        throw new NotSupportedOperationException();
+        throw new UnsupportedCallException();
     }
 
     @Override
     public List<? super IDataMetadata> findAll() {
-        throw new NotSupportedOperationException();
+        throw new UnsupportedCallException();
     }
 
     @Override
