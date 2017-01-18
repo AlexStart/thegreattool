@@ -2,7 +2,7 @@ package com.sam.jcc.cloud.persistence.data;
 
 import com.sam.jcc.cloud.dataprovider.AppData;
 import com.sam.jcc.cloud.dataprovider.ProjectSourcesNotFound;
-import com.sam.jcc.cloud.dataprovider.impl.DatabaseManager;
+import com.sam.jcc.cloud.dataprovider.impl.MySqlDatabaseManager;
 import com.sam.jcc.cloud.dataprovider.impl.MySqlDataProvider;
 import com.sam.jcc.cloud.exception.InternalCloudException;
 import com.sam.jcc.cloud.exception.NotSupportedOperationException;
@@ -13,12 +13,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.File;
 
-import static com.sam.jcc.cloud.TestDatabaseConfiguration.MySQL_TEST;
 import static com.sam.jcc.cloud.utils.files.FileManager.getResource;
 
 /**
@@ -27,7 +25,6 @@ import static com.sam.jcc.cloud.utils.files.FileManager.getResource;
  */
 @SpringBootTest
 @RunWith(SpringRunner.class)
-@ActiveProfiles(MySQL_TEST)
 public class MySqlDataProviderTest {
 
     @Autowired
@@ -86,7 +83,7 @@ public class MySqlDataProviderTest {
     /* TEST INFRASTRUCTURE */
 
     @Autowired
-    DatabaseManager dbManager;
+    MySqlDatabaseManager dbManager;
 
     @Autowired
     ProjectDataRepository repository;

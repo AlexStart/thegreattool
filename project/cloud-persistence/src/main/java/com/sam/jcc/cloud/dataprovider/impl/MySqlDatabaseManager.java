@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * @since 16.01.2017
  */
 @Component
-public class DatabaseManager {
+public class MySqlDatabaseManager {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;

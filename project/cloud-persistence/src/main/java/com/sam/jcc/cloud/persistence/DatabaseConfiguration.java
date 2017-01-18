@@ -1,15 +1,11 @@
 package com.sam.jcc.cloud.persistence;
 
-import java.util.Properties;
-
-import javax.sql.DataSource;
-
+import com.sam.jcc.cloud.PropertyResolver;
 import org.flywaydb.core.Flyway;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -17,7 +13,8 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.sam.jcc.cloud.PropertyResolver;
+import javax.sql.DataSource;
+import java.util.Properties;
 
 /**
  * @author Alexey Zhytnik
@@ -30,7 +27,6 @@ import com.sam.jcc.cloud.PropertyResolver;
 public class DatabaseConfiguration {
 
     @Bean
-    @Profile("prod")
     public DataSource dataSource() {
         final DriverManagerDataSource ds = new DriverManagerDataSource();
 
@@ -42,27 +38,33 @@ public class DatabaseConfiguration {
     }
 
     @Bean
-    public JpaTransactionManager transactionManager(DataSource dataSource, Properties hibernateProperties) {
+    public JpaTransactionManager transactionManager(DataSource dataSource) {
         final JpaTransactionManager txManager = new JpaTransactionManager();
-        txManager.setEntityManagerFactory(entityManagerFactory(dataSource, hibernateProperties).getObject());
+        txManager.setEntityManagerFactory(entityManagerFactory(dataSource).getObject());
         return txManager;
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource,
-                                                                       Properties hibernateProperties) {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
         final LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
 
         factory.setDataSource(dataSource);
         factory.setPersistenceProviderClass(HibernatePersistenceProvider.class);
         factory.setPackagesToScan("com.sam.jcc.cloud.persistence");
-        factory.setJpaProperties(hibernateProperties);
+        factory.setJpaProperties(jpaProperties());
         return factory;
     }
 
     @Bean
-    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-        return new JdbcTemplate(dataSource);
+    public JdbcTemplate mySqlJdbcTemplate() {
+        final DriverManagerDataSource ds = new DriverManagerDataSource();
+
+        ds.setUrl(property("db.mysql.url"));
+        ds.setUsername(property("db.mysql.user"));
+        ds.setPassword(property("db.mysql.password"));
+        ds.setDriverClassName(property("db.mysql.driver"));
+
+        return new JdbcTemplate(ds);
     }
 
     @Bean
@@ -74,10 +76,7 @@ public class DatabaseConfiguration {
         return flyway;
     }
 
-    //TODO: remove test dependency
-    @Bean
-    @Profile("!MySQL-Test")
-    public Properties hibernateProperties() {
+    private Properties jpaProperties() {
         final Properties props = new Properties();
 
         props.put("hibernate.dialect", property("db.hibernate.dialect"));

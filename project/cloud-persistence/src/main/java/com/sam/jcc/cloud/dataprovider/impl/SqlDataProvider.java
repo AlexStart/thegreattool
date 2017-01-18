@@ -26,7 +26,7 @@ import static java.util.Objects.isNull;
 public abstract class SqlDataProvider extends AbstractProvider<IDataMetadata> implements ISqlDataProvider {
 
     @Autowired
-    private DatabaseManager dbManager;
+    private MySqlDatabaseManager dbManager;
 
     @Autowired
     private MySqlDependencyInjector injector;
