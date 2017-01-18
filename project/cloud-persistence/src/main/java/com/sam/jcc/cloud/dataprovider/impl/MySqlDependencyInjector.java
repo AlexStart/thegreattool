@@ -44,7 +44,9 @@ class MySqlDependencyInjector {
     }
 
     private void inject(AppData data, File sources) {
+        dependencyManager.add(sources, lombok());
         dependencyManager.add(sources, dataJpaStarter());
+        dependencyManager.add(sources, mysqlConnector());
 
         final File properties = parser.getPropertiesFile(sources);
         files.append(settings(data).getBytes(), properties);
@@ -58,6 +60,27 @@ class MySqlDependencyInjector {
         jpa.setGroupId("org.springframework.boot");
         jpa.setArtifactId("spring-boot-starter-data-jpa");
         return jpa;
+    }
+
+    private Dependency mysqlConnector(){
+        final Dependency mysql = new Dependency();
+
+        mysql.setScope("compile");
+        mysql.setVersion("5.1.40");
+        mysql.setGroupId("mysql");
+        mysql.setArtifactId("mysql-connector-java");
+        return mysql;
+    }
+
+    //TODO: transfer
+    private Dependency lombok(){
+        final Dependency lombok = new Dependency();
+
+        lombok.setScope("compile");
+        lombok.setVersion("1.16.10");
+        lombok.setGroupId("org.projectlombok");
+        lombok.setArtifactId("lombok");
+        return lombok;
     }
 
     private String settings(AppData data) {
