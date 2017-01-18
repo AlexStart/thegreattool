@@ -2,6 +2,7 @@ package com.sam.jcc.cloud.persistence.data;
 
 import com.sam.jcc.cloud.i.Experimental;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +16,7 @@ import javax.persistence.Lob;
  */
 @Data
 @Entity
+@ToString(exclude = "sources")
 @Experimental("Entity of all project data")
 public class ProjectData {
 

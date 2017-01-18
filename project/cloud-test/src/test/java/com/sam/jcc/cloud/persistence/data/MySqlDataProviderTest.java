@@ -27,6 +27,8 @@ import static com.sam.jcc.cloud.utils.files.FileManager.getResource;
 @RunWith(SpringRunner.class)
 public class MySqlDataProviderTest {
 
+    static final String PROJECT_NAME = "project";
+
     @Autowired
     MySqlDataProvider mysqlProvider;
 
@@ -90,7 +92,7 @@ public class MySqlDataProviderTest {
 
     AppData mavenProject(boolean hasSources, boolean dataIncluded) {
         final ProjectData data = new ProjectData();
-        data.setName("project");
+        data.setName(PROJECT_NAME);
         data.setVcs("project-vcs");
         data.setCi("project-ci");
         data.setDataSupport(dataIncluded);
@@ -103,12 +105,12 @@ public class MySqlDataProviderTest {
         repository.save(data);
 
         final AppData app = new AppData();
-        app.setAppName("project");
+        app.setAppName(PROJECT_NAME);
         return app;
     }
 
     @After
     public void tearDown() {
-        repository.deleteAll();
+        repository.findByName(PROJECT_NAME).ifPresent(repository::delete);
     }
 }
