@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import static com.google.common.collect.ImmutableMap.of;
+import static com.sam.jcc.cloud.PropertyResolver.getProperty;
 import static com.sam.jcc.cloud.utils.files.FileManager.getResource;
 import static java.text.MessageFormat.format;
 
@@ -25,8 +26,6 @@ import static java.text.MessageFormat.format;
  */
 @Component
 class SourceGenerator {
-
-    private static final String DEFAULT_GROUP_ID = "com.sam.jcc.cloud";
 
     private static final String CREATED = "${created}";
     private static final String PACKAGE = "${package}";
@@ -44,7 +43,7 @@ class SourceGenerator {
 
     @Setter
     @VisibleForTesting
-    private String groupId = DEFAULT_GROUP_ID;
+    private String groupId = getProperty("data.template.groupId");
 
     @PostConstruct
     public void setUp() {
