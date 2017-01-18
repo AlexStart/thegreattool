@@ -1,7 +1,6 @@
 package ${package};
 
-import com.sam.jcc.cloud.persistence.data.Example;
-import com.sam.jcc.cloud.persistence.data.ExampleDAO;
+import ${example};
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

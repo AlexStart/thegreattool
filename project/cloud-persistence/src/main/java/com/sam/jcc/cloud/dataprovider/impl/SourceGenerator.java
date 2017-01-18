@@ -30,6 +30,7 @@ class SourceGenerator {
 
     private static final String CREATED = "${created}";
     private static final String PACKAGE = "${package}";
+    private static final String EXAMPLE = "${example}";
 
     @Autowired
     private FileManager files;
@@ -79,7 +80,8 @@ class SourceGenerator {
     private void addDao(AppData app) {
         final String dao = apply(daoTemplate, of(
                 CREATED, formattedCurrentDate(),
-                PACKAGE, basePackage(app) + "repository"
+                PACKAGE, basePackage(app) + "repository",
+                EXAMPLE, basePackage(app) + "entity.Example"
         ));
 
         final String path = format("{0}/repository/ExampleDAO.java", pathToSources(app));
@@ -89,7 +91,8 @@ class SourceGenerator {
     private void addTest(AppData app) {
         final String test = apply(testTemplate, of(
                 CREATED, formattedCurrentDate(),
-                PACKAGE, basePackage(app) + "repository"
+                PACKAGE, basePackage(app) + "repository",
+                EXAMPLE, basePackage(app) + "entity.Example"
         ));
 
         final String path = format("{0}/repository/ExampleDAOTest.java", pathToTests(app));
