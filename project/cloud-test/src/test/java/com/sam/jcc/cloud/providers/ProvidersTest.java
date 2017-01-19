@@ -18,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.sam.jcc.cloud.crud.ICRUD;
+import com.sam.jcc.cloud.i.IHealth;
 import com.sam.jcc.cloud.i.IProvider;
 import com.sam.jcc.cloud.i.data.IDataProvider;
 import com.sam.jcc.cloud.i.data.INoSqlDataProvider;
@@ -53,11 +54,18 @@ public class ProvidersTest {
 
 	@Autowired
 	private List<INoSqlDataProvider> noSqlDataProviders;
+	
+	@Autowired
+	private List<IHealth> providersWithHealth;	
 
 	@Test
 	public void listProvidersTest() {
 		assertNotNull(providers);
 		assertEquals(7, providers.size());
+		//
+		assertNotNull(providersWithHealth);
+		providersWithHealth.stream().map(p -> p.checkHealth().getUrl()).forEach(System.out::println);
+		assertEquals(2, providersWithHealth.size());
 	}
 
 	@Test
