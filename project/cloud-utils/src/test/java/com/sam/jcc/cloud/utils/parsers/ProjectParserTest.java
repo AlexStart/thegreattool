@@ -1,10 +1,10 @@
 package com.sam.jcc.cloud.utils.parsers;
 
-import com.sam.jcc.cloud.utils.files.FileManager;
 import org.junit.Test;
 
 import java.io.File;
 
+import static com.sam.jcc.cloud.utils.files.FileManager.getResource;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.entry;
 
@@ -33,6 +33,6 @@ public class ProjectParserTest {
     }
 
     File read(String resource) {
-        return new FileManager().getResource(getClass(), resource);
+        return getResource(getClass(), resource);
     }
 }

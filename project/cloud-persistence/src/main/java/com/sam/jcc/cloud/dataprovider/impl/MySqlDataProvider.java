@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.sam.jcc.cloud.dataprovider.SqlDataProvider;
 import com.sam.jcc.cloud.i.IEventManager;
 import com.sam.jcc.cloud.i.data.IDataMetadata;
 

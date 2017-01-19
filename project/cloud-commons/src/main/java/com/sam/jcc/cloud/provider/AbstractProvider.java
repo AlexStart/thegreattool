@@ -53,22 +53,26 @@ public abstract class AbstractProvider<T> extends AbstractCRUD<T> implements IPr
         if (t != null) {
             if (supports(t)) {
                 T preprocessed = preprocess(t);
-                eventManagers.forEach(manager -> manager.fireEvent(preprocessed, this));
+                notify(preprocessed);
 
                 T processed = process(preprocessed);
-                eventManagers.forEach(manager -> manager.fireEvent(processed, this));
+                notify(processed);
 
                 T result = postprocess(processed);
-                eventManagers.forEach(manager -> manager.fireEvent(result, this));
+                notify(result);
 
                 return result;
             } else {
-                eventManagers.forEach(manager -> manager.fireEvent(t, this));
+                notify(t);
                 throw new UnsupportedTypeException(t);
             }
         }
-        eventManagers.forEach(manager -> manager.fireEvent(null, this));
+        notify(null);
         return null;
+    }
+
+    protected void notify(T item) {
+        eventManagers.forEach(manager -> manager.fireEvent(item, this));
     }
 
     @Override

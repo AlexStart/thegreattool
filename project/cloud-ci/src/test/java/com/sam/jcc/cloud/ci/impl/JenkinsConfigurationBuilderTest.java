@@ -85,12 +85,6 @@ public class JenkinsConfigurationBuilderTest {
         verify(workspace, atLeastOnce()).get(mavenProject);
     }
 
-    @Test
-    public void knowsProjectTypes() {
-        assertThat(builder.isMaven(mavenProject.getSources())).isTrue();
-        assertThat(builder.isMaven(gradleProject.getSources())).isFalse();
-    }
-
     void copySourcesIntoWorkspace(CIProject project) {
         new FileManager().copyDir(
                 project.getSources(),

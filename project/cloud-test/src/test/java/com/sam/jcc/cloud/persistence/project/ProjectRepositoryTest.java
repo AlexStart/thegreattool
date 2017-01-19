@@ -1,14 +1,12 @@
 package com.sam.jcc.cloud.persistence.project;
 
-import com.sam.jcc.cloud.TestDatabaseConfiguration;
-import com.sam.jcc.cloud.persistence.DatabaseConfiguration;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.orm.jpa.JpaSystemException;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static com.sam.jcc.cloud.persistence.project.ProjectEntityHelper.gradleProject;
@@ -19,11 +17,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Alexey Zhytnik
  * @since 15.11.2016
  */
+@SpringBootTest
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {
-        TestDatabaseConfiguration.class,
-        DatabaseConfiguration.class}
-)
 public class ProjectRepositoryTest {
 
     ProjectMetadataEntity project;

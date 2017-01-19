@@ -2,18 +2,17 @@ package com.sam.jcc.cloud.project;
 
 import com.sam.jcc.cloud.i.IStatusable;
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
-
 import lombok.Data;
+import lombok.ToString;
 
 import java.io.File;
 import java.util.List;
-
-import static com.google.common.base.MoreObjects.toStringHelper;
 
 /**
  * @author Alec Kotovich
  */
 @Data
+@ToString(of = {"projectName", "groupId", "artifactId"})
 public class ProjectMetadata implements IProjectMetadata, IStatusable {
 
     private String bootVersion;
@@ -38,13 +37,4 @@ public class ProjectMetadata implements IProjectMetadata, IStatusable {
     private ProjectStatus status;
 
     private Long id;
-
-    @Override
-    public String toString() {
-        return toStringHelper(getClass())
-                .add("name", projectName)
-                .add("groupId", groupId)
-                .add("artifactId", artifactId)
-                .toString();
-    }
 }

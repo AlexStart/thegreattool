@@ -3,6 +3,9 @@ business:
     default:
       en: "Business exception"
       ru: "Бизнес ошибка"
+    notSupported:
+      en: "Not supported"
+      ru: "Функциональность недоступна"
 
 internal:
   error:
@@ -13,6 +16,21 @@ internal:
     error:
       en: "Validation exception"
       ru: "Ошибка валидации"
+
+persistence:
+  entity:
+    notFound:
+      en: "Data of {0} not found"
+      ru: "Данные {0} не найдены"
+  sources:
+    notFound:
+      en: "Sources of {0} not found"
+      ru: "Исходный код {0} не найден"
+  database:
+    validation:
+      error:
+        en: "App name \"{0}\" isn't valid"
+        ru: "Невозможно создать бд с имененм \"{0}\""
 
 project:
   validation:

@@ -1,5 +1,6 @@
 package com.sam.jcc.cloud.utils.files;
 
+import static com.google.common.base.Charsets.UTF_8;
 import static com.sam.jcc.cloud.utils.SystemUtils.isWindowsOS;
 import static java.nio.file.Files.setAttribute;
 import static java.util.Collections.emptyList;
@@ -7,14 +8,20 @@ import static org.apache.commons.io.FileUtils.copyDirectory;
 import static org.apache.commons.io.FileUtils.listFiles;
 import static org.apache.commons.io.filefilter.DirectoryFileFilter.DIRECTORY;
 import static org.apache.commons.io.filefilter.FileFileFilter.FILE;
+import static org.springframework.util.ResourceUtils.JAR_URL_PREFIX;
+import static org.springframework.util.ResourceUtils.extractJarFileURL;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
@@ -25,6 +32,7 @@ import com.sam.jcc.cloud.exception.InternalCloudException;
 import com.sam.jcc.cloud.i.OSDependent;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.ResourceUtils;
 
 /**
  * @author Alexey Zhytnik
@@ -46,9 +54,9 @@ public class FileManager {
 
 	public void delete(File dir) {
 		if (dir == null) {
-			return; // otherwise it kills current dir! TODO 
+			return; // otherwise it kills current dir! TODO
 		}
-		
+
 		if (dir.isDirectory()) {
 			cleanDir(dir);
 		}
@@ -100,8 +108,13 @@ public class FileManager {
 		}
 	}
 
-	public static TempFile createTempDir() {
+	public TempFile createTempDir() {
 		return new TempFile(Files.createTempDir());
+	}
+
+	public TempFile createTempFile() {
+		final String prefix = Integer.toString(new Random().nextInt());
+		return createTempFile(prefix, ".tmp");
 	}
 
 	public TempFile createTempFile(String prefix, String suffix) {
@@ -113,6 +126,15 @@ public class FileManager {
 		}
 	}
 
+	public void createFile(File file){
+        try {
+            Files.createParentDirs(file);
+            Files.touch(file);
+        } catch (IOException e) {
+            throw new InternalCloudException(e);
+        }
+    }
+
 	public void write(byte[] content, File target) {
 		try {
 			Files.write(content, target);
@@ -121,14 +143,38 @@ public class FileManager {
 		}
 	}
 
-	public File getResource(Class<?> clazz, String path) {
-		try {
-			final ClassPathResource resource = new ClassPathResource(path, clazz);
-			return resource.getFile();
-		} catch (IOException e) {
-			throw new InternalCloudException(e);
-		}
-	}
+    public void append(byte[] content, File target) {
+        try {
+            java.nio.file.Files.write(target.toPath(), content, StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            throw new InternalCloudException(e);
+        }
+    }
+
+    public byte[] read(File file) {
+        try {
+            return IOUtils.toByteArray(file.toURI());
+        } catch (IOException e) {
+            throw new InternalCloudException(e);
+        }
+    }
+
+    public String toString(File file) {
+        return new String(read(file), UTF_8);
+    }
+
+    public static File getResource(Class<?> clazz, String path) {
+        try {
+            final ClassPathResource resource = new ClassPathResource(path, clazz);
+
+            if (resource.getURL().toString().startsWith(JAR_URL_PREFIX)) {
+                return new File(extractJarFileURL(clazz.getResource(path)).toURI());
+            }
+            return resource.getFile();
+        } catch (IOException | URISyntaxException e) {
+            throw new InternalCloudException(e);
+        }
+    }
 
 	List<File> getAllDirectoryFiles(File dir) {
 		return (List<File>) listFiles(dir, FILE, DIRECTORY);

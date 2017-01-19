@@ -17,7 +17,7 @@
     <properties>
     	<spring.version>4.3.5.RELEASE</spring.version>
         <h2.driver.version>1.4.193</h2.driver.version>
-        <mysql.driver.version>6.0.5</mysql.driver.version>
+        <mysql.driver.version>5.1.40</mysql.driver.version>
         <mongo.driver.version>3.3.0</mongo.driver.version>
         <hibernate.version>5.0.11.Final</hibernate.version>
     </properties>
@@ -25,16 +25,12 @@
     <dependencies>
         <dependency>
             <groupId>com.sam.jcc</groupId>
-            <artifactId>cloud-commons</artifactId>
+            <artifactId>cloud-utils</artifactId>
             <version>${project.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework</groupId>
                     <artifactId>spring-context-support</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-log4j12</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>

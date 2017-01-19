@@ -4,10 +4,14 @@ import com.sam.jcc.cloud.exception.InternalCloudException;
 import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.filefilter.IOFileFilter;
+import org.apache.commons.io.filefilter.NameFileFilter;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map.Entry;
 import java.util.Optional;
@@ -15,7 +19,10 @@ import java.util.function.Predicate;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import static com.google.common.collect.Iterables.getOnlyElement;
 import static java.util.Comparator.comparingInt;
+import static org.apache.commons.io.FileUtils.listFiles;
+import static org.apache.commons.io.filefilter.FileFileFilter.FILE;
 
 /**
  * @author Alexey Zhytnik
@@ -23,15 +30,40 @@ import static java.util.Comparator.comparingInt;
  */
 @Slf4j
 @Setter
+@Component
 public class ProjectParser implements IParser<File> {
 
-    public static final String MAVEN_CONFIGURATION = "pom.xml";
-    public static final String GRADLE_CONFIGURATION = "build.gradle";
+    private static final String MAVEN_CONFIGURATION = "pom.xml";
+    private static final String GRADLE_CONFIGURATION = "build.gradle";
 
     private IParser<String> mavenParser = new MavenParser();
     private IParser<String> gradleParser = new GradleParser();
 
     private ZipArchiveManager zipManager = new ZipArchiveManager();
+
+    //TODO: add test, searches only in root
+    public boolean isMaven(File sources) {
+        IOFileFilter mavenFilter = new NameFileFilter(MAVEN_CONFIGURATION);
+        return listFiles(sources, mavenFilter, FILE).size() == 1;
+    }
+
+    public File getConfiguration(File sources) {
+        final Collection<File> maven = listFiles(sources, new NameFileFilter(MAVEN_CONFIGURATION), FILE);
+        if (maven.size() == 1) {
+            return getOnlyElement(maven);
+        }
+
+        final Collection<File> gradle = listFiles(sources, new NameFileFilter(GRADLE_CONFIGURATION), FILE);
+        if (gradle.size() == 1) {
+            return getOnlyElement(gradle);
+        }
+        throw new InternalCloudException();
+    }
+
+    //TODO: works only with root
+    public File getPropertiesFile(File sources) {
+        return new File(sources, "src/main/resources/application.properties");
+    }
 
     @Override
     //TODO: what is default project structure? Searches a config in root folder and in sub-folders.
@@ -39,17 +71,12 @@ public class ProjectParser implements IParser<File> {
         log.info("Parse {}", project);
 
         try (ZipFile zip = new ZipFile(project)) {
-            final Optional<? extends ZipEntry> type = zip.stream()
-                    .filter(nestedFilter())
-                    .sorted(nestedComparator())
-                    .filter(isMavenOrGradleEntry())
-                    .findFirst();
-            if (!type.isPresent()) failOnNotFound(project);
+            final ZipEntry type = searchType(project, zip);
 
-            log.info("In {} found \"{}\" config file", project, type.get().getName());
-            final String config = zipManager.readEntry(zip, type.get());
+            log.info("In {} found \"{}\" config file", project, type.getName());
+            final String config = zipManager.readEntry(zip, type);
 
-            if (isMaven(type.get())) {
+            if (isMaven(type)) {
                 return mavenParser.parse(config);
             } else {
                 return gradleParser.parse(config);
@@ -57,6 +84,16 @@ public class ProjectParser implements IParser<File> {
         } catch (IOException e) {
             throw new InternalCloudException(e);
         }
+    }
+
+    private ZipEntry searchType(File project, ZipFile zip) {
+        final Optional<? extends ZipEntry> type = zip.stream()
+                .filter(nestedFilter())
+                .sorted(nestedComparator())
+                .filter(isMavenOrGradleEntry())
+                .findFirst();
+        if (!type.isPresent()) failOnNotFound(project);
+        return type.get();
     }
 
     private Predicate<ZipEntry> nestedFilter() {

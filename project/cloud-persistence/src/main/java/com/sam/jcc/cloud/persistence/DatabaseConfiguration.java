@@ -1,21 +1,20 @@
 package com.sam.jcc.cloud.persistence;
 
-import java.util.Properties;
-
-import javax.sql.DataSource;
-
+import com.sam.jcc.cloud.PropertyResolver;
 import org.flywaydb.core.Flyway;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.sam.jcc.cloud.PropertyResolver;
+import javax.sql.DataSource;
+import java.util.Properties;
 
 /**
  * @author Alexey Zhytnik
@@ -52,8 +51,20 @@ public class DatabaseConfiguration {
         factory.setDataSource(dataSource);
         factory.setPersistenceProviderClass(HibernatePersistenceProvider.class);
         factory.setPackagesToScan("com.sam.jcc.cloud.persistence");
-        factory.setJpaProperties(getHibernateProperties());
+        factory.setJpaProperties(jpaProperties());
         return factory;
+    }
+
+    @Bean
+    public JdbcTemplate mySqlJdbcTemplate() {
+        final DriverManagerDataSource ds = new DriverManagerDataSource();
+
+        ds.setUrl(property("db.mysql.url"));
+        ds.setUsername(property("db.mysql.user"));
+        ds.setPassword(property("db.mysql.password"));
+        ds.setDriverClassName(property("db.mysql.driver"));
+
+        return new JdbcTemplate(ds);
     }
 
     @Bean
@@ -65,12 +76,12 @@ public class DatabaseConfiguration {
         return flyway;
     }
 
-    private Properties getHibernateProperties() {
+    private Properties jpaProperties() {
         final Properties props = new Properties();
 
-        props.put("hibernate.dialect", property("hibernate.dialect"));
-        props.put("hibernate.show_sql", property("hibernate.show_sql"));
-        props.put("hibernate.hbm2ddl.auto", property("hibernate.hbm2ddl.auto"));
+        props.put("hibernate.dialect", property("db.hibernate.dialect"));
+        props.put("hibernate.show_sql", property("db.hibernate.show_sql"));
+        props.put("hibernate.hbm2ddl.auto", property("db.hibernate.hbm2ddl.auto"));
         return props;
     }
 

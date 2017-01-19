@@ -1,6 +1,5 @@
 package com.sam.jcc.cloud.ci.impl;
 
-import com.offbytwo.jenkins.JenkinsServer;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,8 +8,7 @@ import java.util.Set;
 
 import static java.util.Collections.singleton;
 import static org.assertj.core.data.MapEntry.entry;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
+import static org.junit.Assert.fail;
 
 /**
  * @author Alexey Zhytnik
@@ -18,24 +16,18 @@ import static org.mockito.Mockito.verify;
  */
 public class JenkinsPluginInstallerTest extends JenkinsBaseTest {
 
-    JenkinsServer server;
     JenkinsPluginInstaller installer;
 
     @Before
     public void setUp() {
-        server = spy(jenkins.getServer());
-        installer = new JenkinsPluginInstaller(server);
+        installer = new JenkinsPluginInstaller(jenkins.getServer());
     }
 
     @Test
     public void installsPlugins() {
         installer.install(plugin());
-    }
 
-    @Test
-    public void usesPluginManager() throws Exception {
-        installer.install(plugin());
-        verify(server).getPluginManager();
+        if (!installer.isInstalled("copyartifact")) fail();
     }
 
     Set<Entry<String, String>> plugin() {

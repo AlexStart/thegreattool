@@ -118,7 +118,7 @@ public abstract class ProjectProvider extends AbstractProvider<IProjectMetadata>
 
     private void updateStatus(IProjectMetadata project, ProjectStatus status) {
         asProjectMetadata(project).setStatus(status);
-        eventManagers.forEach(manager -> manager.fireEvent(project, this));
+        notify(project);
     }
 
     private ProjectMetadata asProjectMetadata(IProjectMetadata metadata) {

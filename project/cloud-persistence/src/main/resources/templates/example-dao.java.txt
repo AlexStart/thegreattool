@@ -1,0 +1,13 @@
+package ${package};
+
+import ${example};
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+/**
+ * @author The Great Tool
+ * @since ${created}
+ */
+@Repository
+public interface ExampleDAO extends CrudRepository<Example, Long> {
+}

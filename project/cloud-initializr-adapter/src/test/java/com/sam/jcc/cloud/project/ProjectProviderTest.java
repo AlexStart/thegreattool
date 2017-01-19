@@ -12,7 +12,6 @@ import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.spy;
 
 import org.junit.After;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
@@ -31,7 +30,6 @@ import com.sam.jcc.cloud.provider.UnsupportedTypeException;
  */
 @SpringBootTest
 @RunWith(SpringRunner.class)
-@Ignore
 public class ProjectProviderTest {
 
 	@Autowired
