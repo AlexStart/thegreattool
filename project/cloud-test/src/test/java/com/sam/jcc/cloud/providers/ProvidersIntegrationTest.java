@@ -39,7 +39,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class ProvidersIT extends TestEnvironment {
+public class ProvidersIntegrationTest extends TestEnvironment {
 
     @Autowired
     JenkinsProvider jenkins;
