@@ -48,7 +48,7 @@ class JenkinsPluginInstaller {
                 .forEach(this::installAndWait);
     }
 
-    private boolean isInstalled(String name) {
+    public boolean isInstalled(String name) {
         final List<Plugin> plugins = getPluginManager().getPlugins();
 
         final Optional<Plugin> plugin = plugins.stream()
@@ -88,7 +88,9 @@ class JenkinsPluginInstaller {
             sleepUninterruptibly(500L, MILLISECONDS);
             remaining -= 500L;
         }
-        log.info("{}-{} was installed", plugin.getKey(), plugin.getValue());
+
+        boolean installed = isInstalled(plugin.getKey());
+        log.info("{}-{} was{} installed", plugin.getKey(), plugin.getValue(), installed ? "" : " not");
     }
 
     private JenkinsHttpClient extractHttpClient(JenkinsServer server) {
