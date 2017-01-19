@@ -73,6 +73,8 @@ public abstract class TestEnvironment {
             throw new RuntimeException("TimeOut");
         }
         log.info("{} finished", project);
+
+        sleep(2_000L);
     }
 
     /**
