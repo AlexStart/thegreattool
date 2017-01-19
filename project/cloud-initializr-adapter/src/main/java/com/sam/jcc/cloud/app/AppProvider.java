@@ -1,17 +1,18 @@
 package com.sam.jcc.cloud.app;
 
+import static java.util.Objects.isNull;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.sam.jcc.cloud.i.IEventManager;
 import com.sam.jcc.cloud.i.app.IAppMetadata;
 import com.sam.jcc.cloud.i.app.IAppProvider;
 import com.sam.jcc.cloud.provider.AbstractProvider;
 import com.sam.jcc.cloud.utils.project.ArtifactIdValidator;
 import com.sam.jcc.cloud.utils.project.ArtifactIdValidator.AppMetadataValidationException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.util.List;
-
-import static java.util.Objects.isNull;
 
 /**
  * @author Alexey Zhytnik

@@ -21,7 +21,7 @@
 		<div class="container">
 			<div class="navbar-header">
 				<a href="${root_context}" class="navbar-brand"><img
-					src="${context_path}/images/logo.png" /></a> <a href="${root_context}"
+					src="${context_path}/images/logo.png" /></a> <a href="${root_context}health"
 					class="navbar-brand"><spring:message code="site" /></a>
 			</div>
 			<div class="navbar-collapse collapse" style="float: left">

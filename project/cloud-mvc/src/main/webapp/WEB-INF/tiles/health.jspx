@@ -1,0 +1,45 @@
+<div id="body" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags" xmlns:tags="tags"
+	class="container main_area marketing">
+
+
+	<jsp:output omit-xml-declaration="yes" />
+
+	<spring:message code="healthchecks" var="healthchecks" />
+	<spring:message code="provider" var="provider" />
+	<spring:message code="description" var="description" />
+	<spring:message code="alive" var="alive" />
+
+	<h2>${healthchecks}</h2>
+
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>${provider}</th>
+				<th>${description}</th>
+				<th>${alive}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach items="${models}" var="model" varStatus="status">
+				<tr>
+					<th scope="row">${status.index + 1}</th>
+					<td>${model.name}</td>
+					<td>${model.url}</td>
+					<c:if test="${model.alive}">
+						<td style="color: green; font-weight: bold">@${model.alive}</td>
+					</c:if>
+					<c:if test="${!model.alive}">
+						<td style="color: red; font-weight: bold">@${model.alive}</td>
+					</c:if>
+				</tr>
+			</c:forEach>
+
+		</tbody>
+	</table>
+
+
+
+</div>
