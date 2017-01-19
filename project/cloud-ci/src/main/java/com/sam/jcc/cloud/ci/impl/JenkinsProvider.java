@@ -9,8 +9,6 @@ import com.sam.jcc.cloud.i.ci.ICIMetadata;
 import com.sam.jcc.cloud.i.ci.ICIProvider;
 import com.sam.jcc.cloud.provider.AbstractProvider;
 import com.sam.jcc.cloud.provider.UnsupportedTypeException;
-import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -31,8 +29,8 @@ import static com.sam.jcc.cloud.ci.CIProjectStatus.UPDATED;
 public class JenkinsProvider extends AbstractProvider<ICIMetadata> implements ICIProvider {
 
     @Setter
-    @Autowired
-    @Getter(AccessLevel.PACKAGE)
+    @Autowired(required = false)
+    //TODO: change configuration
     private Jenkins jenkins;
 
     public JenkinsProvider(List<IEventManager<ICIMetadata>> iEventManagers) {

@@ -57,7 +57,7 @@ public class ProvidersTest {
 	@Test
 	public void listProvidersTest() {
 		assertNotNull(providers);
-		assertEquals(7, providers.size());
+		assertEquals(8, providers.size());
 	}
 
 	@Test

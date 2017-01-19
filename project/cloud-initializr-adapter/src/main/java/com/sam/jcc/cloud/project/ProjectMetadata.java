@@ -8,6 +8,8 @@ import lombok.ToString;
 import java.io.File;
 import java.util.List;
 
+import static com.google.common.collect.Lists.newArrayList;
+
 /**
  * @author Alec Kotovich
  */
@@ -29,7 +31,7 @@ public class ProjectMetadata implements IProjectMetadata, IStatusable {
 
     private String basePackage;
 
-    private List<String> dependencies;
+    private List<String> dependencies = newArrayList();
 
     private File directory;
     private byte[] projectSources;

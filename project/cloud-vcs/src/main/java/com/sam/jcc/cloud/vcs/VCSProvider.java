@@ -1,5 +1,6 @@
 package com.sam.jcc.cloud.vcs;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.sam.jcc.cloud.i.IEventManager;
 import com.sam.jcc.cloud.i.vcs.IVCSMetadata;
 import com.sam.jcc.cloud.i.vcs.IVCSProvider;
@@ -7,6 +8,7 @@ import com.sam.jcc.cloud.provider.AbstractProvider;
 import com.sam.jcc.cloud.provider.UnsupportedTypeException;
 import com.sam.jcc.cloud.vcs.git.GitAbstractStorage;
 import com.sam.jcc.cloud.vcs.git.GitVCS;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
@@ -20,7 +22,9 @@ import static com.sam.jcc.cloud.vcs.VCSRepositoryStatus.*;
  */
 public abstract class VCSProvider extends AbstractProvider<IVCSMetadata> implements IVCSProvider {
 
+    @Getter
     @Autowired
+    @VisibleForTesting
     private GitVCS git;
 
     @Autowired

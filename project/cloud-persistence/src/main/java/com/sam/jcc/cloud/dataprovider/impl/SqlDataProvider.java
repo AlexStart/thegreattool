@@ -29,6 +29,9 @@ public abstract class SqlDataProvider extends AbstractProvider<IDataMetadata> im
     private MySqlDatabaseManager dbManager;
 
     @Autowired
+    private SourceGenerator sourceGenerator;
+
+    @Autowired
     private MySqlDependencyInjector injector;
 
     @Autowired
@@ -98,6 +101,7 @@ public abstract class SqlDataProvider extends AbstractProvider<IDataMetadata> im
 
     @Override
     public IDataMetadata postprocess(IDataMetadata d) {
+        sourceGenerator.generate(asAppData(d));
         dbManager.create(asAppData(d));
         return d;
     }

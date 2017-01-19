@@ -47,6 +47,13 @@ AppProvider:
   description:
     ru: "AppProvider"
     en: "AppProvider"
+JenkinsProvider:
+  name:
+    ru: "Jenkins"
+    en: "Jenkins"
+  description:
+    ru: "Jenkins CI"
+    en: "Jenkins CI"
 button:
   create:
     metadata:
