@@ -43,7 +43,6 @@ public class MavenProjectProvider extends ProjectProvider implements IHealth {
 
 	@Override
 	public IHealthMetadata checkHealth() {
-		// TODO Auto-generated method stub
 		return new IHealthMetadata() {
 
 			@Override
@@ -80,6 +79,16 @@ public class MavenProjectProvider extends ProjectProvider implements IHealth {
 			@Override
 			public boolean isAlive() {
 				return getUrl() != null;
+			}
+
+			@Override
+			public String getName() {
+				return getI18NDescription();
+			}
+
+			@Override
+			public Long getId() {
+				return 1L;
 			}
 
 		};

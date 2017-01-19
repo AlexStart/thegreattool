@@ -8,6 +8,10 @@ package com.sam.jcc.cloud.i;
  *
  */
 public interface IHealthMetadata {
+	
+	Long getId();
+	
+	String getName();
 
 	String getHost();
 	

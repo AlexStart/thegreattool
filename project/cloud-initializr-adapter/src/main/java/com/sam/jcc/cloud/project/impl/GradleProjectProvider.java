@@ -83,6 +83,16 @@ public class GradleProjectProvider extends ProjectProvider implements IHealth {
 				return getUrl() != null;
 			}
 
+			@Override
+			public String getName() {
+				return getI18NDescription();
+			}
+
+			@Override
+			public Long getId() {
+				return 2L;
+			}
+
 		};
 	}
 
