@@ -17,6 +17,7 @@ public class VCSProjectConverter implements Converter<IProjectMetadata, VCSProje
 	@Override
 	public VCSProjectDTO convert(IProjectMetadata source) {
 		VCSProjectDTO vcsProjectDTO = new VCSProjectDTO();
+		vcsProjectDTO.setId(source.getId());
 		vcsProjectDTO.setName(source.getName());
 		vcsProjectDTO.setHasSources(source.hasSources());
 		return vcsProjectDTO;

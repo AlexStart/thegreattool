@@ -26,6 +26,7 @@ import com.sam.jcc.cloud.project.ProjectProvider;
 @Component
 public class GradleProjectProvider extends ProjectProvider implements IHealth {
 
+	private static final long GRADLE_PROJECT_PROVIDER_ID = 2L;
 	private static final String GRADLE_PROJECT = "gradle-project";
 
 	@Autowired
@@ -90,10 +91,15 @@ public class GradleProjectProvider extends ProjectProvider implements IHealth {
 
 			@Override
 			public Long getId() {
-				return 2L;
+				return GRADLE_PROJECT_PROVIDER_ID;
 			}
 
 		};
+	}
+
+	@Override
+	public Long getId() {
+		return GRADLE_PROJECT_PROVIDER_ID;
 	}
 
 }

@@ -17,8 +17,15 @@ import com.sam.jcc.cloud.i.data.IDataMetadata;
 @Component
 public class MongoDataProvider extends NoSqlDataProvider {
 
+	private static final long MONGO_PROVIDER_ID = 7L;
+
 	public MongoDataProvider(List<IEventManager<IDataMetadata>> eventManagers) {
 		super(eventManagers);
+	}
+
+	@Override
+	public Long getId() {
+		return MONGO_PROVIDER_ID;
 	}
 
 }

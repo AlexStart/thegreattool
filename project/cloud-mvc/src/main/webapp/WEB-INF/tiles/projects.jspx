@@ -6,14 +6,14 @@
 
 	<jsp:output omit-xml-declaration="yes" />
 
-	<spring:message code="vcss" var="vcss" />
+	<spring:message code="projects" var="projects" />
 
 
 	<div style="max-width: 680px; width: auto; margin: auto;">
 
-		<h2>${vcss}</h2>
+		<h2>${projects}</h2>
 
-		<div class="dropdown">
+		<div class="dropdown projectProvidersDropDown">
 			<button class="btn btn-default dropdown-toggle" type="button"
 				id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
 				aria-expanded="true">
@@ -21,19 +21,18 @@
 			</button>
 			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
 				<c:forEach items="${models}" var="model">
-					<li><a href="#">${model.name}</a></li>
+					<li><a href="#">${model}</a></li>
 				</c:forEach>
 			</ul>
 			<label class="dropdown-label" style="margin-left: 10px"></label>
 		</div>
 
 		<crud />
-	
-		</div>	
-	
 
-	<!-- CUSTOM GALLERY COMPONENTS JS --> <script
-			src="https://code.angularjs.org/snapshot/angular.min.js">
+	</div>
+
+	<!-- CUSTOM GALLERY COMPONENTS JS -->
+	<script src="https://code.angularjs.org/snapshot/angular.min.js">
 	<!-- -->
 		
 	</script>
@@ -41,12 +40,12 @@
 	<!-- -->
 		
 	</script>
-	<script src="${context_path}/js/components/crud/crud2.js">
+	<script src="${context_path}/js/components/crud/crud3.js">
 	<!-- -->
 		
 	</script>
 	<script
-			src="http://cdnjs.cloudflare.com/ajax/libs/angular-loading-bar/0.9.0/loading-bar.min.js">
+		src="http://cdnjs.cloudflare.com/ajax/libs/angular-loading-bar/0.9.0/loading-bar.min.js">
 	<!-- -->
 		
 	</script>

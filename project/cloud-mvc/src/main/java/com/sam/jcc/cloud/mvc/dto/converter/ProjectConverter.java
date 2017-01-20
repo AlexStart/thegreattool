@@ -17,6 +17,7 @@ public class ProjectConverter implements Converter<IProjectMetadata, ProjectDTO>
 	@Override
 	public ProjectDTO convert(IProjectMetadata source) {
 		ProjectDTO projectDTO = new ProjectDTO();
+		projectDTO.setId(source.getId());
 		projectDTO.setName(source.getName());
 		projectDTO.setHasSources(source.hasSources());
 		return projectDTO;

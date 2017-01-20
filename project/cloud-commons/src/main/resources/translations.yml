@@ -73,6 +73,11 @@ state:
     metadata:
       ru: "Недоступно"
       en: "Disabled"
+project:
+  generate:
+    metadata:
+      ru: "Сгенерировать"
+      en: "Generate"      
 com:
   sam:
     jcc:
@@ -103,7 +108,12 @@ com:
               name:
                 metadata:
                   ru: "Название"
-                  en: "Name"                
+                  en: "Name"
+            ProjectDTO:
+              name:
+                metadata:
+                  ru: "Проекты с исходниками"
+                  en: "Projects with Sources"                
             VCSProjectDTO:
               name:
                 metadata:

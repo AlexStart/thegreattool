@@ -4,7 +4,9 @@
 package com.sam.jcc.cloud.rules.service.impl.provider;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -86,6 +88,11 @@ public class ProjectProviderService implements IService<IProjectMetadata> {
 						return appMetadata.getProjectName();
 					}
 
+					@Override
+					public Long getId() {
+						return appMetadata.getId();
+					}
+
 				};
 				projects.add(emptyMetadata);
 			}
@@ -116,6 +123,29 @@ public class ProjectProviderService implements IService<IProjectMetadata> {
 	public void findAndDelete(Map<String, String> props) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public Map<Long, String> getNames() {
+		projectProviders.sort(new Comparator<ProjectProvider>() {
+
+			@Override
+			public int compare(ProjectProvider p1, ProjectProvider p2) {
+				if (p1 != null && p2 != null && p1.getId() != null && p2.getId() != null) {
+					return p1.getId().compareTo(p2.getId());
+				}
+				return 0;
+			}
+			
+		});
+		
+		Map<Long, String> names = new LinkedHashMap<>();
+		for(ProjectProvider projectProvider : projectProviders) {
+			names.put(projectProvider.getId(), projectProvider.getI18NName());
+		}
+		return names;
+		
+		
 	}
 
 }

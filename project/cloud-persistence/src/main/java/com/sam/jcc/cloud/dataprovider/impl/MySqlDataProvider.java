@@ -17,7 +17,14 @@ import com.sam.jcc.cloud.i.data.IDataMetadata;
 @Component
 public class MySqlDataProvider extends SqlDataProvider {
 
+	private static final long MYSQL_PROVIDER_ID = 6L;
+
 	public MySqlDataProvider(List<IEventManager<IDataMetadata>> eventManagers) {
 		super(eventManagers);
+	}
+
+	@Override
+	public Long getId() {
+		return MYSQL_PROVIDER_ID;
 	}
 }

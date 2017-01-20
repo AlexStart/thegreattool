@@ -81,4 +81,10 @@ public class HealthProviderService implements IService<IHealthMetadata> {
 		return null;
 	}
 
+	@Override
+	public Map<Long, String> getNames() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

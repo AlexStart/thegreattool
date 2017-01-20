@@ -8,8 +8,18 @@ package com.sam.jcc.cloud.mvc.dto;
  *
  */
 public class ProjectDTO extends AppDTO {
+	
+	private Long providerId;
 
 	private boolean hasSources;
+	
+	public Long getProviderId() {
+		return providerId;
+	}
+
+	public void setProviderId(Long providerId) {
+		this.providerId = providerId;
+	}
 
 	public boolean isHasSources() {
 		return hasSources;
@@ -20,11 +30,11 @@ public class ProjectDTO extends AppDTO {
 	}
 
 	public boolean isDisabled() {
-		return !isHasSources();
+		return isHasSources();
 	}
 
 	public void setDisabled(boolean disabled) {
-		setHasSources(!disabled);
+		setHasSources(disabled);
 	}
 
 }

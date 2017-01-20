@@ -1,5 +1,16 @@
 package com.sam.jcc.cloud.ci.impl;
 
+import static com.sam.jcc.cloud.ci.CIProjectStatus.CREATED;
+import static com.sam.jcc.cloud.ci.CIProjectStatus.DELETED;
+import static com.sam.jcc.cloud.ci.CIProjectStatus.HAS_BUILD;
+import static com.sam.jcc.cloud.ci.CIProjectStatus.HAS_NO_BUILD;
+import static com.sam.jcc.cloud.ci.CIProjectStatus.UPDATED;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.sam.jcc.cloud.ci.CIProject;
 import com.sam.jcc.cloud.ci.CIProjectStatus;
 import com.sam.jcc.cloud.ci.exception.CIBuildNotFoundException;
@@ -9,19 +20,10 @@ import com.sam.jcc.cloud.i.ci.ICIMetadata;
 import com.sam.jcc.cloud.i.ci.ICIProvider;
 import com.sam.jcc.cloud.provider.AbstractProvider;
 import com.sam.jcc.cloud.provider.UnsupportedTypeException;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.util.List;
-
-import static com.sam.jcc.cloud.ci.CIProjectStatus.CREATED;
-import static com.sam.jcc.cloud.ci.CIProjectStatus.DELETED;
-import static com.sam.jcc.cloud.ci.CIProjectStatus.HAS_BUILD;
-import static com.sam.jcc.cloud.ci.CIProjectStatus.HAS_NO_BUILD;
-import static com.sam.jcc.cloud.ci.CIProjectStatus.UPDATED;
 
 /**
  * @author Alexey Zhytnik
@@ -30,7 +32,8 @@ import static com.sam.jcc.cloud.ci.CIProjectStatus.UPDATED;
 @Component
 public class JenkinsProvider extends AbstractProvider<ICIMetadata> implements ICIProvider {
 
-    @Setter
+    private static final long JENKINS_PROVIDER_ID = 5L;
+	@Setter
     @Autowired
     @Getter(AccessLevel.PACKAGE)
     private Jenkins jenkins;
@@ -128,4 +131,9 @@ public class JenkinsProvider extends AbstractProvider<ICIMetadata> implements IC
         }
         return (CIProject) metadata;
     }
+
+	@Override
+	public Long getId() {
+		return JENKINS_PROVIDER_ID;
+	}
 }

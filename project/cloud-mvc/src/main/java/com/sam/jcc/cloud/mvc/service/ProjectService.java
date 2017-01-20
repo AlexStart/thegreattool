@@ -41,4 +41,17 @@ public class ProjectService extends BaseService<ProjectDTO> {
 		return projects;
 	}
 
+	public List<String> getProjectProvidersNames() {
+		List<String> names = new ArrayList<>();
+		for (IService<IProjectMetadata> providerService : projectProviderServices) {
+			names.addAll(providerService.getNames().values());
+		}
+		return names;
+	}
+
+	public ProjectDTO update(ProjectDTO projectDTO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

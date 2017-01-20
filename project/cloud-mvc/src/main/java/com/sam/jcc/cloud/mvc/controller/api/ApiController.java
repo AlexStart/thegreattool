@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import com.sam.jcc.cloud.mvc.controller.api.exception.ValidationCloudException;
 import com.sam.jcc.cloud.mvc.dto.AppDTO;
+import com.sam.jcc.cloud.mvc.dto.ProjectDTO;
 import com.sam.jcc.cloud.mvc.service.AppService;
+import com.sam.jcc.cloud.mvc.service.ProjectService;
 import com.sam.jcc.cloud.rules.service.IService;
 
 /**
@@ -29,6 +31,9 @@ public class ApiController {
 
 	@Autowired
 	private AppService appService;
+	
+	@Autowired
+	private ProjectService projectService;	
 
 	@Autowired
 	private IService<IProjectMetadata> projectProviderService;
@@ -66,5 +71,13 @@ public class ApiController {
 	public @ResponseBody List<? super IProjectMetadata> findAllProjects() {
 		return projectProviderService.findAll();
 	}
+	
+	@RequestMapping(value = "projects", method = RequestMethod.PUT)
+	public @ResponseBody ProjectDTO generateProject(@RequestBody ProjectDTO projectDTO) {
+		if (projectDTO == null) {
+			throw new ValidationCloudException();
+		}
+		return projectService.update(projectDTO);
+	}	
 
 }

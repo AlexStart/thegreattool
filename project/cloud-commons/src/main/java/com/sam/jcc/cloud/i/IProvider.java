@@ -8,6 +8,8 @@ package com.sam.jcc.cloud.i;
  * 
  */
 public interface IProvider<T> {
+	
+	Long getId();
 
 	String getI18NName();
 

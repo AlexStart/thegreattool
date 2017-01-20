@@ -137,3 +137,10 @@ body {
 .row {
   cursor: pointer;
 }
+
+.selectedrow {
+    background-image: linear-gradient(to bottom, #5bc0de 0px, #2aabd2 100%);
+    background-repeat: repeat-x;
+    border-color: #28a4c9;
+    color: white;
+}

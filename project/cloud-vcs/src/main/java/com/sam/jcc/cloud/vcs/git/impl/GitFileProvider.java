@@ -1,13 +1,14 @@
 package com.sam.jcc.cloud.vcs.git.impl;
 
+import java.util.List;
+
+import org.springframework.stereotype.Component;
+
 import com.sam.jcc.cloud.i.IEventManager;
 import com.sam.jcc.cloud.i.vcs.IVCSMetadata;
 import com.sam.jcc.cloud.vcs.VCSProvider;
 import com.sam.jcc.cloud.vcs.git.GitAbstractStorage;
 import com.sam.jcc.cloud.vcs.git.GitFileStorage;
-import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * @author olegk
@@ -15,7 +16,9 @@ import java.util.List;
 @Component
 public class GitFileProvider extends VCSProvider {
 
-    public GitFileProvider(List<IEventManager<IVCSMetadata>> eventManagers) {
+    private static final long GIT_FILE_PROVIDER_ID = 3L;
+
+	public GitFileProvider(List<IEventManager<IVCSMetadata>> eventManagers) {
         super(eventManagers);
     }
 
@@ -28,4 +31,9 @@ public class GitFileProvider extends VCSProvider {
     public boolean isEnabled() {
         return true;
     }
+
+	@Override
+	public Long getId() {
+		return GIT_FILE_PROVIDER_ID;
+	}
 }
