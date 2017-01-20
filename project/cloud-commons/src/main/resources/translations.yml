@@ -104,3 +104,9 @@ com:
                 metadata:
                   ru: "Название"
                   en: "Name"                
+            VCSProjectDTO:
+              name:
+                metadata:
+                  ru: "Проекты в репозиториях"
+                  en: "Repository Projects"                
+                  

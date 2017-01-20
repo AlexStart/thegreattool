@@ -9,4 +9,7 @@ package com.sam.jcc.cloud.i.project;
  */
 public interface IProjectMetadata {
 
+	boolean hasSources();
+
+	String getName();
 }
