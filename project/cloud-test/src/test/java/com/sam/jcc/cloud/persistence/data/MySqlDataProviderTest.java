@@ -5,7 +5,6 @@ import com.sam.jcc.cloud.dataprovider.ProjectSourcesNotFound;
 import com.sam.jcc.cloud.dataprovider.impl.MySqlDatabaseManager;
 import com.sam.jcc.cloud.dataprovider.impl.MySqlDataProvider;
 import com.sam.jcc.cloud.exception.InternalCloudException;
-import com.sam.jcc.cloud.persistence.exception.EntityNotFoundException;
 import com.sam.jcc.cloud.provider.UnsupportedCallException;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import org.junit.After;

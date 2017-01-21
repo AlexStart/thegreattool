@@ -1,4 +1,4 @@
-package com.sam.jcc.cloud.persistence.exception;
+package com.sam.jcc.cloud.persistence.data;
 
 import com.sam.jcc.cloud.exception.InternalCloudException;
 

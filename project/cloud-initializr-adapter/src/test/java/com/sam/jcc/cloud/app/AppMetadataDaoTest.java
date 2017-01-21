@@ -1,8 +1,7 @@
 package com.sam.jcc.cloud.app;
 
 import com.sam.jcc.cloud.i.app.IAppMetadata;
-import com.sam.jcc.cloud.persistence.exception.EntityNotFoundException;
-import com.sam.jcc.cloud.provider.UnsupportedCallException;
+import com.sam.jcc.cloud.persistence.data.EntityNotFoundException;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 /**
  * @author Alexey Zhytnik
@@ -61,8 +61,9 @@ public class AppMetadataDaoTest {
         assertThat(appMetadataDao.findAll()).isEmpty();
     }
 
-    @Test(expected = UnsupportedCallException.class)
-    public void failsOnUpdate() {
+    @Test
+    public void updates() {
+        appMetadataDao.create(app);
         appMetadataDao.update(app);
     }
 

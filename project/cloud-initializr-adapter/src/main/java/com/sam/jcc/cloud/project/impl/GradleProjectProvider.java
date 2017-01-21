@@ -26,11 +26,9 @@ import com.sam.jcc.cloud.project.ProjectProvider;
 @Component
 public class GradleProjectProvider extends ProjectProvider implements IHealth {
 
-	private static final String GRADLE_PROJECT = "gradle-project";
-
 	@Autowired
 	public GradleProjectProvider(List<IEventManager<IProjectMetadata>> eventManagers) {
-		super(eventManagers, GRADLE_PROJECT);
+		super(eventManagers);
 	}
 
 	@Override
@@ -40,7 +38,7 @@ public class GradleProjectProvider extends ProjectProvider implements IHealth {
 
 		final ProjectMetadata m = (ProjectMetadata) metadata;
 		final String name = m.getProjectType();
-		return name != null && name.equals(GRADLE_PROJECT);
+		return name != null && name.equals("gradle-project");
 	}
 
 	@Override

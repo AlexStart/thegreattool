@@ -4,8 +4,7 @@ import com.sam.jcc.cloud.crud.ICRUD;
 import com.sam.jcc.cloud.i.app.IAppMetadata;
 import com.sam.jcc.cloud.persistence.data.ProjectData;
 import com.sam.jcc.cloud.persistence.data.ProjectDataRepository;
-import com.sam.jcc.cloud.persistence.exception.EntityNotFoundException;
-import com.sam.jcc.cloud.provider.UnsupportedCallException;
+import com.sam.jcc.cloud.persistence.data.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -35,20 +34,27 @@ class AppMetadataDao implements ICRUD<IAppMetadata> {
 
     @Override
     public IAppMetadata read(IAppMetadata m) {
-        final String name = asAppMetadata(m).getProjectName();
-        final Optional<ProjectData> entity = repository.findByName(name);
-        return convert(entity.orElseThrow(() -> new EntityNotFoundException(m)));
+        return convert(getOrThrow(m));
     }
 
     @Override
     public IAppMetadata update(IAppMetadata m) {
-        throw new UnsupportedCallException();
+        getOrThrow(m);
+        repository.save(convert(asAppMetadata(m)));
+        return m;
     }
 
     @Override
     public void delete(IAppMetadata m) {
-        final ProjectData entity = convert(asAppMetadata(m));
-        repository.delete(entity);
+        repository.delete(getOrThrow(m));
+    }
+
+    private ProjectData getOrThrow(IAppMetadata metadata) {
+        final String name = asAppMetadata(metadata).getProjectName();
+        final Optional<ProjectData> entity = repository.findByName(name);
+        return entity.orElseThrow(
+                () -> new EntityNotFoundException(metadata)
+        );
     }
 
     @Override
@@ -65,6 +71,7 @@ class AppMetadataDao implements ICRUD<IAppMetadata> {
 
     private AppMetadata convert(ProjectData entity) {
         final AppMetadata app = new AppMetadata();
+
         app.setId(entity.getId());
         app.setProjectName(entity.getName());
         app.setSources(entity.getSources());
@@ -73,6 +80,7 @@ class AppMetadataDao implements ICRUD<IAppMetadata> {
 
     private ProjectData convert(AppMetadata app) {
         final ProjectData data = new ProjectData();
+
         data.setId(app.getId());
         data.setName(app.getProjectName());
         return data;

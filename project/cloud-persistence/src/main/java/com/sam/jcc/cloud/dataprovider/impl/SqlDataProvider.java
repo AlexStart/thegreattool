@@ -9,7 +9,7 @@ import com.sam.jcc.cloud.i.data.IDataMetadata;
 import com.sam.jcc.cloud.i.data.ISqlDataProvider;
 import com.sam.jcc.cloud.persistence.data.ProjectData;
 import com.sam.jcc.cloud.persistence.data.ProjectDataRepository;
-import com.sam.jcc.cloud.persistence.exception.EntityNotFoundException;
+import com.sam.jcc.cloud.persistence.data.EntityNotFoundException;
 import com.sam.jcc.cloud.provider.AbstractProvider;
 import com.sam.jcc.cloud.provider.UnsupportedCallException;
 import org.springframework.beans.factory.annotation.Autowired;

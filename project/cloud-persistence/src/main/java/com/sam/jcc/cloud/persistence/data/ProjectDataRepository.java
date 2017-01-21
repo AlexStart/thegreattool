@@ -4,6 +4,7 @@ import com.sam.jcc.cloud.i.Experimental;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -13,6 +14,8 @@ import java.util.Optional;
 @Repository
 @Experimental("Repository for all projects of the app")
 public interface ProjectDataRepository extends CrudRepository<ProjectData, Long> {
+
+    List<ProjectData> findBySourcesNotNull();
 
     Optional<ProjectData> findByName(String name);
 }

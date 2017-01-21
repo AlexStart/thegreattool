@@ -9,8 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 /**
  * @author Alexey Zhytnik
@@ -20,13 +18,13 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @ToString(exclude = "sources")
 @Experimental("Entity of all project data")
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = "name"))
 public class ProjectData {
 
     @Id
     @GeneratedValue
     private Long id;
 
+    @Column(name = "name", unique = true, nullable = false)
     private String name;
 
     private String ci;
