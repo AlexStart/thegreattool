@@ -3,7 +3,9 @@ package com.sam.jcc.cloud.providers;
 import com.sam.jcc.cloud.app.AppMetadata;
 import com.sam.jcc.cloud.app.AppProvider;
 import com.sam.jcc.cloud.i.app.IAppMetadata;
+import com.sam.jcc.cloud.provider.UnsupportedCallException;
 import com.sam.jcc.cloud.utils.project.ArtifactIdValidator.AppMetadataValidationException;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,6 +34,13 @@ public class AppProviderTest {
         project.setProjectName("Test-Project");
     }
 
+    @After
+    public void tearDown(){
+        appProvider
+                .findAll()
+                .forEach(appProvider::delete);
+    }
+
     @Test
     public void integrationTest() {
         assertThat(appProvider.findAll()).isEmpty();
@@ -41,13 +50,14 @@ public class AppProviderTest {
         project = appProvider.read(project);
         assertThat(project.getProjectName()).isEqualTo("test-project");
 
-        project.setProjectName("updated");
-        project = appProvider.update(project);
-
-        assertThat(appProvider.read(project).getProjectName()).isEqualTo("updated");
-
         appProvider.delete(project);
         assertThat(appProvider.findAll()).isEmpty();
+    }
+
+    @Test(expected = UnsupportedCallException.class)
+    public void failsOnUpdate(){
+        appProvider.create(project);
+        appProvider.update(project);
     }
 
     @Test(expected = AppMetadataValidationException.class)
