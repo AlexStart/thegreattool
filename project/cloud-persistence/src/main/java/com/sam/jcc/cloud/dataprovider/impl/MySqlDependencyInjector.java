@@ -88,7 +88,8 @@ class MySqlDependencyInjector {
                 of(
                         jpa("url", getProperty("db.mysql.url") + data.getAppName()),
                         jpa("username", getProperty("db.mysql.user")),
-                        jpa("password", getProperty("db.mysql.password"))
+                        jpa("password", getProperty("db.mysql.password")),
+                        "spring.jpa.hibernate.ddl-auto=update"
                 ));
     }
 

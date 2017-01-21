@@ -1,5 +1,7 @@
 package com.sam.jcc.cloud.providers;
 
+import com.sam.jcc.cloud.app.AppMetadata;
+import com.sam.jcc.cloud.app.AppProvider;
 import com.sam.jcc.cloud.ci.CIProject;
 import com.sam.jcc.cloud.ci.impl.JenkinsProvider;
 import com.sam.jcc.cloud.dataprovider.AppData;
@@ -18,7 +20,7 @@ import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
 import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.git.GitAbstractStorage;
 import com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider;
-import org.bouncycastle.crypto.RuntimeCryptoException;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,7 +32,6 @@ import java.io.File;
 import java.io.IOException;
 
 import static java.util.Collections.singletonList;
-import static java.util.Objects.nonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -40,6 +41,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class ProvidersIntegrationTest extends TestEnvironment {
+
+    static final String PROJECT_ARTIFACT_ID = "iproject";
+    static final String PROJECT_GROUP_ID = "com.samsolutions";
+
+    @Autowired
+    AppProvider apps;
 
     @Autowired
     JenkinsProvider jenkins;
@@ -53,132 +60,152 @@ public class ProvidersIntegrationTest extends TestEnvironment {
     @Autowired
     MavenProjectProvider mavenGenerator;
 
-    AppData app;
+    AppMetadata app;
+
+    AppData data;
     CIProject job;
     ProjectMetadata metadata;
     VCSRepository repository;
 
     @Before
     public void setUp() throws IOException {
-        metadata = mavenMetadata();
-
-        app = app();
-        mySqlManager.drop(app);
-
-        repository = repository();
         job = job();
+        app = app();
+        data = data();
+        metadata = mavenProject();
+        repository = repository();
 
         jenkins.setJenkins(TestEnvironment.jenkins);
         setGitFolder(TestEnvironment.daemon.getStorage());
     }
 
-    @Test
-    public void generatesAndInjectsMySqlAndBuildsOnJenkins() throws Exception {
-        byte[] sources = readSources(mavenGenerator.create(metadata));
-        assertThat(sources).isNotEmpty();
+    @After
+    public void tearDown(){
+        mySqlManager.drop(data);
+    }
 
-        saveSourcesTo(sources, job, repository);
+    @Test
+    public void createsAndGeneratesAndInjectsMySqlAndBuildsOnJenkins() throws Exception {
+        apps.create(app);
+
+        final byte[] sources = readSources(mavenGenerator.create(metadata));
+        assertThat(sources).isNotEmpty();
+        apps.update(app);
+
+        copySourcesTo(sources, job, data, repository);
         git.create(repository);
 
         jenkins.create(job);
         waitWhileProcessing(job);
-        assertThat(hasBuild(jenkins.read(job))).isTrue();
+        final byte[] build_1 = getBuild(jenkins.read(job));
+        assertThat(build_1).isNotEmpty();
 
+        mySqlInjector.update(data);
+        assertThat(data.getSources()).isNotEqualTo(sources);
 
-        mySqlInjector.update(app);
-        updateSources(repository, app);
+        copySourcesTo(data, repository);
         git.update(repository);
 
-        removeSources(repository);
-        readSourcesTo(git.read(repository), job, app);
+        clearLocalSources(repository);
+        readSourcesTo(git.read(repository), job, data);
 
         jenkins.update(job);
         waitWhileProcessing(job);
-        assertThat(hasBuild(jenkins.read(job))).isTrue();
-
+        final byte[] build_2 = getBuild(jenkins.read(job));
+        assertThat(build_2).isNotEqualTo(build_1);
 
         deleteQuietly(job);
-
-        daemon.disableExport(repository);
-        git.delete(repository);
+        disableGitSupport(repository);
+        apps.delete(app);
     }
 
-    ProjectMetadata mavenMetadata() {
+    AppMetadata app() {
+        final AppMetadata app = new AppMetadata();
+        app.setProjectName(PROJECT_ARTIFACT_ID);
+
+        applyFix();
+        return app;
+    }
+
+    ProjectMetadata mavenProject() {
         final ProjectMetadata metadata = new ProjectMetadata();
 
         metadata.setJavaVersion("1.8");
-        metadata.setArtifactId("iproject");
-        metadata.setGroupId("com.sam.jcc.cloud");
+        metadata.setGroupId(PROJECT_GROUP_ID);
+        metadata.setArtifactId(PROJECT_ARTIFACT_ID);
         metadata.setProjectType("maven-project");
         metadata.setBootVersion("1.4.3.RELEASE");
 
-        metadata.setBasePackage("com.sam.jcc.cloud.iproject");
+        metadata.setBasePackage(PROJECT_GROUP_ID + "." + PROJECT_ARTIFACT_ID);
         metadata.setDependencies(singletonList("web"));
 
         metadata.setProjectName("iProject");
         metadata.setVersion("0.0.1-SNAPSHOT");
         metadata.setWebAppPackaging(false);
         metadata.setDescription("Project for integration test");
-
         return metadata;
     }
 
-    AppData app() {
-        final AppData app = new AppData();
-        app.setAppName(metadata.getArtifactId());
-
-        applyFix();
-        return app;
+    AppData data() {
+        final AppData data = new AppData();
+        data.setAppName(PROJECT_ARTIFACT_ID);
+        return data;
     }
 
     VCSRepository repository() {
         final VCSRepository repo = new VCSRepository();
 
-        repo.setName(metadata.getArtifactId());
-        repo.setGroupId(metadata.getGroupId());
-        repo.setArtifactId(metadata.getArtifactId());
+        repo.setName(PROJECT_ARTIFACT_ID);
+        repo.setGroupId(PROJECT_GROUP_ID);
+        repo.setArtifactId(PROJECT_ARTIFACT_ID);
         return repo;
     }
 
     CIProject job() {
         final CIProject job = new CIProject();
 
-        job.setArtifactId(metadata.getArtifactId());
-        job.setGroupId(metadata.getGroupId());
+        job.setArtifactId(PROJECT_ARTIFACT_ID);
+        job.setGroupId(PROJECT_GROUP_ID);
         return job;
     }
 
     /* TEST INFRASTRUCTURE */
 
+    @Autowired
+    FileManager files;
+
+    @Autowired
+    ZipArchiveManager zipManager;
+
+    @Autowired
+    MySqlDatabaseManager mySqlManager;
+
+    void setGitFolder(File dir) {
+        ((GitAbstractStorage) git.getGit().getStorage()).setBaseRepository(dir);
+    }
+
     byte[] readSources(IProjectMetadata metadata) {
         return ((ProjectMetadata) metadata).getProjectSources();
     }
 
-    void saveSourcesTo(byte[] sources, CIProject job, VCSRepository repo) throws IOException {
+    void copySourcesTo(byte[] sources, CIProject job, AppData data, VCSRepository repo) throws IOException {
         final File zip = temp.newFile(), dir = temp.newFolder();
 
         files.write(sources, zip);
         zipManager.unzip(zip, dir);
 
-        repo.setSources(dir);
         job.setSources(dir);
+        repo.setSources(dir);
+        data.setSources(sources);
 
         applyFix(sources);
     }
 
-    void removeSources(VCSRepository repo) throws IOException {
+    void clearLocalSources(VCSRepository repo) throws IOException {
         repo.setSources(temp.newFolder());
     }
 
-    void updateSources(VCSRepository repo, AppData data) throws IOException {
-        final File zip = temp.newFile(), dir = temp.newFolder();
-
-        files.write(data.getSources(), zip);
-        zipManager.unzip(zip, dir);
-        repo.setSources(dir);
-    }
-
-    void readSourcesTo(IVCSMetadata metadata, CIProject job, AppData data){
+    void readSourcesTo(IVCSMetadata metadata, CIProject job, AppData data) {
         final VCSRepository repo = (VCSRepository) metadata;
 
         final byte[] gitSources = zipManager.zip(repo.getSources());
@@ -187,21 +214,23 @@ public class ProvidersIntegrationTest extends TestEnvironment {
         job.setSources(repo.getSources());
     }
 
-    boolean hasBuild(ICIMetadata metadata){
+    void copySourcesTo(AppData data, VCSRepository repo) throws IOException {
+        final File zip = temp.newFile(), dir = temp.newFolder();
+
+        files.write(data.getSources(), zip);
+        zipManager.unzip(zip, dir);
+        repo.setSources(dir);
+    }
+
+    byte[] getBuild(ICIMetadata metadata) {
         final CIProject job = (CIProject) jenkins.read(metadata);
-        return nonNull(job.getBuild());
+        return job.getBuild();
     }
 
-    void setGitFolder(File dir){
-        ((GitAbstractStorage) git.getGit().getStorage()).setBaseRepository(dir);
+    private void disableGitSupport(VCSRepository repo) throws IOException {
+        daemon.disableExport(repo);
+        git.delete(repo);
     }
-
-    @Autowired
-    FileManager files;
-    @Autowired
-    ZipArchiveManager zipManager;
-    @Autowired
-    MySqlDatabaseManager mySqlManager;
 
     /* TEMP PART */
     //TODO: remove after support of common-data
@@ -211,15 +240,16 @@ public class ProvidersIntegrationTest extends TestEnvironment {
 
     void applyFix() {
         final ProjectData data = new ProjectData();
-        data.setSources(metadata.getProjectSources());
-        data.setName(metadata.getArtifactId());
+        data.setSources(new byte[0]);
+        data.setName(PROJECT_ARTIFACT_ID);
+
         dataRepository.save(data);
     }
 
-    void applyFix(byte[] sources){
+    void applyFix(byte[] sources) {
         final ProjectData data = dataRepository
                 .findByName(metadata.getArtifactId())
-                .orElseThrow(RuntimeCryptoException::new);
+                .orElseThrow(RuntimeException::new);
 
         data.setSources(sources);
 

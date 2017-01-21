@@ -202,8 +202,8 @@ public class Jenkins implements CIServer {
     public static JenkinsServer defaultJenkinsServer() {
         return new JenkinsServer(
                 URI.create(getProperty("ci.jenkins.host")),
-                getProperty("ci.user"),
-                getProperty("ci.password")
+                getProperty("ci.jenkins.user"),
+                getProperty("ci.jenkins.password")
         );
     }
 }

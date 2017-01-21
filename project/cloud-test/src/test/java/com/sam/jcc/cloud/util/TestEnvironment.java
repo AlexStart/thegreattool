@@ -54,7 +54,7 @@ public abstract class TestEnvironment {
     }
 
     @AfterClass
-    public static void tearDown(){
+    public static void shutDownGitDaemon(){
         daemon.shutDown();
     }
 
