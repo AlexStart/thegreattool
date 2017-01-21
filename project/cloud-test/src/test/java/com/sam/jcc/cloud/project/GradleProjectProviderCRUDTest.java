@@ -3,6 +3,7 @@ package com.sam.jcc.cloud.project;
 import com.sam.jcc.cloud.project.impl.GradleProjectProvider;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Alexey Zhytnik
  * @since 22.11.2016
  */
+@Ignore("not actual, need refactoring")
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class GradleProjectProviderCRUDTest {
