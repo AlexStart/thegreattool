@@ -75,13 +75,16 @@ public class ProvidersIntegrationTest extends TestEnvironment {
         metadata = mavenProject();
         repository = repository();
 
+        mySqlManager.drop(data);
+
         jenkins.setJenkins(TestEnvironment.jenkins);
         setGitFolder(TestEnvironment.daemon.getStorage());
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         mySqlManager.drop(data);
+        deleteFix();
     }
 
     @Test
@@ -254,5 +257,13 @@ public class ProvidersIntegrationTest extends TestEnvironment {
         data.setSources(sources);
 
         dataRepository.save(data);
+    }
+
+    void deleteFix(){
+        final ProjectData data = dataRepository
+                .findByName(metadata.getArtifactId())
+                .orElseThrow(RuntimeException::new);
+
+        dataRepository.delete(data);
     }
 }
