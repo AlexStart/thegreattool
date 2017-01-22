@@ -51,6 +51,8 @@ public abstract class TestEnvironment {
 
         daemon = new GitDaemon();
         daemon.startUp(temp.newFolder());
+
+        sleep(1_000L /* timeout for starting & initializing of a Git-daemon Thread*/);
     }
 
     @AfterClass
@@ -74,7 +76,7 @@ public abstract class TestEnvironment {
         }
         log.info("{} finished", project);
 
-        sleep(2_000L);
+        sleep(1_000L /* timeout for Jenkins stabilization */);
     }
 
     /**
