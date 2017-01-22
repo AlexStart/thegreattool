@@ -55,9 +55,7 @@ public class AppProvider extends AbstractProvider<IAppMetadata> implements IAppP
 
     @Override
     public IAppMetadata process(IAppMetadata m) {
-        final IAppMetadata created = dao.create(asAppMetadata(m));
-        updateStatus(m, AppMetadataStatus.CREATED);
-        return created;
+        return dao.create(asAppMetadata(m));
     }
 
     @Override
@@ -83,11 +81,6 @@ public class AppProvider extends AbstractProvider<IAppMetadata> implements IAppP
     @Override
     public List<IAppMetadata> findAll() {
         return dao.findAll();
-    }
-
-    private void updateStatus(IAppMetadata app, AppMetadataStatus status) {
-        asAppMetadata(app).setStatus(status);
-        notify(app);
     }
 
     private AppMetadata asAppMetadata(IAppMetadata metadata) {
