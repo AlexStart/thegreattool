@@ -27,7 +27,9 @@ public class ProjectData {
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
+    @Column(name = "ci", unique = true)
     private String ci;
+
     private String vcs;
     private Boolean dataSupport = false;
 

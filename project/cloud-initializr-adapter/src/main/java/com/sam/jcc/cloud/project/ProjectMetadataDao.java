@@ -17,30 +17,30 @@ import static java.util.stream.Collectors.toList;
  * @since 23.11.2016
  */
 @Component
-public class ProjectMetadataDao implements ICRUD<IProjectMetadata> {
+class ProjectMetadataDao implements ICRUD<ProjectMetadata> {
 
     @Autowired
     private ProjectDataRepository repository;
 
     @Override
-    public IProjectMetadata create(IProjectMetadata m) {
+    public ProjectMetadata create(ProjectMetadata m) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public IProjectMetadata read(IProjectMetadata m) {
+    public ProjectMetadata read(ProjectMetadata m) {
         return convert(getOrThrow(m));
     }
 
     @Override
-    public IProjectMetadata update(IProjectMetadata m) {
+    public ProjectMetadata update(ProjectMetadata m) {
         getOrThrow(m);
-        repository.save(convert(asMetadata(m)));
+        repository.save(convert(m));
         return m;
     }
 
     @Override
-    public void delete(IProjectMetadata m) {
+    public void delete(ProjectMetadata m) {
         repository.delete(getOrThrow(m));
     }
 
@@ -52,16 +52,12 @@ public class ProjectMetadataDao implements ICRUD<IProjectMetadata> {
                 .collect(toList());
     }
 
-    private ProjectData getOrThrow(IProjectMetadata metadata) {
-        final String name = asMetadata(metadata).getProjectName();
+    private ProjectData getOrThrow(ProjectMetadata metadata) {
+        final String name = metadata.getProjectName();
         final Optional<ProjectData> entity = repository.findByName(name);
         return entity.orElseThrow(
                 () -> new ProjectNotFoundException(metadata)
         );
-    }
-
-    private ProjectMetadata asMetadata(IProjectMetadata metadata) {
-        return (ProjectMetadata) metadata;
     }
 
     private ProjectMetadata convert(ProjectData data) {

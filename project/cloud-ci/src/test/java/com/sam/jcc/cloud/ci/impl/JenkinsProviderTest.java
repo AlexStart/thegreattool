@@ -18,6 +18,7 @@ import static java.lang.Thread.sleep;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
@@ -34,6 +35,7 @@ public class JenkinsProviderTest extends JenkinsBaseTest {
     public void setUp() throws Exception {
         provider = new JenkinsProvider(singletonList(new DefaultLoggingEventManager<>()));
         provider.setJenkins(jenkins);
+        provider.setDao(mock(CIProjectDao.class));
 
         project = loadProject("maven", temp.newFolder());
     }

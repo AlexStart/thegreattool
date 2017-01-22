@@ -2,9 +2,9 @@ package com.sam.jcc.cloud.app;
 
 import com.sam.jcc.cloud.crud.ICRUD;
 import com.sam.jcc.cloud.i.app.IAppMetadata;
+import com.sam.jcc.cloud.persistence.data.EntityNotFoundException;
 import com.sam.jcc.cloud.persistence.data.ProjectData;
 import com.sam.jcc.cloud.persistence.data.ProjectDataRepository;
-import com.sam.jcc.cloud.persistence.data.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,38 +19,38 @@ import static java.util.stream.Collectors.toList;
  * @since 09.01.2017
  */
 @Component
-class AppMetadataDao implements ICRUD<IAppMetadata> {
+class AppMetadataDao implements ICRUD<AppMetadata> {
 
     @Autowired
     private ProjectDataRepository repository;
 
     @Override
-    public IAppMetadata create(IAppMetadata m) {
-        final ProjectData entity = convert(asAppMetadata(m));
+    public AppMetadata create(AppMetadata m) {
+        final ProjectData entity = convert(m);
         repository.save(entity);
         m.setId(entity.getId());
         return m;
     }
 
     @Override
-    public IAppMetadata read(IAppMetadata m) {
+    public AppMetadata read(AppMetadata m) {
         return convert(getOrThrow(m));
     }
 
     @Override
-    public IAppMetadata update(IAppMetadata m) {
+    public AppMetadata update(AppMetadata m) {
         getOrThrow(m);
-        repository.save(convert(asAppMetadata(m)));
+        repository.save(convert(m));
         return m;
     }
 
     @Override
-    public void delete(IAppMetadata m) {
+    public void delete(AppMetadata m) {
         repository.delete(getOrThrow(m));
     }
 
-    private ProjectData getOrThrow(IAppMetadata metadata) {
-        final String name = asAppMetadata(metadata).getProjectName();
+    private ProjectData getOrThrow(AppMetadata metadata) {
+        final String name = metadata.getProjectName();
         final Optional<ProjectData> entity = repository.findByName(name);
         return entity.orElseThrow(
                 () -> new EntityNotFoundException(metadata)
@@ -63,10 +63,6 @@ class AppMetadataDao implements ICRUD<IAppMetadata> {
                 .stream()
                 .map(this::convert)
                 .collect(toList());
-    }
-
-    private AppMetadata asAppMetadata(IAppMetadata metadata) {
-        return (AppMetadata) metadata;
     }
 
     private AppMetadata convert(ProjectData entity) {

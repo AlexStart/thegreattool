@@ -31,6 +31,11 @@ public class CIProject implements ICIMetadata, IStatusable {
         return CI_PREFIX + artifactId;
     }
 
+    //TODO: temp
+    public void setName(String name) {
+        this.artifactId = name;
+    }
+
     @Override
     public String toString() {
         return toStringHelper(getClass())

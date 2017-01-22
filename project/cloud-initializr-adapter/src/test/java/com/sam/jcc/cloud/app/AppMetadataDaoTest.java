@@ -30,6 +30,8 @@ public class AppMetadataDaoTest {
     public void tearDown() {
         appMetadataDao
                 .findAll()
+                .stream()
+                .map(this::asApp)
                 .forEach(appMetadataDao::delete);
     }
 

@@ -15,7 +15,11 @@ import java.util.Optional;
 @Experimental("Repository for all projects of the app")
 public interface ProjectDataRepository extends CrudRepository<ProjectData, Long> {
 
+    List<ProjectData> findByCiTrue();
+
     List<ProjectData> findBySourcesNotNull();
+
+    Optional<ProjectData> findByCi(String ci);
 
     Optional<ProjectData> findByName(String name);
 }

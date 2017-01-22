@@ -24,6 +24,11 @@
             <artifactId>cloud-utils</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.sam.jcc</groupId>
+            <artifactId>cloud-persistence</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.offbytwo.jenkins</groupId>
