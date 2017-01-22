@@ -96,7 +96,7 @@ public class ProvidersIntegrationTest extends TestEnvironment {
         final byte[] sources = readSources(mavenGenerator.create(metadata));
         assertThat(sources).isNotEmpty();
 
-        copySourcesTo(job, data, repository);
+        loadAndCopySourcesTo(job, data, repository);
         git.create(repository);
 
         jenkins.create(job);
@@ -107,11 +107,11 @@ public class ProvidersIntegrationTest extends TestEnvironment {
         mySqlInjector.update(data);
         assertThat(data.getSources()).isNotEqualTo(sources);
 
-        copySourcesTo(repository);
+        loadAndCopySourcesTo(repository);
         git.update(repository);
 
         clearLocalSources(repository);
-        readSourcesTo(git.read(repository), job, data);
+        copySourcesTo(git.read(repository), job, data);
 
         jenkins.update(job);
         waitWhileProcessing(job);
@@ -187,7 +187,7 @@ public class ProvidersIntegrationTest extends TestEnvironment {
         return ((ProjectMetadata) metadata).getProjectSources();
     }
 
-    void copySourcesTo(CIProject job, AppData data, VCSRepository repo) throws IOException {
+    void loadAndCopySourcesTo(CIProject job, AppData data, VCSRepository repo) throws IOException {
         final byte[] sources = loadProjectSources();
         final File zip = temp.newFile(), dir = temp.newFolder();
 
@@ -203,16 +203,17 @@ public class ProvidersIntegrationTest extends TestEnvironment {
         repo.setSources(temp.newFolder());
     }
 
-    void readSourcesTo(IVCSMetadata metadata, CIProject job, AppData data) {
+    void copySourcesTo(IVCSMetadata metadata, CIProject job, AppData data) {
         final VCSRepository repo = (VCSRepository) metadata;
 
-        final byte[] gitSources = zipManager.zip(repo.getSources());
-        data.setSources(gitSources);
+        final File dir = repo.getSources();
+        job.setSources(dir);
 
-        job.setSources(repo.getSources());
+        final byte[] sources = zipManager.zip(dir);
+        data.setSources(sources);
     }
 
-    void copySourcesTo(VCSRepository repo) throws IOException {
+    void loadAndCopySourcesTo(VCSRepository repo) throws IOException {
         final File zip = temp.newFile(), dir = temp.newFolder();
 
         files.write(loadProjectSources(), zip);
