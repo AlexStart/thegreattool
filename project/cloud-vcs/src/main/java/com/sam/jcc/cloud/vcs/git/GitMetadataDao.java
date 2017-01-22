@@ -28,9 +28,9 @@ public class GitMetadataDao implements ICRUD<VCSRepository> {
 
     @Override
     public VCSRepository create(VCSRepository p) {
-        final ProjectData entity = getOrThrow(p);
-        entity.setVcs(p.getName());
-        repository.save(entity);
+        final ProjectData data = getOrThrow(p);
+        data.setVcs(p.getName());
+        repository.save(data);
         return p;
     }
 

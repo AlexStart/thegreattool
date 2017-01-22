@@ -34,8 +34,10 @@ class ProjectMetadataDao implements ICRUD<ProjectMetadata> {
 
     @Override
     public ProjectMetadata update(ProjectMetadata m) {
-        getOrThrow(m);
-        repository.save(convert(m));
+        final ProjectData data = getOrThrow(m);
+
+        data.setSources(m.getProjectSources());
+        repository.save(data);
         return m;
     }
 
@@ -53,27 +55,18 @@ class ProjectMetadataDao implements ICRUD<ProjectMetadata> {
     }
 
     private ProjectData getOrThrow(ProjectMetadata metadata) {
-        final String name = metadata.getProjectName();
-        final Optional<ProjectData> entity = repository.findByName(name);
-        return entity.orElseThrow(
-                () -> new ProjectNotFoundException(metadata)
-        );
+        final String name = metadata.getArtifactId();
+        final Optional<ProjectData> data = repository.findByName(name);
+
+        return data.orElseThrow(() -> new ProjectNotFoundException(metadata));
     }
 
     private ProjectMetadata convert(ProjectData data) {
         final ProjectMetadata metadata = new ProjectMetadata();
 
         metadata.setId(data.getId());
-        metadata.setProjectName(data.getName());
+        metadata.setArtifactId(data.getName());
         metadata.setProjectSources(data.getSources());
         return metadata;
-    }
-
-    private ProjectData convert(ProjectMetadata metadata) {
-        final ProjectData data = new ProjectData();
-
-        data.setId(metadata.getId());
-        data.setSources(metadata.getProjectSources());
-        return data;
     }
 }

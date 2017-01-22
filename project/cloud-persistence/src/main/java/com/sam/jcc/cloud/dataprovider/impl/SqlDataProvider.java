@@ -83,8 +83,7 @@ public abstract class SqlDataProvider extends AbstractProvider<IDataMetadata> im
     public IDataMetadata preprocess(IDataMetadata d) {
         final AppData app = asAppData(d);
 
-        final ProjectData data = repository.findByName(app.getAppName())
-                .orElseThrow(() -> new EntityNotFoundException(app));
+        final ProjectData data = getOrThrow(app);
 
         if (data.getDataSupport()) throw new InternalCloudException();
         if (isNull(data.getSources())) throw new ProjectSourcesNotFound(app);
@@ -101,9 +100,21 @@ public abstract class SqlDataProvider extends AbstractProvider<IDataMetadata> im
 
     @Override
     public IDataMetadata postprocess(IDataMetadata d) {
-        sourceGenerator.generate(asAppData(d));
-        dbManager.create(asAppData(d));
+        final AppData app = asAppData(d);
+        sourceGenerator.generate(app);
+        dbManager.create(app);
+
+        final ProjectData data = getOrThrow(app);
+        data.setDataSupport(true);
+        data.setSources(app.getSources());
+
+        repository.save(data);
         return d;
+    }
+
+    private ProjectData getOrThrow(AppData app) {
+        return repository.findByName(app.getAppName())
+                .orElseThrow(() -> new EntityNotFoundException(app));
     }
 
     private void updateStatus(IDataMetadata data, AppDataStatus status) {

@@ -28,9 +28,9 @@ class CIProjectDao implements ICRUD<CIProject> {
 
     @Override
     public CIProject create(CIProject p) {
-        final ProjectData entity = getOrThrow(p);
-        entity.setCi(p.getName());
-        repository.save(entity);
+        final ProjectData data = getOrThrow(p);
+        data.setCi(p.getName());
+        repository.save(data);
         return p;
     }
 
@@ -81,7 +81,7 @@ class CIProjectDao implements ICRUD<CIProject> {
 
     private CIProject convert(ProjectData data) {
         final CIProject project = new CIProject();
-        project.setName(data.getName());
+        project.setArtifactId(data.getName());
         return project;
     }
 }

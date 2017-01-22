@@ -26,9 +26,9 @@ class AppMetadataDao implements ICRUD<AppMetadata> {
 
     @Override
     public AppMetadata create(AppMetadata m) {
-        final ProjectData entity = convert(m);
-        repository.save(entity);
-        m.setId(entity.getId());
+        final ProjectData data = convert(m);
+        repository.save(data);
+        m.setId(data.getId());
         return m;
     }
 

@@ -85,13 +85,13 @@ public class ProjectProviderTest {
 
     @Test(expected = ProjectNotFoundException.class)
     public void failsOnUpdateUnknown() {
-        gradleProvider.update(gradleProject());
+        gradleProvider.create(gradleProject());
     }
 
 	@Test
 	public void changesMavenProjectStatus() {
 		final ProjectMetadata project = spy(mavenApp());
-		mavenProvider.update(project);
+		mavenProvider.create(project);
 		assertThat(project.getProjectSources()).isNotEmpty();
 
 		final InOrder order = inOrder(project);
@@ -104,7 +104,7 @@ public class ProjectProviderTest {
 	@Test
 	public void changesGradleProjectStatus() {
 		final ProjectMetadata project = spy(gradleApp());
-		gradleProvider.update(project);
+		gradleProvider.create(project);
         assertThat(project.getProjectSources()).isNotEmpty();
 
         final InOrder order = inOrder(project);
@@ -122,12 +122,12 @@ public class ProjectProviderTest {
 
 	@Test(expected = UnsupportedTypeException.class)
 	public void failsWithUnknownProjectTypeMaven() {
-		assertThat(mavenProvider.update(emptyProject())).isNotNull();
+		assertThat(mavenProvider.create(emptyProject())).isNotNull();
 	}
 
 	@Test(expected = UnsupportedTypeException.class)
 	public void failsWithUnknownProjectTypeGradle() {
-		assertThat(gradleProvider.update(emptyProject())).isNotNull();
+		assertThat(gradleProvider.create(emptyProject())).isNotNull();
 	}
 
 	@Test

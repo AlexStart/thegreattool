@@ -45,11 +45,21 @@ public abstract class ProjectProvider extends AbstractProvider<IProjectMetadata>
     }
 
     @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    @Override
     public abstract boolean supports(IProjectMetadata m);
 
     @Override
     public IProjectMetadata create(IProjectMetadata metadata) {
-        throw new UnsupportedCallException();
+        return dao.update(build(metadata));
+    }
+
+    private ProjectMetadata build(IProjectMetadata metadata) {
+        final IProjectMetadata created = super.create(metadata);
+        return asProjectMetadata(created);
     }
 
     @Override
@@ -83,23 +93,13 @@ public abstract class ProjectProvider extends AbstractProvider<IProjectMetadata>
     }
 
     @Override
-    public boolean isEnabled() {
-        return true;
-    }
-
-    @Override
     public IProjectMetadata read(IProjectMetadata m) {
         return dao.read(asProjectMetadata(m));
     }
 
     @Override
     public IProjectMetadata update(IProjectMetadata metadata) {
-        return dao.update(build(metadata));
-    }
-
-    private ProjectMetadata build(IProjectMetadata metadata) {
-        final IProjectMetadata created = super.create(metadata);
-        return asProjectMetadata(created);
+        throw new UnsupportedCallException();
     }
 
     @Override

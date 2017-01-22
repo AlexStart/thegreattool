@@ -10,10 +10,10 @@ import com.sam.jcc.cloud.dataprovider.impl.MySqlDatabaseManager;
 import com.sam.jcc.cloud.i.ci.ICIMetadata;
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import com.sam.jcc.cloud.i.vcs.IVCSMetadata;
-import com.sam.jcc.cloud.persistence.data.ProjectData;
 import com.sam.jcc.cloud.persistence.data.ProjectDataRepository;
 import com.sam.jcc.cloud.project.ProjectMetadata;
 import com.sam.jcc.cloud.project.impl.MavenProjectProvider;
+import com.sam.jcc.cloud.util.GitDaemon;
 import com.sam.jcc.cloud.util.TestEnvironment;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
@@ -77,27 +77,26 @@ public class ProvidersIntegrationTest extends TestEnvironment {
         repository = repository();
 
         mySqlManager.drop(data);
+        apps.findAll().forEach(apps::delete);
 
+        setGitManagedDir(TestEnvironment.daemon);
         jenkins.setJenkins(TestEnvironment.jenkins);
-        setGitFolder(TestEnvironment.daemon.getStorage());
     }
 
     @After
     public void tearDown() {
         mySqlManager.drop(data);
-        deleteFix();
     }
 
     @Test
-    @Ignore
+    @Ignore("required increased heap size (~1.5 GB)")
     public void createsAndGeneratesAndInjectsMySqlAndBuildsOnJenkins() throws Exception {
         apps.create(app);
 
         final byte[] sources = readSources(mavenGenerator.create(metadata));
         assertThat(sources).isNotEmpty();
-        apps.update(app);
 
-        copySourcesTo(sources, job, data, repository);
+        copySourcesTo(job, data, repository);
         git.create(repository);
 
         jenkins.create(job);
@@ -108,7 +107,7 @@ public class ProvidersIntegrationTest extends TestEnvironment {
         mySqlInjector.update(data);
         assertThat(data.getSources()).isNotEqualTo(sources);
 
-        copySourcesTo(data, repository);
+        copySourcesTo(repository);
         git.update(repository);
 
         clearLocalSources(repository);
@@ -127,8 +126,6 @@ public class ProvidersIntegrationTest extends TestEnvironment {
     AppMetadata app() {
         final AppMetadata app = new AppMetadata();
         app.setProjectName(PROJECT_ARTIFACT_ID);
-
-        applyFix();
         return app;
     }
 
@@ -174,8 +171,6 @@ public class ProvidersIntegrationTest extends TestEnvironment {
         return job;
     }
 
-    /* TEST INFRASTRUCTURE */
-
     @Autowired
     FileManager files;
 
@@ -185,7 +180,11 @@ public class ProvidersIntegrationTest extends TestEnvironment {
     @Autowired
     MySqlDatabaseManager mySqlManager;
 
-    void setGitFolder(File dir) {
+    @Autowired
+    ProjectDataRepository dataRepository;
+
+    void setGitManagedDir(GitDaemon daemon) {
+        final File dir = daemon.getStorage();
         ((GitAbstractStorage) git.getGit().getStorage()).setBaseRepository(dir);
     }
 
@@ -193,7 +192,8 @@ public class ProvidersIntegrationTest extends TestEnvironment {
         return ((ProjectMetadata) metadata).getProjectSources();
     }
 
-    void copySourcesTo(byte[] sources, CIProject job, AppData data, VCSRepository repo) throws IOException {
+    void copySourcesTo(CIProject job, AppData data, VCSRepository repo) throws IOException {
+        final byte[] sources = loadProjectSources();
         final File zip = temp.newFile(), dir = temp.newFolder();
 
         files.write(sources, zip);
@@ -202,8 +202,6 @@ public class ProvidersIntegrationTest extends TestEnvironment {
         job.setSources(dir);
         repo.setSources(dir);
         data.setSources(sources);
-
-        applyFix(sources);
     }
 
     void clearLocalSources(VCSRepository repo) throws IOException {
@@ -219,12 +217,17 @@ public class ProvidersIntegrationTest extends TestEnvironment {
         job.setSources(repo.getSources());
     }
 
-    void copySourcesTo(AppData data, VCSRepository repo) throws IOException {
+    void copySourcesTo(VCSRepository repo) throws IOException {
         final File zip = temp.newFile(), dir = temp.newFolder();
 
-        files.write(data.getSources(), zip);
+        files.write(loadProjectSources(), zip);
         zipManager.unzip(zip, dir);
         repo.setSources(dir);
+    }
+
+    byte[] loadProjectSources() {
+        return dataRepository.findByName(PROJECT_ARTIFACT_ID)
+                .orElseThrow(RuntimeException::new).getSources();
     }
 
     byte[] getBuild(ICIMetadata metadata) {
@@ -232,40 +235,8 @@ public class ProvidersIntegrationTest extends TestEnvironment {
         return job.getBuild();
     }
 
-    private void disableGitSupport(VCSRepository repo) throws IOException {
+    void disableGitSupport(VCSRepository repo) throws IOException {
         daemon.disableExport(repo);
         git.delete(repo);
-    }
-
-    /* TEMP PART */
-    //TODO: remove after support of common-data
-
-    @Autowired
-    ProjectDataRepository dataRepository;
-
-    void applyFix() {
-        final ProjectData data = new ProjectData();
-        data.setSources(new byte[0]);
-        data.setName(PROJECT_ARTIFACT_ID);
-
-        dataRepository.save(data);
-    }
-
-    void applyFix(byte[] sources) {
-        final ProjectData data = dataRepository
-                .findByName(metadata.getArtifactId())
-                .orElseThrow(RuntimeException::new);
-
-        data.setSources(sources);
-
-        dataRepository.save(data);
-    }
-
-    void deleteFix(){
-        final ProjectData data = dataRepository
-                .findByName(metadata.getArtifactId())
-                .orElseThrow(RuntimeException::new);
-
-        dataRepository.delete(data);
     }
 }
