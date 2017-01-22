@@ -32,7 +32,7 @@ public abstract class SqlDataProvider extends AbstractProvider<IDataMetadata> im
     private SourceGenerator sourceGenerator;
 
     @Autowired
-    private MySqlDependencyInjector injector;
+    private MySqlInjector injector;
 
     @Autowired
     private ProjectDataRepository repository;

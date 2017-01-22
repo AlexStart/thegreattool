@@ -30,9 +30,9 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
         ProjectParser.class,
         ZipArchiveManager.class,
         DependencyManager.class,
-        MySqlDependencyInjector.class
+        MySqlInjector.class
 })
-public class MySqlDependencyInjectorTest {
+public class MySqlInjectorTest {
 
     @Rule
     public TemporaryFolder tmp = new TemporaryFolder();
@@ -44,7 +44,7 @@ public class MySqlDependencyInjectorTest {
 
 
     @Autowired
-    MySqlDependencyInjector injector;
+    MySqlInjector injector;
 
     @Test
     public void injects() throws IOException {

@@ -22,7 +22,7 @@ import static java.lang.System.lineSeparator;
  */
 @Setter
 @Component
-class MySqlDependencyInjector {
+class MySqlInjector {
 
     private static final String JPA = "spring.datasource";
 

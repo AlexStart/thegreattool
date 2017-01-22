@@ -31,7 +31,7 @@ import static org.assertj.core.api.Assertions.assertThat;
         ProjectParser.class,
         ZipArchiveManager.class,
         DependencyManager.class,
-        MySqlDependencyInjector.class,
+        MySqlInjector.class,
         SourceGenerator.class,
 })
 public class SourceGeneratorTest {
