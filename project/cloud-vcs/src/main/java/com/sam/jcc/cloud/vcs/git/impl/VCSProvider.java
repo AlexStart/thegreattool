@@ -1,4 +1,4 @@
-package com.sam.jcc.cloud.vcs;
+package com.sam.jcc.cloud.vcs.git.impl;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.sam.jcc.cloud.i.IEventManager;
@@ -6,10 +6,9 @@ import com.sam.jcc.cloud.i.vcs.IVCSMetadata;
 import com.sam.jcc.cloud.i.vcs.IVCSProvider;
 import com.sam.jcc.cloud.provider.AbstractProvider;
 import com.sam.jcc.cloud.provider.UnsupportedTypeException;
+import com.sam.jcc.cloud.vcs.VCSRepository;
+import com.sam.jcc.cloud.vcs.VCSRepositoryStatus;
 import com.sam.jcc.cloud.vcs.exception.VCSRepositoryAlreadyExistsException;
-import com.sam.jcc.cloud.vcs.git.GitAbstractStorage;
-import com.sam.jcc.cloud.vcs.git.GitMetadataDao;
-import com.sam.jcc.cloud.vcs.git.GitVCS;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;

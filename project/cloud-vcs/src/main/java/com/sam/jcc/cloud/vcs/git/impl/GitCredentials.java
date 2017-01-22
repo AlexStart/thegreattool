@@ -1,4 +1,4 @@
-package com.sam.jcc.cloud.vcs.git;
+package com.sam.jcc.cloud.vcs.git.impl;
 
 import com.sam.jcc.cloud.vcs.VCSCredentials;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;

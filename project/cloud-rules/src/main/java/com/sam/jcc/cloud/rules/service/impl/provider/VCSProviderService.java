@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import com.sam.jcc.cloud.i.vcs.IVCSMetadata;
 import com.sam.jcc.cloud.provider.UnsupportedCallException;
 import com.sam.jcc.cloud.rules.service.IService;
-import com.sam.jcc.cloud.vcs.VCSProvider;
+import com.sam.jcc.cloud.vcs.git.impl.VCSProvider;
 import com.sam.jcc.cloud.vcs.VCSRepositoryMetadata;
 
 /**

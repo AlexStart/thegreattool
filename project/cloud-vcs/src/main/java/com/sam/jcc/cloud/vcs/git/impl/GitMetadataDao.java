@@ -1,4 +1,4 @@
-package com.sam.jcc.cloud.vcs.git;
+package com.sam.jcc.cloud.vcs.git.impl;
 
 import com.sam.jcc.cloud.crud.ICRUD;
 import com.sam.jcc.cloud.i.vcs.IVCSMetadata;
@@ -21,7 +21,7 @@ import static java.util.stream.Collectors.toList;
  * @since 22-Jan-17
  */
 @Component
-public class GitMetadataDao implements ICRUD<VCSRepository> {
+class GitMetadataDao implements ICRUD<VCSRepository> {
 
     @Autowired
     private ProjectDataRepository repository;

@@ -1,4 +1,4 @@
-package com.sam.jcc.cloud.vcs.git;
+package com.sam.jcc.cloud.vcs.git.impl;
 
 import static com.sam.jcc.cloud.PropertyResolver.getProperty;
 import static java.util.Optional.empty;

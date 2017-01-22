@@ -18,7 +18,7 @@ import com.sam.jcc.cloud.util.TestEnvironment;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
 import com.sam.jcc.cloud.vcs.VCSRepository;
-import com.sam.jcc.cloud.vcs.git.GitAbstractStorage;
+import com.sam.jcc.cloud.vcs.git.impl.GitAbstractStorage;
 import com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider;
 import org.junit.After;
 import org.junit.Before;

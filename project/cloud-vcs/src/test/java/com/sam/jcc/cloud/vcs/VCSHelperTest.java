@@ -16,7 +16,7 @@ import org.junit.rules.TemporaryFolder;
 import com.sam.jcc.cloud.utils.files.DirectoryComparator;
 import com.sam.jcc.cloud.utils.files.TempFile;
 import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
-import com.sam.jcc.cloud.vcs.git.GitFileStorage;
+import com.sam.jcc.cloud.vcs.git.impl.GitFileStorage;
 
 /**
  * @author Alexey Zhytnik
