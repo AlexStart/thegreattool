@@ -48,8 +48,8 @@ public class AppProvider extends AbstractProvider<IAppMetadata> implements IAppP
         if (isNull(m.getProjectName())) throw new AppMetadataValidationException();
 
         final String name = m.getProjectName().trim().toLowerCase();
+        nameValidator.validate(name);
         m.setProjectName(name);
-        nameValidator.validate(m.getProjectName());
         return m;
     }
 

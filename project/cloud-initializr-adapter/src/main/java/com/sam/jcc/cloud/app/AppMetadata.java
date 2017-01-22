@@ -14,6 +14,4 @@ public class AppMetadata implements IAppMetadata, IStatusable {
     private Long id;
     private String projectName;
     private AppMetadataStatus status;
-
-    private byte[] sources;
 }

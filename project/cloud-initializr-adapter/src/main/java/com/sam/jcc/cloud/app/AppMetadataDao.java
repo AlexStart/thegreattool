@@ -39,7 +39,9 @@ class AppMetadataDao implements ICRUD<AppMetadata> {
 
     @Override
     public AppMetadata update(AppMetadata m) {
-        getOrThrow(m);
+        final Long id = getOrThrow(m).getId();
+        m.setId(id);
+
         repository.save(convert(m));
         return m;
     }
@@ -52,9 +54,7 @@ class AppMetadataDao implements ICRUD<AppMetadata> {
     private ProjectData getOrThrow(AppMetadata metadata) {
         final String name = metadata.getProjectName();
         final Optional<ProjectData> entity = repository.findByName(name);
-        return entity.orElseThrow(
-                () -> new ProjectDataNotFoundException(name)
-        );
+        return entity.orElseThrow(() -> new ProjectDataNotFoundException(name));
     }
 
     @Override
@@ -70,7 +70,6 @@ class AppMetadataDao implements ICRUD<AppMetadata> {
 
         app.setId(entity.getId());
         app.setProjectName(entity.getName());
-        app.setSources(entity.getSources());
         return app;
     }
 
