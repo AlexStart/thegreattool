@@ -26,7 +26,7 @@ public class CIProject implements ICIMetadata, IStatusable {
     private CIProjectStatus status = CONFIGURED;
 
     /**
-     * Generates identifier of a CIProject.
+     * Generates a identifier of CIProject.
      * Used only for internal module proposes.
      */
     public String getName() {

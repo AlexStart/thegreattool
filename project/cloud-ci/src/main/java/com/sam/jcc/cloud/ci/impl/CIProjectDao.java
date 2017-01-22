@@ -36,12 +36,12 @@ class CIProjectDao implements ICRUD<CIProject> {
 
     @Override
     public CIProject update(CIProject p) {
-        return convert(getCiData(p));
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public CIProject read(CIProject p) {
-        return convert(getCiData(p));
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -73,9 +73,9 @@ class CIProjectDao implements ICRUD<CIProject> {
     }
 
     private ProjectData getOrThrow(CIProject p) {
-        final String name = p.getArtifactId();
+        final String artifactId = p.getArtifactId();
 
-        return repository.findByName(name)
+        return repository.findByName(artifactId)
                 .orElseThrow(() -> new EntityNotFoundException(p));
     }
 

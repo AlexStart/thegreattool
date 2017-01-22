@@ -1,5 +1,6 @@
 package com.sam.jcc.cloud.ci.impl;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.sam.jcc.cloud.ci.CIProject;
 import com.sam.jcc.cloud.ci.CIProjectStatus;
 import com.sam.jcc.cloud.ci.exception.CIBuildNotFoundException;
@@ -26,20 +27,20 @@ import static com.sam.jcc.cloud.ci.CIProjectStatus.UPDATED;
  * @author Alexey Zhytnik
  * @since 22-Dec-16
  */
+@Setter
 @Component
 public class JenkinsProvider extends AbstractProvider<ICIMetadata> implements ICIProvider {
 
-    @Setter
     @Autowired(required = false)
-    //TODO: change configuration
+    @VisibleForTesting
     private Jenkins jenkins;
 
-    @Setter
     @Autowired
+    @VisibleForTesting
     private CIProjectDao dao;
 
-    public JenkinsProvider(List<IEventManager<ICIMetadata>> iEventManagers) {
-        super(iEventManagers);
+    public JenkinsProvider(List<IEventManager<ICIMetadata>> eventManagers) {
+        super(eventManagers);
     }
 
     @Override
@@ -61,24 +62,21 @@ public class JenkinsProvider extends AbstractProvider<ICIMetadata> implements IC
         return project;
     }
 
-    //TODO: maybe change creation from pre-,pro-, post- phases to command-way.
-    //      For example, execute list of commands, where a command is java.util.function.Function.
     @Override
     public ICIMetadata process(ICIMetadata m) {
         checkAccess();
-        final CIProject project = asCIProject(m);
 
+        final CIProject project = asCIProject(m);
         jenkins.create(project);
         jenkins.build(project);
-        dao.create(project);
-        updateStatus(project, CREATED);
-
         return project;
     }
 
     @Override
     public ICIMetadata postprocess(ICIMetadata m) {
-        return asCIProject(m);
+        dao.create(asCIProject(m));
+        updateStatus(m, CREATED);
+        return m;
     }
 
     @Override
@@ -86,8 +84,6 @@ public class JenkinsProvider extends AbstractProvider<ICIMetadata> implements IC
         checkAccess();
 
         final CIProject project = asCIProject(m);
-        dao.read(project);
-
         try {
             final byte[] build = jenkins.getLastSuccessfulBuild(project);
             project.setBuild(build);
@@ -100,19 +96,21 @@ public class JenkinsProvider extends AbstractProvider<ICIMetadata> implements IC
     }
 
     @Override
-    public ICIMetadata update(ICIMetadata project) {
+    public ICIMetadata update(ICIMetadata m) {
         checkAccess();
-        dao.update(asCIProject(project));
-        jenkins.build(asCIProject(project));
-        updateStatus(project, UPDATED);
-        return project;
+
+        jenkins.build(asCIProject(m));
+        updateStatus(m, UPDATED);
+        return m;
     }
 
     @Override
-    public void delete(ICIMetadata project) {
+    public void delete(ICIMetadata m) {
         checkAccess();
-        jenkins.delete(asCIProject(project));
-        dao.delete(asCIProject(project));
+        final CIProject project = asCIProject(m);
+
+        jenkins.delete(project);
+        dao.delete(project);
         updateStatus(project, DELETED);
     }
 
