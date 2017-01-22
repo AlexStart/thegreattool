@@ -69,7 +69,6 @@ public class GitDaemon {
     private void run(Daemon daemon) {
         try {
             daemon.start();
-            sleep(/* timeout for starting & initializing of a Daemon thread */ 500L);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
