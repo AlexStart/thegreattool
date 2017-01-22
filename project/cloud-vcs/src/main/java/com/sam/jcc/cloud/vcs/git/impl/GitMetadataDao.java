@@ -36,12 +36,12 @@ class GitMetadataDao implements ICRUD<VCSRepository> {
 
     @Override
     public VCSRepository update(VCSRepository p) {
-        return convert(getVcsData(p));
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public VCSRepository read(VCSRepository p) {
-        return convert(getVcsData(p));
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -73,16 +73,15 @@ class GitMetadataDao implements ICRUD<VCSRepository> {
     }
 
     private ProjectData getOrThrow(VCSRepository p) {
-        final String name = p.getArtifactId();
+        final String artifactId = p.getArtifactId();
 
-        return repository.findByName(name)
+        return repository.findByName(artifactId)
                 .orElseThrow(() -> new EntityNotFoundException(p));
     }
 
     private VCSRepository convert(ProjectData data) {
         final VCSRepository repo = new VCSRepository();
         repo.setArtifactId(data.getName());
-        repo.setName(data.getVcs());
         return repo;
     }
 }

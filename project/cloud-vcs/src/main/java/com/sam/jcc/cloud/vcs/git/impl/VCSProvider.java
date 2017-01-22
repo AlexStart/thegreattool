@@ -31,6 +31,7 @@ public abstract class VCSProvider extends AbstractProvider<IVCSMetadata> impleme
 
     @Setter
     @Autowired
+    @VisibleForTesting
     private GitMetadataDao dao;
 
     @Autowired
@@ -48,24 +49,21 @@ public abstract class VCSProvider extends AbstractProvider<IVCSMetadata> impleme
     protected abstract GitAbstractStorage getStorage();
 
     @Override
-    public boolean supports(IVCSMetadata metadata) {
-        return metadata instanceof VCSRepository;
+    public boolean supports(IVCSMetadata m) {
+        return m instanceof VCSRepository;
     }
 
     @Override
     public IVCSMetadata read(IVCSMetadata m) {
-        final VCSRepository repo = asVCSRepository(m);
-        dao.read(repo);
-        git.read(repo);
-
-        updateStatus(repo, CLONED);
-        return repo;
+        git.read(asVCSRepository(m));
+        updateStatus(m, CLONED);
+        return m;
     }
 
     @Override
     public IVCSMetadata update(IVCSMetadata m) {
         final VCSRepository repo = asVCSRepository(m);
-        dao.update(repo);
+
         git.commit(repo);
         updateStatus(repo, COMMITED);
         updateStatus(repo, PUSHED);
@@ -97,16 +95,15 @@ public abstract class VCSProvider extends AbstractProvider<IVCSMetadata> impleme
 
     @Override
     public IVCSMetadata process(IVCSMetadata m) {
-        final VCSRepository repo = asVCSRepository(m);
-        git.create(repo);
-        dao.create(repo);
-        updateStatus(repo, CREATED);
+        git.create(asVCSRepository(m));
         return m;
     }
 
     @Override
     public IVCSMetadata postprocess(IVCSMetadata m) {
-        return asVCSRepository(m);
+        dao.create(asVCSRepository(m));
+        updateStatus(m, CREATED);
+        return m;
     }
 
     private void updateStatus(IVCSMetadata m, VCSRepositoryStatus status) {

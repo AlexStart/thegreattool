@@ -60,11 +60,7 @@ public class GitVCS implements VCS<VCSCredentials>{
     public void read(VCSRepository repo) {
         try {
             clone(repo);
-
-            //TODO: transfer to top level
-            final File metadata = new File(repo.getSources(), ".git");
-            files.delete(metadata);
-
+            files.delete(new File(repo.getSources(), ".git"));
         } catch (GitAPIException e) {
             throw new VCSException(e);
         }
