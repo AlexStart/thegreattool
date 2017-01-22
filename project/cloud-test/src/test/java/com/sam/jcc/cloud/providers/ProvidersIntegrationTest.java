@@ -165,9 +165,7 @@ public class ProvidersIntegrationTest extends TestEnvironment {
 
     CIProject job() {
         final CIProject job = new CIProject();
-
         job.setArtifactId(PROJECT_ARTIFACT_ID);
-        job.setGroupId(PROJECT_GROUP_ID);
         return job;
     }
 

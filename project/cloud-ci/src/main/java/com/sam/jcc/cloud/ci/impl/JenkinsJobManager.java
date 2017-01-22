@@ -58,11 +58,9 @@ class JenkinsJobManager {
         }
     }
 
-    //TODO: maybe transfer
     private CIProject projectByName(String name) {
         final CIProject project = new CIProject();
-        final String artifactId = name.substring(CI_PREFIX.length());
-        project.setArtifactId(artifactId);
+        project.setName(name);
         return project;
     }
 
