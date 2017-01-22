@@ -30,7 +30,9 @@ public class ProjectData {
     @Column(name = "ci", unique = true)
     private String ci;
 
+    @Column(name = "vcs", unique = true)
     private String vcs;
+
     private Boolean dataSupport = false;
 
     @Lob

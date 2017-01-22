@@ -6,9 +6,12 @@ import com.sam.jcc.cloud.i.vcs.IVCSMetadata;
 import com.sam.jcc.cloud.i.vcs.IVCSProvider;
 import com.sam.jcc.cloud.provider.AbstractProvider;
 import com.sam.jcc.cloud.provider.UnsupportedTypeException;
+import com.sam.jcc.cloud.vcs.exception.VCSDuplicateRepositoryException;
 import com.sam.jcc.cloud.vcs.git.GitAbstractStorage;
+import com.sam.jcc.cloud.vcs.git.GitMetadataDao;
 import com.sam.jcc.cloud.vcs.git.GitVCS;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
@@ -26,6 +29,10 @@ public abstract class VCSProvider extends AbstractProvider<IVCSMetadata> impleme
     @Autowired
     @VisibleForTesting
     private GitVCS git;
+
+    @Setter
+    @Autowired
+    private GitMetadataDao dao;
 
     @Autowired
     public VCSProvider(List<IEventManager<IVCSMetadata>> eventManagers) {
@@ -47,23 +54,30 @@ public abstract class VCSProvider extends AbstractProvider<IVCSMetadata> impleme
     }
 
     @Override
-    public IVCSMetadata read(IVCSMetadata repo) {
-        git.read(asVCSRepository(repo));
+    public IVCSMetadata read(IVCSMetadata m) {
+        final VCSRepository repo = asVCSRepository(m);
+        dao.read(repo);
+        git.read(repo);
+
         updateStatus(repo, CLONED);
         return repo;
     }
 
     @Override
-    public IVCSMetadata update(IVCSMetadata repo) {
-        git.commit(asVCSRepository(repo));
+    public IVCSMetadata update(IVCSMetadata m) {
+        final VCSRepository repo = asVCSRepository(m);
+        dao.update(repo);
+        git.commit(repo);
         updateStatus(repo, COMMITED);
         updateStatus(repo, PUSHED);
         return repo;
     }
 
     @Override
-    public void delete(IVCSMetadata repo) {
-        git.delete(asVCSRepository(repo));
+    public void delete(IVCSMetadata m) {
+        final VCSRepository repo = asVCSRepository(m);
+        git.delete(repo);
+        dao.delete(repo);
         updateStatus(repo, DELETED);
     }
 
@@ -75,14 +89,20 @@ public abstract class VCSProvider extends AbstractProvider<IVCSMetadata> impleme
 
     @Override
     public IVCSMetadata preprocess(IVCSMetadata m) {
-        return asVCSRepository(m);
+        final VCSRepository repo = asVCSRepository(m);
+        if (dao.exist(repo)) {
+            throw new VCSDuplicateRepositoryException(repo);
+        }
+        return repo;
     }
 
     @Override
-    public IVCSMetadata process(IVCSMetadata repo) {
-        git.create(asVCSRepository(repo));
+    public IVCSMetadata process(IVCSMetadata m) {
+        final VCSRepository repo = asVCSRepository(m);
+        git.create(repo);
+        dao.create(repo);
         updateStatus(repo, CREATED);
-        return repo;
+        return m;
     }
 
     @Override
