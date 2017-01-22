@@ -9,7 +9,7 @@ import com.sam.jcc.cloud.i.data.IDataMetadata;
 import com.sam.jcc.cloud.i.data.ISqlDataProvider;
 import com.sam.jcc.cloud.persistence.data.ProjectData;
 import com.sam.jcc.cloud.persistence.data.ProjectDataRepository;
-import com.sam.jcc.cloud.persistence.data.EntityNotFoundException;
+import com.sam.jcc.cloud.persistence.data.ProjectDataNotFoundException;
 import com.sam.jcc.cloud.provider.AbstractProvider;
 import com.sam.jcc.cloud.provider.UnsupportedCallException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,8 +113,9 @@ public abstract class SqlDataProvider extends AbstractProvider<IDataMetadata> im
     }
 
     private ProjectData getOrThrow(AppData app) {
-        return repository.findByName(app.getAppName())
-                .orElseThrow(() -> new EntityNotFoundException(app));
+        final String name = app.getAppName();
+        return repository.findByName(name)
+                .orElseThrow(() -> new ProjectDataNotFoundException(name));
     }
 
     private void updateStatus(IDataMetadata data, AppDataStatus status) {

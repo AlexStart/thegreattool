@@ -1,7 +1,7 @@
 package com.sam.jcc.cloud.app;
 
 import com.sam.jcc.cloud.i.app.IAppMetadata;
-import com.sam.jcc.cloud.persistence.data.EntityNotFoundException;
+import com.sam.jcc.cloud.persistence.data.ProjectDataNotFoundException;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -69,7 +69,7 @@ public class AppMetadataDaoTest {
         appMetadataDao.update(app);
     }
 
-    @Test(expected = EntityNotFoundException.class)
+    @Test(expected = ProjectDataNotFoundException.class)
     public void failsOnReadUnknown() {
         appMetadataDao.read(app);
     }

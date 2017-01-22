@@ -2,7 +2,7 @@ package com.sam.jcc.cloud.vcs.git.impl;
 
 import com.sam.jcc.cloud.crud.ICRUD;
 import com.sam.jcc.cloud.i.vcs.IVCSMetadata;
-import com.sam.jcc.cloud.persistence.data.EntityNotFoundException;
+import com.sam.jcc.cloud.persistence.data.ProjectDataNotFoundException;
 import com.sam.jcc.cloud.persistence.data.ProjectData;
 import com.sam.jcc.cloud.persistence.data.ProjectDataRepository;
 import com.sam.jcc.cloud.vcs.VCSRepository;
@@ -76,7 +76,7 @@ class GitMetadataDao implements ICRUD<VCSRepository> {
         final String artifactId = p.getArtifactId();
 
         return repository.findByName(artifactId)
-                .orElseThrow(() -> new EntityNotFoundException(p));
+                .orElseThrow(() -> new ProjectDataNotFoundException(artifactId));
     }
 
     private VCSRepository convert(ProjectData data) {

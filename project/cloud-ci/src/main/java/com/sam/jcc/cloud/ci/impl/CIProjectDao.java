@@ -4,7 +4,7 @@ import com.sam.jcc.cloud.ci.CIProject;
 import com.sam.jcc.cloud.ci.exception.CIProjectNotFoundException;
 import com.sam.jcc.cloud.crud.ICRUD;
 import com.sam.jcc.cloud.i.ci.ICIMetadata;
-import com.sam.jcc.cloud.persistence.data.EntityNotFoundException;
+import com.sam.jcc.cloud.persistence.data.ProjectDataNotFoundException;
 import com.sam.jcc.cloud.persistence.data.ProjectData;
 import com.sam.jcc.cloud.persistence.data.ProjectDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,7 +76,7 @@ class CIProjectDao implements ICRUD<CIProject> {
         final String artifactId = p.getArtifactId();
 
         return repository.findByName(artifactId)
-                .orElseThrow(() -> new EntityNotFoundException(p));
+                .orElseThrow(() -> new ProjectDataNotFoundException(artifactId));
     }
 
     private CIProject convert(ProjectData data) {

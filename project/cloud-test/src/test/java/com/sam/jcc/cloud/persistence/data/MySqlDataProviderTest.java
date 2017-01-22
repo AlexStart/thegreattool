@@ -36,7 +36,7 @@ public class MySqlDataProviderTest {
         mysqlProvider.create(new AppData());
     }
 
-    @Test(expected = EntityNotFoundException.class)
+    @Test(expected = ProjectDataNotFoundException.class)
     public void failsOnUnknownApp() {
         mysqlProvider.update(unknown());
     }

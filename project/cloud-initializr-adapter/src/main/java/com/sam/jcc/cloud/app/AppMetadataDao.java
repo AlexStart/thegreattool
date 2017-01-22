@@ -2,7 +2,7 @@ package com.sam.jcc.cloud.app;
 
 import com.sam.jcc.cloud.crud.ICRUD;
 import com.sam.jcc.cloud.i.app.IAppMetadata;
-import com.sam.jcc.cloud.persistence.data.EntityNotFoundException;
+import com.sam.jcc.cloud.persistence.data.ProjectDataNotFoundException;
 import com.sam.jcc.cloud.persistence.data.ProjectData;
 import com.sam.jcc.cloud.persistence.data.ProjectDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +53,7 @@ class AppMetadataDao implements ICRUD<AppMetadata> {
         final String name = metadata.getProjectName();
         final Optional<ProjectData> entity = repository.findByName(name);
         return entity.orElseThrow(
-                () -> new EntityNotFoundException(metadata)
+                () -> new ProjectDataNotFoundException(name)
         );
     }
 
