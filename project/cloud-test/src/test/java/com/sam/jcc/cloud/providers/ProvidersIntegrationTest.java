@@ -156,9 +156,6 @@ public class ProvidersIntegrationTest extends TestEnvironment {
 
     VCSRepository repository() {
         final VCSRepository repo = new VCSRepository();
-
-        repo.setName(PROJECT_ARTIFACT_ID);
-        repo.setGroupId(PROJECT_GROUP_ID);
         repo.setArtifactId(PROJECT_ARTIFACT_ID);
         return repo;
     }

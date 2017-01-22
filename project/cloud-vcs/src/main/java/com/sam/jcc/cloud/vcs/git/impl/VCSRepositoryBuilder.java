@@ -20,7 +20,6 @@ public class VCSRepositoryBuilder implements Function<File, VCSRepository> {
         final Entry<String, String> metadata = parser.parse(sources);
 
         final VCSRepository repo = new VCSRepository();
-        repo.setGroupId(metadata.getKey());
         repo.setArtifactId(metadata.getValue());
         repo.setSources(sources);
         return repo;
