@@ -21,6 +21,7 @@ import java.net.ServerSocket;
 
 import static com.sam.jcc.cloud.PropertyResolver.getProperty;
 import static java.lang.Integer.valueOf;
+import static java.lang.Thread.sleep;
 import static lombok.AccessLevel.NONE;
 
 /**
@@ -68,7 +69,8 @@ public class GitDaemon {
     private void run(Daemon daemon) {
         try {
             daemon.start();
-        } catch (IOException e) {
+            sleep(/* timeout for starting & initializing of a Daemon thread */ 500L);
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
