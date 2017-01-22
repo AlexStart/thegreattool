@@ -15,8 +15,4 @@ public class VCSException extends CloudException {
     protected VCSException(String key, Object... args) {
         super(key, args);
     }
-
-    protected VCSException(Throwable cause, String key, Object... args) {
-        super(cause, key, args);
-    }
 }
