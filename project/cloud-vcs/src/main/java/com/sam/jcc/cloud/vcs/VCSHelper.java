@@ -153,7 +153,6 @@ public class VCSHelper {
             repo.setSources(temp);
             vcs.read(repo);
 
-            //TODO: direct zip creation
             final byte[] content = zipManager.zip(temp);
             final File sources = files.createTempFile(repo.getName(), ".zip");
             files.write(content, sources);

@@ -30,7 +30,6 @@ public class GitLabServer implements VCSStorage<GitCredentials> {
     private String host;
     private String user;
 
-    //TODO: use char[]
     private String password;
 
     @Override

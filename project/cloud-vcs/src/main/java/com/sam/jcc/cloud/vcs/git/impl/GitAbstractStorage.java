@@ -77,6 +77,9 @@ public abstract class GitAbstractStorage implements VCSStorage<VCSCredentials> {
         return empty();
     }
 
+    /**
+     * Call only in production mode!
+     */
     public void installBaseRepository() {
         final File base = new File(getProperty("repository.base.folder"));
         setBaseRepository(base);

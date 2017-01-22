@@ -32,7 +32,6 @@ public class GitHubServer implements VCSStorage<GitCredentials> {
     private String user;
     private String token;
 
-    //TODO: use char[]
     private String password;
 
     private String github = PropertyResolver.getProperty("servers.github");
