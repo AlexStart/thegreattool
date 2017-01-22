@@ -168,9 +168,8 @@ public class Jenkins implements CIServer {
     private byte[] getBytes(InputStream stream) throws IOException {
         try {
             return copyToByteArray(stream);
-        } catch (IOException e) {
+        } finally {
             closeQuietly(stream);
-            throw e;
         }
     }
 
