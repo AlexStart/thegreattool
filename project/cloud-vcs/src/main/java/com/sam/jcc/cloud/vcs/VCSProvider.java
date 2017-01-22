@@ -6,7 +6,7 @@ import com.sam.jcc.cloud.i.vcs.IVCSMetadata;
 import com.sam.jcc.cloud.i.vcs.IVCSProvider;
 import com.sam.jcc.cloud.provider.AbstractProvider;
 import com.sam.jcc.cloud.provider.UnsupportedTypeException;
-import com.sam.jcc.cloud.vcs.exception.VCSDuplicateRepositoryException;
+import com.sam.jcc.cloud.vcs.exception.VCSRepositoryAlreadyExistsException;
 import com.sam.jcc.cloud.vcs.git.GitAbstractStorage;
 import com.sam.jcc.cloud.vcs.git.GitMetadataDao;
 import com.sam.jcc.cloud.vcs.git.GitVCS;
@@ -91,7 +91,7 @@ public abstract class VCSProvider extends AbstractProvider<IVCSMetadata> impleme
     public IVCSMetadata preprocess(IVCSMetadata m) {
         final VCSRepository repo = asVCSRepository(m);
         if (dao.exist(repo)) {
-            throw new VCSDuplicateRepositoryException(repo);
+            throw new VCSRepositoryAlreadyExistsException(repo);
         }
         return repo;
     }

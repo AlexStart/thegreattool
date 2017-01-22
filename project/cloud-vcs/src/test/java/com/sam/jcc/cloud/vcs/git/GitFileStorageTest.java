@@ -1,7 +1,7 @@
 package com.sam.jcc.cloud.vcs.git;
 
 import com.sam.jcc.cloud.utils.files.FileManager;
-import com.sam.jcc.cloud.vcs.exception.VCSDuplicateRepositoryException;
+import com.sam.jcc.cloud.vcs.exception.VCSRepositoryAlreadyExistsException;
 import com.sam.jcc.cloud.vcs.exception.VCSRepositoryNotFoundException;
 import com.sam.jcc.cloud.vcs.VCSRepository;
 import org.junit.Before;
@@ -60,7 +60,7 @@ public class GitFileStorageTest {
                 .hasName(repository.getName());
     }
 
-    @Test(expected = VCSDuplicateRepositoryException.class)
+    @Test(expected = VCSRepositoryAlreadyExistsException.class)
     public void failsOnCreationExistence() {
         repos.create(repository);
         repos.create(repository);

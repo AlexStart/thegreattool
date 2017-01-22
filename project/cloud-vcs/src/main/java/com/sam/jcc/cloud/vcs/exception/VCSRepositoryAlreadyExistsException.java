@@ -6,9 +6,9 @@ import com.sam.jcc.cloud.vcs.VCSRepository;
  * @author Alexey Zhytnik
  * @since 15-Dec-16
  */
-public class VCSDuplicateRepositoryException extends VCSException {
+public class VCSRepositoryAlreadyExistsException extends VCSException {
 
-    public VCSDuplicateRepositoryException(VCSRepository repository) {
+    public VCSRepositoryAlreadyExistsException(VCSRepository repository) {
         super("vcs.repository.exist", repository);
     }
 }

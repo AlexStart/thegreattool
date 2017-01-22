@@ -10,7 +10,7 @@ import java.util.Optional;
 import com.sam.jcc.cloud.utils.files.ItemStorage;
 import com.sam.jcc.cloud.utils.files.ItemStorage.ItemAlreadyExistsException;
 import com.sam.jcc.cloud.utils.files.ItemStorage.ItemNotFoundException;
-import com.sam.jcc.cloud.vcs.exception.VCSDuplicateRepositoryException;
+import com.sam.jcc.cloud.vcs.exception.VCSRepositoryAlreadyExistsException;
 import com.sam.jcc.cloud.vcs.exception.VCSRepositoryNotFoundException;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -40,7 +40,7 @@ public abstract class GitAbstractStorage implements VCSStorage<VCSCredentials> {
         try {
             initBare(storage.create(repo));
         } catch (ItemAlreadyExistsException e) {
-            throw new VCSDuplicateRepositoryException(repo);
+            throw new VCSRepositoryAlreadyExistsException(repo);
         }
     }
 
