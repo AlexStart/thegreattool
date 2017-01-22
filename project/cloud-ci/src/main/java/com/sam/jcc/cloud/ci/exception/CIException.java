@@ -15,8 +15,4 @@ public class CIException extends CloudException {
     protected CIException(String key, Object... args) {
         super(key, args);
     }
-
-    protected CIException(Throwable cause, String key, Object... args) {
-        super(cause, key, args);
-    }
 }
