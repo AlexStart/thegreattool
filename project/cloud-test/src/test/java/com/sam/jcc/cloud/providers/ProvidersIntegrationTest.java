@@ -18,8 +18,8 @@ import com.sam.jcc.cloud.util.TestEnvironment;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
 import com.sam.jcc.cloud.vcs.VCSRepository;
-import com.sam.jcc.cloud.vcs.git.impl.GitAbstractStorage;
 import com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider;
+import com.sam.jcc.cloud.vcs.git.impl.GitRemoteStorage;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -98,11 +98,6 @@ public class ProvidersIntegrationTest extends TestEnvironment {
         loadAndCopySourcesTo(job, data, repository);
         git.create(repository);
 
-        jenkins.create(job);
-        waitWhileProcessing(job);
-        final byte[] build_1 = getBuild(jenkins.read(job));
-        assertThat(build_1).isNotEmpty();
-
         mySqlInjector.update(data);
         assertThat(data.getSources()).isNotEqualTo(sources);
 
@@ -112,10 +107,9 @@ public class ProvidersIntegrationTest extends TestEnvironment {
         clearLocalSources(repository);
         copySourcesTo(git.read(repository), job, data);
 
-        jenkins.update(job);
+        jenkins.create(job);
         waitWhileProcessing(job);
-        final byte[] build_2 = getBuild(jenkins.read(job));
-        assertThat(build_2).isNotEqualTo(build_1);
+        assertThat(getBuild(jenkins.read(job))).isNotEmpty();
 
         deleteQuietly(job);
         disableGitSupport(repository);
@@ -179,7 +173,9 @@ public class ProvidersIntegrationTest extends TestEnvironment {
 
     void setGitManagedDir(GitDaemon daemon) {
         final File dir = daemon.getStorage();
-        ((GitAbstractStorage) git.getGit().getStorage()).setBaseRepository(dir);
+        final GitRemoteStorage storage = (GitRemoteStorage) git.getGit().getStorage();
+        storage.setBaseRepository(dir);
+        storage.setPort(daemon.getCurrentPort());
     }
 
     byte[] readSources(IProjectMetadata metadata) {

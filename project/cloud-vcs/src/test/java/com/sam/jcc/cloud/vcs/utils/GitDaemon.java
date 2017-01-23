@@ -21,7 +21,6 @@ import java.net.ServerSocket;
 
 import static com.sam.jcc.cloud.PropertyResolver.getProperty;
 import static java.lang.Integer.valueOf;
-import static java.lang.Thread.sleep;
 import static lombok.AccessLevel.NONE;
 
 /**
@@ -39,6 +38,7 @@ public class GitDaemon {
     private File storage;
 
     private Daemon daemon;
+    private int currentPort;
 
     public void startUp(File dir) {
         this.storage = dir;
@@ -69,8 +69,7 @@ public class GitDaemon {
     private void run(Daemon daemon) {
         try {
             daemon.start();
-            sleep(1_000L /* timeout for starting & initializing of a Git-daemon Thread*/);
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -82,6 +81,8 @@ public class GitDaemon {
             log.info("Port {} isn't available, next available is {}", port, availablePort);
         }
         log.info("Configure Git-daemon[{}:{}] for {}", host, availablePort, home);
+
+        currentPort = availablePort;
 
         final Daemon daemon = new Daemon(new InetSocketAddress(host, availablePort));
         daemon.setRepositoryResolver(new FileResolver<>(home, true));

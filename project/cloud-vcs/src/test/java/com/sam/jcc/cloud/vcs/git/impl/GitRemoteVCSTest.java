@@ -48,7 +48,7 @@ public class GitRemoteVCSTest {
     public final void setUp() throws Exception {
         final GitRemoteStorage storage = new GitRemoteStorage();
         storage.setBaseRepository(daemon.getStorage());
-
+        storage.setPort(daemon.getCurrentPort());
         git.setStorage(storage);
     }
 
