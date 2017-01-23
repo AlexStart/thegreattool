@@ -245,6 +245,12 @@
 
 		<!-- TEST -->
 		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.security.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
@@ -255,6 +261,12 @@
 
 	<build>
 		<finalName>cloud-mvc</finalName>
+
+		<testResources>
+			<testResource>
+				<directory>src/main/webapp</directory>
+			</testResource>
+		</testResources>
 
 		<plugins>
 			<plugin>

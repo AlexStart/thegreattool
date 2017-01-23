@@ -39,4 +39,14 @@ public class ProjectMetadata implements IProjectMetadata, IStatusable {
     private ProjectStatus status;
 
     private Long id;
+
+    @Override
+    public boolean hasSources() {
+        return projectSources != null;
+    }
+
+    @Override
+    public String getName() {
+        return projectName;
+    }
 }

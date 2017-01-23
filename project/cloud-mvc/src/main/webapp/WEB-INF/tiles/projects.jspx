@@ -6,11 +6,29 @@
 
 	<jsp:output omit-xml-declaration="yes" />
 
+	<spring:message code="projects" var="projects" />
+
+
 	<div style="max-width: 680px; width: auto; margin: auto;">
-		<h2>
-			<spring:message code="apps" />
-		</h2>
+
+		<h2>${projects}</h2>
+
+		<div class="dropdown projectProvidersDropDown">
+			<button class="btn btn-default dropdown-toggle" type="button"
+				id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+				aria-expanded="true">
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				<c:forEach items="${models}" var="model">
+					<li><a href="#">${model}</a></li>
+				</c:forEach>
+			</ul>
+			<label class="dropdown-label" style="margin-left: 10px"></label>
+		</div>
+
 		<crud />
+
 	</div>
 
 	<!-- CUSTOM GALLERY COMPONENTS JS -->
@@ -22,7 +40,7 @@
 	<!-- -->
 		
 	</script>
-	<script src="${context_path}/js/components/crud/crud.js">
+	<script src="${context_path}/js/components/crud/crud3.js">
 	<!-- -->
 		
 	</script>
@@ -31,5 +49,6 @@
 	<!-- -->
 		
 	</script>
+
 
 </div>

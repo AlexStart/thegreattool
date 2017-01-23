@@ -1,0 +1,36 @@
+<div>
+    <table ng-table="vm.items" class="table table-condensed table-bordered table-striped">
+        <tr ng-repeat="item in $data">
+            <td title="vm.items.metadata.name.translation"
+                ng-click="vm.select(item.data)"
+                class="row"
+                ng-attr-title="{{vm.status(item)}}"
+                ng-style="item.data.disabled && {'background-color':'#D3D3D3'}"
+                ng-class="{'selectedrow': vm.item.name == item.data.name}"
+                >{{item.data.name}}</td>
+        </tr>
+    </table>
+    <br>
+
+    <form name="vm.form" novalidate>
+        <fieldset style="width:100%">
+            <button type="submit"
+                    class="btn btn-info update-button"
+                    ng-click="vm.update(vm.item)"
+                    ng-hide="!vm.item.name" disabled="disabled">{{vm.buttons.update}}
+                    <!-- ng-hide="vm.item.name && vm.item.disabled">{{vm.buttons.update}}-->
+            </button>
+
+            <button type="submit"
+                    class="btn btn-info"
+                    ng-click="vm.refresh()">{{vm.buttons.refresh}}
+            </button>
+
+            <button type="submit"
+                    class="btn btn-info"
+                    ng-click="vm.reset()"
+                    ng-hide="!(vm.item.name || vm.item.id)">{{vm.buttons.cancel}}
+            </button>
+        </fieldset>
+    </form>
+</div>

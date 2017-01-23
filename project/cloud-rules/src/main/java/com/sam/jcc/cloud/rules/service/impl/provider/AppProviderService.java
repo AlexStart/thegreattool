@@ -83,4 +83,12 @@ public class AppProviderService implements IService<IAppMetadata> {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
+	public Map<Long, String> getNames() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+
 }

@@ -12,7 +12,9 @@ import java.util.List;
 @Component
 public class GitProtocolProvider extends VCSProvider {
 
-    public GitProtocolProvider(List<IEventManager<IVCSMetadata>> eventManagers) {
+    private static final long GIT_PROTOCOL_PROVIDER_ID = 4L;
+
+	public GitProtocolProvider(List<IEventManager<IVCSMetadata>> eventManagers) {
         super(eventManagers);
     }
 
@@ -26,4 +28,9 @@ public class GitProtocolProvider extends VCSProvider {
     public boolean isEnabled() {
         return true;
     }
+
+	@Override
+	public Long getId() {
+		return GIT_PROTOCOL_PROVIDER_ID;
+	}
 }

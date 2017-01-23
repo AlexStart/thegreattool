@@ -1,0 +1,10 @@
+{
+  "url": "api/projects",
+  "custom": {
+    "buttons": {
+      "update": "project.generate",
+      "cancel": "button.cancel",
+      "refresh": "button.refresh"
+    }
+  }
+}

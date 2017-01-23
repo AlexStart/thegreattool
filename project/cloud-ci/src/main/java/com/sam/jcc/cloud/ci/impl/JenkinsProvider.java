@@ -27,9 +27,10 @@ import static com.sam.jcc.cloud.ci.CIProjectStatus.UPDATED;
  * @author Alexey Zhytnik
  * @since 22-Dec-16
  */
-@Setter
 @Component
 public class JenkinsProvider extends AbstractProvider<ICIMetadata> implements ICIProvider {
+
+    private static final long JENKINS_PROVIDER_ID = 5L;
 
     @Autowired(required = false)
     @VisibleForTesting
@@ -138,4 +139,9 @@ public class JenkinsProvider extends AbstractProvider<ICIMetadata> implements IC
         }
         return (CIProject) metadata;
     }
+
+	@Override
+	public Long getId() {
+		return JENKINS_PROVIDER_ID;
+	}
 }

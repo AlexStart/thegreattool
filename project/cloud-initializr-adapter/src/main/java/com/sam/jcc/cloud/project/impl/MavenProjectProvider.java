@@ -25,6 +25,8 @@ import com.sam.jcc.cloud.project.ProjectProvider;
 @Component
 public class MavenProjectProvider extends ProjectProvider implements IHealth {
 
+	private static final long MAVEN_PROJECT_PROVIDER_ID = 1L;
+
 	public MavenProjectProvider(List<IEventManager<IProjectMetadata>> eventManagers) {
 		super(eventManagers);
 	}
@@ -86,10 +88,15 @@ public class MavenProjectProvider extends ProjectProvider implements IHealth {
 
 			@Override
 			public Long getId() {
-				return 1L;
+				return MAVEN_PROJECT_PROVIDER_ID;
 			}
 
 		};
+	}
+
+	@Override
+	public Long getId() {
+		return MAVEN_PROJECT_PROVIDER_ID;
 	}
 
 }

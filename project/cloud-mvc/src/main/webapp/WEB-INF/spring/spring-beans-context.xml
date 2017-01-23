@@ -33,6 +33,8 @@
 				<bean class="com.sam.jcc.cloud.mvc.dto.converter.AppMetadataConverter" />
 				<bean class="com.sam.jcc.cloud.mvc.dto.converter.VCSConverter" />
 				<bean class="com.sam.jcc.cloud.mvc.dto.converter.HealthConverter" />
+				<bean class="com.sam.jcc.cloud.mvc.dto.converter.ProjectConverter" />
+				<bean class="com.sam.jcc.cloud.mvc.dto.converter.VCSProjectConverter" />
 			</set>
 		</property>
 	</bean>

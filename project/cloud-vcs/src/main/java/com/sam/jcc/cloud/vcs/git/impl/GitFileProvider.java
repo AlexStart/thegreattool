@@ -12,7 +12,9 @@ import java.util.List;
 @Component
 public class GitFileProvider extends VCSProvider {
 
-    public GitFileProvider(List<IEventManager<IVCSMetadata>> eventManagers) {
+    private static final long GIT_FILE_PROVIDER_ID = 3L;
+
+	public GitFileProvider(List<IEventManager<IVCSMetadata>> eventManagers) {
         super(eventManagers);
     }
 
@@ -25,4 +27,9 @@ public class GitFileProvider extends VCSProvider {
     public boolean isEnabled() {
         return true;
     }
+
+	@Override
+	public Long getId() {
+		return GIT_FILE_PROVIDER_ID;
+	}
 }

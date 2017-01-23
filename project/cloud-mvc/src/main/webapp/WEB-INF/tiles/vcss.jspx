@@ -8,20 +8,48 @@
 
 	<spring:message code="vcss" var="vcss" />
 
-	<h2>${vcss}</h2>
 
-	<div class="dropdown">
-		<button class="btn btn-default dropdown-toggle" type="button"
-			id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
-			aria-expanded="true">
-			<span class="caret"></span>
-		</button>
-		<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-			<c:forEach items="${models}" var="model">
-				<li><a href="#">${model.name}</a></li>
-			</c:forEach>
-		</ul>
-	</div>
+	<div style="max-width: 680px; width: auto; margin: auto;">
+
+		<h2>${vcss}</h2>
+
+		<div class="dropdown">
+			<button class="btn btn-default dropdown-toggle" type="button"
+				id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+				aria-expanded="true">
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				<c:forEach items="${models}" var="model">
+					<li><a href="#">${model.name}</a></li>
+				</c:forEach>
+			</ul>
+			<label class="dropdown-label" style="margin-left: 10px"></label>
+		</div>
+
+		<crud />
+	
+		</div>	
+	
+
+	<!-- CUSTOM GALLERY COMPONENTS JS --> <script
+			src="https://code.angularjs.org/snapshot/angular.min.js">
+	<!-- -->
+		
+	</script>
+	<script src="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.js">
+	<!-- -->
+		
+	</script>
+	<script src="${context_path}/js/components/crud/crud2.js">
+	<!-- -->
+		
+	</script>
+	<script
+			src="http://cdnjs.cloudflare.com/ajax/libs/angular-loading-bar/0.9.0/loading-bar.min.js">
+	<!-- -->
+		
+	</script>
 
 
 </div>

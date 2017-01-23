@@ -86,4 +86,9 @@ public class AppProvider extends AbstractProvider<IAppMetadata> implements IAppP
     private AppMetadata asAppMetadata(IAppMetadata metadata) {
         return (AppMetadata) metadata;
     }
+
+	@Override
+	public Long getId() {
+		return 0L;
+	}
 }
