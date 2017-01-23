@@ -31,6 +31,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -43,7 +44,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 public class ProvidersIntegrationTest extends TestEnvironment {
 
-    static final String PROJECT_ARTIFACT_ID = "iproject";
+    static final String PROJECT_ARTIFACT_ID = "iproject" + new Random().nextInt(1000);
     static final String PROJECT_GROUP_ID = "com.samsolutions";
 
     @Autowired
