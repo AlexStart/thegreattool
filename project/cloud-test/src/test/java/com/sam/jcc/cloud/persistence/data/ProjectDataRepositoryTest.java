@@ -1,9 +1,11 @@
 package com.sam.jcc.cloud.persistence.data;
 
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
@@ -24,6 +26,11 @@ public class ProjectDataRepositoryTest {
 
     ProjectData project = projectTemplate();
 
+    @After
+    public void tearDown() {
+        repository.deleteAll();
+    }
+
     @Test
     public void creates() {
         repository.save(project);
@@ -36,10 +43,18 @@ public class ProjectDataRepositoryTest {
 
         final Optional<ProjectData> stored = repository.findByName(project.getName());
 
-        assertThat(stored.isPresent()).isTrue();
-        assertThat(stored.get().getName()).isEqualTo("project");
+        assertThat(stored.orElseThrow(RuntimeException::new)).isEqualTo(project);
+    }
 
-        repository.delete(project);
+    @Test
+    public void updates() {
+        repository.save(project);
+
+        project.setCi(null);
+        repository.save(project);
+
+        final ProjectData stored = repository.findOne(project.getId());
+        assertThat(stored.getCi()).isNull();
     }
 
     @Test
@@ -48,8 +63,20 @@ public class ProjectDataRepositoryTest {
 
         final ProjectData stored = repository.findOne(project.getId());
         assertThat(stored.getSources()).isEqualTo(project.getSources());
+    }
 
-        repository.delete(project);
+    @Test(expected = JpaSystemException.class)
+    public void ciShouldBeUnique() {
+        final ProjectData data_1 = new ProjectData();
+        data_1.setName("name_1");
+        data_1.setCi("ci-project");
+
+        final ProjectData data_2 = new ProjectData();
+        data_2.setName("name_2");
+        data_2.setCi("ci-project");
+
+        repository.save(data_1);
+        repository.save(data_2);
     }
 
     ProjectData projectTemplate() {
