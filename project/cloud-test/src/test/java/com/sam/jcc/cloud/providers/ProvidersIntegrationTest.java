@@ -79,8 +79,8 @@ public class ProvidersIntegrationTest extends TestEnvironment {
         mySqlManager.drop(data);
         apps.findAll().forEach(apps::delete);
 
-        setGitManagedDir(TestEnvironment.daemon);
         jenkins.setJenkins(TestEnvironment.jenkins);
+        setUpGitRemoteStorage(TestEnvironment.daemon);
     }
 
     @After
@@ -171,11 +171,12 @@ public class ProvidersIntegrationTest extends TestEnvironment {
     @Autowired
     ProjectDataRepository dataRepository;
 
-    void setGitManagedDir(GitDaemon daemon) {
-        final File dir = daemon.getStorage();
-        final GitRemoteStorage storage = (GitRemoteStorage) git.getGit().getStorage();
-        storage.setBaseRepository(dir);
+    void setUpGitRemoteStorage(GitDaemon daemon) {
+        final GitRemoteStorage storage = new GitRemoteStorage();
+        storage.setBaseRepository(daemon.getStorage());
         storage.setPort(daemon.getCurrentPort());
+
+        git.getGit().setStorage(storage);
     }
 
     byte[] readSources(IProjectMetadata metadata) {
