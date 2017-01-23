@@ -32,10 +32,12 @@ public class JenkinsProvider extends AbstractProvider<ICIMetadata> implements IC
 
     private static final long JENKINS_PROVIDER_ID = 5L;
 
+    @Setter
     @Autowired(required = false)
     @VisibleForTesting
     private Jenkins jenkins;
 
+    @Setter
     @Autowired
     @VisibleForTesting
     private CIProjectDao dao;
