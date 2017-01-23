@@ -11,9 +11,7 @@ public class VCSRepositoryDataHelper {
 
     public static VCSRepository repository() {
         final VCSRepository r = new VCSRepository();
-
         r.setArtifactId("temp");
-        r.setGroupId("com.experimental");
         return r;
     }
 }

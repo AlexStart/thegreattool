@@ -60,6 +60,8 @@ public abstract class JenkinsBaseTest {
             throw new RuntimeException("TimeOut");
         }
         log.info("{} finished", project);
+
+        sleep(1_000L /* timeout for Jenkins stabilization */);
     }
 
     /**

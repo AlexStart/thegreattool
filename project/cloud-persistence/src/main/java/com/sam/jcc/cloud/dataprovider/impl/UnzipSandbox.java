@@ -15,7 +15,7 @@ import java.util.function.Consumer;
  * @since 18.01.2017
  */
 @Component
-@Experimental("As temp solution between changing interaction with sources or changing execution flow")
+@Experimental("for simple work with zip data")
 class UnzipSandbox {
 
     @Autowired

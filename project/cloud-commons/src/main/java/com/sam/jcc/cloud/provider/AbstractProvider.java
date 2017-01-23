@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Map;
 
+import static java.util.Objects.nonNull;
 import static lombok.AccessLevel.PACKAGE;
 import static org.springframework.context.i18n.LocaleContextHolder.getLocale;
 
@@ -50,7 +51,7 @@ public abstract class AbstractProvider<T> extends AbstractCRUD<T> implements IPr
 
     @Override
     public T create(T t) {
-        if (t != null) {
+        if (nonNull(t)) {
             if (supports(t)) {
                 T preprocessed = preprocess(t);
                 notify(preprocessed);

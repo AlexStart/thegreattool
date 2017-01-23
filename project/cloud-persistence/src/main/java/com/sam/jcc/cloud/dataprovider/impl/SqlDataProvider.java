@@ -9,7 +9,7 @@ import com.sam.jcc.cloud.i.data.IDataMetadata;
 import com.sam.jcc.cloud.i.data.ISqlDataProvider;
 import com.sam.jcc.cloud.persistence.data.ProjectData;
 import com.sam.jcc.cloud.persistence.data.ProjectDataRepository;
-import com.sam.jcc.cloud.persistence.exception.EntityNotFoundException;
+import com.sam.jcc.cloud.persistence.data.ProjectDataNotFoundException;
 import com.sam.jcc.cloud.provider.AbstractProvider;
 import com.sam.jcc.cloud.provider.UnsupportedCallException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,10 @@ public abstract class SqlDataProvider extends AbstractProvider<IDataMetadata> im
     private MySqlDatabaseManager dbManager;
 
     @Autowired
-    private MySqlDependencyInjector injector;
+    private SourceGenerator sourceGenerator;
+
+    @Autowired
+    private MySqlInjector injector;
 
     @Autowired
     private ProjectDataRepository repository;
@@ -80,8 +83,7 @@ public abstract class SqlDataProvider extends AbstractProvider<IDataMetadata> im
     public IDataMetadata preprocess(IDataMetadata d) {
         final AppData app = asAppData(d);
 
-        final ProjectData data = repository.findByName(app.getAppName())
-                .orElseThrow(() -> new EntityNotFoundException(app));
+        final ProjectData data = getOrThrow(app);
 
         if (data.getDataSupport()) throw new InternalCloudException();
         if (isNull(data.getSources())) throw new ProjectSourcesNotFound(app);
@@ -98,8 +100,22 @@ public abstract class SqlDataProvider extends AbstractProvider<IDataMetadata> im
 
     @Override
     public IDataMetadata postprocess(IDataMetadata d) {
-        dbManager.create(asAppData(d));
+        final AppData app = asAppData(d);
+        sourceGenerator.generate(app);
+        dbManager.create(app);
+
+        final ProjectData data = getOrThrow(app);
+        data.setDataSupport(true);
+        data.setSources(app.getSources());
+
+        repository.save(data);
         return d;
+    }
+
+    private ProjectData getOrThrow(AppData app) {
+        final String name = app.getAppName();
+        return repository.findByName(name)
+                .orElseThrow(() -> new ProjectDataNotFoundException(name));
     }
 
     private void updateStatus(IDataMetadata data, AppDataStatus status) {

@@ -17,6 +17,7 @@ import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.ItemStorage;
 import lombok.AccessLevel;
 import lombok.Getter;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -39,6 +40,7 @@ import static org.springframework.util.StreamUtils.copyToByteArray;
  * @since 15-Dec-16
  */
 @Component
+@Profile("prod")
 public class Jenkins implements CIServer {
 
     @VisibleForTesting
@@ -166,9 +168,8 @@ public class Jenkins implements CIServer {
     private byte[] getBytes(InputStream stream) throws IOException {
         try {
             return copyToByteArray(stream);
-        } catch (IOException e) {
+        } finally {
             closeQuietly(stream);
-            throw e;
         }
     }
 
@@ -200,8 +201,8 @@ public class Jenkins implements CIServer {
     public static JenkinsServer defaultJenkinsServer() {
         return new JenkinsServer(
                 URI.create(getProperty("ci.jenkins.host")),
-                getProperty("ci.user"),
-                getProperty("ci.password")
+                getProperty("ci.jenkins.user"),
+                getProperty("ci.jenkins.password")
         );
     }
 }

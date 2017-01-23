@@ -1,10 +1,10 @@
 package com.sam.jcc.cloud.app;
 
 import com.sam.jcc.cloud.crud.ICRUD;
-import com.sam.jcc.cloud.exception.InternalCloudException;
 import com.sam.jcc.cloud.i.app.IAppMetadata;
-import com.sam.jcc.cloud.persistence.app.AppMetadataEntity;
-import com.sam.jcc.cloud.persistence.app.AppRepository;
+import com.sam.jcc.cloud.persistence.data.ProjectDataNotFoundException;
+import com.sam.jcc.cloud.persistence.data.ProjectData;
+import com.sam.jcc.cloud.persistence.data.ProjectDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,60 +19,65 @@ import static java.util.stream.Collectors.toList;
  * @since 09.01.2017
  */
 @Component
-//TODO: maybe check existence
-class AppMetadataDao implements ICRUD<IAppMetadata> {
+class AppMetadataDao implements ICRUD<AppMetadata> {
 
     @Autowired
-    private AppRepository repository;
+    private ProjectDataRepository repository;
 
     @Override
-    public IAppMetadata create(IAppMetadata m) {
-        repository.save(convert(asAppMetadata(m)));
+    public AppMetadata create(AppMetadata m) {
+        final ProjectData data = convert(m);
+        repository.save(data);
+        m.setId(data.getId());
         return m;
     }
 
     @Override
-    public IAppMetadata read(IAppMetadata m) {
-        final String name = asAppMetadata(m).getProjectName();
-        final Optional<AppMetadataEntity> entity = repository.findByProjectName(name);
-        return convert(entity.orElseThrow(InternalCloudException::new));
+    public AppMetadata read(AppMetadata m) {
+        return convert(getOrThrow(m));
     }
 
     @Override
-    public IAppMetadata update(IAppMetadata m) {
-        repository.save(convert(asAppMetadata(m)));
+    public AppMetadata update(AppMetadata m) {
+        final Long id = getOrThrow(m).getId();
+        m.setId(id);
+
+        repository.save(convert(m));
         return m;
     }
 
     @Override
-    public void delete(IAppMetadata m) {
-        final Long id = asAppMetadata(m).getId();
-        repository.delete(id);
+    public void delete(AppMetadata m) {
+        repository.delete(getOrThrow(m));
+    }
+
+    private ProjectData getOrThrow(AppMetadata metadata) {
+        final String name = metadata.getProjectName();
+        final Optional<ProjectData> entity = repository.findByName(name);
+        return entity.orElseThrow(() -> new ProjectDataNotFoundException(name));
     }
 
     @Override
-    public List<? super IAppMetadata> findAll() {
+    public List<IAppMetadata> findAll() {
         return newArrayList(repository.findAll())
                 .stream()
                 .map(this::convert)
                 .collect(toList());
     }
 
-    private AppMetadata asAppMetadata(IAppMetadata metadata) {
-        return (AppMetadata) metadata;
-    }
-
-    private AppMetadata convert(AppMetadataEntity entity) {
+    private AppMetadata convert(ProjectData entity) {
         final AppMetadata app = new AppMetadata();
+
         app.setId(entity.getId());
-        app.setProjectName(entity.getProjectName());
+        app.setProjectName(entity.getName());
         return app;
     }
 
-    private AppMetadataEntity convert(AppMetadata app) {
-        final AppMetadataEntity entity = new AppMetadataEntity();
-        entity.setId(app.getId());
-        entity.setProjectName(app.getProjectName());
-        return entity;
+    private ProjectData convert(AppMetadata app) {
+        final ProjectData data = new ProjectData();
+
+        data.setId(app.getId());
+        data.setName(app.getProjectName());
+        return data;
     }
 }

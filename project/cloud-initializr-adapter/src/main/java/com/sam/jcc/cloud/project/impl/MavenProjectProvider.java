@@ -26,10 +26,9 @@ import com.sam.jcc.cloud.project.ProjectProvider;
 public class MavenProjectProvider extends ProjectProvider implements IHealth {
 
 	private static final long MAVEN_PROJECT_PROVIDER_ID = 1L;
-	private static final String MAVEN_PROJECT = "maven-project";
 
 	public MavenProjectProvider(List<IEventManager<IProjectMetadata>> eventManagers) {
-		super(eventManagers, MAVEN_PROJECT);
+		super(eventManagers);
 	}
 
 	@Override
@@ -39,7 +38,7 @@ public class MavenProjectProvider extends ProjectProvider implements IHealth {
 
 		final ProjectMetadata m = (ProjectMetadata) metadata;
 		final String name = m.getProjectType();
-		return name != null && name.equals(MAVEN_PROJECT);
+		return name != null && name.equals("maven-project");
 	}
 
 	@Override

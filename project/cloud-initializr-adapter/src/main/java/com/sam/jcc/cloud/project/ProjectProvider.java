@@ -8,7 +8,7 @@ import static java.lang.String.format;
 
 import java.util.List;
 
-import com.sam.jcc.cloud.project.dao.ExtendProjectMetadataDao;
+import com.sam.jcc.cloud.provider.UnsupportedCallException;
 import com.sam.jcc.cloud.provider.UnsupportedTypeException;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -25,7 +25,7 @@ public abstract class ProjectProvider extends AbstractProvider<IProjectMetadata>
     @Autowired
     private ProjectBuilder builder;
     @Autowired
-    private ExtendProjectMetadataDao dao;
+    private ProjectMetadataDao dao;
     @Autowired
     private ProjectValidator validator;
     @Autowired
@@ -33,12 +33,9 @@ public abstract class ProjectProvider extends AbstractProvider<IProjectMetadata>
     @Autowired
     private SourceProcessor srcProcessor;
 
-    private String projectType;
-
     @Autowired
-    public ProjectProvider(List<IEventManager<IProjectMetadata>> eventManagers, String projectType) {
+    public ProjectProvider(List<IEventManager<IProjectMetadata>> eventManagers) {
         super(eventManagers);
-        this.projectType = projectType;
     }
 
     @Override
@@ -48,11 +45,21 @@ public abstract class ProjectProvider extends AbstractProvider<IProjectMetadata>
     }
 
     @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    @Override
     public abstract boolean supports(IProjectMetadata m);
 
     @Override
     public IProjectMetadata create(IProjectMetadata metadata) {
-        return dao.create(build(metadata));
+        return dao.update(build(metadata));
+    }
+
+    private ProjectMetadata build(IProjectMetadata metadata) {
+        final IProjectMetadata created = super.create(metadata);
+        return asProjectMetadata(created);
     }
 
     @Override
@@ -86,34 +93,23 @@ public abstract class ProjectProvider extends AbstractProvider<IProjectMetadata>
     }
 
     @Override
-    public boolean isEnabled() {
-        return true;
-    }
-
-    @Override
     public IProjectMetadata read(IProjectMetadata m) {
         return dao.read(asProjectMetadata(m));
     }
 
     @Override
     public IProjectMetadata update(IProjectMetadata metadata) {
-        return dao.update(build(metadata));
-    }
-
-    private ProjectMetadata build(IProjectMetadata metadata) {
-        final IProjectMetadata created = super.create(metadata);
-        return asProjectMetadata(created);
+        throw new UnsupportedCallException();
     }
 
     @Override
     public void delete(IProjectMetadata m) {
-        dao.delete(asProjectMetadata(m));
+        throw new UnsupportedCallException();
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public List<IProjectMetadata> findAll() {
-        return (List<IProjectMetadata>) dao.findAllByProjectType(projectType);
+        return dao.findAll();
     }
 
     private void updateStatus(IProjectMetadata project, ProjectStatus status) {
@@ -128,4 +124,3 @@ public abstract class ProjectProvider extends AbstractProvider<IProjectMetadata>
         return (ProjectMetadata) metadata;
     }
 }
-

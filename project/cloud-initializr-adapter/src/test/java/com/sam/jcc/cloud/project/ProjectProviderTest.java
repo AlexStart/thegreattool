@@ -11,6 +11,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.spy;
 
+import com.sam.jcc.cloud.app.AppMetadata;
+import com.sam.jcc.cloud.app.AppProvider;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,6 +34,9 @@ import com.sam.jcc.cloud.provider.UnsupportedTypeException;
 @RunWith(SpringRunner.class)
 public class ProjectProviderTest {
 
+    @Autowired
+    AppProvider appProvider;
+
 	@Autowired
 	MavenProjectProvider mavenProvider;
 
@@ -40,12 +45,9 @@ public class ProjectProviderTest {
 
 	@After
     public void reset(){
-	    mavenProvider
+	    appProvider
                 .findAll()
-                .forEach(mavenProvider::delete);
-	    gradleProvider
-                .findAll()
-                .forEach(gradleProvider::delete);
+                .forEach(appProvider::delete);
     }
 
 	@Test
@@ -76,13 +78,6 @@ public class ProjectProviderTest {
 		assertThat(gradleProvider.supports(gradleProject())).isTrue();
 	}
 
-	@Test(expected = ProjectAlreadyExistException.class)
-	public void failsOnDuplicate() {
-		final ProjectMetadata project = mavenProject();
-		mavenProvider.create(project);
-		mavenProvider.create(project);
-	}
-
     @Test(expected = ProjectNotFoundException.class)
     public void failsOnReadUnknown() {
         mavenProvider.read(mavenProject());
@@ -90,18 +85,14 @@ public class ProjectProviderTest {
 
     @Test(expected = ProjectNotFoundException.class)
     public void failsOnUpdateUnknown() {
-        gradleProvider.update(gradleProject());
+        gradleProvider.create(gradleProject());
     }
-
-	@Test(expected = ProjectNotFoundException.class)
-	public void failsOnDeleteUnknown() {
-		gradleProvider.delete(gradleProject());
-	}
 
 	@Test
 	public void changesMavenProjectStatus() {
-		final ProjectMetadata project = spy(mavenProject());
+		final ProjectMetadata project = spy(mavenApp());
 		mavenProvider.create(project);
+		assertThat(project.getProjectSources()).isNotEmpty();
 
 		final InOrder order = inOrder(project);
 		order.verify(project).setStatus(UNPROCESSED);
@@ -112,10 +103,11 @@ public class ProjectProviderTest {
 
 	@Test
 	public void changesGradleProjectStatus() {
-		final ProjectMetadata project = spy(gradleProject());
+		final ProjectMetadata project = spy(gradleApp());
 		gradleProvider.create(project);
+        assertThat(project.getProjectSources()).isNotEmpty();
 
-		final InOrder order = inOrder(project);
+        final InOrder order = inOrder(project);
 		order.verify(project).setStatus(UNPROCESSED);
 		order.verify(project).setStatus(PRE_PROCESSED);
 		order.verify(project).setStatus(PROCESSED);
@@ -155,4 +147,21 @@ public class ProjectProviderTest {
 	ProjectMetadata asProjectMetadata(IProjectMetadata metadata) {
 		return (ProjectMetadata) metadata;
 	}
+
+	ProjectMetadata mavenApp(){
+        return create(mavenProject());
+    }
+
+    ProjectMetadata gradleApp(){
+	    return create(gradleProject());
+    }
+
+    ProjectMetadata create(ProjectMetadata m){
+        m.setProjectName(m.getArtifactId());
+
+        final AppMetadata app = new AppMetadata();
+        app.setProjectName(m.getProjectName());
+        appProvider.create(app);
+        return m;
+    }
 }

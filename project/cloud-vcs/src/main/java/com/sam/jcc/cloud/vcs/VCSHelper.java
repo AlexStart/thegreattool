@@ -9,10 +9,10 @@ import java.util.Arrays;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.TempFile;
 import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
-import com.sam.jcc.cloud.vcs.git.GitFileStorage;
-import com.sam.jcc.cloud.vcs.git.GitRemoteStorage;
-import com.sam.jcc.cloud.vcs.git.GitVCS;
-import com.sam.jcc.cloud.vcs.git.VCSRepositoryBuilder;
+import com.sam.jcc.cloud.vcs.git.impl.GitFileStorage;
+import com.sam.jcc.cloud.vcs.git.impl.GitRemoteStorage;
+import com.sam.jcc.cloud.vcs.git.impl.GitVCS;
+import com.sam.jcc.cloud.vcs.git.impl.VCSRepositoryBuilder;
 
 /**
  * @author Alexey Zhytnik
@@ -153,7 +153,6 @@ public class VCSHelper {
             repo.setSources(temp);
             vcs.read(repo);
 
-            //TODO: direct zip creation
             final byte[] content = zipManager.zip(temp);
             final File sources = files.createTempFile(repo.getName(), ".zip");
             files.write(content, sources);

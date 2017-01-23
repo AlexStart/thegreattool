@@ -4,6 +4,7 @@ import static java.util.Objects.isNull;
 
 import java.util.List;
 
+import com.sam.jcc.cloud.provider.UnsupportedCallException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -47,16 +48,14 @@ public class AppProvider extends AbstractProvider<IAppMetadata> implements IAppP
         if (isNull(m.getProjectName())) throw new AppMetadataValidationException();
 
         final String name = m.getProjectName().trim().toLowerCase();
+        nameValidator.validate(name);
         m.setProjectName(name);
-        nameValidator.validate(m.getProjectName());
         return m;
     }
 
     @Override
     public IAppMetadata process(IAppMetadata m) {
-        final IAppMetadata created = dao.create(m);
-        updateStatus(m, AppMetadataStatus.CREATED);
-        return created;
+        return dao.create(asAppMetadata(m));
     }
 
     @Override
@@ -71,9 +70,7 @@ public class AppProvider extends AbstractProvider<IAppMetadata> implements IAppP
 
     @Override
     public IAppMetadata update(IAppMetadata m) {
-        final IAppMetadata updated = dao.update(asAppMetadata(m));
-        updateStatus(m, AppMetadataStatus.UPDATED);
-        return updated;
+        throw new UnsupportedCallException();
     }
 
     @Override
@@ -82,13 +79,8 @@ public class AppProvider extends AbstractProvider<IAppMetadata> implements IAppP
     }
 
     @Override
-    public List<? super IAppMetadata> findAll() {
+    public List<IAppMetadata> findAll() {
         return dao.findAll();
-    }
-
-    private void updateStatus(IAppMetadata app, AppMetadataStatus status) {
-        asAppMetadata(app).setStatus(status);
-        notify(app);
     }
 
     private AppMetadata asAppMetadata(IAppMetadata metadata) {

@@ -123,7 +123,6 @@ public class CIHelper {
         final Entry<String, String> metadata = parser.parse(zip);
 
         final CIProject p = new CIProject();
-        p.setGroupId(metadata.getKey());
         p.setArtifactId(metadata.getValue());
         p.setSources(extractSources(zip));
         return p;

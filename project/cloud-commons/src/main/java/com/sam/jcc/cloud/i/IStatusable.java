@@ -5,5 +5,6 @@ package com.sam.jcc.cloud.i;
  * @since 16.11.2016
  */
 public interface IStatusable {
+
     IStatus getStatus();
 }

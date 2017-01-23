@@ -24,10 +24,15 @@ public class ProjectData {
     @GeneratedValue
     private Long id;
 
+    @Column(name = "name", unique = true, nullable = false)
     private String name;
 
+    @Column(name = "ci", unique = true)
     private String ci;
+
+    @Column(name = "vcs", unique = true)
     private String vcs;
+
     private Boolean dataSupport = false;
 
     @Lob

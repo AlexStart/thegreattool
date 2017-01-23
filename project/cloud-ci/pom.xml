@@ -24,6 +24,11 @@
             <artifactId>cloud-utils</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.sam.jcc</groupId>
+            <artifactId>cloud-persistence</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.offbytwo.jenkins</groupId>
@@ -78,16 +83,12 @@
             <scope>test</scope>
             <exclusions>
                 <exclusion>
-                    <artifactId>log4j-over-slf4j</artifactId>
                     <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-jdk14</artifactId>
                 </exclusion>
                 <exclusion>
-                    <artifactId>logback-classic</artifactId>
-                    <groupId>ch.qos.logback</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>logback-core</artifactId>
-                    <groupId>ch.qos.logback</groupId>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>log4j-over-slf4j</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
