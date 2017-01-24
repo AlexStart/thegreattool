@@ -32,9 +32,9 @@ import static org.assertj.core.api.Assertions.assertThat;
         ZipArchiveManager.class,
         DependencyManager.class,
         MySqlInjector.class,
-        SourceGenerator.class,
+        JpaSourceGenerator.class,
 })
-public class SourceGeneratorTest {
+public class JpaSourceGeneratorTest {
 
     static final String ENTITY = "src/main/java/com/zhytnik/app/persistence/entity/Example.java";
     static final String DAO = "src/main/java/com/zhytnik/app/persistence/repository/ExampleDAO.java";
@@ -50,7 +50,7 @@ public class SourceGeneratorTest {
     ZipArchiveManager manager;
 
     @Autowired
-    SourceGenerator generator;
+    JpaSourceGenerator generator;
 
     @Before
     public void setUp() {
