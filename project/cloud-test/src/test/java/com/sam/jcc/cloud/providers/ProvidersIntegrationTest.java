@@ -98,6 +98,11 @@ public class ProvidersIntegrationTest extends TestEnvironment {
         loadAndCopySourcesTo(job, data, repository);
         git.create(repository);
 
+        jenkins.create(job);
+        waitWhileProcessing(job);
+        final byte[] build_1 = getBuild(jenkins.read(job));
+        assertThat(build_1).isNotEmpty();
+
         mySqlInjector.update(data);
         assertThat(data.getSources()).isNotEqualTo(sources);
 
@@ -107,9 +112,10 @@ public class ProvidersIntegrationTest extends TestEnvironment {
         clearLocalSources(repository);
         copySourcesTo(git.read(repository), job, data);
 
-        jenkins.create(job);
+        jenkins.update(job);
         waitWhileProcessing(job);
-        assertThat(getBuild(jenkins.read(job))).isNotEmpty();
+        final byte[] build_2 = getBuild(jenkins.read(job));
+        assertThat(build_2).isNotEqualTo(build_1);
 
         deleteQuietly(job);
         disableGitSupport(repository);
