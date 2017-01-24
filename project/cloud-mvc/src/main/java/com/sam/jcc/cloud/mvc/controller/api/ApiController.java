@@ -17,6 +17,7 @@ import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import com.sam.jcc.cloud.mvc.controller.api.exception.ValidationCloudException;
 import com.sam.jcc.cloud.mvc.dto.AppDTO;
 import com.sam.jcc.cloud.mvc.dto.ProjectDTO;
+import com.sam.jcc.cloud.mvc.dto.ProviderDTO;
 import com.sam.jcc.cloud.mvc.service.AppService;
 import com.sam.jcc.cloud.mvc.service.ProjectService;
 import com.sam.jcc.cloud.rules.service.IService;
@@ -38,6 +39,7 @@ public class ApiController {
 	@Autowired
 	private IService<IProjectMetadata> projectProviderService;
 
+	// APPS //	
 	@RequestMapping(value = "apps", method = RequestMethod.GET)
 	public @ResponseBody List<? super AppDTO> findAllApps() {
 		return appService.findAll();
@@ -67,6 +69,7 @@ public class ApiController {
 		appService.delete(id);
 	}
 
+	// PROJECTS //
 	@RequestMapping(value = "projects", method = RequestMethod.GET)
 	public @ResponseBody List<? super IProjectMetadata> findAllProjects() {
 		return projectProviderService.findAll();
@@ -78,6 +81,12 @@ public class ApiController {
 			throw new ValidationCloudException();
 		}
 		return projectService.update(projectDTO);
+	}	
+	
+	// PROVIDERS
+	@RequestMapping(value = "providers", method = RequestMethod.GET)
+	public @ResponseBody List<ProviderDTO> findAllProviders() {
+		return projectService.getProjectProviders();
 	}	
 
 }
