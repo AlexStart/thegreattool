@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import com.sam.jcc.cloud.mvc.dto.ProjectDTO;
+import com.sam.jcc.cloud.mvc.dto.ProviderDTO;
 import com.sam.jcc.cloud.rules.service.IService;
 
 /**
@@ -41,12 +42,17 @@ public class ProjectService extends BaseService<ProjectDTO> {
 		return projects;
 	}
 
-	public List<String> getProjectProvidersNames() {
-		List<String> names = new ArrayList<>();
+	public List<ProviderDTO> getProjectProviders() {
+		List<ProviderDTO> providerDTOs = new ArrayList<>();
 		for (IService<IProjectMetadata> providerService : projectProviderServices) {
-			names.addAll(providerService.getNames().values());
+			for(Long id : providerService.getNames().keySet()) {
+				ProviderDTO providerDTO = new ProviderDTO();
+				providerDTO.setProviderId(id);
+				providerDTO.setProviderName(providerService.getNames().get(id));
+				providerDTOs.add(providerDTO);
+			}
 		}
-		return names;
+		return providerDTOs;
 	}
 
 	public ProjectDTO update(ProjectDTO projectDTO) {

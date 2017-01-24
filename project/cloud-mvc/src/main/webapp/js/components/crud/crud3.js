@@ -142,7 +142,7 @@
         };
 
         activate();
-
+        
         function activate() {
             vm.items = new NgTableParams(
                 {
@@ -227,6 +227,7 @@
         function reset() {
             vm.item = {id: undefined, name: ''};
         }
+
     }
 
 

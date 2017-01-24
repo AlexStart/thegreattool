@@ -21,10 +21,15 @@
 			</button>
 			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
 				<c:forEach items="${models}" var="model">
-					<li><a href="#">${model}</a></li>
+					<li ng-click=" vm.item.providerId = '${model.providerId}' "><a href="#">${model.providerName}</a></li>
 				</c:forEach>
 			</ul>
 			<label class="dropdown-label" style="margin-left: 10px"></label>
+		</div>
+		
+		<div>
+			 <input ng-model="vm.item.providerId" />
+		     <span>{{vm.item.providerId}}</span>
 		</div>
 
 		<crud />

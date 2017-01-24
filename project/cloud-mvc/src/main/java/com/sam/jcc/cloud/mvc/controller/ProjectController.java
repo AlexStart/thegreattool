@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import com.sam.jcc.cloud.mvc.dto.ProjectDTO;
+import com.sam.jcc.cloud.mvc.dto.ProviderDTO;
 import com.sam.jcc.cloud.mvc.service.ProjectService;
 import com.sam.jcc.cloud.rules.service.IService;
 
@@ -54,8 +55,8 @@ public class ProjectController extends GenericController<ProjectDTO, IProjectMet
 	@Override
 	@RequestMapping(method = RequestMethod.GET)
 	public String get(ModelMap model) {
-		List<String> names = projectService.getProjectProvidersNames();
-		model.addAttribute("models", names);
+		List<ProviderDTO> models = projectService.getProjectProviders();
+		model.addAttribute("models", models);
 		return view();
 	}
 
