@@ -3,10 +3,12 @@ package com.sam.jcc.cloud.vcs.git.impl;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.VCSRepositoryDataHelper;
-import com.sam.jcc.cloud.vcs.git.impl.GitRemoteStorage;
-import com.sam.jcc.cloud.vcs.git.impl.GitVCS;
 import com.sam.jcc.cloud.vcs.utils.GitDaemon;
-import org.junit.*;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.ClassRule;
+import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
@@ -46,7 +48,7 @@ public class GitRemoteVCSTest {
     public final void setUp() throws Exception {
         final GitRemoteStorage storage = new GitRemoteStorage();
         storage.setBaseRepository(daemon.getStorage());
-
+        storage.setPort(daemon.getCurrentPort());
         git.setStorage(storage);
     }
 

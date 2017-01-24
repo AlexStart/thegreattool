@@ -9,11 +9,11 @@ import static org.apache.commons.io.FileUtils.listFiles;
 import static org.apache.commons.io.filefilter.DirectoryFileFilter.DIRECTORY;
 import static org.apache.commons.io.filefilter.FileFileFilter.FILE;
 import static org.springframework.util.ResourceUtils.JAR_URL_PREFIX;
-import static org.springframework.util.ResourceUtils.extractJarFileURL;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
+import java.io.InputStream;
 import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.List;
@@ -32,7 +32,6 @@ import com.sam.jcc.cloud.exception.InternalCloudException;
 import com.sam.jcc.cloud.i.OSDependent;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.ResourceUtils;
 
 /**
  * @author Alexey Zhytnik
@@ -168,10 +167,20 @@ public class FileManager {
             final ClassPathResource resource = new ClassPathResource(path, clazz);
 
             if (resource.getURL().toString().startsWith(JAR_URL_PREFIX)) {
-                return new File(extractJarFileURL(clazz.getResource(path)).toURI());
+                return null;
             }
             return resource.getFile();
-        } catch (IOException | URISyntaxException e) {
+        } catch (IOException e) {
+            throw new InternalCloudException(e);
+        }
+    }
+
+    public static byte[] getResourceAsBytes(Class<?> clazz, String path) {
+        try (InputStream resource = clazz.getResourceAsStream(path)) {
+            final ByteArrayOutputStream data = new ByteArrayOutputStream();
+            IOUtils.copy(resource, data);
+            return data.toByteArray();
+        } catch (IOException e) {
             throw new InternalCloudException(e);
         }
     }

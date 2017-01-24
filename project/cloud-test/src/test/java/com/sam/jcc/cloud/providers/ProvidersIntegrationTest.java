@@ -18,11 +18,10 @@ import com.sam.jcc.cloud.util.TestEnvironment;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
 import com.sam.jcc.cloud.vcs.VCSRepository;
-import com.sam.jcc.cloud.vcs.git.impl.GitAbstractStorage;
 import com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider;
+import com.sam.jcc.cloud.vcs.git.impl.GitRemoteStorage;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +30,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -43,7 +43,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 public class ProvidersIntegrationTest extends TestEnvironment {
 
-    static final String PROJECT_ARTIFACT_ID = "iproject";
+    static final String PROJECT_ARTIFACT_ID = "iproject" + new Random().nextInt(1000);
     static final String PROJECT_GROUP_ID = "com.samsolutions";
 
     @Autowired
@@ -79,8 +79,8 @@ public class ProvidersIntegrationTest extends TestEnvironment {
         mySqlManager.drop(data);
         apps.findAll().forEach(apps::delete);
 
-        setGitManagedDir(TestEnvironment.daemon);
         jenkins.setJenkins(TestEnvironment.jenkins);
+        setUpGitRemoteStorage(TestEnvironment.daemon);
     }
 
     @After
@@ -89,7 +89,6 @@ public class ProvidersIntegrationTest extends TestEnvironment {
     }
 
     @Test
-    @Ignore("required increased heap size (~1.5 GB)")
     public void createsAndGeneratesAndInjectsMySqlAndBuildsOnJenkins() throws Exception {
         apps.create(app);
 
@@ -98,11 +97,6 @@ public class ProvidersIntegrationTest extends TestEnvironment {
 
         loadAndCopySourcesTo(job, data, repository);
         git.create(repository);
-
-        jenkins.create(job);
-        waitWhileProcessing(job);
-        final byte[] build_1 = getBuild(jenkins.read(job));
-        assertThat(build_1).isNotEmpty();
 
         mySqlInjector.update(data);
         assertThat(data.getSources()).isNotEqualTo(sources);
@@ -113,10 +107,9 @@ public class ProvidersIntegrationTest extends TestEnvironment {
         clearLocalSources(repository);
         copySourcesTo(git.read(repository), job, data);
 
-        jenkins.update(job);
+        jenkins.create(job);
         waitWhileProcessing(job);
-        final byte[] build_2 = getBuild(jenkins.read(job));
-        assertThat(build_2).isNotEqualTo(build_1);
+        assertThat(getBuild(jenkins.read(job))).isNotEmpty();
 
         deleteQuietly(job);
         disableGitSupport(repository);
@@ -178,9 +171,12 @@ public class ProvidersIntegrationTest extends TestEnvironment {
     @Autowired
     ProjectDataRepository dataRepository;
 
-    void setGitManagedDir(GitDaemon daemon) {
-        final File dir = daemon.getStorage();
-        ((GitAbstractStorage) git.getGit().getStorage()).setBaseRepository(dir);
+    void setUpGitRemoteStorage(GitDaemon daemon) {
+        final GitRemoteStorage storage = new GitRemoteStorage();
+        storage.setBaseRepository(daemon.getStorage());
+        storage.setPort(daemon.getCurrentPort());
+
+        git.getGit().setStorage(storage);
     }
 
     byte[] readSources(IProjectMetadata metadata) {

@@ -1,6 +1,7 @@
 package com.sam.jcc.cloud.dataprovider.impl;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Charsets;
 import com.sam.jcc.cloud.dataprovider.AppData;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import lombok.Setter;
@@ -18,7 +19,9 @@ import java.util.function.Consumer;
 import static com.google.common.collect.ImmutableMap.of;
 import static com.sam.jcc.cloud.PropertyResolver.getProperty;
 import static com.sam.jcc.cloud.utils.files.FileManager.getResource;
+import static com.sam.jcc.cloud.utils.files.FileManager.getResourceAsBytes;
 import static java.text.MessageFormat.format;
+import static java.util.Objects.nonNull;
 
 /**
  * @author Alexey Zhytnik
@@ -59,11 +62,11 @@ class SourceGenerator {
 
     private Consumer<File> modify(AppData app) {
         return sources -> {
-                    app.setLocation(sources);
-                    addEntity(app);
-                    addDao(app);
-                    addTest(app);
-                };
+            app.setLocation(sources);
+            addEntity(app);
+            addDao(app);
+            addTest(app);
+        };
     }
 
     private void addEntity(AppData app) {
@@ -134,6 +137,9 @@ class SourceGenerator {
     }
 
     private String read(String resource) {
-        return files.toString(getResource(getClass(), resource));
+        final File file = getResource(getClass(), resource);
+
+        if (nonNull(file)) return files.toString(file);
+        return new String(getResourceAsBytes(getClass(), resource), Charsets.UTF_8);
     }
 }

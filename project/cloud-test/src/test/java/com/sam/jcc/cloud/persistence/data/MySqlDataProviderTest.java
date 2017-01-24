@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.File;
+import java.util.Random;
 
 import static com.sam.jcc.cloud.utils.files.FileManager.getResource;
 
@@ -26,7 +27,7 @@ import static com.sam.jcc.cloud.utils.files.FileManager.getResource;
 @RunWith(SpringRunner.class)
 public class MySqlDataProviderTest {
 
-    static final String PROJECT_NAME = "project";
+    static final String PROJECT_NAME = "project" + new Random().nextInt(1000);
 
     @Autowired
     MySqlDataProvider mysqlProvider;
