@@ -4,7 +4,6 @@ import static java.util.Objects.isNull;
 
 import java.util.List;
 
-import com.sam.jcc.cloud.provider.UnsupportedCallException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -70,7 +69,7 @@ public class AppProvider extends AbstractProvider<IAppMetadata> implements IAppP
 
     @Override
     public IAppMetadata update(IAppMetadata m) {
-        throw new UnsupportedCallException();
+        return dao.update(asAppMetadata(m));
     }
 
     @Override

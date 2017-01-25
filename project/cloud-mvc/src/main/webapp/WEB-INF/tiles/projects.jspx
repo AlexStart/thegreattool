@@ -13,24 +13,7 @@
 
 		<h2>${projects}</h2>
 
-		<div class="dropdown projectProvidersDropDown">
-			<button class="btn btn-default dropdown-toggle" type="button"
-				id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
-				aria-expanded="true">
-				<span class="caret"></span>
-			</button>
-			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-				<c:forEach items="${models}" var="model">
-					<li ng-click=" vm.item.providerId = '${model.providerId}' "><a href="#">${model.providerName}</a></li>
-				</c:forEach>
-			</ul>
-			<label class="dropdown-label" style="margin-left: 10px"></label>
-		</div>
 		
-		<div>
-			 <input ng-model="vm.item.providerId" />
-		     <span>{{vm.item.providerId}}</span>
-		</div>
 
 		<crud />
 

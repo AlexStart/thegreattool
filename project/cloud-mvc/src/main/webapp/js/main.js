@@ -8,11 +8,4 @@ function onReady() {
 	if (removeFooter) {
 		$("footer").removeClass("footer");
 	}
-
-	$(".update-button").attr("disabled", true);
-		
-	$(".dropdown-menu").on("click", "li", function(event){
-        $(".dropdown-label").text(event.target.text);
-        $(".update-button").attr("disabled", false);
-    })
 }
