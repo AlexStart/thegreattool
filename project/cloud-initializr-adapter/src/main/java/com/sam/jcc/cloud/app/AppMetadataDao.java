@@ -1,18 +1,19 @@
 package com.sam.jcc.cloud.app;
 
-import com.sam.jcc.cloud.crud.ICRUD;
-import com.sam.jcc.cloud.i.app.IAppMetadata;
-import com.sam.jcc.cloud.persistence.data.ProjectDataNotFoundException;
-import com.sam.jcc.cloud.persistence.data.ProjectData;
-import com.sam.jcc.cloud.persistence.data.ProjectDataRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import static com.google.common.collect.Lists.newArrayList;
+import static java.util.stream.Collectors.toList;
 
 import java.util.List;
 import java.util.Optional;
 
-import static com.google.common.collect.Lists.newArrayList;
-import static java.util.stream.Collectors.toList;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.sam.jcc.cloud.crud.ICRUD;
+import com.sam.jcc.cloud.i.app.IAppMetadata;
+import com.sam.jcc.cloud.persistence.data.ProjectData;
+import com.sam.jcc.cloud.persistence.data.ProjectDataNotFoundException;
+import com.sam.jcc.cloud.persistence.data.ProjectDataRepository;
 
 /**
  * @author Alexey Zhytnik
@@ -21,63 +22,72 @@ import static java.util.stream.Collectors.toList;
 @Component
 class AppMetadataDao implements ICRUD<AppMetadata> {
 
-    @Autowired
-    private ProjectDataRepository repository;
+	@Autowired
+	private ProjectDataRepository repository;
 
-    @Override
-    public AppMetadata create(AppMetadata m) {
-        final ProjectData data = convert(m);
-        repository.save(data);
-        m.setId(data.getId());
-        return m;
+	@Override
+	public AppMetadata create(AppMetadata m) {
+		final ProjectData data = convert(m);
+		repository.save(data);
+		m.setId(data.getId());
+		return m;
+	}
+
+	@Override
+	public AppMetadata read(AppMetadata m) {
+		return convert(getOrThrow(m));
+	}
+
+	@Override
+	public AppMetadata update(AppMetadata m) {
+		final Long id = get(m).getId();
+		m.setId(id);
+
+		repository.save(convert(m));
+		return m;
+	}
+
+	@Override
+	public void delete(AppMetadata m) {
+		repository.delete(getOrThrow(m));
+	}
+
+	private ProjectData getOrThrow(AppMetadata metadata) {
+		final String name = metadata.getProjectName();
+		final Optional<ProjectData> entity = repository.findByName(name);
+		return entity.orElseThrow(() -> new ProjectDataNotFoundException(name));
+	}
+
+	private ProjectData get(AppMetadata  metadata) {
+    	if (metadata == null || metadata.getId() == null) {
+    		throw new ProjectDataNotFoundException(metadata.getProjectName());
+    	}
+        final ProjectData entity = repository.findOne(metadata.getId());
+        if (entity == null) {
+        	throw new ProjectDataNotFoundException(metadata.getProjectName());
+        } else {
+        	return entity;
+        }
     }
 
-    @Override
-    public AppMetadata read(AppMetadata m) {
-        return convert(getOrThrow(m));
-    }
+	@Override
+	public List<IAppMetadata> findAll() {
+		return newArrayList(repository.findAll()).stream().map(this::convert).collect(toList());
+	}
 
-    @Override
-    public AppMetadata update(AppMetadata m) {
-        final Long id = getOrThrow(m).getId();
-        m.setId(id);
+	private AppMetadata convert(ProjectData entity) {
+		final AppMetadata app = new AppMetadata();
 
-        repository.save(convert(m));
-        return m;
-    }
+		app.setId(entity.getId());
+		app.setProjectName(entity.getName());
+		return app;
+	}
 
-    @Override
-    public void delete(AppMetadata m) {
-        repository.delete(getOrThrow(m));
-    }
+	private ProjectData convert(AppMetadata app) {
+		final ProjectData data = new ProjectData();
 
-    private ProjectData getOrThrow(AppMetadata metadata) {
-        final String name = metadata.getProjectName();
-        final Optional<ProjectData> entity = repository.findByName(name);
-        return entity.orElseThrow(() -> new ProjectDataNotFoundException(name));
-    }
-
-    @Override
-    public List<IAppMetadata> findAll() {
-        return newArrayList(repository.findAll())
-                .stream()
-                .map(this::convert)
-                .collect(toList());
-    }
-
-    private AppMetadata convert(ProjectData entity) {
-        final AppMetadata app = new AppMetadata();
-
-        app.setId(entity.getId());
-        app.setProjectName(entity.getName());
-        return app;
-    }
-
-    private ProjectData convert(AppMetadata app) {
-        final ProjectData data = new ProjectData();
-
-        data.setId(app.getId());
-        data.setName(app.getProjectName());
-        return data;
-    }
+		data.setId(app.getId());
+		data.setName(app.getProjectName());
+		return data;
+	}
 }
