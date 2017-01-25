@@ -20,7 +20,6 @@ import com.sam.jcc.cloud.mvc.dto.ProjectDTO;
 import com.sam.jcc.cloud.mvc.dto.ProviderDTO;
 import com.sam.jcc.cloud.mvc.service.AppService;
 import com.sam.jcc.cloud.mvc.service.ProjectService;
-import com.sam.jcc.cloud.rules.service.IService;
 
 /**
  * @author olegk
@@ -36,8 +35,6 @@ public class ApiController {
 	@Autowired
 	private ProjectService projectService;	
 
-	@Autowired
-	private IService<IProjectMetadata> projectProviderService;
 
 	// APPS //	
 	@RequestMapping(value = "apps", method = RequestMethod.GET)
@@ -72,7 +69,7 @@ public class ApiController {
 	// PROJECTS //
 	@RequestMapping(value = "projects", method = RequestMethod.GET)
 	public @ResponseBody List<? super IProjectMetadata> findAllProjects() {
-		return projectProviderService.findAll();
+		return projectService.findAll();
 	}
 	
 	@RequestMapping(value = "projects", method = RequestMethod.PUT)

@@ -15,7 +15,10 @@
 	<!-- Initializr beans -->
 	<bean id="projectGenerator" class="io.spring.initializr.generator.ProjectGenerator" />
 	<bean class="io.spring.initializr.metadata.InitializrMetadata" />
-	<bean class="io.spring.initializr.metadata.SimpleInitializrMetadataProvider" />
+	<!-- bean class="io.spring.initializr.metadata.SimpleInitializrMetadataProvider" 
+		/ -->
+	<bean
+		class="com.sam.jcc.cloud.adapter.StaticMetadataProvider" />
 	<util:list id="emptyList"
 		value-type="io.spring.initializr.generator.ProjectRequestPostProcessor" />
 	<bean class="io.spring.initializr.generator.ProjectRequestResolver">
@@ -23,6 +26,7 @@
 	</bean>
 	<bean class="io.spring.initializr.util.GroovyTemplate" />
 	<bean class="io.spring.initializr.generator.ProjectResourceLocator" />
+	<bean class="org.springframework.web.client.RestTemplate" />
 	<!-- end of Initializr beans -->
 
 	<bean id="conversionService"
@@ -34,6 +38,7 @@
 				<bean class="com.sam.jcc.cloud.mvc.dto.converter.VCSConverter" />
 				<bean class="com.sam.jcc.cloud.mvc.dto.converter.HealthConverter" />
 				<bean class="com.sam.jcc.cloud.mvc.dto.converter.ProjectConverter" />
+				<bean class="com.sam.jcc.cloud.mvc.dto.converter.ProjectMetadataConverter" />
 				<bean class="com.sam.jcc.cloud.mvc.dto.converter.VCSProjectConverter" />
 			</set>
 		</property>

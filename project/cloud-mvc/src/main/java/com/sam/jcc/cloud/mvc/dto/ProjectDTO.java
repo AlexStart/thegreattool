@@ -13,6 +13,12 @@ public class ProjectDTO extends AppDTO {
 
 	private boolean hasSources;
 	
+	private boolean hasVcs;
+	
+	private boolean hasCI;
+	
+	private boolean hasDb;
+	
 	public Long getProviderId() {
 		return providerId;
 	}
@@ -37,4 +43,29 @@ public class ProjectDTO extends AppDTO {
 		setHasSources(disabled);
 	}
 
+	public boolean isHasVcs() {
+		return hasVcs;
+	}
+
+	public void setHasVcs(boolean hasVcs) {
+		this.hasVcs = hasVcs;
+	}
+
+	public boolean isHasCI() {
+		return hasCI;
+	}
+
+	public void setHasCI(boolean hasCI) {
+		this.hasCI = hasCI;
+	}
+
+	public boolean isHasDb() {
+		return hasDb;
+	}
+
+	public void setHasDb(boolean hasDb) {
+		this.hasDb = hasDb;
+	}
+
+	
 }

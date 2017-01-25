@@ -15,7 +15,7 @@ public interface IService<T> extends ICRUD<T> {
 
 	void findAndDelete(Map<String, String> props);
 
-	T create(Map<String, String> props);
+	T create(Map<?, ?> props);
 
 	void delete(Map<String, String> props);
 

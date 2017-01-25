@@ -55,9 +55,9 @@ public class AppProviderService implements IService<IAppMetadata> {
 	}
 
 	@Override
-	public IAppMetadata create(Map<String, String> props) {
+	public IAppMetadata create(Map<?, ?> props) {
 		IAppMetadata project = new AppMetadata();
-		project.setProjectName(props.get("projectName"));
+		project.setProjectName((String) props.get("projectName"));
 		IAppMetadata created = appProvider.create(project);
 		return created;
 	}
@@ -88,7 +88,5 @@ public class AppProviderService implements IService<IAppMetadata> {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	
 
 }

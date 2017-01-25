@@ -49,7 +49,7 @@ class AppMetadataDao implements ICRUD<AppMetadata> {
 
 	@Override
 	public void delete(AppMetadata m) {
-		repository.delete(getOrThrow(m));
+		repository.delete(get(m).getId());
 	}
 
 	private ProjectData getOrThrow(AppMetadata metadata) {

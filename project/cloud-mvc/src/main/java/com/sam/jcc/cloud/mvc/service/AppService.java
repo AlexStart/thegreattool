@@ -8,10 +8,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sam.jcc.cloud.i.app.IAppMetadata;
+import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import com.sam.jcc.cloud.mvc.dto.AppDTO;
 import com.sam.jcc.cloud.rules.service.IService;
 import com.sam.jcc.cloud.utils.project.ArtifactIdValidator;
@@ -23,8 +26,13 @@ import com.sam.jcc.cloud.utils.project.ArtifactIdValidator;
 @Service
 public class AppService extends BaseService<AppDTO> {
 
+	private static Logger LOGGER = LoggerFactory.getLogger(AppService.class);
+
 	@Autowired
 	private IService<IAppMetadata> appProviderService;
+
+	@Autowired
+	private IService<IProjectMetadata> projectProviderService;
 
 	@Autowired
 	private ArtifactIdValidator nameValidator;
@@ -60,6 +68,50 @@ public class AppService extends BaseService<AppDTO> {
 	}
 
 	public void delete(Long id) {
+
+		IProjectMetadata read = projectProviderService.read(new IProjectMetadata() {
+
+			@Override
+			public Long getId() {
+				return id;
+			}
+
+			@Override
+			public boolean hasSources() {
+				return false;
+			}
+
+			@Override
+			public String getName() {
+				return null;
+			}
+
+			@Override
+			public boolean hasVCs() {
+				return false;
+			}
+
+			@Override
+			public boolean hasCI() {
+				return false;
+			}
+
+			@Override
+			public boolean hasDb() {
+				return false;
+			}
+
+		});
+
+		if (read.hasSources()) {
+			LOGGER.warn("Deleting a project " + read.getName() + " with existing sources...");
+		}
+		
+		if (read.hasVCs() || read.hasCI() || read.hasDb()) {
+			LOGGER.warn("Cannot be deleted!");
+			return;
+		}		
+
 		Map<String, String> props = new HashMap<>();
 		props.put("id", String.valueOf(id));
 		appProviderService.delete(props);

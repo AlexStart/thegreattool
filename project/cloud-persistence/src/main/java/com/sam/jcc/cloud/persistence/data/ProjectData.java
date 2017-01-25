@@ -1,14 +1,15 @@
 package com.sam.jcc.cloud.persistence.data;
 
-import com.sam.jcc.cloud.i.Experimental;
-import lombok.Data;
-import lombok.ToString;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+
+import com.sam.jcc.cloud.i.Experimental;
+
+import lombok.Data;
+import lombok.ToString;
 
 /**
  * @author Alexey Zhytnik
@@ -23,6 +24,9 @@ public class ProjectData {
     @Id
     @GeneratedValue
     private Long id;
+    
+    @Column(name = "groupId")
+    private String groupId;    
 
     @Column(name = "name", unique = true, nullable = false)
     private String name;
@@ -33,6 +37,7 @@ public class ProjectData {
     @Column(name = "vcs", unique = true)
     private String vcs;
 
+    @Column(name = "db")
     private Boolean dataSupport = false;
 
     @Lob

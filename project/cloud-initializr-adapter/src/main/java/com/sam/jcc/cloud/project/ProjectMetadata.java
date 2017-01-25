@@ -1,14 +1,15 @@
 package com.sam.jcc.cloud.project;
 
-import com.sam.jcc.cloud.i.IStatusable;
-import com.sam.jcc.cloud.i.project.IProjectMetadata;
-import lombok.Data;
-import lombok.ToString;
+import static com.google.common.collect.Lists.newArrayList;
 
 import java.io.File;
 import java.util.List;
 
-import static com.google.common.collect.Lists.newArrayList;
+import com.sam.jcc.cloud.i.IStatusable;
+import com.sam.jcc.cloud.i.project.IProjectMetadata;
+
+import lombok.Data;
+import lombok.ToString;
 
 /**
  * @author Alec Kotovich
@@ -39,6 +40,11 @@ public class ProjectMetadata implements IProjectMetadata, IStatusable {
     private ProjectStatus status;
 
     private Long id;
+    
+    private String ci;
+    private String vcs;
+    private boolean db;
+    
 
     @Override
     public boolean hasSources() {
@@ -49,4 +55,19 @@ public class ProjectMetadata implements IProjectMetadata, IStatusable {
     public String getName() {
         return projectName;
     }
+
+	@Override
+	public boolean hasVCs() {
+		return vcs != null;
+	}
+
+	@Override
+	public boolean hasCI() {
+		return ci != null;
+	}
+
+	@Override
+	public boolean hasDb() {
+		return db;
+	}
 }

@@ -8,7 +8,7 @@ package com.sam.jcc.cloud.i.data;
  */
 public interface IDataMetadata {
 
-    String getAppName();
+    String getDbName();
 
-    void setAppName(String name);
+    void setDbName(String name);
 }

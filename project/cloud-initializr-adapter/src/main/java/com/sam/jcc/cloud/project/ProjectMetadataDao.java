@@ -1,16 +1,17 @@
 package com.sam.jcc.cloud.project;
 
-import com.sam.jcc.cloud.crud.ICRUD;
-import com.sam.jcc.cloud.i.project.IProjectMetadata;
-import com.sam.jcc.cloud.persistence.data.ProjectData;
-import com.sam.jcc.cloud.persistence.data.ProjectDataRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import static java.util.stream.Collectors.toList;
 
 import java.util.List;
 import java.util.Optional;
 
-import static java.util.stream.Collectors.toList;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.sam.jcc.cloud.crud.ICRUD;
+import com.sam.jcc.cloud.i.project.IProjectMetadata;
+import com.sam.jcc.cloud.persistence.data.ProjectData;
+import com.sam.jcc.cloud.persistence.data.ProjectDataRepository;
 
 /**
  * @author Alexey Zhytnik
@@ -65,8 +66,11 @@ class ProjectMetadataDao implements ICRUD<ProjectMetadata> {
         final ProjectMetadata metadata = new ProjectMetadata();
 
         metadata.setId(data.getId());
+        metadata.setGroupId(data.getGroupId());
         metadata.setArtifactId(data.getName());
+        metadata.setProjectName(metadata.getArtifactId());
         metadata.setProjectSources(data.getSources());
+       
         return metadata;
     }
 }

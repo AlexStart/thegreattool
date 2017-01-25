@@ -15,7 +15,7 @@
 	<description>SaM Java Cloud Gallery of Custom UI Components</description>
 
 	<properties>
-		<spring.boot.version>1.4.2.RELEASE</spring.boot.version>
+		<spring.boot.version>1.4.3.RELEASE</spring.boot.version>
 		<spring.data-commons.version>1.12.6.RELEASE</spring.data-commons.version>
 	</properties>
 
