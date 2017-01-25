@@ -62,7 +62,7 @@ class MongoDbInjector {
     }
 
     //TODO: transfer
-    private Dependency lombok(){
+    private Dependency lombok() {
         final Dependency lombok = new Dependency();
 
         lombok.setScope("compile");
@@ -73,9 +73,22 @@ class MongoDbInjector {
     }
 
     private String settings(AppData data) {
+        final String uri = String.format("mongodb://%s:%s/%s",
+                getProperty("db.mongo.host"),
+                getProperty("db.mongo.port"),
+                data.getAppName()
+        );
+
+        if (getProperty("db.mongo.user").isEmpty()) {
+            return mongo("uri", uri);
+        }
+        return settingsWithAuth(uri);
+    }
+
+    private String settingsWithAuth(String uri) {
         return String.join(lineSeparator(),
                 of(
-                        mongo("uri", getProperty("db.mongo.uri") + data.getAppName()),
+                        mongo("uri", uri),
                         mongo("username", getProperty("db.mongo.user")),
                         mongo("password", getProperty("db.mongo.password"))
                 ));
