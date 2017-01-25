@@ -11,8 +11,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.spy;
 
-import com.sam.jcc.cloud.app.AppMetadata;
-import com.sam.jcc.cloud.app.AppProvider;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,9 +19,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.sam.jcc.cloud.app.AppMetadata;
+import com.sam.jcc.cloud.app.AppProvider;
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import com.sam.jcc.cloud.project.impl.GradleProjectProvider;
 import com.sam.jcc.cloud.project.impl.MavenProjectProvider;
+import com.sam.jcc.cloud.provider.UnsupportedCallException;
 import com.sam.jcc.cloud.provider.UnsupportedTypeException;
 
 /**
@@ -49,6 +50,18 @@ public class ProjectProviderTest {
                 .findAll()
                 .forEach(appProvider::delete);
     }
+	
+	@Test(expected = UnsupportedCallException.class)
+	public void isMavenCreateDisabled() {
+		ProjectMetadata m = mavenProject();
+		mavenProvider.create(m);
+	}
+
+	@Test(expected = UnsupportedCallException.class)
+	public void isGradleCreateDisabled() {
+		ProjectMetadata m = gradleProject();
+		gradleProvider.create(m);
+	}
 
 	@Test
 	public void getsName() {
@@ -85,13 +98,13 @@ public class ProjectProviderTest {
 
     @Test(expected = ProjectNotFoundException.class)
     public void failsOnUpdateUnknown() {
-        gradleProvider.create(gradleProject());
+        gradleProvider.update(gradleProject());
     }
 
 	@Test
 	public void changesMavenProjectStatus() {
 		final ProjectMetadata project = spy(mavenApp());
-		mavenProvider.create(project);
+		mavenProvider.update(project);
 		assertThat(project.getProjectSources()).isNotEmpty();
 
 		final InOrder order = inOrder(project);
@@ -104,7 +117,7 @@ public class ProjectProviderTest {
 	@Test
 	public void changesGradleProjectStatus() {
 		final ProjectMetadata project = spy(gradleApp());
-		gradleProvider.create(project);
+		gradleProvider.update(project);
         assertThat(project.getProjectSources()).isNotEmpty();
 
         final InOrder order = inOrder(project);
@@ -122,12 +135,12 @@ public class ProjectProviderTest {
 
 	@Test(expected = UnsupportedTypeException.class)
 	public void failsWithUnknownProjectTypeMaven() {
-		assertThat(mavenProvider.create(emptyProject())).isNotNull();
+		assertThat(mavenProvider.update(emptyProject())).isNotNull();
 	}
 
 	@Test(expected = UnsupportedTypeException.class)
 	public void failsWithUnknownProjectTypeGradle() {
-		assertThat(gradleProvider.create(emptyProject())).isNotNull();
+		assertThat(gradleProvider.update(emptyProject())).isNotNull();
 	}
 
 	@Test
