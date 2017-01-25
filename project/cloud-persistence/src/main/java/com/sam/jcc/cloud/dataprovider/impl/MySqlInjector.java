@@ -49,6 +49,7 @@ class MySqlInjector {
         dependencyManager.add(sources, mysqlConnector());
 
         final File properties = parser.getPropertiesFile(sources);
+        files.append(lineSeparator().getBytes(), properties);
         files.append(settings(data).getBytes(), properties);
     }
 

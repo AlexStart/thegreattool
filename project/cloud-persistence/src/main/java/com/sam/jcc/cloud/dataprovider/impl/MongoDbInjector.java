@@ -48,6 +48,7 @@ class MongoDbInjector {
         dependencyManager.add(sources, dataMongoDbStarted());
 
         final File properties = parser.getPropertiesFile(sources);
+        files.append(lineSeparator().getBytes(), properties);
         files.append(settings(data).getBytes(), properties);
     }
 

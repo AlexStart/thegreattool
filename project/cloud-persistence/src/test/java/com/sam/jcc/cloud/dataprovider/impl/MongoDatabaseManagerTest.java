@@ -35,7 +35,7 @@ public class MongoDatabaseManagerTest {
         mongoManager.create(app);
 
         final MongoDatabase db = mongoClient.getDatabase(app.getAppName());
-        assertThat(db.listCollectionNames()).isNotEmpty().containsOnly(COLLECTION_EXAMPLE);
+        assertThat(db.listCollectionNames()).isNotEmpty().contains(COLLECTION_EXAMPLE);
     }
 
     @After
