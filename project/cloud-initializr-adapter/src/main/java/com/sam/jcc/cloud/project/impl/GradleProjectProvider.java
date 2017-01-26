@@ -40,7 +40,7 @@ public class GradleProjectProvider extends ProjectProvider implements IHealth {
 
 		final ProjectMetadata m = (ProjectMetadata) metadata;
 		final String name = m.getProjectType();
-		return name != null && name.equals("gradle-project");
+		return name != null && name.equals(getType());
 	}
 
 	@Override
@@ -99,6 +99,11 @@ public class GradleProjectProvider extends ProjectProvider implements IHealth {
 	@Override
 	public Long getId() {
 		return GRADLE_PROJECT_PROVIDER_ID;
+	}
+
+	@Override
+	public String getType() {
+		return "gradle-project";
 	}
 
 }

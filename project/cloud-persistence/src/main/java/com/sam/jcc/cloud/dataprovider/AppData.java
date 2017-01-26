@@ -1,14 +1,15 @@
 package com.sam.jcc.cloud.dataprovider;
 
-import com.sam.jcc.cloud.i.Experimental;
-import com.sam.jcc.cloud.i.IStatusable;
-import com.sam.jcc.cloud.i.data.IDataMetadata;
-import lombok.Data;
-import lombok.ToString;
+import static com.sam.jcc.cloud.dataprovider.AppDataStatus.INITIALIZED;
 
 import java.io.File;
 
-import static com.sam.jcc.cloud.dataprovider.AppDataStatus.INITIALIZED;
+import com.sam.jcc.cloud.i.Experimental;
+import com.sam.jcc.cloud.i.IStatusable;
+import com.sam.jcc.cloud.i.data.IDataMetadata;
+
+import lombok.Data;
+import lombok.ToString;
 
 
 /**
@@ -20,6 +21,7 @@ import static com.sam.jcc.cloud.dataprovider.AppDataStatus.INITIALIZED;
 public class AppData implements IDataMetadata, IStatusable {
 
     private String appName;
+    private String dbName;
     private AppDataStatus status = INITIALIZED;
 
     @Experimental("maybe remove or marks with @JsonIgnore")

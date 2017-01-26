@@ -38,7 +38,7 @@ public class MavenProjectProvider extends ProjectProvider implements IHealth {
 
 		final ProjectMetadata m = (ProjectMetadata) metadata;
 		final String name = m.getProjectType();
-		return name != null && name.equals("maven-project");
+		return name != null && name.equals(getType());
 	}
 
 	@Override
@@ -97,6 +97,11 @@ public class MavenProjectProvider extends ProjectProvider implements IHealth {
 	@Override
 	public Long getId() {
 		return MAVEN_PROJECT_PROVIDER_ID;
+	}
+
+	@Override
+	public String getType() {
+		return "maven-project";
 	}
 
 }

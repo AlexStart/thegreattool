@@ -8,14 +8,14 @@ import static java.lang.String.format;
 
 import java.util.List;
 
-import com.sam.jcc.cloud.provider.UnsupportedCallException;
-import com.sam.jcc.cloud.provider.UnsupportedTypeException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sam.jcc.cloud.i.IEventManager;
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import com.sam.jcc.cloud.i.project.IProjectProvider;
 import com.sam.jcc.cloud.provider.AbstractProvider;
+import com.sam.jcc.cloud.provider.UnsupportedCallException;
+import com.sam.jcc.cloud.provider.UnsupportedTypeException;
 
 /**
  * @author Alec Kotovich
@@ -54,7 +54,7 @@ public abstract class ProjectProvider extends AbstractProvider<IProjectMetadata>
 
     @Override
     public IProjectMetadata create(IProjectMetadata metadata) {
-        return dao.update(build(metadata));
+    	throw new UnsupportedCallException();
     }
 
     private ProjectMetadata build(IProjectMetadata metadata) {
@@ -99,7 +99,7 @@ public abstract class ProjectProvider extends AbstractProvider<IProjectMetadata>
 
     @Override
     public IProjectMetadata update(IProjectMetadata metadata) {
-        throw new UnsupportedCallException();
+        return dao.update(build(metadata));
     }
 
     @Override
@@ -123,4 +123,6 @@ public abstract class ProjectProvider extends AbstractProvider<IProjectMetadata>
         }
         return (ProjectMetadata) metadata;
     }
+
+	public abstract String getType();
 }

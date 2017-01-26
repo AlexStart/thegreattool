@@ -14,7 +14,7 @@
 	<name>SaM Java Cloud :: Cloud Tests</name>
 
 	<properties>
-		<spring.boot.version>1.4.2.RELEASE</spring.boot.version>
+		<spring.boot.version>1.4.3.RELEASE</spring.boot.version>
 	</properties>
 
 	<dependencies>
