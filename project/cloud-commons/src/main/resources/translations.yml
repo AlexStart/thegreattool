@@ -67,6 +67,10 @@ button:
     metadata:
       ru: "Обновить"
       en: "Update"
+  rename:
+    metadata:
+      ru: "Переименовать"
+      en: "Rename"
   cancel:
     metadata:
       ru: "Отменить"

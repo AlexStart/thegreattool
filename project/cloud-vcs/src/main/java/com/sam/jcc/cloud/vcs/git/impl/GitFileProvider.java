@@ -85,7 +85,6 @@ public class GitFileProvider extends VCSProvider implements IHealth {
 			public boolean isAlive() {
 				return getUrl() != null;
 			}
-
 			@Override
 			public String getName() {
 				return getI18NDescription();

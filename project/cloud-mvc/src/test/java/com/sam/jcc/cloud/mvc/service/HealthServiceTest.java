@@ -23,8 +23,9 @@ import com.sam.jcc.cloud.mvc.dto.HealthDTO;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/WEB-INF/spring/spring-application-context.xml", "/WEB-INF/spring/spring-mvc-context.xml" })
-@WebAppConfiguration 
+@ContextConfiguration(locations = { "/WEB-INF/spring/spring-application-context.xml",
+		"/WEB-INF/spring/spring-mvc-context.xml" })
+@WebAppConfiguration
 public class HealthServiceTest extends AbstractJUnit4SpringContextTests {
 
 	@Autowired
@@ -34,12 +35,15 @@ public class HealthServiceTest extends AbstractJUnit4SpringContextTests {
 	public void testCheckHealth() {
 		List<? super HealthDTO> findAll = healthService.findAll();
 		assertNotNull(findAll);
-		assertEquals(2, findAll.size());
+		assertEquals(3, findAll.size());
 		HealthDTO st = (HealthDTO) findAll.get(0);
 		assertEquals(1L, st.getId().longValue());
 		assertNotNull(st.getUrl());
 		HealthDTO nd = (HealthDTO) findAll.get(1);
 		assertEquals(2L, nd.getId().longValue());
-		assertNotNull(nd.getUrl());
+		HealthDTO rd = (HealthDTO) findAll.get(2);
+		assertNotNull(rd.getUrl());
+		assertEquals(3L, rd.getId().longValue());
+		assertNotNull(rd.getUrl());
 	}
 }
