@@ -76,7 +76,7 @@ public class HealthProviderService implements IService<IHealthMetadata> {
 	}
 
 	@Override
-	public IHealthMetadata update(Map<String, String> props) {
+	public IHealthMetadata update(Map<?, ?> props) {
 		// TODO Auto-generated method stub
 		return null;
 	}

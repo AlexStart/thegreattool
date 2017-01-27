@@ -2,10 +2,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd 
-	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd 
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
 	<context:annotation-config />
 
@@ -17,8 +18,7 @@
 	<bean class="io.spring.initializr.metadata.InitializrMetadata" />
 	<!-- bean class="io.spring.initializr.metadata.SimpleInitializrMetadataProvider" 
 		/ -->
-	<bean
-		class="com.sam.jcc.cloud.adapter.StaticMetadataProvider" />
+	<bean class="com.sam.jcc.cloud.adapter.StaticMetadataProvider" />
 	<util:list id="emptyList"
 		value-type="io.spring.initializr.generator.ProjectRequestPostProcessor" />
 	<bean class="io.spring.initializr.generator.ProjectRequestResolver">
@@ -43,5 +43,7 @@
 			</set>
 		</property>
 	</bean>
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
 
 </beans>

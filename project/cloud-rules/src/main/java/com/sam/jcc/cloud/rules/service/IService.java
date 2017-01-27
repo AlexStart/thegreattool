@@ -19,7 +19,7 @@ public interface IService<T> extends ICRUD<T> {
 
 	void delete(Map<String, String> props);
 
-	T update(Map<String, String> props);
+	T update(Map<?, ?> props);
 	
 	Map<Long, String> getNames();
 

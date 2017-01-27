@@ -5,11 +5,13 @@ package com.sam.jcc.cloud.mvc.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
+import com.sam.jcc.cloud.i.vcs.IVCSMetadata;
 import com.sam.jcc.cloud.mvc.dto.VCSProjectDTO;
 import com.sam.jcc.cloud.rules.service.IService;
 
@@ -21,7 +23,16 @@ import com.sam.jcc.cloud.rules.service.IService;
 public class VCSProjectService extends BaseService<VCSProjectDTO> {
 
 	@Autowired
-	private List<IService<IProjectMetadata>> projectProviderServices;
+	private IService<IProjectMetadata> projectProviderService;
+
+	@Autowired
+	private IService<IVCSMetadata> vcsProviderService;
+
+	@Autowired
+	private VCSProjectService vcsProjectService;
+
+	@Autowired
+	private ProjectService projectService;
 
 	public VCSProjectDTO convertModel(IProjectMetadata model) {
 		return conversionService.convert(model, VCSProjectDTO.class);
@@ -35,10 +46,16 @@ public class VCSProjectService extends BaseService<VCSProjectDTO> {
 
 	public List<? super VCSProjectDTO> findAll() {
 		List<VCSProjectDTO> projects = new ArrayList<>();
-		for (IService<IProjectMetadata> projectProviderService : projectProviderServices) {
-			projects.addAll(convertModels(projectProviderService.findAll()));
-		}
+		projects.addAll(convertModels(projectProviderService.findAll()));
 		return projects;
+	}
+
+	public VCSProjectDTO update(VCSProjectDTO vcsProjectDTO) {
+		Map<?, ?> props = conversionService.convert(vcsProjectDTO, Map.class);
+		vcsProviderService.update(props);
+		//
+		IProjectMetadata read = projectService.findProjectById(vcsProjectDTO.getId());
+		return vcsProjectService.convertModel(read);
 	}
 
 }

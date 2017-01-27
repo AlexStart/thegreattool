@@ -14,12 +14,12 @@ import com.sam.jcc.cloud.mvc.dto.VCSDTO;
  * @author olegk
  *
  */
-public class VCSMetadataConverter implements Converter<VCSDTO, Map<String, String>> {
+public class VCSMetadataConverter implements Converter<VCSDTO, Map<?, ?>> {
 
 	private static final ObjectMapper OBJ_MAPPER = new ObjectMapper();
 
 	@Override
-	public Map<String, String> convert(VCSDTO source) {
+	public Map<?, ?> convert(VCSDTO source) {
 		return OBJ_MAPPER.convertValue(source, Map.class);
 	}
 

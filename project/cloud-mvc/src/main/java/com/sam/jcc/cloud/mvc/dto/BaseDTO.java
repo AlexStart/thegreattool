@@ -7,7 +7,7 @@ package com.sam.jcc.cloud.mvc.dto;
  * @author olegk
  *
  */
-public class BaseDTO {
+public abstract class BaseDTO {
 
 	protected Long id;
 
@@ -18,5 +18,9 @@ public class BaseDTO {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	public abstract boolean isDisabled();
+
+	public abstract void setDisabled(boolean disabled);
 
 }

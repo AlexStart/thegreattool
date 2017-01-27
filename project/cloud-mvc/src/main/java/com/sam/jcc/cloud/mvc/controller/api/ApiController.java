@@ -21,6 +21,7 @@ import com.sam.jcc.cloud.mvc.dto.ProviderDTO;
 import com.sam.jcc.cloud.mvc.dto.VCSProjectDTO;
 import com.sam.jcc.cloud.mvc.service.AppService;
 import com.sam.jcc.cloud.mvc.service.ProjectService;
+import com.sam.jcc.cloud.mvc.service.VCSProjectService;
 import com.sam.jcc.cloud.mvc.service.VCSService;
 
 /**
@@ -39,6 +40,9 @@ public class ApiController {
 	
 	@Autowired
 	private VCSService vcsService;	
+
+	@Autowired
+	private VCSProjectService vcsProjectService;	
 
 	// APPS //	
 	@RequestMapping(value = "apps", method = RequestMethod.GET)
@@ -97,11 +101,11 @@ public class ApiController {
 	}	
 	
 	@RequestMapping(value = "vcsprojects", method = RequestMethod.PUT)
-	public @ResponseBody ProjectDTO addprojectToVCS(@RequestBody VCSProjectDTO vcsProjectDTO) {
+	public @ResponseBody VCSProjectDTO addprojectToVCS(@RequestBody VCSProjectDTO vcsProjectDTO) {
 		if (vcsProjectDTO == null) {
 			throw new ValidationCloudException();
 		}
-		return vcsService.update(vcsProjectDTO);
+		return vcsProjectService.update(vcsProjectDTO);
 	}		
 	
 }

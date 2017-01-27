@@ -57,7 +57,7 @@ public class ProjectMetadata implements IProjectMetadata, IStatusable {
     }
 
 	@Override
-	public boolean hasVCs() {
+	public boolean hasVCS() {
 		return vcs != null;
 	}
 

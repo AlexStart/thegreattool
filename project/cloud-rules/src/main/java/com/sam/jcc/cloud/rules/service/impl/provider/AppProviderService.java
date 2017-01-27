@@ -70,10 +70,10 @@ public class AppProviderService implements IService<IAppMetadata> {
 	}
 
 	@Override
-	public IAppMetadata update(Map<String, String> props) {
+	public IAppMetadata update(Map<?, ?> props) {
 		IAppMetadata project = new AppMetadata();
-		project.setId(Long.valueOf(props.get("id")));
-		project.setProjectName(props.get("projectName"));
+		project.setId(Long.valueOf((String) props.get("id")));
+		project.setProjectName((String) props.get("projectName"));
 		IAppMetadata updated = appProvider.update(project);
 		return updated;
 	}

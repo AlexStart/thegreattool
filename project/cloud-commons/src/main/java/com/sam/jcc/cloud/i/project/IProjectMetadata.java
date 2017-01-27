@@ -15,7 +15,7 @@ public interface IProjectMetadata {
 
 	boolean hasSources();
 
-	boolean hasVCs();
+	boolean hasVCS();
 
 	boolean hasCI();
 

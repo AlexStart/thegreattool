@@ -10,7 +10,7 @@ package com.sam.jcc.cloud.mvc.dto;
 public class VCSDTO extends BaseDTO {
 
 	private String name;
-	
+
 	private String description;
 
 	public String getName() {
@@ -28,6 +28,14 @@ public class VCSDTO extends BaseDTO {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	
+
+	@Override
+	public boolean isDisabled() {
+		return false;
+	}
+
+	@Override
+	public void setDisabled(boolean disabled) {
+	}
+
 }

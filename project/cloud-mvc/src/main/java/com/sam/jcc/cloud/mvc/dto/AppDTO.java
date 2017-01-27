@@ -10,6 +10,8 @@ package com.sam.jcc.cloud.mvc.dto;
 public class AppDTO extends BaseDTO {
 
 	private String projectName;
+	
+	private boolean disabled;
 
 	public String getProjectName() {
 		return projectName;
@@ -26,5 +28,15 @@ public class AppDTO extends BaseDTO {
 	public String getName() {
 		return projectName;
 	}
+
+	public boolean isDisabled() {
+		return disabled;
+	}
+
+	public void setDisabled(boolean disabled) {
+		this.disabled = disabled;
+	}
+	
+	
 
 }

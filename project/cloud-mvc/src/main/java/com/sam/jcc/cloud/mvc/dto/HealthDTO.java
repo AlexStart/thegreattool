@@ -59,4 +59,15 @@ public class HealthDTO extends BaseDTO {
 		this.alive = alive;
 	}
 
+	@Override
+	public boolean isDisabled() {
+		return alive;
+	}
+
+	@Override
+	public void setDisabled(boolean disabled) {
+		this.alive = disabled;
+
+	}
+
 }

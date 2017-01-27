@@ -11,10 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sam.jcc.cloud.i.vcs.IVCSMetadata;
-import com.sam.jcc.cloud.mvc.dto.ProjectDTO;
 import com.sam.jcc.cloud.mvc.dto.ProviderDTO;
 import com.sam.jcc.cloud.mvc.dto.VCSDTO;
-import com.sam.jcc.cloud.mvc.dto.VCSProjectDTO;
 import com.sam.jcc.cloud.rules.service.IService;
 
 /**
@@ -47,10 +45,5 @@ public class VCSService extends BaseService<VCSDTO> {
 			providerDTOs.add(providerDTO);
 		}
 		return providerDTOs;
-	}
-
-	public ProjectDTO update(VCSProjectDTO vcsProjectDTO) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

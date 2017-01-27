@@ -115,7 +115,7 @@ public class ProjectProviderService implements IService<IProjectMetadata> {
 					}
 
 					@Override
-					public boolean hasVCs() {
+					public boolean hasVCS() {
 						return false;
 					}
 
@@ -176,7 +176,7 @@ public class ProjectProviderService implements IService<IProjectMetadata> {
 	}
 
 	@Override
-	public IProjectMetadata update(Map<String, String> props) {
+	public IProjectMetadata update(Map<?, ?> props) {
 		// TODO Auto-generated method stub
 		return null;
 	}

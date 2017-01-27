@@ -10,11 +10,12 @@ package com.sam.jcc.cloud.mvc.dto;
 public class VCSProjectDTO extends ProjectDTO {
 
 	public boolean isDisabled() {
-		return !isHasSources();
+		return !isHasSources() || isHasVcs();
 	}
 
 	public void setDisabled(boolean disabled) {
 		setHasSources(!disabled);
+		setHasVcs(disabled);
 	}
 
 }

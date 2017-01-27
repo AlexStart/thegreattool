@@ -87,7 +87,7 @@ public class AppService extends BaseService<AppDTO> {
 			}
 
 			@Override
-			public boolean hasVCs() {
+			public boolean hasVCS() {
 				return false;
 			}
 
@@ -107,7 +107,7 @@ public class AppService extends BaseService<AppDTO> {
 			LOGGER.warn("Deleting a project " + read.getName() + " with existing sources...");
 		}
 		
-		if (read.hasVCs() || read.hasCI() || read.hasDb()) {
+		if (read.hasVCS() || read.hasCI() || read.hasDb()) {
 			LOGGER.warn("Cannot be deleted!");
 			return;
 		}		

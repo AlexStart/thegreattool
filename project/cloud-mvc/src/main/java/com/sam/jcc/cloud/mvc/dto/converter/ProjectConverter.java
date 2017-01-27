@@ -20,7 +20,7 @@ public class ProjectConverter implements Converter<IProjectMetadata, ProjectDTO>
 		projectDTO.setId(source.getId());
 		projectDTO.setName(source.getName());
 		projectDTO.setHasSources(source.hasSources());
-		projectDTO.setHasVcs(source.hasVCs());
+		projectDTO.setHasVcs(source.hasVCS());
 		projectDTO.setHasCI(source.hasCI());
 		projectDTO.setHasDb(source.hasDb());
 		return projectDTO;

@@ -38,32 +38,42 @@ public class SearchController {
 
 	@Autowired
 	private AppService appService;
-	
+
 	@Autowired
 	private ProjectService projectService;
-	
+
 	@Autowired
-	private VCSProjectService vcsProjectService;		
+	private VCSProjectService vcsProjectService;
 
 	@Autowired
 	private MetadataResponseBuilder responseBuilder;
 
 	@Autowired
 	private IService<IProjectMetadata> projectProviderService;
-	
+
 	@Autowired
-	private IService<IAppMetadata> appProviderService;	
+	private IService<IAppMetadata> appProviderService;
 
 	@RequestMapping(value = "/api/apps/search", method = RequestMethod.GET)
 	public @ResponseBody PageImpl<MetadataResponse<? super AppDTO>> searchApps(@PageableDefault Pageable page) {
 		List<? super IAppMetadata> findAll = appProviderService.findAll();
+		List<? super IProjectMetadata> findAll2 = projectProviderService.findAll();
 
 		// Commented because of #15
 		// if (findAll == null || findAll.isEmpty()) {
 		// throw new MetadataNotFoundException();
 		// }
 
-		List<? super AppDTO> dtos = appService.convertModels(findAll);
+		List<AppDTO> dtos = (List<AppDTO>) appService.convertModels(findAll);
+
+		dtos.forEach(app -> {
+			findAll2.forEach(proj -> {
+				IProjectMetadata pm = (IProjectMetadata) proj;
+				if (app.getId().equals(pm.getId())) {
+					app.setDisabled(pm.hasVCS() || pm.hasCI() || pm.hasDb());
+				}
+			});
+		});
 
 		final List<MetadataResponse<? super AppDTO>> selected = reverse(dtos.stream().collect(toList()))
 				.subList(page.getOffset(), getFinishIndex(page, dtos)).stream().map(responseBuilder::build)
@@ -71,7 +81,7 @@ public class SearchController {
 
 		return new PageImpl<MetadataResponse<? super AppDTO>>(selected, page, dtos.size());
 	}
-	
+
 	@RequestMapping(value = "/api/projects/search", method = RequestMethod.GET)
 	public @ResponseBody PageImpl<MetadataResponse<? super ProjectDTO>> searchProjects(@PageableDefault Pageable page) {
 		List<? super IProjectMetadata> findAll = projectProviderService.findAll();
@@ -88,10 +98,11 @@ public class SearchController {
 				.collect(toList());
 
 		return new PageImpl<MetadataResponse<? super ProjectDTO>>(selected, page, dtos.size());
-	}	
-	
+	}
+
 	@RequestMapping(value = "/api/vcsprojects/search", method = RequestMethod.GET)
-	public @ResponseBody PageImpl<MetadataResponse<? super VCSProjectDTO>> searchVCSProjects(@PageableDefault Pageable page) {
+	public @ResponseBody PageImpl<MetadataResponse<? super VCSProjectDTO>> searchVCSProjects(
+			@PageableDefault Pageable page) {
 		List<? super IProjectMetadata> findAll = projectProviderService.findAll();
 
 		// Commented because of #15
@@ -106,7 +117,7 @@ public class SearchController {
 				.collect(toList());
 
 		return new PageImpl<MetadataResponse<? super VCSProjectDTO>>(selected, page, dtos.size());
-	}	
+	}
 
 	private int getFinishIndex(Pageable page, List<?> dtos) {
 		final int size = dtos.size();
