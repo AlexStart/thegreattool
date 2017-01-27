@@ -84,7 +84,11 @@ project:
   generate:
     metadata:
       ru: "Сгенерировать"
-      en: "Generate"      
+      en: "Generate"
+add:
+  metadata:
+    ru: "Добавить в"
+    en: "Add to"             
 com:
   sam:
     jcc:

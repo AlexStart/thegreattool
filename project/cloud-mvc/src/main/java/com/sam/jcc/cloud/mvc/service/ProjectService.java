@@ -37,10 +37,11 @@ public class ProjectService extends BaseService<ProjectDTO> {
 
 	public List<ProviderDTO> getProjectProviders() {
 		List<ProviderDTO> providerDTOs = new ArrayList<>();
-		for (Long id : projectProviderService.getNames().keySet()) {
+		Map<Long, String> names = projectProviderService.getNames();
+		for (Long id : names.keySet()) {
 			ProviderDTO providerDTO = new ProviderDTO();
 			providerDTO.setProviderId(id);
-			providerDTO.setProviderName(projectProviderService.getNames().get(id));
+			providerDTO.setProviderName(names.get(id));
 			providerDTOs.add(providerDTO);
 		}
 		return providerDTOs;

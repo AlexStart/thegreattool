@@ -2,8 +2,7 @@
   "url": "api/vcsprojects",
   "custom": {
     "buttons": {
-      "create": "button.create",
-      "update": "button.update",
+      "update": "add",
       "remove": "button.remove",
       "cancel": "button.cancel",
       "refresh": "button.refresh"

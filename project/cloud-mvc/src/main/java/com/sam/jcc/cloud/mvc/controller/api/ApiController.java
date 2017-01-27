@@ -18,8 +18,10 @@ import com.sam.jcc.cloud.mvc.controller.api.exception.ValidationCloudException;
 import com.sam.jcc.cloud.mvc.dto.AppDTO;
 import com.sam.jcc.cloud.mvc.dto.ProjectDTO;
 import com.sam.jcc.cloud.mvc.dto.ProviderDTO;
+import com.sam.jcc.cloud.mvc.dto.VCSProjectDTO;
 import com.sam.jcc.cloud.mvc.service.AppService;
 import com.sam.jcc.cloud.mvc.service.ProjectService;
+import com.sam.jcc.cloud.mvc.service.VCSService;
 
 /**
  * @author olegk
@@ -33,8 +35,10 @@ public class ApiController {
 	private AppService appService;
 	
 	@Autowired
-	private ProjectService projectService;	
-
+	private ProjectService projectService;
+	
+	@Autowired
+	private VCSService vcsService;	
 
 	// APPS //	
 	@RequestMapping(value = "apps", method = RequestMethod.GET)
@@ -86,4 +90,18 @@ public class ApiController {
 		return projectService.getProjectProviders();
 	}	
 
+	// VCS PROVIDERS
+	@RequestMapping(value = "vcsproviders", method = RequestMethod.GET)
+	public @ResponseBody List<ProviderDTO> findAllVcsProviders() {
+		return vcsService.getVCSProviders();
+	}	
+	
+	@RequestMapping(value = "vcsprojects", method = RequestMethod.PUT)
+	public @ResponseBody ProjectDTO addprojectToVCS(@RequestBody VCSProjectDTO vcsProjectDTO) {
+		if (vcsProjectDTO == null) {
+			throw new ValidationCloudException();
+		}
+		return vcsService.update(vcsProjectDTO);
+	}		
+	
 }

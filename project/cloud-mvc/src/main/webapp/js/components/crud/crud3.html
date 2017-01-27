@@ -28,9 +28,9 @@
 
 	<form name="vm.form" novalidate>
 		<fieldset style="width: 100%">
-			<button type="submit" class="btn btn-info update-button"
-				ng-click="vm.update(vm.item)" ng-hide="!vm.item.name"
-				ng-hide="vm.item.name && vm.item.disabled">
+			<button type="submit" class="btn btn-info"
+				ng-click="vm.update(vm.item)"
+				ng-hide="!vm.item.id || vm.item.disabled">
 				{{vm.buttons.update}} {{vm.myService.selected.providerName}}</button>
 
 			<button type="submit" class="btn btn-info" ng-click="vm.refresh()">{{vm.buttons.refresh}}

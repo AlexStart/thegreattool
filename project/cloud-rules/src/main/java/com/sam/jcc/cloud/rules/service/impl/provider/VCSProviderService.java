@@ -4,6 +4,7 @@
 package com.sam.jcc.cloud.rules.service.impl.provider;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -84,8 +85,17 @@ public class VCSProviderService implements IService<IVCSMetadata> {
 
 	@Override
 	public Map<Long, String> getNames() {
-		// TODO Auto-generated method stub
-		return null;
+		vcsProviders.sort((p1, p2) -> {
+			if (p1 != null && p2 != null && p1.getId() != null && p2.getId() != null) {
+				return p1.getId().compareTo(p2.getId());
+			}
+			return 0;
+		});
+
+		Map<Long, String> names = new LinkedHashMap<>();
+		vcsProviders.forEach(p -> names.put(p.getId(), p.getI18NName()));
+
+		return names;
 	}
 
 	

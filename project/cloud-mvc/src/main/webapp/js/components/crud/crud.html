@@ -5,7 +5,8 @@
                 ng-click="vm.select(item.data)"
                 class="row"
                 ng-attr-title="{{vm.status(item)}}"
-                ng-style="item.data.disabled && {'background-color':'#D3D3D3'}">{{item.data.name}}</td>
+                ng-style="item.data.disabled && {'background-color':'#D3D3D3'}"
+                ng-class="{'selectedrow': vm.item.name == item.data.name}">{{item.data.name}}</td>
         </tr>
     </table>
     <br>

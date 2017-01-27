@@ -157,15 +157,12 @@
         vm.myService = myService;
         
         vm.$onInit = () => {
-        	
             crudService
                 .configure()
                 .then(data => {
                     translationService
                         .translate(data.custom.buttons)
-                        .then(buttons => { 
-                        		vm.buttons = buttons
-                        });
+                        .then(buttons => vm.buttons = buttons);
                 })
                 .then(refresh);
             
@@ -192,7 +189,7 @@
         }
 
         function select(item) {
-        	item.providerId = myService.selected.providerId;
+            item.providerId = myService.selected.providerId;
             vm.item = angular.copy(item);
         }
 
@@ -271,7 +268,6 @@
         bindings: {}
     });
     
-
     /* DEPRECATED, TODO: It's not Angular way!!! */
 
     function getContext() {

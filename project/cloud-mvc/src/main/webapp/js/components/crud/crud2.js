@@ -25,7 +25,7 @@
 
     translationService.$inject = ['$http', '$cacheFactory'];
 
-    //TODO: change getting of context path
+    // TODO: change getting of context path
     function translationService($http, $cacheFactory) {
         var cache = $cacheFactory('translations');
 
@@ -114,12 +114,36 @@
         }
     }
 
+    ngApp.factory('myService', myService);
+    
+    myService.$inject = ['$http'];
+    
+    function myService($http) {
+    	
+    	var myItems = [];
+    	
+    	return {
+            configure: configure,
+            selected : null,
+            items : myItems
+        };
+    	
+        function configure() {
+        	// TODO url in JSON settings...
+            return $http.get(config.context + 'api/vcsproviders/').then(response => {
+                var data = response.data;
+                return data;
+            });
+        }
+        
+    }    
+    
 
     ngApp.controller('crudCtrl', crudCtrl);
 
-    crudCtrl.$inject = ['NgTableParams', 'crudService', 'translationService'];
+    crudCtrl.$inject = ['NgTableParams', 'crudService', 'translationService', 'myService'];
 
-    function crudCtrl(NgTableParams, crudService, translationService) {
+    function crudCtrl(NgTableParams, crudService, translationService, myService) {
         var vm = this;
 
         vm.save = save;
@@ -129,6 +153,8 @@
         vm.update = update;
         vm.status = status;
         vm.refresh = refresh;
+        
+        vm.myService = myService;
 
         vm.$onInit = () => {
             crudService
@@ -139,8 +165,10 @@
                         .then(buttons => vm.buttons = buttons);
                 })
                 .then(refresh);
+            
+            myService.configure().then(data => {vm.myService.myItems = data});
         };
-
+        
         activate();
 
         function activate() {
@@ -161,6 +189,7 @@
         }
 
         function select(item) {
+            item.providerId = myService.selected.providerId;
             vm.item = angular.copy(item);
         }
 
@@ -211,9 +240,10 @@
         function refreshAll() {
             reset();
 
-            /* The table has previous state in this place,
-               if there's single item & current page isn't first - manual page changing.
-             */
+            /*
+			 * The table has previous state in this place, if there's single
+			 * item & current page isn't first - manual page changing.
+			 */
             if (vm.items.data.length == 1) {
                 var currPage = vm.items.page();
                 if (currPage > 0) {
@@ -227,6 +257,7 @@
         function reset() {
             vm.item = {id: undefined, name: ''};
         }
+        
     }
 
 
@@ -237,7 +268,7 @@
         bindings: {}
     });
 
-    /*DEPRECATED, TODO: It's not Angular way!!!*/
+    /* DEPRECATED, TODO: It's not Angular way!!! */
 
     function getContext() {
         var path = window.location.href;
