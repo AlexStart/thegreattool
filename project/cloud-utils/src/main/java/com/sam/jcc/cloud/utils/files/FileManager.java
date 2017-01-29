@@ -39,6 +39,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Component
+//TODO(a bad part of the app): some methods should be static
 public class FileManager {
 
 	private final String fileProtocol = PropertyResolver.getProperty("protocols.file");

@@ -54,6 +54,7 @@ public class Jenkins implements CIServer {
     private JenkinsJobManager jobManager;
     private JenkinsConfigurationBuilder builder;
 
+    //TODO(a bad part of the app): should be compliant with Spring
     public Jenkins() {
         this(defaultJenkinsServer(), defaultWorkspace());
     }

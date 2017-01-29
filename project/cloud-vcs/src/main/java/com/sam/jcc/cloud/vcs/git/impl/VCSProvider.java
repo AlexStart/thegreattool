@@ -46,6 +46,7 @@ public abstract class VCSProvider extends AbstractProvider<IVCSMetadata> impleme
         git.setStorage(storage);
     }
 
+    //TODO(a bad part of the app): the injection should be changed by @Autowired + @Qualifier
     protected abstract GitAbstractStorage getStorage();
 
     @Override

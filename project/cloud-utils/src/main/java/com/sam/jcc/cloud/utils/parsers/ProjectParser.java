@@ -28,6 +28,7 @@ import static org.apache.commons.io.filefilter.FileFileFilter.FILE;
  * @author Alexey Zhytnik
  * @since 28-Nov-16
  */
+//TODO(a bad part of the app): there's no spec for nesting of search
 @Slf4j
 @Setter
 @Component

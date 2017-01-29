@@ -38,6 +38,7 @@ public abstract class ProjectProvider extends AbstractProvider<IProjectMetadata>
         super(eventManagers);
     }
 
+    //TODO(a bad part of the app): not used
     @Override
     public String getName(IProjectMetadata m) {
         ProjectMetadata metadata = asProjectMetadata(m);
@@ -79,6 +80,7 @@ public abstract class ProjectProvider extends AbstractProvider<IProjectMetadata>
     }
 
     @Override
+    //TODO(a bad part of the app): in this phase should work with byte[] representation
     public IProjectMetadata postprocess(IProjectMetadata m) {
         final ProjectMetadata metadata = asProjectMetadata(m);
         try {

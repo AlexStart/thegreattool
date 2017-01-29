@@ -11,6 +11,7 @@ import javax.sql.DataSource;
  * @author Alexey Zhytnik
  * @since 08.12.2016
  */
+//TODO(a bad part of the app): should be module with common test infrastructure
 @Configuration
 public class TestDatabaseConfiguration {
 
