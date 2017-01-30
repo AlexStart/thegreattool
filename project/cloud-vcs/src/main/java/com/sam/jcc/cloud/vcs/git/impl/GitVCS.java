@@ -123,9 +123,10 @@ public class GitVCS implements VCS<VCSCredentials> {
 	}
 
 	private boolean isEmptyRemote(VCSRepository repo) throws GitAPIException, IOException {
-		log.info("Check origin master branch of {}", repo);
+		String repoURI = storage.getRepositoryURI(repo);
+		log.info("Check origin master branch of {}, URI: {}", repo, repoURI);
 
-		final LsRemoteCommand lsRemote = Git.lsRemoteRepository().setRemote(storage.getRepositoryURI(repo))
+		final LsRemoteCommand lsRemote = Git.lsRemoteRepository().setRemote(repoURI)
 				.setHeads(true);
 		setCredentials(lsRemote);
 		return lsRemote.call().isEmpty();
