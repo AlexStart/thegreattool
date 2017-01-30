@@ -16,6 +16,7 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.URIish;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -158,10 +159,12 @@ public class GitVCS implements VCS<VCSCredentials> {
 	}
 
 	private void push(Git git) throws GitAPIException {
+		log.info("Before push()");
 		final PushCommand push = git.push().setRemote("origin").setPushAll().setPushTags().setForce(true);
-
+		log.info("Push command is " + push);
 		setCredentials(push);
-		push.call();
+		Iterable<PushResult> pushResults = push.call();
+		log.info("Push results are " + pushResults);
 	}
 
 	private void setCredentials(TransportCommand<?, ?> command) {
