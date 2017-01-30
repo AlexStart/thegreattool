@@ -13,6 +13,8 @@ import org.eclipse.jgit.api.PushCommand;
 import org.eclipse.jgit.api.RemoteAddCommand;
 import org.eclipse.jgit.api.TransportCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.URIish;
 import org.springframework.context.annotation.Scope;
@@ -144,11 +146,15 @@ public class GitVCS implements VCS<VCSCredentials> {
 	}
 
 	private void add(Git git) throws GitAPIException {
-		git.add().addFilepattern(".").call();
+		log.info("Before add()");
+		DirCache call = git.add().addFilepattern(".").call();
+		log.info("Added to " + call);
 	}
 
 	private void commit(Git git) throws GitAPIException {
-		git.commit().setAll(true).setMessage("Update").call();
+		log.info("Before commit()");
+		RevCommit call = git.commit().setAll(true).setMessage("Update").call();
+		log.info("Committed.  Result is " + call);
 	}
 
 	private void push(Git git) throws GitAPIException {
