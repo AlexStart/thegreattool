@@ -65,7 +65,7 @@ public class ProvidersTest {
 		//
 		assertNotNull(providersWithHealth);
 		providersWithHealth.stream().map(p -> p.checkHealth().getUrl()).forEach(System.out::println);
-		assertEquals(3, providersWithHealth.size());
+		assertEquals(4, providersWithHealth.size());
 	}
 
 	@Test
