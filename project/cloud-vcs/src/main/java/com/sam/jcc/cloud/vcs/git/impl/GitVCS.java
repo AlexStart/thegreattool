@@ -88,6 +88,7 @@ public class GitVCS implements VCS<VCSCredentials> {
 
 				git.getRepository().close();
 			} catch (GitAPIException | URISyntaxException | IOException e) {
+				log.error(e.getMessage());
 				throw new VCSException(e);
 			}
 		}
