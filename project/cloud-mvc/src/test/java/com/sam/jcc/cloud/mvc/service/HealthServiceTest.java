@@ -35,7 +35,7 @@ public class HealthServiceTest extends AbstractJUnit4SpringContextTests {
 	public void testCheckHealth() {
 		List<? super HealthDTO> findAll = healthService.findAll();
 		assertNotNull(findAll);
-		assertEquals(4, findAll.size());
+		assertEquals(5, findAll.size());
 		HealthDTO st = (HealthDTO) findAll.get(0);
 		assertEquals(1L, st.getId().longValue());
 		assertNotNull(st.getUrl());
@@ -49,5 +49,10 @@ public class HealthServiceTest extends AbstractJUnit4SpringContextTests {
 		assertNotNull(fouth.getUrl());
 		assertEquals(4L, fouth.getId().longValue());
 		assertNotNull(fouth.getUrl());
+		HealthDTO fifth = (HealthDTO) findAll.get(4);
+		assertNotNull(fifth.getUrl());
+		assertEquals(5L, fifth.getId().longValue());
+		assertNotNull(fifth.getUrl());
+		
 	}
 }

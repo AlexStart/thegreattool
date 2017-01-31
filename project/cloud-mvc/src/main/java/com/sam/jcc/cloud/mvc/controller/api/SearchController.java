@@ -21,9 +21,11 @@ import com.sam.jcc.cloud.i.app.IAppMetadata;
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import com.sam.jcc.cloud.mvc.controller.api.MetadataResponseBuilder.MetadataResponse;
 import com.sam.jcc.cloud.mvc.dto.AppDTO;
+import com.sam.jcc.cloud.mvc.dto.CIProjectDTO;
 import com.sam.jcc.cloud.mvc.dto.ProjectDTO;
 import com.sam.jcc.cloud.mvc.dto.VCSProjectDTO;
 import com.sam.jcc.cloud.mvc.service.AppService;
+import com.sam.jcc.cloud.mvc.service.CIProjectService;
 import com.sam.jcc.cloud.mvc.service.ProjectService;
 import com.sam.jcc.cloud.mvc.service.VCSProjectService;
 import com.sam.jcc.cloud.rules.service.IService;
@@ -44,6 +46,9 @@ public class SearchController {
 
 	@Autowired
 	private VCSProjectService vcsProjectService;
+	
+	@Autowired
+	private CIProjectService ciProjectService;	
 
 	@Autowired
 	private MetadataResponseBuilder responseBuilder;
@@ -118,6 +123,25 @@ public class SearchController {
 
 		return new PageImpl<MetadataResponse<? super VCSProjectDTO>>(selected, page, dtos.size());
 	}
+	
+	@RequestMapping(value = "/api/ciprojects/search", method = RequestMethod.GET)
+	public @ResponseBody PageImpl<MetadataResponse<? super CIProjectDTO>> searchCIProjects(
+			@PageableDefault Pageable page) {
+		List<? super IProjectMetadata> findAll = projectProviderService.findAll();
+
+		// Commented because of #15
+		// if (findAll == null || findAll.isEmpty()) {
+		// throw new MetadataNotFoundException();
+		// }
+
+		List<? super CIProjectDTO> dtos = ciProjectService.convertModels(findAll);
+
+		final List<MetadataResponse<? super CIProjectDTO>> selected = reverse(dtos.stream().collect(toList()))
+				.subList(page.getOffset(), getFinishIndex(page, dtos)).stream().map(responseBuilder::build)
+				.collect(toList());
+
+		return new PageImpl<MetadataResponse<? super CIProjectDTO>>(selected, page, dtos.size());
+	}	
 
 	private int getFinishIndex(Pageable page, List<?> dtos) {
 		final int size = dtos.size();

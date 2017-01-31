@@ -35,15 +35,23 @@
 			<set>
 				<bean class="com.sam.jcc.cloud.mvc.dto.converter.AppConverter" />
 				<bean class="com.sam.jcc.cloud.mvc.dto.converter.AppMetadataConverter" />
-				<bean class="com.sam.jcc.cloud.mvc.dto.converter.VCSConverter" />
 				<bean class="com.sam.jcc.cloud.mvc.dto.converter.HealthConverter" />
 				<bean class="com.sam.jcc.cloud.mvc.dto.converter.ProjectConverter" />
 				<bean class="com.sam.jcc.cloud.mvc.dto.converter.ProjectMetadataConverter" />
+				<bean class="com.sam.jcc.cloud.mvc.dto.converter.VCSConverter" />
 				<bean class="com.sam.jcc.cloud.mvc.dto.converter.VCSProjectConverter" />
+				<bean class="com.sam.jcc.cloud.mvc.dto.converter.CIProjectConverter" />
 			</set>
 		</property>
 	</bean>
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<!-- Resolving ambiguity -->
+	<bean id="vcsProviderService" name="vcsProviderService"
+		class="com.sam.jcc.cloud.rules.service.impl.provider.VCSProviderService" />
+	<bean id="ciProviderService" name="ciProviderService"
+		class="com.sam.jcc.cloud.rules.service.impl.provider.CIProviderService" />
+
 
 </beans>

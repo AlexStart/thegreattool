@@ -5,4 +5,8 @@ package com.sam.jcc.cloud.i.ci;
  * @since 22-Dec-16
  */
 public interface ICIMetadata {
+
+	String getName();
+
+	String getDescription();
 }

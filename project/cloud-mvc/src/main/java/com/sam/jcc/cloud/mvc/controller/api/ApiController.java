@@ -16,10 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import com.sam.jcc.cloud.mvc.controller.api.exception.ValidationCloudException;
 import com.sam.jcc.cloud.mvc.dto.AppDTO;
+import com.sam.jcc.cloud.mvc.dto.CIProjectDTO;
 import com.sam.jcc.cloud.mvc.dto.ProjectDTO;
 import com.sam.jcc.cloud.mvc.dto.ProviderDTO;
 import com.sam.jcc.cloud.mvc.dto.VCSProjectDTO;
 import com.sam.jcc.cloud.mvc.service.AppService;
+import com.sam.jcc.cloud.mvc.service.CIProjectService;
+import com.sam.jcc.cloud.mvc.service.CIService;
 import com.sam.jcc.cloud.mvc.service.ProjectService;
 import com.sam.jcc.cloud.mvc.service.VCSProjectService;
 import com.sam.jcc.cloud.mvc.service.VCSService;
@@ -34,17 +37,23 @@ public class ApiController {
 
 	@Autowired
 	private AppService appService;
-	
+
 	@Autowired
 	private ProjectService projectService;
-	
-	@Autowired
-	private VCSService vcsService;	
 
 	@Autowired
-	private VCSProjectService vcsProjectService;	
+	private VCSService vcsService;
 
-	// APPS //	
+	@Autowired
+	private VCSProjectService vcsProjectService;
+
+	@Autowired
+	private CIService ciService;
+
+	@Autowired
+	private CIProjectService ciProjectService;
+
+	// APPS //
 	@RequestMapping(value = "apps", method = RequestMethod.GET)
 	public @ResponseBody List<? super AppDTO> findAllApps() {
 		return appService.findAll();
@@ -79,33 +88,47 @@ public class ApiController {
 	public @ResponseBody List<? super IProjectMetadata> findAllProjects() {
 		return projectService.findAll();
 	}
-	
+
 	@RequestMapping(value = "projects", method = RequestMethod.PUT)
 	public @ResponseBody ProjectDTO generateProject(@RequestBody ProjectDTO projectDTO) {
 		if (projectDTO == null) {
 			throw new ValidationCloudException();
 		}
 		return projectService.update(projectDTO);
-	}	
-	
+	}
+
 	// PROVIDERS
 	@RequestMapping(value = "providers", method = RequestMethod.GET)
 	public @ResponseBody List<ProviderDTO> findAllProviders() {
 		return projectService.getProjectProviders();
-	}	
+	}
 
 	// VCS PROVIDERS
 	@RequestMapping(value = "vcsproviders", method = RequestMethod.GET)
 	public @ResponseBody List<ProviderDTO> findAllVcsProviders() {
 		return vcsService.getVCSProviders();
-	}	
-	
+	}
+
 	@RequestMapping(value = "vcsprojects", method = RequestMethod.PUT)
 	public @ResponseBody VCSProjectDTO addprojectToVCS(@RequestBody VCSProjectDTO vcsProjectDTO) {
 		if (vcsProjectDTO == null) {
 			throw new ValidationCloudException();
 		}
 		return vcsProjectService.update(vcsProjectDTO);
-	}		
-	
+	}
+
+	// CI PROVIDERS
+	@RequestMapping(value = "ciproviders", method = RequestMethod.GET)
+	public @ResponseBody List<ProviderDTO> findAllCiProviders() {
+		return ciService.getCIProviders();
+	}
+
+	@RequestMapping(value = "ciprojects", method = RequestMethod.PUT)
+	public @ResponseBody CIProjectDTO addprojectToCI(@RequestBody CIProjectDTO ciProjectDTO) {
+		if (ciProjectDTO == null) {
+			throw new ValidationCloudException();
+		}
+		return ciProjectService.update(ciProjectDTO);
+	}
+
 }

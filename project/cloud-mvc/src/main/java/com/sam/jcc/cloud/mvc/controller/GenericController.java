@@ -40,10 +40,6 @@ public abstract class GenericController<T, I> {
 		return serviceDelegate.create(i);
 	}
 
-	private I read(I model) {
-		return serviceDelegate.read(model);
-	}
-
 	private I update(Map<String, String> i) {
 		return serviceDelegate.update(i);
 	}

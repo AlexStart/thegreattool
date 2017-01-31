@@ -29,6 +29,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.sam.jcc</groupId>
+			<artifactId>cloud-ci</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
 			<version>1.4.9</version>

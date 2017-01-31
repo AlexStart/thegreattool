@@ -7,4 +7,6 @@ import com.sam.jcc.cloud.i.IProvider;
  * @since 22-Dec-16
  */
 public interface ICIProvider extends IProvider<ICIMetadata> {
+
+	ICIMetadata create(ICIMetadata ciMetadata);
 }

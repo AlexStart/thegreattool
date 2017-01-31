@@ -17,49 +17,52 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.sam.jcc.cloud.i.vcs.IVCSMetadata;
-import com.sam.jcc.cloud.mvc.dto.VCSDTO;
-import com.sam.jcc.cloud.mvc.service.VCSService;
+import com.sam.jcc.cloud.i.ci.ICIMetadata;
+import com.sam.jcc.cloud.mvc.dto.CIDTO;
+import com.sam.jcc.cloud.mvc.dto.ProviderDTO;
+import com.sam.jcc.cloud.mvc.service.CIService;
 import com.sam.jcc.cloud.rules.service.IService;
 
 /**
  * @author Alec Kotovich
  * 
- *         TODO 
+ *         TODO
  * 
  */
 @Controller
-@RequestMapping("/vcss")
-public class VCSController extends GenericController<VCSDTO, IVCSMetadata> {
-	
-	@Autowired
-	private VCSService vcsService;
+@RequestMapping("/cis")
+public class CIController extends GenericController<CIDTO, ICIMetadata> {
 
 	@Autowired
-	public VCSController(IService<IVCSMetadata> vcsProviderService, ConversionService conversionService) {
-		super(vcsProviderService, conversionService);
+	private CIService ciService;
+
+	@Autowired
+	public CIController(IService<ICIMetadata> ciProviderService, ConversionService conversionService) {
+		super(ciProviderService, conversionService);
 	}
 
 	@Override
 	protected String view() {
-		return "vcss";
+		return "cis";
 	}
 
 	@Override
 	@RequestMapping(method = RequestMethod.POST)
-	public String post(ModelMap model, @ModelAttribute VCSDTO form) {
+	public String post(ModelMap model, @ModelAttribute CIDTO form) {
 		return super.post(model, form);
 	}
 
 	@Override
 	@RequestMapping(method = RequestMethod.GET)
 	public String get(ModelMap model) {
-		return super.get(model);
+		List<ProviderDTO> models = ciService.getCIProviders();
+		model.addAttribute("models", models);
+		return view();
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String getApp(@PathVariable("id") Long id, ModelMap model) {
-		return "vcs";
+		return "ci";
 	}
 
 	@Override
@@ -70,13 +73,13 @@ public class VCSController extends GenericController<VCSDTO, IVCSMetadata> {
 
 	@Override
 	@RequestMapping(method = RequestMethod.PUT)
-	public String put(ModelMap model, @ModelAttribute VCSDTO form) {
+	public String put(ModelMap model, @ModelAttribute CIDTO form) {
 		return super.put(model, form);
 	}
 
 	@Override
 	@RequestMapping(method = RequestMethod.DELETE)
-	public String delete(ModelMap model, @ModelAttribute VCSDTO entry) {
+	public String delete(ModelMap model, @ModelAttribute CIDTO entry) {
 		return super.delete(model, entry);
 	}
 
@@ -86,30 +89,23 @@ public class VCSController extends GenericController<VCSDTO, IVCSMetadata> {
 	}
 
 	@Override
-	protected VCSDTO emptyFormMetadata() {
-		return new VCSDTO();
+	protected CIDTO emptyFormMetadata() {
+		return new CIDTO();
 	}
 
 	@Override
-	protected List<VCSDTO> initView(ModelMap model) {
-		List<VCSDTO> models = (List<VCSDTO>) super.initView(model);
-		return models;
-
+	protected Map<String, String> convertDTO(CIDTO form) {
+		return ciService.convertDTO(form);
 	}
 
 	@Override
-	protected Map<String, String> convertDTO(VCSDTO form) {
-		return vcsService.convertDTO(form);
+	protected CIDTO convertModel(ICIMetadata model) {
+		return ciService.convertModel(model);
 	}
 
 	@Override
-	protected VCSDTO convertModel(IVCSMetadata model) {
-		return vcsService.convertModel(model);
-	}
-
-	@Override
-	protected List<? super VCSDTO> convertModels(List<? super IVCSMetadata> models) {
-		return vcsService.convertModels(models);
+	protected List<? super CIDTO> convertModels(List<? super ICIMetadata> models) {
+		return ciService.convertModels(models);
 	}
 
 }

@@ -134,4 +134,9 @@ com:
                 metadata:
                   ru: "Проекты в репозиториях"
                   en: "Repository Projects"                
+            CIProjectDTO:
+              name:
+                metadata:
+                  ru: "Проекты в CI системах"
+                  en: "CI Managed Projects"                
                   

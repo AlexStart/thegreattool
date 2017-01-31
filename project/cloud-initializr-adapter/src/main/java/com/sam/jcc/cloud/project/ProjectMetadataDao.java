@@ -68,6 +68,7 @@ class ProjectMetadataDao implements ICRUD<ProjectMetadata> {
 		metadata.setProjectName(metadata.getArtifactId());
 		metadata.setProjectSources(data.getSources());
 		metadata.setVcs(data.getVcs());
+		metadata.setCi(data.getCi());
 
 		return metadata;
 	}
