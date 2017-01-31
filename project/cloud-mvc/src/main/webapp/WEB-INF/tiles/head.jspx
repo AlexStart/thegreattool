@@ -56,5 +56,22 @@
 <!--  -->
 </link>
 
+<!-- Loading bar... -->
+<link href="${context_path}/css/font-awesome.min.css" rel="stylesheet">
+<!--  -->
+</link>
+<link href="${context_path}/fonts/fontawesome-webfont.ttf"
+	rel="stylesheet">
+<!--  -->
+</link>
+<link href="${context_path}/fonts/fontawesome-webfont.woff"
+	rel="stylesheet">
+<!--  -->
+</link>
+<link href="${context_path}/fonts/fontawesome-webfont.woff2"
+	rel="stylesheet">
+<!--  -->
+</link>
+
 
 </head>
