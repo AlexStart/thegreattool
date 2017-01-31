@@ -61,13 +61,15 @@ public abstract class JenkinsBaseTest {
         }
         log.info("{} finished", project);
 
-        sleep(1_000L /* timeout for Jenkins stabilization */);
+        //TODO(a bad part of the app): the sleep should be changed by something smart checking
+        sleep(3_000L /* timeout for Jenkins stabilization */);
     }
 
     /**
      * Sometimes Jenkins does some actions with CIProject and can't immediately delete Job.
      */
     protected final void deleteQuietly(CIProject project) throws Exception {
+        //TODO(a bad part of the app): after getting logs of failed build you can't immediately delete job
         sleep(1_500L);
         jenkins.delete(project);
     }

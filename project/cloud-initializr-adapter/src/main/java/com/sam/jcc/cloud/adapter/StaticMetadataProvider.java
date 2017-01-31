@@ -14,6 +14,7 @@ import io.spring.initializr.metadata.InitializrMetadataProvider;
  * @author olegk
  *
  */
+//TODO(a bad part of the app): works with static data, needs manual update
 public class StaticMetadataProvider implements InitializrMetadataProvider {
 
 	@Override

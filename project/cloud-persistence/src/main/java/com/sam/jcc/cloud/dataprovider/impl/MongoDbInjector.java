@@ -18,13 +18,13 @@ import static java.lang.System.lineSeparator;
 
 /**
  * @author Alexey Zhytnik
- * @since 16.01.2017
+ * @since 22-Jan-17
  */
 @Setter
 @Component
-class MySqlInjector {
+class MongoDbInjector {
 
-    private static final String JPA = "spring.datasource";
+    private static final String MONGO = "spring.data.mongodb";
 
     @Autowired
     private FileManager files;
@@ -45,36 +45,25 @@ class MySqlInjector {
 
     private void inject(AppData data, File sources) {
         dependencyManager.add(sources, lombok());
-        dependencyManager.add(sources, dataJpaStarter());
-        dependencyManager.add(sources, mysqlConnector());
+        dependencyManager.add(sources, dataMongoDbStarted());
 
         final File properties = parser.getPropertiesFile(sources);
         files.append(lineSeparator().getBytes(), properties);
         files.append(settings(data).getBytes(), properties);
     }
 
-    private Dependency dataJpaStarter() {
-        final Dependency jpa = new Dependency();
+    private Dependency dataMongoDbStarted() {
+        final Dependency mongo = new Dependency();
 
-        jpa.setScope("compile");
-        jpa.setVersion("1.4.3.RELEASE");
-        jpa.setGroupId("org.springframework.boot");
-        jpa.setArtifactId("spring-boot-starter-data-jpa");
-        return jpa;
-    }
-
-    private Dependency mysqlConnector(){
-        final Dependency mysql = new Dependency();
-
-        mysql.setScope("compile");
-        mysql.setVersion("5.1.40");
-        mysql.setGroupId("mysql");
-        mysql.setArtifactId("mysql-connector-java");
-        return mysql;
+        mongo.setScope("compile");
+        mongo.setVersion("1.4.3.RELEASE");
+        mongo.setGroupId("org.springframework.boot");
+        mongo.setArtifactId("spring-boot-starter-data-mongodb");
+        return mongo;
     }
 
     //TODO: transfer
-    private Dependency lombok(){
+    private Dependency lombok() {
         final Dependency lombok = new Dependency();
 
         lombok.setScope("compile");
@@ -85,16 +74,28 @@ class MySqlInjector {
     }
 
     private String settings(AppData data) {
+        final String uri = String.format("mongodb://%s:%s/%s",
+                getProperty("db.mongo.host"),
+                getProperty("db.mongo.port"),
+                data.getAppName()
+        );
+
+        if (getProperty("db.mongo.user").isEmpty()) {
+            return mongo("uri", uri);
+        }
+        return settingsWithAuth(uri);
+    }
+
+    private String settingsWithAuth(String uri) {
         return String.join(lineSeparator(),
                 of(
-                        jpa("url", getProperty("db.mysql.url") + data.getAppName()),
-                        jpa("username", getProperty("db.mysql.user")),
-                        jpa("password", getProperty("db.mysql.password")),
-                        "spring.jpa.hibernate.ddl-auto=update"
+                        mongo("uri", uri),
+                        mongo("username", getProperty("db.mongo.user")),
+                        mongo("password", getProperty("db.mongo.password"))
                 ));
     }
 
-    private String jpa(String property, String value) {
-        return format("%s.%s=%s", JPA, property, value);
+    private String mongo(String property, String value) {
+        return format("%s.%s=%s", MONGO, property, value);
     }
 }

@@ -16,6 +16,7 @@ import static hudson.util.FormValidation.Kind.ERROR;
  * @since 23-Dec-16
  */
 @Slf4j
+//TODO(a bad part of the app): fixes plugin installation of test Jenkins
 class JenkinsUpdateCenterManager {
 
     private static final String JENKINS_CENTRAL = "JenkinsCentral";

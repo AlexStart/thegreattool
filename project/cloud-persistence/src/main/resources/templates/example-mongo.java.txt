@@ -1,0 +1,18 @@
+package ${package};
+
+import lombok.Data;
+import org.springframework.data.annotation.Id;
+
+
+/**
+ * @author The Great Tool
+ * @since ${created}
+ */
+@Data
+public class Example {
+
+    @Id
+    private String id;
+
+    private String data;
+}

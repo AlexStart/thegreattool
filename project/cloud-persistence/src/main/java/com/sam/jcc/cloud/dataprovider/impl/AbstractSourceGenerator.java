@@ -7,9 +7,7 @@ import com.sam.jcc.cloud.utils.files.FileManager;
 import lombok.Setter;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,17 +16,14 @@ import java.util.function.Consumer;
 
 import static com.google.common.collect.ImmutableMap.of;
 import static com.sam.jcc.cloud.PropertyResolver.getProperty;
-import static com.sam.jcc.cloud.utils.files.FileManager.getResource;
 import static com.sam.jcc.cloud.utils.files.FileManager.getResourceAsBytes;
 import static java.text.MessageFormat.format;
-import static java.util.Objects.nonNull;
 
 /**
  * @author Alexey Zhytnik
- * @since 18.01.2017
+ * @since 23-Jan-17
  */
-@Component
-class SourceGenerator {
+class AbstractSourceGenerator {
 
     private static final String CREATED = "${created}";
     private static final String PACKAGE = "${package}";
@@ -40,20 +35,13 @@ class SourceGenerator {
     @Autowired
     private UnzipSandbox sandbox;
 
-    private String daoTemplate;
-    private String testTemplate;
-    private String entityTemplate;
+    protected String daoTemplate;
+    protected String testTemplate;
+    protected String entityTemplate;
 
     @Setter
     @VisibleForTesting
     private String groupId = getProperty("data.template.groupId");
-
-    @PostConstruct
-    public void setUp() {
-        entityTemplate = read("/templates/example.java.txt");
-        daoTemplate = read("/templates/example-dao.java.txt");
-        testTemplate = read("/templates/example-dao-test.java.txt");
-    }
 
     public void generate(AppData app) {
         final byte[] updated = sandbox.apply(app.getSources(), modify(app));
@@ -136,10 +124,7 @@ class SourceGenerator {
         return new SimpleDateFormat("dd.MM.yyyy").format(new Date());
     }
 
-    private String read(String resource) {
-        final File file = getResource(getClass(), resource);
-
-        if (nonNull(file)) return files.toString(file);
+    protected String read(String resource) {
         return new String(getResourceAsBytes(getClass(), resource), Charsets.UTF_8);
     }
 }
