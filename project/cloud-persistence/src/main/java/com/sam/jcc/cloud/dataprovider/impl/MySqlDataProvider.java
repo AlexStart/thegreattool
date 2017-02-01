@@ -94,7 +94,10 @@ public class MySqlDataProvider extends SqlDataProvider implements IHealth {
 
 					StringBuilder sb = new StringBuilder();
 					sb.append(url.toString().replaceAll("http", "jdbc:mysql")).append("\n");
-					sb.append(databaseConfiguration.getDbmsName()).append(" ").append(databaseConfiguration.getDbmsVersion());
+					sb.append(databaseConfiguration.getDbName()).append(" ")
+							.append(databaseConfiguration.getDbMajorVersion()).append(".")
+							.append(databaseConfiguration.getDbMinorVersion()).append("\n");
+					sb.append(databaseConfiguration.getDbProductVersion());
 					return sb.toString();
 
 				} catch (Exception e) {
@@ -125,28 +128,44 @@ public class MySqlDataProvider extends SqlDataProvider implements IHealth {
 				Connection connection = getDataSource().getConnection();
 				DatabaseMetaData metaData = connection.getMetaData();
 				String dbName = metaData.getDatabaseProductName();
-				String dbVersion = String.valueOf(metaData.getDatabaseMajorVersion());
-				final DatabaseMetaDataDTO metaDataDTO = new DatabaseMetaDataDTO(dbName, dbVersion);
+				String dbMajorVersion = String.valueOf(metaData.getDatabaseMajorVersion());
+				String dbMinorVersion = String.valueOf(metaData.getDatabaseMinorVersion());
+				String dbProductVersion = metaData.getDatabaseProductVersion();
+				final DatabaseMetaDataDTO metaDataDTO = new DatabaseMetaDataDTO(dbName, dbMajorVersion, dbMinorVersion,
+						dbProductVersion);
 				connection.close();
 				return metaDataDTO;
 			}
 
 			final class DatabaseMetaDataDTO {
 
-				private final String dbmsName;
-				private final String dbmsVersion;
+				private final String dbName;
+				private final String dbMajorVersion;
+				private final String dbMinorVersion;
+				private final String dbProductVersion;
 
-				private DatabaseMetaDataDTO(String dbmsName, String dbmsVersion) {
-					this.dbmsName = dbmsName;
-					this.dbmsVersion = dbmsVersion;
+				private DatabaseMetaDataDTO(String dbName, String dbMajorVersion, String dbMinorVersion,
+						String dbProductVersion) {
+					this.dbName = dbName;
+					this.dbMajorVersion = dbMajorVersion;
+					this.dbMinorVersion = dbMinorVersion;
+					this.dbProductVersion = dbProductVersion;
 				}
 
-				public String getDbmsName() {
-					return dbmsName;
+				public String getDbName() {
+					return dbName;
 				}
 
-				public String getDbmsVersion() {
-					return dbmsVersion;
+				public String getDbMajorVersion() {
+					return dbMajorVersion;
+				}
+
+				public String getDbMinorVersion() {
+					return dbMinorVersion;
+				}
+
+				public String getDbProductVersion() {
+					return dbProductVersion;
 				}
 
 			}
