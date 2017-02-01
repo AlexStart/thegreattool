@@ -1,9 +1,10 @@
 package com.sam.jcc.cloud.dataprovider.impl;
 
-import com.sam.jcc.cloud.dataprovider.AppData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+
+import com.sam.jcc.cloud.dataprovider.AppData;
 
 /**
  * @author Alexey Zhytnik
@@ -31,4 +32,8 @@ public class MySqlDatabaseManager {
 
         jdbcTemplate.execute("DROP DATABASE IF EXISTS " + name);
     }
+
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
+	}
 }

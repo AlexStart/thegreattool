@@ -198,7 +198,6 @@ public class JenkinsProvider extends AbstractProvider<ICIMetadata> implements IC
 			@Override
 			public String getUrl() {
 				
-				
 				try {
 					String host = getHost();
 					Integer port = Integer.valueOf(getPort());

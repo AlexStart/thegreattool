@@ -1,12 +1,13 @@
 package com.sam.jcc.cloud.dataprovider.impl;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.sam.jcc.cloud.dataprovider.AppData;
 import com.sam.jcc.cloud.i.IEventManager;
 import com.sam.jcc.cloud.i.data.IDataMetadata;
 import com.sam.jcc.cloud.i.data.ISqlDataProvider;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
 
 /**
  * @author Alec Kotovich
@@ -36,4 +37,10 @@ public abstract class SqlDataProvider extends AbstractDataProvider implements IS
         dbManager.create(app);
         return app;
     }
+
+	public MySqlDatabaseManager getDbManager() {
+		return dbManager;
+	}
+    
+    
 }

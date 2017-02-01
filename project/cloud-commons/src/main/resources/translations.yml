@@ -31,15 +31,15 @@ MySqlDataProvider:
     ru: "MySQL"
     en: "MySQL"
   description:
-    ru: "MySQL(SQL)"
-    en: "MySQL(SQL)"
+    ru: "MySQL(SQL провайдер)"
+    en: "MySQL(SQL provider)"
 MongoDataProvider:
   name:
     ru: "MongoDB"
     en: "MongoDB"
   description:
-    ru: "NoSQL"
-    en: "NoSQL"
+    ru: "MongoDB(NoSQL провайдер)"
+    en: "MongoDB(NoSQL provider)"
 AppProvider:
   name:
     ru: "AppProvider"
