@@ -25,6 +25,7 @@ class SourceProcessor {
 
 	public void process(ProjectMetadata project) {
 		final ProjectRequest request = converter.convert(project);
+		log.info("Converted to project request: " + request);
 		File srcDir = generator.generateProjectStructure(request);
 		log.info("Generated project structure in " + srcDir.getAbsolutePath());
 		project.setDirectory(srcDir);
