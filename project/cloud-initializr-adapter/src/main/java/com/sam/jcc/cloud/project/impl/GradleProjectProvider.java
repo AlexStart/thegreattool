@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import org.apache.commons.lang3.SystemUtils;
+import org.codehaus.plexus.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -68,8 +69,11 @@ public class GradleProjectProvider extends ProjectProvider implements IHealth {
 					BufferedReader br = new BufferedReader(isr);
 					StringBuilder sb = new StringBuilder();
 					String line = null;
-					while ((line = br.readLine()) != null)
-						sb.append(line).append("\n");
+					while ((line = br.readLine()) != null) {
+						if (StringUtils.isNotBlank(line)) {
+							sb.append(line).append("\n");
+						}
+					}
 					proc.waitFor();
 					return sb.toString();
 				} catch (Exception e) {
