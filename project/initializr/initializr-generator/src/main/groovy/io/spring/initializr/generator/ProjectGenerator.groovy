@@ -16,6 +16,7 @@
 
 package io.spring.initializr.generator
 
+import static io.spring.initializr.metadata.InitializrConfiguration.Env.Maven.ParentPom
 import groovy.util.logging.Slf4j
 import io.spring.initializr.InitializrException
 import io.spring.initializr.metadata.Dependency
@@ -27,8 +28,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.util.Assert
-
-import static io.spring.initializr.metadata.InitializrConfiguration.Env.Maven.ParentPom
 
 /**
  * Generate a project based on the configured metadata.
@@ -128,6 +127,7 @@ class ProjectGenerator {
 		def model = resolveModel(request)
 
 		def rootDir = File.createTempFile('tmp', '', new File(tmpdir))
+		log.info(rootDir.absolutePath)
 		addTempFile(rootDir.name, rootDir)
 		rootDir.delete()
 		rootDir.mkdirs()
