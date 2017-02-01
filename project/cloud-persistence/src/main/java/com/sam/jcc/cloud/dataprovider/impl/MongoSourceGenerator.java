@@ -9,7 +9,7 @@ import javax.annotation.PostConstruct;
  * @since 23-Jan-17
  */
 @Component
-class NoSqlSourceGenerator extends AbstractSourceGenerator {
+class MongoSourceGenerator extends AbstractSourceGenerator {
 
     @PostConstruct
     public void setUp() {

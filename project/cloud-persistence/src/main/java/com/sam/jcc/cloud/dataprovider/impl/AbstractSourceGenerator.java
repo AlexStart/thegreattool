@@ -1,12 +1,9 @@
 package com.sam.jcc.cloud.dataprovider.impl;
 
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Charsets;
-import com.sam.jcc.cloud.dataprovider.AppData;
-import com.sam.jcc.cloud.utils.files.FileManager;
-import lombok.Setter;
-import lombok.val;
-import org.springframework.beans.factory.annotation.Autowired;
+import static com.google.common.collect.ImmutableMap.of;
+import static com.sam.jcc.cloud.PropertyResolver.getProperty;
+import static com.sam.jcc.cloud.utils.files.FileManager.getResourceAsBytes;
+import static java.text.MessageFormat.format;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -14,16 +11,22 @@ import java.util.Date;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import static com.google.common.collect.ImmutableMap.of;
-import static com.sam.jcc.cloud.PropertyResolver.getProperty;
-import static com.sam.jcc.cloud.utils.files.FileManager.getResourceAsBytes;
-import static java.text.MessageFormat.format;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Charsets;
+import com.sam.jcc.cloud.dataprovider.AppData;
+import com.sam.jcc.cloud.i.data.ISourceGenerator;
+import com.sam.jcc.cloud.utils.files.FileManager;
+
+import lombok.Setter;
+import lombok.val;
 
 /**
  * @author Alexey Zhytnik
  * @since 23-Jan-17
  */
-class AbstractSourceGenerator {
+class AbstractSourceGenerator implements ISourceGenerator<AppData> {
 
     private static final String CREATED = "${created}";
     private static final String PACKAGE = "${package}";

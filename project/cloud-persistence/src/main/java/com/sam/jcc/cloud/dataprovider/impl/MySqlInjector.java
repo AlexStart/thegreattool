@@ -1,20 +1,23 @@
 package com.sam.jcc.cloud.dataprovider.impl;
 
-import com.sam.jcc.cloud.dataprovider.AppData;
-import com.sam.jcc.cloud.utils.files.FileManager;
-import com.sam.jcc.cloud.utils.parsers.ProjectParser;
-import com.sam.jcc.cloud.utils.project.DependencyManager;
-import com.sam.jcc.cloud.utils.project.DependencyManager.Dependency;
-import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.io.File;
-
 import static com.google.common.collect.ImmutableList.of;
 import static com.sam.jcc.cloud.PropertyResolver.getProperty;
 import static java.lang.String.format;
 import static java.lang.System.lineSeparator;
+
+import java.io.File;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.sam.jcc.cloud.dataprovider.AppData;
+import com.sam.jcc.cloud.i.data.IDataInjector;
+import com.sam.jcc.cloud.utils.files.FileManager;
+import com.sam.jcc.cloud.utils.parsers.ProjectParser;
+import com.sam.jcc.cloud.utils.project.DependencyManager;
+import com.sam.jcc.cloud.utils.project.DependencyManager.Dependency;
+
+import lombok.Setter;
 
 /**
  * @author Alexey Zhytnik
@@ -22,7 +25,7 @@ import static java.lang.System.lineSeparator;
  */
 @Setter
 @Component
-class MySqlInjector {
+class MySqlInjector implements IDataInjector<AppData> {
 
     private static final String JPA = "spring.datasource";
 

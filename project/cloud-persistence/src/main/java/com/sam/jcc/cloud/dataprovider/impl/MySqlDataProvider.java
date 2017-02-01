@@ -15,21 +15,35 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.apache.commons.lang.Validate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.sam.jcc.cloud.dataprovider.AppData;
 import com.sam.jcc.cloud.i.IEventManager;
 import com.sam.jcc.cloud.i.IHealth;
 import com.sam.jcc.cloud.i.IHealthMetadata;
+import com.sam.jcc.cloud.i.data.IDBManager;
+import com.sam.jcc.cloud.i.data.IDataInjector;
 import com.sam.jcc.cloud.i.data.IDataMetadata;
+import com.sam.jcc.cloud.i.data.ISourceGenerator;
 
 /**
  * @author olegk
  *
  */
 @Component
-public class MySqlDataProvider extends SqlDataProvider implements IHealth {
+public class MySqlDataProvider extends SqlDataProvider<AppData> implements IHealth {
 
 	private static final long MYSQL_PROVIDER_ID = 6L;
+	
+	@Autowired
+    private MySqlInjector injector;
+
+    @Autowired
+    private MySqlDatabaseManager dbManager;
+
+    @Autowired
+    private JpaSourceGenerator sourceGenerator;	
 
 	public MySqlDataProvider(List<IEventManager<IDataMetadata>> eventManagers) {
 		super(eventManagers);
@@ -175,6 +189,21 @@ public class MySqlDataProvider extends SqlDataProvider implements IHealth {
 
 	@Override
 	public DataSource getDataSource() {
-		return getDbManager().getJdbcTemplate().getDataSource();
+		return dbManager.getJdbcTemplate().getDataSource();
+	}
+
+	@Override
+	protected ISourceGenerator<AppData> getSourceGenerator() {
+		return sourceGenerator;
+	}
+
+	@Override
+	protected IDataInjector<AppData> getDataInjector() {
+		return injector;
+	}
+
+	@Override
+	protected IDBManager<AppData> getDbManager() {
+		return dbManager;
 	}
 }
