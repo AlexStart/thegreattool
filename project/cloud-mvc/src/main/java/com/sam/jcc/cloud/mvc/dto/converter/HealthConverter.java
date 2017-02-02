@@ -19,7 +19,7 @@ public class HealthConverter implements Converter<IHealthMetadata, HealthDTO> {
 	public HealthDTO convert(IHealthMetadata source) {
 		HealthDTO healthDTO = new HealthDTO();
 		BeanUtils.copyProperties(source, healthDTO);
-		healthDTO.setUrl(healthDTO.getUrl().replaceAll("\n", "<br/>"));
+		healthDTO.setUrl(healthDTO.getUrl() == null ? "" : healthDTO.getUrl().replaceAll("\n", "<br/>"));
 		return healthDTO;
 	}
 

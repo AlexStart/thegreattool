@@ -20,17 +20,19 @@ import com.sam.jcc.cloud.rules.service.IService;
  */
 @Service
 public class HealthService extends BaseService<HealthDTO> {
-	
+
 	@Autowired
 	private IService<IHealthMetadata> serviceDelegate;
-	
+
 	private List<? super HealthDTO> convertModels(List<? super IHealthMetadata> models) {
 		List<HealthDTO> dtos = new ArrayList<>();
-		models.forEach(m -> dtos.add(conversionService.convert(m, HealthDTO.class)));
+		models.forEach(m -> {
+			dtos.add(conversionService.convert(m, HealthDTO.class));
+		});
 		Collections.sort(dtos, (d1, d2) -> d1.getId().compareTo(d2.getId()));
 		return dtos;
 	}
-	
+
 	public List<? super HealthDTO> findAll() {
 		List<? super IHealthMetadata> findAll = serviceDelegate.findAll();
 		return convertModels(findAll);
