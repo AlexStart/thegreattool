@@ -179,13 +179,14 @@
 				<img alt="140x140" data-src="holder.js/140x140" class="img-circle"
 					style="width: 140px; height: 140px;"
 					src="${context_path}/images/databases.png" />
-				<h2>Databases</h2>
-				<p>Duis mollis, est non commodo luctus, nisi erat porttitor
-					ligula, eget lacinia odio sem nec elit. Cras mattis consectetur
-					purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo,
-					tortor mauris condimentum nibh.</p>
+				<h2>
+					<spring:message code="db" />
+				</h2>
 				<p>
-					<a role="button" href="#" class="btn btn-default"><spring:message
+					<spring:message code="dbs.description" />
+				</p>
+				<p>
+					<a role="button" href="${root_context}dbs" class="btn btn-default"><spring:message
 							code="view.details" /> »</a>
 				</p>
 			</div>

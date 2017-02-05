@@ -23,9 +23,20 @@ public class AppData implements IDataMetadata, IStatusable {
     private String appName;
     private String dbName;
     private AppDataStatus status = INITIALIZED;
+    private boolean sql;
 
     @Experimental("maybe remove or marks with @JsonIgnore")
     private transient byte[] sources;
 
     private File location;
+
+	@Override
+	public String getProviderName() {
+		return null;
+	}
+
+	@Override
+	public String getProviderDescription() {
+		return null;
+	}
 }

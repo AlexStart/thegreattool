@@ -17,12 +17,14 @@ import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import com.sam.jcc.cloud.mvc.controller.api.exception.ValidationCloudException;
 import com.sam.jcc.cloud.mvc.dto.AppDTO;
 import com.sam.jcc.cloud.mvc.dto.CIProjectDTO;
+import com.sam.jcc.cloud.mvc.dto.DbProjectDTO;
 import com.sam.jcc.cloud.mvc.dto.ProjectDTO;
 import com.sam.jcc.cloud.mvc.dto.ProviderDTO;
 import com.sam.jcc.cloud.mvc.dto.VCSProjectDTO;
 import com.sam.jcc.cloud.mvc.service.AppService;
 import com.sam.jcc.cloud.mvc.service.CIProjectService;
 import com.sam.jcc.cloud.mvc.service.CIService;
+import com.sam.jcc.cloud.mvc.service.DbService;
 import com.sam.jcc.cloud.mvc.service.ProjectService;
 import com.sam.jcc.cloud.mvc.service.VCSProjectService;
 import com.sam.jcc.cloud.mvc.service.VCSService;
@@ -52,6 +54,9 @@ public class ApiController {
 
 	@Autowired
 	private CIProjectService ciProjectService;
+	
+	@Autowired
+	private DbService dbService;	
 
 	// APPS //
 	@RequestMapping(value = "apps", method = RequestMethod.GET)
@@ -129,6 +134,17 @@ public class ApiController {
 			throw new ValidationCloudException();
 		}
 		return ciProjectService.update(ciProjectDTO);
+	}
+
+	// DB PROVIDERS
+	@RequestMapping(value = "dbproviders", method = RequestMethod.GET)
+	public @ResponseBody List<ProviderDTO> findAllDbProviders() {
+		return dbService.getDbProviders();
+	}
+	
+	@RequestMapping(value = "dbprojects", method = RequestMethod.PUT)
+	public @ResponseBody CIProjectDTO addprojectToDb(@RequestBody DbProjectDTO dbProjectDTO) {
+		return null;
 	}
 
 }

@@ -5,7 +5,7 @@
 		<span class="caret"></span>
 	</button>
 	<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-		<li ng-click=" vm.myService.selected = item "
+		<li ng-click=" vm.myService.selected = item; vm.select(item); "
 			ng-repeat="item in vm.myService.myItems">
 			<!--  --> <a href="#">{{item.providerName}}</a>
 		</li>

@@ -11,4 +11,8 @@ public interface IDataMetadata {
     String getDbName();
 
     void setDbName(String name);
+
+	String getProviderName();
+
+	String getProviderDescription();
 }

@@ -139,4 +139,9 @@ com:
                 metadata:
                   ru: "Проекты в CI системах"
                   en: "CI Managed Projects"                
-                  
+            DbProjectDTO:
+              name:
+                metadata:
+                  ru: "Проекты в базах данных"
+                  en: "Database Managed Projects"                
+                                    

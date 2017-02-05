@@ -41,6 +41,7 @@
 				<bean class="com.sam.jcc.cloud.mvc.dto.converter.VCSConverter" />
 				<bean class="com.sam.jcc.cloud.mvc.dto.converter.VCSProjectConverter" />
 				<bean class="com.sam.jcc.cloud.mvc.dto.converter.CIProjectConverter" />
+				<bean class="com.sam.jcc.cloud.mvc.dto.converter.DbProjectConverter" />
 			</set>
 		</property>
 	</bean>

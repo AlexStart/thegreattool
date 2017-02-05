@@ -76,7 +76,7 @@
         };
 
         function configure() {
-            return $http.get(config.component.path + 'crud4.json').then(response => {
+            return $http.get(config.component.path + 'crud5.json').then(response => {
                 var data = response.data;
                 api = config.context + data.url + '/';
                 return data;
@@ -130,7 +130,7 @@
     	
         function configure() {
         	// TODO url in JSON settings...
-            return $http.get(config.context + 'api/ciproviders/').then(response => {
+            return $http.get(config.context + 'api/dbproviders/').then(response => {
                 var data = response.data;
                 return data;
             });
@@ -262,7 +262,7 @@
 
 
     ngApp.component('crud', {
-        templateUrl: config.component.path + 'crud4.html',
+        templateUrl: config.component.path + 'crud5.html',
         controller: crudCtrl,
         controllerAs: 'vm',
         bindings: {}
