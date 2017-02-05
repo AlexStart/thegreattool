@@ -125,12 +125,20 @@
     	return {
             configure: configure,
             selected : null,
-            items : myItems
+            items : myItems,
+            downloadSources : downloadSources
         };
     	
         function configure() {
         	// TODO url in JSON settings...
             return $http.get(config.context + 'api/providers/').then(response => {
+                var data = response.data;
+                return data;
+            });
+        }
+        
+        function downloadSources(data) {
+        	return $http.get(config.context + 'api/projects/' + data.id).then(response => {
                 var data = response.data;
                 return data;
             });

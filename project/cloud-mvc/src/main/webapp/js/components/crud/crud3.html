@@ -17,11 +17,14 @@
 	<table ng-table="vm.items"
 		class="table table-condensed table-bordered table-striped">
 		<tr ng-repeat="item in $data">
-			<td title="vm.items.metadata.name.translation"
+			<td colspan="2" title="vm.items.metadata.name.translation"
 				ng-click="vm.select(item.data)" class="row"
 				ng-attr-title="{{vm.status(item)}}"
 				ng-style="item.data.disabled && {'background-color':'#D3D3D3'}"
-				ng-class="{'selectedrow': vm.item.name == item.data.name}">{{item.data.name}}</td>
+				ng-class="{'selectedrow': vm.item.name == item.data.name}">{{item.data.name}}
+				<span style="float: right;" ng-if="item.data.hasSources == true"><a
+					href="#" ng-click="vm.myService.downloadSources(item.data)">  &#8631; </a></span>
+			</td>
 		</tr>
 	</table>
 	<br>
