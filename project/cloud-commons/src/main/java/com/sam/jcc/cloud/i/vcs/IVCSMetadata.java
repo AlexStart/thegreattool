@@ -17,4 +17,9 @@ public interface IVCSMetadata {
 	
 	String getDescription();
 	
+	void setCommitMessage(String message);
+	
+	String getCommitMessage();
+	
+	
 }

@@ -86,7 +86,7 @@ public class GitVCS implements VCS<VCSCredentials> {
 				files.copyDir(repo.getSources(), temp);
 
 				add(git);
-				commit(git);
+				commit(git,repo.getCommitMessage());
 				push(git);
 
 				git.getRepository().close();
@@ -152,9 +152,9 @@ public class GitVCS implements VCS<VCSCredentials> {
 		log.info("Added to " + call);
 	}
 
-	private void commit(Git git) throws GitAPIException {
+	private void commit(Git git, String commitMessage) throws GitAPIException {
 		log.info("Before commit()");
-		RevCommit call = git.commit().setAll(true).setMessage("Update").call();
+		RevCommit call = git.commit().setAll(true).setMessage(commitMessage).call();
 		log.info("Committed.  Result is " + call);
 	}
 

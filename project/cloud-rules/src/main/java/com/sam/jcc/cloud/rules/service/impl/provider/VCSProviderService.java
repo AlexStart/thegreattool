@@ -3,6 +3,8 @@
  */
 package com.sam.jcc.cloud.rules.service.impl.provider;
 
+import static com.sam.jcc.cloud.PropertyResolver.getProperty;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -74,7 +76,7 @@ public class VCSProviderService implements IService<IVCSMetadata> {
 	public List<? super IVCSMetadata> findAll() {
 		List<? super IVCSMetadata> vcss = new ArrayList<>();
 		vcsProviders.forEach(vcsProvider -> vcss
-				.add(new VCSRepositoryMetadata(vcsProvider.getI18NName(), vcsProvider.getI18NDescription())));
+				.add(new VCSRepositoryMetadata(vcsProvider.getI18NName(), vcsProvider.getI18NDescription(), "")));
 		return vcss;
 	}
 
@@ -99,7 +101,7 @@ public class VCSProviderService implements IService<IVCSMetadata> {
 		if (project == null || !project.hasSources()) {
 			return null;
 		}
-		
+
 		byte[] projectSources = project.getProjectSources();
 
 		File tempZip;
@@ -120,6 +122,8 @@ public class VCSProviderService implements IService<IVCSMetadata> {
 			repo.setArtifactId((String) props.get("projectName"));
 			repo.setSources(tempDir);
 			targetProvider.create(repo); // create empty repo
+			// Commit
+			repo.setCommitMessage(repo.getArtifactId() + " " + getProperty("repository.commit.message"));
 			return targetProvider.update(repo); // update with sources
 		}
 		return null;

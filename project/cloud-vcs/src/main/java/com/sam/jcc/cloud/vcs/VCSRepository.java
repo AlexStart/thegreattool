@@ -1,14 +1,15 @@
 package com.sam.jcc.cloud.vcs;
 
-import com.sam.jcc.cloud.i.IStatusable;
-import com.sam.jcc.cloud.i.vcs.IVCSMetadata;
-import lombok.Data;
-import lombok.ToString;
+import static com.sam.jcc.cloud.PropertyResolver.getProperty;
+import static com.sam.jcc.cloud.vcs.VCSRepositoryStatus.INITIALIZED;
 
 import java.io.File;
 
-import static com.sam.jcc.cloud.PropertyResolver.getProperty;
-import static com.sam.jcc.cloud.vcs.VCSRepositoryStatus.INITIALIZED;
+import com.sam.jcc.cloud.i.IStatusable;
+import com.sam.jcc.cloud.i.vcs.IVCSMetadata;
+
+import lombok.Data;
+import lombok.ToString;
 
 /**
  * @author Alexey Zhytnik
@@ -25,7 +26,8 @@ public class VCSRepository implements IVCSMetadata, IStatusable {
 
     private File sources;
     private String artifactId;
-    private VCSRepositoryStatus status = INITIALIZED;
+    private String commitMessage = "Default commit message";
+    private VCSRepositoryStatus status = INITIALIZED;    
 
     public String getName() {
         return REPOSITORY_PREFIX + artifactId;

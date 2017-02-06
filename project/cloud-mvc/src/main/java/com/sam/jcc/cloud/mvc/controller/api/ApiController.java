@@ -5,6 +5,8 @@ package com.sam.jcc.cloud.mvc.controller.api;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +26,7 @@ import com.sam.jcc.cloud.mvc.dto.VCSProjectDTO;
 import com.sam.jcc.cloud.mvc.service.AppService;
 import com.sam.jcc.cloud.mvc.service.CIProjectService;
 import com.sam.jcc.cloud.mvc.service.CIService;
+import com.sam.jcc.cloud.mvc.service.DbProjectService;
 import com.sam.jcc.cloud.mvc.service.DbService;
 import com.sam.jcc.cloud.mvc.service.ProjectService;
 import com.sam.jcc.cloud.mvc.service.VCSProjectService;
@@ -54,9 +57,12 @@ public class ApiController {
 
 	@Autowired
 	private CIProjectService ciProjectService;
+
+	@Autowired
+	private DbService dbService;
 	
 	@Autowired
-	private DbService dbService;	
+	private DbProjectService dbProjectService;	
 
 	// APPS //
 	@RequestMapping(value = "apps", method = RequestMethod.GET)
@@ -102,6 +108,23 @@ public class ApiController {
 		return projectService.update(projectDTO);
 	}
 
+	@RequestMapping(value = "projects/{id}", method = RequestMethod.GET, produces = "application/zip")
+	public byte[] getProjectSource(@PathVariable("id") Long id, HttpServletResponse response) {
+		IProjectMetadata projectMetadata = projectService.findProjectById(id);
+		if (projectMetadata != null && projectMetadata.hasSources()) {
+
+			// setting headers
+			response.setContentType("application/zip");
+			response.setStatus(HttpServletResponse.SC_OK);
+			response.addHeader("Content-Disposition",
+					"attachment; filename=\"" + projectMetadata.getName() + ".zip" + "\"");
+
+			byte[] src = projectMetadata.getProjectSources();
+			return src;
+		}
+		return null;
+	}
+
 	// PROVIDERS
 	@RequestMapping(value = "providers", method = RequestMethod.GET)
 	public @ResponseBody List<ProviderDTO> findAllProviders() {
@@ -141,10 +164,13 @@ public class ApiController {
 	public @ResponseBody List<ProviderDTO> findAllDbProviders() {
 		return dbService.getDbProviders();
 	}
-	
+
 	@RequestMapping(value = "dbprojects", method = RequestMethod.PUT)
-	public @ResponseBody CIProjectDTO addprojectToDb(@RequestBody DbProjectDTO dbProjectDTO) {
-		return null;
+	public @ResponseBody DbProjectDTO addprojectToDb(@RequestBody DbProjectDTO dbProjectDTO) {
+		if (dbProjectDTO == null) {
+			throw new ValidationCloudException();
+		}
+		return dbProjectService.update(dbProjectDTO);
 	}
 
 }

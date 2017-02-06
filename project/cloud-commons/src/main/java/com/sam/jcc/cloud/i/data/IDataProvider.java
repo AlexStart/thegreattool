@@ -4,5 +4,6 @@ import com.sam.jcc.cloud.i.IProvider;
 
 public interface IDataProvider extends IProvider<IDataMetadata> {
 
+	IDataMetadata update(IDataMetadata metadata);
     
 }

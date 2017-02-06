@@ -126,7 +126,7 @@
             configure: configure,
             selected : null,
             items : myItems,
-            downloadSources : downloadSources
+            getDownloadLink : getDownloadLink
         };
     	
         function configure() {
@@ -137,11 +137,8 @@
             });
         }
         
-        function downloadSources(data) {
-        	return $http.get(config.context + 'api/projects/' + data.id).then(response => {
-                var data = response.data;
-                return data;
-            });
+        function getDownloadLink(id) {
+        	return config.context + 'api/projects/' + id;
         }
         
     }    

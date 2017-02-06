@@ -3,19 +3,16 @@
  */
 package com.sam.jcc.cloud.rules.service.impl.provider;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.google.common.io.Files;
+import com.sam.jcc.cloud.dataprovider.AppData;
 import com.sam.jcc.cloud.i.data.IDataMetadata;
 import com.sam.jcc.cloud.i.data.IDataProvider;
 import com.sam.jcc.cloud.project.ProjectMetadata;
@@ -120,17 +117,17 @@ public class DbProviderService implements IService<IDataMetadata> {
 
 		byte[] projectSources = project.getProjectSources();
 
-		File tempZip;
-		try {
-			tempZip = File.createTempFile(project.getArtifactId() + "-" + new Random().nextInt(10000), ".zip");
-		} catch (IOException e) {
-			return null;
-		}
-		File tempDir = Files.createTempDir();
-		files.write(projectSources, tempZip);
-		zipManager.unzip(tempZip, tempDir);
+		AppData appData = new AppData();
+		appData.setAppName(project.getArtifactId());
+		appData.setSources(projectSources);
 
 		Long providerId = (Long) props.get("providerId");
+		IDataProvider targetProvider = dbProviders.stream().filter(p -> p.getId().equals(providerId)).findAny()
+				.orElse(null);
+		if (targetProvider != null) {
+			IDataMetadata updatedApp = targetProvider.update(appData);
+			return updatedApp;
+		}
 
 		return null;
 	}

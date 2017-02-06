@@ -10,6 +10,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sam.jcc.cloud.i.project.DummyProjectMetadata;
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import com.sam.jcc.cloud.mvc.dto.ProjectDTO;
 import com.sam.jcc.cloud.mvc.dto.ProviderDTO;
@@ -55,46 +56,9 @@ public class ProjectService extends BaseService<ProjectDTO> {
 	public List<? super IProjectMetadata> findAll() {
 		return projectProviderService.findAll();
 	}
-	
+
 	public IProjectMetadata findProjectById(Long id) {
-		IProjectMetadata read = projectProviderService.read(new IProjectMetadata() {
-
-			@Override
-			public Long getId() {
-				return id;
-			}
-
-			@Override
-			public String getName() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public boolean hasSources() {
-				// TODO Auto-generated method stub
-				return false;
-			}
-
-			@Override
-			public boolean hasVCS() {
-				// TODO Auto-generated method stub
-				return false;
-			}
-
-			@Override
-			public boolean hasCI() {
-				// TODO Auto-generated method stub
-				return false;
-			}
-
-			@Override
-			public boolean hasDb() {
-				// TODO Auto-generated method stub
-				return false;
-			}
-
-		});
+		IProjectMetadata read = projectProviderService.read(new DummyProjectMetadata(id));
 		return read;
 	}
 

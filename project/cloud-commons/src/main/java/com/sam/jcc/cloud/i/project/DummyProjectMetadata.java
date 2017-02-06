@@ -1,0 +1,51 @@
+/**
+ * 
+ */
+package com.sam.jcc.cloud.i.project;
+
+import lombok.Data;
+
+/**
+ * @author olegk
+ *
+ */
+@Data
+public class DummyProjectMetadata implements IProjectMetadata {
+
+	private Long id;
+	private String name;
+	private byte[] projectSources;
+	private String ci;
+	private String vcs;
+	private String db;
+
+	@Override
+	public boolean hasSources() {
+		return projectSources != null;
+	}
+
+	@Override
+	public boolean hasVCS() {
+		return vcs != null;
+	}
+
+	@Override
+	public boolean hasCI() {
+		return ci != null;
+	}
+
+	@Override
+	public boolean hasDb() {
+		return db != null;
+	}
+
+	public DummyProjectMetadata(Long id) {
+		this.id = id;
+	}
+
+	public DummyProjectMetadata(Long id, String name) {
+		this.id = id;
+		this.name = name;
+	}
+
+}

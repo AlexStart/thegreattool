@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sam.jcc.cloud.i.app.IAppMetadata;
+import com.sam.jcc.cloud.i.project.DummyProjectMetadata;
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import com.sam.jcc.cloud.mvc.dto.AppDTO;
 import com.sam.jcc.cloud.rules.service.IService;
@@ -68,49 +69,16 @@ public class AppService extends BaseService<AppDTO> {
 	}
 
 	public void delete(Long id) {
-
-		IProjectMetadata read = projectProviderService.read(new IProjectMetadata() {
-
-			@Override
-			public Long getId() {
-				return id;
-			}
-
-			@Override
-			public boolean hasSources() {
-				return false;
-			}
-
-			@Override
-			public String getName() {
-				return null;
-			}
-
-			@Override
-			public boolean hasVCS() {
-				return false;
-			}
-
-			@Override
-			public boolean hasCI() {
-				return false;
-			}
-
-			@Override
-			public boolean hasDb() {
-				return false;
-			}
-
-		});
+		IProjectMetadata read = projectProviderService.read(new DummyProjectMetadata(id));
 
 		if (read.hasSources()) {
 			LOGGER.warn("Deleting a project " + read.getName() + " with existing sources...");
 		}
-		
+
 		if (read.hasVCS() || read.hasCI() || read.hasDb()) {
 			LOGGER.warn("Cannot be deleted!");
 			return;
-		}		
+		}
 
 		Map<String, String> props = new HashMap<>();
 		props.put("id", String.valueOf(id));

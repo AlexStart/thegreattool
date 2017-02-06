@@ -20,4 +20,6 @@ public interface IProjectMetadata {
 	boolean hasCI();
 
 	boolean hasDb();
+
+	byte[] getProjectSources();
 }

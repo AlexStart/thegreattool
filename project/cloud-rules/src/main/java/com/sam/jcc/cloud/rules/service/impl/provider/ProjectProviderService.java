@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.sam.jcc.cloud.app.AppProvider;
 import com.sam.jcc.cloud.i.app.IAppMetadata;
+import com.sam.jcc.cloud.i.project.DummyProjectMetadata;
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import com.sam.jcc.cloud.persistence.data.ProjectData;
 import com.sam.jcc.cloud.persistence.data.ProjectDataRepository;
@@ -50,7 +51,7 @@ public class ProjectProviderService implements IService<IProjectMetadata> {
 	@Override
 	public IProjectMetadata read(IProjectMetadata projectMetadata) {
 		IProjectMetadata result = null;
-		
+
 		ProjectData findOne = repository.findOne(projectMetadata.getId());
 
 		for (ProjectProvider projectProvider : projectProviders) {
@@ -97,40 +98,9 @@ public class ProjectProviderService implements IService<IProjectMetadata> {
 			if (projectMetadata != null) {
 				projects.add(projectMetadata);
 			} else {
-				IProjectMetadata emptyMetadata = new IProjectMetadata() {
+				IProjectMetadata emptyMetadata = new DummyProjectMetadata(appMetadata.getId(),
+						appMetadata.getProjectName());
 
-					@Override
-					public boolean hasSources() {
-						return false;
-					}
-
-					@Override
-					public String getName() {
-						return appMetadata.getProjectName();
-					}
-
-					@Override
-					public Long getId() {
-						return appMetadata.getId();
-					}
-
-					@Override
-					public boolean hasVCS() {
-						return false;
-					}
-
-					@Override
-					public boolean hasCI() {
-						return false;
-					}
-
-					@Override
-					public boolean hasDb() {
-						// TODO Auto-generated method stub
-						return false;
-					}
-
-				};
 				projects.add(emptyMetadata);
 			}
 		}
