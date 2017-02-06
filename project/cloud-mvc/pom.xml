@@ -271,7 +271,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>cloud-mvc</finalName>
+		<finalName>ROOT</finalName>
 
 		<testResources>
 			<testResource>
