@@ -40,7 +40,7 @@ import lombok.Setter;
  * @since 22-Dec-16
  */
 @Component
-public class JenkinsProvider extends AbstractProvider<ICIMetadata> implements ICIProvider, IHealth {
+public class JenkinsProvider extends AbstractProvider<ICIMetadata>implements ICIProvider, IHealth {
 
 	private static final long JENKINS_PROVIDER_ID = 5L;
 
@@ -197,7 +197,7 @@ public class JenkinsProvider extends AbstractProvider<ICIMetadata> implements IC
 
 			@Override
 			public String getUrl() {
-				
+
 				try {
 					String host = getHost();
 					Integer port = Integer.valueOf(getPort());
@@ -207,8 +207,7 @@ public class JenkinsProvider extends AbstractProvider<ICIMetadata> implements IC
 					Validate.isTrue(response.getStatusLine().getStatusCode() == 200);
 					String jenkinsVersion = response.getFirstHeader("X-Jenkins").getValue();
 					StringBuilder sb = new StringBuilder();
-					String hostName = host.equals("localhost") ? InetAddress.getLocalHost().getHostName()
-							: host;
+					String hostName = host.equals("localhost") ? InetAddress.getLocalHost().getHostName() : host;
 					URL url = new URL("http", hostName, port, "");
 					sb.append(url.toString()).append("\n");
 					sb.append("Jenkins: ");
@@ -218,9 +217,8 @@ public class JenkinsProvider extends AbstractProvider<ICIMetadata> implements IC
 				} catch (Exception e) {
 					try {
 						String host = getHost();
-						String hostName = host.equals("localhost") ? InetAddress.getLocalHost().getHostName()
-								: host;
-						URL url = new URL("http", hostName , Integer.valueOf(getPort()), "");
+						String hostName = host.equals("localhost") ? InetAddress.getLocalHost().getHostName() : host;
+						URL url = new URL("http", hostName, Integer.valueOf(getPort()), "");
 						return url.toString();
 					} catch (Exception e2) {
 						return null;
@@ -242,5 +240,10 @@ public class JenkinsProvider extends AbstractProvider<ICIMetadata> implements IC
 			}
 
 		};
+	}
+
+	@Override
+	public String getType() {
+		return "jenkins";
 	}
 }

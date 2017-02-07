@@ -79,6 +79,8 @@ class AppMetadataDao implements ICRUD<AppMetadata> {
 		app.setId(entity.getId());
 		app.setProjectName(entity.getName());
 		app.setType(entity.getType());
+		app.setJobName(entity.getJobName());
+		app.setCi(entity.getCi());
 		return app;
 	}
 
@@ -87,6 +89,8 @@ class AppMetadataDao implements ICRUD<AppMetadata> {
 		data.setId(app.getId());
 		data.setName(app.getProjectName());
 		data.setType(app.getType());
+		data.setJobName(app.getJobName());
+		data.setCi(app.getCi());
 		return data;
 	}
 }

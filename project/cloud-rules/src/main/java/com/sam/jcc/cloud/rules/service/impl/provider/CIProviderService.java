@@ -84,6 +84,12 @@ public class CIProviderService implements IService<ICIMetadata> {
 				return ciProvider.getI18NDescription();
 			}
 
+			@Override
+			public String getType() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
 		}));
 		return cis;
 	}
@@ -129,6 +135,7 @@ public class CIProviderService implements IService<ICIMetadata> {
 			final CIProject job = new CIProject();
 			job.setArtifactId((String) props.get("projectName"));
 			job.setSources(tempDir);
+			job.setType(targetProvider.getType());
 			ICIMetadata createdJob = targetProvider.create(job);
 			return createdJob;
 		}

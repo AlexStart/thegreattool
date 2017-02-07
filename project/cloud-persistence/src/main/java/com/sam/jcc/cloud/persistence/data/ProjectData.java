@@ -21,29 +21,40 @@ import lombok.ToString;
 @Experimental("Entity of all project data")
 public class ProjectData {
 
-    @Id
-    @GeneratedValue
-    private Long id;
-    
-    @Column(name = "groupId")
-    private String groupId;    
+	@Id
+	@GeneratedValue
+	private Long id;
 
-    @Column(name = "name", unique = true, nullable = false)
-    private String name;
-    
-    @Column(name = "type", nullable = false)
-    private String type = "none";    
+	@Column(name = "groupId")
+	private String groupId;
 
-    @Column(name = "ci", unique = true)
-    private String ci;
+	@Column(name = "name", unique = true, nullable = false)
+	private String name;
 
-    @Column(name = "vcs", unique = true)
-    private String vcs;
+	@Column(name = "type", nullable = false)
+	private String type = "none";
 
-    @Column(name = "db")
-    private Boolean dataSupport = false;
+	@Column(name = "jobName", unique = true)
+	private String jobName;
 
-    @Lob
-    @Column(columnDefinition = "BLOB")
-    private byte[] sources;
+	@Column(name = "ci")
+	private String ci;
+
+	@Column(name = "vcs", unique = true)
+	private String vcs;
+
+	@Column(name = "db")
+	private Boolean dataSupport = false;
+
+	@Lob
+	@Column(columnDefinition = "BLOB")
+	private byte[] sources;
+
+	public String getJobName() {
+		return jobName;
+	}
+
+	public void setJobName(String jobName) {
+		this.jobName = jobName;
+	}
 }

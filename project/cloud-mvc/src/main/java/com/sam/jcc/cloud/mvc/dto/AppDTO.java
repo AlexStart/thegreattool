@@ -14,6 +14,8 @@ public class AppDTO extends BaseDTO {
 	private String projectType;
 
 	private boolean disabled;
+	
+	private String ci;
 
 	public String getProjectName() {
 		return projectName;
@@ -47,4 +49,13 @@ public class AppDTO extends BaseDTO {
 		this.projectType = projectType;
 	}
 
+	public String getCi() {
+		return ci;
+	}
+
+	public void setCi(String ci) {
+		this.ci = ci;
+	}
+
+	
 }

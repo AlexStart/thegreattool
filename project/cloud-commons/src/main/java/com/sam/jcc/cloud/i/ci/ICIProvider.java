@@ -9,4 +9,6 @@ import com.sam.jcc.cloud.i.IProvider;
 public interface ICIProvider extends IProvider<ICIMetadata> {
 
 	ICIMetadata create(ICIMetadata ciMetadata);
+	
+	String getType();
 }

@@ -1,20 +1,21 @@
 package com.sam.jcc.cloud.vcs.git.impl;
 
-import com.sam.jcc.cloud.crud.ICRUD;
-import com.sam.jcc.cloud.i.vcs.IVCSMetadata;
-import com.sam.jcc.cloud.persistence.data.ProjectDataNotFoundException;
-import com.sam.jcc.cloud.persistence.data.ProjectData;
-import com.sam.jcc.cloud.persistence.data.ProjectDataRepository;
-import com.sam.jcc.cloud.vcs.VCSRepository;
-import com.sam.jcc.cloud.vcs.exception.VCSRepositoryNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.util.List;
-
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static java.util.stream.Collectors.toList;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.sam.jcc.cloud.crud.ICRUD;
+import com.sam.jcc.cloud.i.vcs.IVCSMetadata;
+import com.sam.jcc.cloud.persistence.data.ProjectData;
+import com.sam.jcc.cloud.persistence.data.ProjectDataNotFoundException;
+import com.sam.jcc.cloud.persistence.data.ProjectDataRepository;
+import com.sam.jcc.cloud.vcs.VCSRepository;
+import com.sam.jcc.cloud.vcs.exception.VCSRepositoryNotFoundException;
 
 /**
  * @author Alexey Zhytnik
@@ -47,7 +48,7 @@ class GitMetadataDao implements ICRUD<VCSRepository> {
     @Override
     public void delete(VCSRepository p) {
         final ProjectData entity = getVcsData(p);
-        entity.setCi(null);
+        entity.setJobName(null);
         repository.save(entity);
     }
 

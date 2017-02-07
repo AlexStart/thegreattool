@@ -78,7 +78,7 @@ public class AppMetadataDaoTest {
     AppMetadata appTemplate() {
         final AppMetadata app = new AppMetadata();
         app.setProjectName("xproject");
-        app.setType("sometype");
+        app.setType("sometype");        
         return app;
     }
 

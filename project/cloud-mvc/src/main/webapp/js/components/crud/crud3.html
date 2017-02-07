@@ -26,11 +26,10 @@
 				<span style="float: right;" ng-if="item.data.hasSources == true"><a
 					href="{{vm.myService.getDownloadLink(item.data.id)}}"
 					ng-click="vm.myService.downloadSources(item.data)"> &#8631; </a></span> <!--  -->
-				<!--  --> <span style="float: right;"
-				ng-if="item.data.type == 'maven-project'">M</span> <!--  -->
-				<!--  -->
-				<span style="float: right;"
-				ng-if="item.data.type == 'gradle-project'">G</span>
+				<!--  --> <span style="float: right;padding-right: 5px;color:black"
+				ng-if="item.data.type == 'maven-project'">&#109;</span> <!--  --> <!--  -->
+				<span style="float: right;padding-right: 5px;color:#3e8f3e"
+				ng-if="item.data.type == 'gradle-project'">&#610;</span>
 
 			</td>
 		</tr>

@@ -1,12 +1,10 @@
 package com.sam.jcc.cloud.persistence.data;
 
-import com.sam.jcc.cloud.dataprovider.AppData;
-import com.sam.jcc.cloud.dataprovider.ProjectSourcesNotFound;
-import com.sam.jcc.cloud.dataprovider.impl.MySqlDatabaseManager;
-import com.sam.jcc.cloud.dataprovider.impl.MySqlDataProvider;
-import com.sam.jcc.cloud.exception.InternalCloudException;
-import com.sam.jcc.cloud.provider.UnsupportedCallException;
-import com.sam.jcc.cloud.utils.files.FileManager;
+import static com.sam.jcc.cloud.utils.files.FileManager.getResource;
+
+import java.io.File;
+import java.util.Random;
+
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,10 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.File;
-import java.util.Random;
-
-import static com.sam.jcc.cloud.utils.files.FileManager.getResource;
+import com.sam.jcc.cloud.dataprovider.AppData;
+import com.sam.jcc.cloud.dataprovider.ProjectSourcesNotFound;
+import com.sam.jcc.cloud.dataprovider.impl.MySqlDataProvider;
+import com.sam.jcc.cloud.dataprovider.impl.MySqlDatabaseManager;
+import com.sam.jcc.cloud.exception.InternalCloudException;
+import com.sam.jcc.cloud.provider.UnsupportedCallException;
+import com.sam.jcc.cloud.utils.files.FileManager;
 
 /**
  * @author Alexey Zhytnik
@@ -94,7 +95,7 @@ public class MySqlDataProviderTest {
         final ProjectData data = new ProjectData();
         data.setName(PROJECT_NAME);
         data.setVcs("project-vcs");
-        data.setCi("project-ci");
+        data.setJobName("project-ci");
         data.setDataSupport(dataIncluded);
 
         if (hasSources) {

@@ -24,4 +24,6 @@ public interface IProjectMetadata {
 	boolean hasDb();
 
 	byte[] getProjectSources();
+	
+	String getCi();
 }

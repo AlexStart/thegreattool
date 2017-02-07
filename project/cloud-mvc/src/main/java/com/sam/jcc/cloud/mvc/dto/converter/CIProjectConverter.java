@@ -22,6 +22,7 @@ public class CIProjectConverter implements Converter<IProjectMetadata, CIProject
 		ciProjectDTO.setHasSources(source.hasSources());
 		ciProjectDTO.setHasVcs(source.hasVCS());
 		ciProjectDTO.setHasCI(source.hasCI());
+		ciProjectDTO.setCi(source.getCi());
 		return ciProjectDTO;
 	}
 

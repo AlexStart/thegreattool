@@ -9,4 +9,6 @@ public interface ICIMetadata {
 	String getName();
 
 	String getDescription();
+	
+	String getType();
 }

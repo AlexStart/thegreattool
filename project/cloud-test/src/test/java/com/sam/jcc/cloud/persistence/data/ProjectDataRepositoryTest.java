@@ -1,5 +1,10 @@
 package com.sam.jcc.cloud.persistence.data;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.Optional;
+import java.util.Random;
+
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,11 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.Optional;
-import java.util.Random;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Alexey Zhytnik
@@ -50,11 +50,11 @@ public class ProjectDataRepositoryTest {
     public void updates() {
         repository.save(project);
 
-        project.setCi(null);
+        project.setJobName(null);
         repository.save(project);
 
         final ProjectData stored = repository.findOne(project.getId());
-        assertThat(stored.getCi()).isNull();
+        assertThat(stored.getJobName()).isNull();
     }
 
     @Test
@@ -69,11 +69,11 @@ public class ProjectDataRepositoryTest {
     public void ciShouldBeUnique() {
         final ProjectData data_1 = new ProjectData();
         data_1.setName("name_1");
-        data_1.setCi("ci-project");
+        data_1.setJobName("ci-project");
 
         final ProjectData data_2 = new ProjectData();
         data_2.setName("name_2");
-        data_2.setCi("ci-project");
+        data_2.setJobName("ci-project");
 
         repository.save(data_1);
         repository.save(data_2);
@@ -84,7 +84,7 @@ public class ProjectDataRepositoryTest {
 
         p.setVcs("vcs-project");
         p.setName("project");
-        p.setCi("ci-project");
+        p.setJobName("ci-project");
         p.setDataSupport(false);
 
         final byte[] sources = new byte[10_000];
