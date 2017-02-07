@@ -10,7 +10,7 @@
 
 	<!--  -->
 	<footer id="footer" class="footer">
-		<p class="pull-right">
+		<p class="pull-right" style="padding-right: 10px">
 			<a href="#">${backtotop}</a>
 		</p>
 		<p class="center-block">
