@@ -120,6 +120,7 @@ public class ProvidersIntegrationTest extends TestEnvironment {
 	AppMetadata app() {
 		final AppMetadata app = new AppMetadata();
 		app.setProjectName(PROJECT_ARTIFACT_ID);
+		app.setType("maven-project");
 		return app;
 	}
 
@@ -139,6 +140,7 @@ public class ProvidersIntegrationTest extends TestEnvironment {
 		metadata.setVersion("0.0.1-SNAPSHOT");
 		metadata.setWebAppPackaging(false);
 		metadata.setDescription("Project for integration test");
+
 		return metadata;
 	}
 

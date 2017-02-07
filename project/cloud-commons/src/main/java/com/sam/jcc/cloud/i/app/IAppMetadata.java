@@ -13,4 +13,6 @@ public interface IAppMetadata {
     String getProjectName();
 
     void setProjectName(String projectName);
+    
+    String getType();
 }

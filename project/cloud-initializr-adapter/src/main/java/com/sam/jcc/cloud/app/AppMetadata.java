@@ -1,6 +1,7 @@
 package com.sam.jcc.cloud.app;
 
 import com.sam.jcc.cloud.i.app.IAppMetadata;
+
 import lombok.Data;
 
 /**
@@ -12,4 +13,5 @@ public class AppMetadata implements IAppMetadata {
 
     private Long id;
     private String projectName;
+    private String type;
 }

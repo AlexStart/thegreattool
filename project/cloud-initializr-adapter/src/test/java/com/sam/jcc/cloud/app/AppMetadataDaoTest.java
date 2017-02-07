@@ -1,7 +1,7 @@
 package com.sam.jcc.cloud.app;
 
-import com.sam.jcc.cloud.i.app.IAppMetadata;
-import com.sam.jcc.cloud.persistence.data.ProjectDataNotFoundException;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,7 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import com.sam.jcc.cloud.i.app.IAppMetadata;
+import com.sam.jcc.cloud.persistence.data.ProjectDataNotFoundException;
 
 
 /**
@@ -77,6 +78,7 @@ public class AppMetadataDaoTest {
     AppMetadata appTemplate() {
         final AppMetadata app = new AppMetadata();
         app.setProjectName("xproject");
+        app.setType("sometype");
         return app;
     }
 

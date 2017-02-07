@@ -42,7 +42,6 @@ class AppMetadataDao implements ICRUD<AppMetadata> {
 	public AppMetadata update(AppMetadata m) {
 		final Long id = get(m).getId();
 		m.setId(id);
-
 		repository.save(convert(m));
 		return m;
 	}
@@ -58,17 +57,17 @@ class AppMetadataDao implements ICRUD<AppMetadata> {
 		return entity.orElseThrow(() -> new ProjectDataNotFoundException(name));
 	}
 
-	private ProjectData get(AppMetadata  metadata) {
-    	if (metadata == null || metadata.getId() == null) {
-    		throw new ProjectDataNotFoundException(metadata.getProjectName());
-    	}
-        final ProjectData entity = repository.findOne(metadata.getId());
-        if (entity == null) {
-        	throw new ProjectDataNotFoundException(metadata.getProjectName());
-        } else {
-        	return entity;
-        }
-    }
+	private ProjectData get(AppMetadata metadata) {
+		if (metadata == null || metadata.getId() == null) {
+			throw new ProjectDataNotFoundException(metadata.getProjectName());
+		}
+		final ProjectData entity = repository.findOne(metadata.getId());
+		if (entity == null) {
+			throw new ProjectDataNotFoundException(metadata.getProjectName());
+		} else {
+			return entity;
+		}
+	}
 
 	@Override
 	public List<IAppMetadata> findAll() {
@@ -77,17 +76,17 @@ class AppMetadataDao implements ICRUD<AppMetadata> {
 
 	private AppMetadata convert(ProjectData entity) {
 		final AppMetadata app = new AppMetadata();
-
 		app.setId(entity.getId());
 		app.setProjectName(entity.getName());
+		app.setType(entity.getType());
 		return app;
 	}
 
 	private ProjectData convert(AppMetadata app) {
 		final ProjectData data = new ProjectData();
-
 		data.setId(app.getId());
 		data.setName(app.getProjectName());
+		data.setType(app.getType());
 		return data;
 	}
 }

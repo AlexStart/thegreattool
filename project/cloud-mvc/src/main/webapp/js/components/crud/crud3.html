@@ -22,8 +22,16 @@
 				ng-attr-title="{{vm.status(item)}}"
 				ng-style="item.data.disabled && {'background-color':'#D3D3D3'}"
 				ng-class="{'selectedrow': vm.item.name == item.data.name}">{{item.data.name}}
+
 				<span style="float: right;" ng-if="item.data.hasSources == true"><a
-					href="{{vm.myService.getDownloadLink(item.data.id)}}" ng-click="vm.myService.downloadSources(item.data)">  &#8631; </a></span>
+					href="{{vm.myService.getDownloadLink(item.data.id)}}"
+					ng-click="vm.myService.downloadSources(item.data)"> &#8631; </a></span> <!--  -->
+				<!--  --> <span style="float: right;"
+				ng-if="item.data.type == 'maven-project'">M</span> <!--  -->
+				<!--  -->
+				<span style="float: right;"
+				ng-if="item.data.type == 'gradle-project'">G</span>
+
 			</td>
 		</tr>
 	</table>

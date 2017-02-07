@@ -1,53 +1,58 @@
 <div>
-    <table ng-table="vm.items" class="table table-condensed table-bordered table-striped">
-        <tr ng-repeat="item in $data">
-            <td title="vm.items.metadata.name.translation"
-                ng-click="vm.select(item.data)"
-                class="row"
-                ng-attr-title="{{vm.status(item)}}"
-                ng-style="item.data.disabled && {'background-color':'#D3D3D3'}"
-                ng-class="{'selectedrow': vm.item.name == item.data.name}">{{item.data.name}}</td>
-        </tr>
-    </table>
-    <br>
+	<table ng-table="vm.items"
+		class="table table-condensed table-bordered table-striped">
+		<tr ng-repeat="item in $data">
+			<td title="vm.items.metadata.name.translation"
+				ng-click="vm.select(item.data)" class="row"
+				ng-attr-title="{{vm.status(item)}}"
+				ng-style="item.data.disabled && {'background-color':'#D3D3D3'}"
+				ng-class="{'selectedrow': vm.item.name == item.data.name}">{{item.data.name}}
 
-    <form name="vm.form" novalidate>
-        <fieldset style="width:100%">
-            <legend>{{vm.items.metadata.class}}</legend>
-            <div class="form-group">
-                <label for="name">{{vm.items.metadata.name.translation}}</label>
-                <input id="name" type="text" ng-model="vm.item.name" required class="form-control">
-            </div>
 
-            <button type="submit"
-                    class="btn btn-info"
-                    ng-click="vm.save(vm.item)"
-                    ng-disabled="!vm.form.$valid"
-                    ng-hide="vm.item.id">{{vm.buttons.create}}
-            </button>
+				<span style="float: right;" ng-if="item.data.hasSources == true"><a
+					href="{{vm.myService.getDownloadLink(item.data.id)}}"
+					ng-click="vm.myService.downloadSources(item.data)"> &#8631; </a></span> <!--  -->
+				<!--  --> <span style="float: right;"
+				ng-if="item.data.type == 'maven-project'">M</span> <!--  --> <!--  -->
+				<span style="float: right;"
+				ng-if="item.data.type == 'gradle-project'">G</span>
 
-            <button type="submit"
-                    class="btn btn-info"
-                    ng-click="vm.update(vm.item)"
-                    ng-hide="!vm.form.$valid || !vm.item.id || vm.item.disabled">{{vm.buttons.update}}
-            </button>
 
-            <button type="submit"
-                    class="btn btn-info"
-                    ng-click="vm.remove(vm.item)"
-                    ng-hide="!vm.form.$valid || !vm.item.id || vm.item.disabled">{{vm.buttons.remove}}
-            </button>
 
-            <button type="submit"
-                    class="btn btn-info"
-                    ng-click="vm.refresh()">{{vm.buttons.refresh}}
-            </button>
+			</td>
+		</tr>
+	</table>
+	<br>
 
-            <button type="submit"
-                    class="btn btn-info"
-                    ng-click="vm.reset()"
-                    ng-hide="!(vm.item.name || vm.item.id)">{{vm.buttons.cancel}}
-            </button>
-        </fieldset>
-    </form>
+	<form name="vm.form" novalidate>
+		<fieldset style="width: 100%">
+			<legend>{{vm.items.metadata.class}}</legend>
+			<div class="form-group">
+				<label for="name">{{vm.items.metadata.name.translation}}</label> <input
+					id="name" type="text" ng-model="vm.item.name" required
+					class="form-control">
+			</div>
+
+			<button type="submit" class="btn btn-info"
+				ng-click="vm.save(vm.item)" ng-disabled="!vm.form.$valid"
+				ng-hide="vm.item.id">{{vm.buttons.create}}</button>
+
+			<button type="submit" class="btn btn-info"
+				ng-click="vm.update(vm.item)"
+				ng-hide="!vm.form.$valid || !vm.item.id || vm.item.disabled">{{vm.buttons.update}}
+			</button>
+
+			<button type="submit" class="btn btn-info"
+				ng-click="vm.remove(vm.item)"
+				ng-hide="!vm.form.$valid || !vm.item.id || vm.item.disabled">{{vm.buttons.remove}}
+			</button>
+
+			<button type="submit" class="btn btn-info" ng-click="vm.refresh()">{{vm.buttons.refresh}}
+			</button>
+
+			<button type="submit" class="btn btn-info" ng-click="vm.reset()"
+				ng-hide="!(vm.item.name || vm.item.id)">{{vm.buttons.cancel}}
+			</button>
+		</fieldset>
+	</form>
 </div>

@@ -29,12 +29,13 @@ public class AppProviderTest {
 	@Autowired
 	AppProvider appProvider;
 
-	IAppMetadata project;
+	AppMetadata project;
 
 	@Before
 	public void setUp() {
 		project = new AppMetadata();
 		project.setProjectName("Test-Project");
+		project.setType("Test-Type");
 	}
 
 	@After
@@ -48,7 +49,7 @@ public class AppProviderTest {
 		appProvider.create(project);
 		assertThat(appProvider.findAll()).hasSize(1);
 
-		project = appProvider.read(project);
+		project = (AppMetadata) appProvider.read(project);
 		assertThat(project.getProjectName()).isEqualTo("test-project");
 
 		appProvider.delete(project);

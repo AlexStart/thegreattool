@@ -19,6 +19,7 @@ public class AppConverter implements Converter<IAppMetadata, AppDTO> {
 		AppDTO appDTO = new AppDTO();
 		appDTO.setId(source.getId());
 		appDTO.setProjectName(source.getProjectName());
+		appDTO.setType(source.getType());
 		return appDTO;
 	}
 

@@ -35,8 +35,8 @@ import com.sam.jcc.cloud.provider.UnsupportedTypeException;
 @RunWith(SpringRunner.class)
 public class ProjectProviderTest {
 
-    @Autowired
-    AppProvider appProvider;
+	@Autowired
+	AppProvider appProvider;
 
 	@Autowired
 	MavenProjectProvider mavenProvider;
@@ -45,12 +45,10 @@ public class ProjectProviderTest {
 	GradleProjectProvider gradleProvider;
 
 	@After
-    public void reset(){
-	    appProvider
-                .findAll()
-                .forEach(appProvider::delete);
-    }
-	
+	public void reset() {
+		appProvider.findAll().forEach(appProvider::delete);
+	}
+
 	@Test(expected = UnsupportedCallException.class)
 	public void isMavenCreateDisabled() {
 		ProjectMetadata m = mavenProject();
@@ -91,15 +89,15 @@ public class ProjectProviderTest {
 		assertThat(gradleProvider.supports(gradleProject())).isTrue();
 	}
 
-    @Test(expected = ProjectNotFoundException.class)
-    public void failsOnReadUnknown() {
-        mavenProvider.read(mavenProject());
-    }
+	@Test(expected = ProjectNotFoundException.class)
+	public void failsOnReadUnknown() {
+		mavenProvider.read(mavenProject());
+	}
 
-    @Test(expected = ProjectNotFoundException.class)
-    public void failsOnUpdateUnknown() {
-        gradleProvider.update(gradleProject());
-    }
+	@Test(expected = ProjectNotFoundException.class)
+	public void failsOnUpdateUnknown() {
+		gradleProvider.update(gradleProject());
+	}
 
 	@Test
 	public void changesMavenProjectStatus() {
@@ -118,9 +116,9 @@ public class ProjectProviderTest {
 	public void changesGradleProjectStatus() {
 		final ProjectMetadata project = spy(gradleApp());
 		gradleProvider.update(project);
-        assertThat(project.getProjectSources()).isNotEmpty();
+		assertThat(project.getProjectSources()).isNotEmpty();
 
-        final InOrder order = inOrder(project);
+		final InOrder order = inOrder(project);
 		order.verify(project).setStatus(UNPROCESSED);
 		order.verify(project).setStatus(PRE_PROCESSED);
 		order.verify(project).setStatus(PROCESSED);
@@ -161,20 +159,20 @@ public class ProjectProviderTest {
 		return (ProjectMetadata) metadata;
 	}
 
-	ProjectMetadata mavenApp(){
-        return create(mavenProject());
-    }
+	ProjectMetadata mavenApp() {
+		return create(mavenProject());
+	}
 
-    ProjectMetadata gradleApp(){
-	    return create(gradleProject());
-    }
+	ProjectMetadata gradleApp() {
+		return create(gradleProject());
+	}
 
-    ProjectMetadata create(ProjectMetadata m){
-        m.setProjectName(m.getArtifactId());
-
-        final AppMetadata app = new AppMetadata();
-        app.setProjectName(m.getProjectName());
-        appProvider.create(app);
-        return m;
-    }
+	ProjectMetadata create(ProjectMetadata m) {
+		m.setProjectName(m.getArtifactId());
+		final AppMetadata app = new AppMetadata();
+		app.setProjectName(m.getProjectName());
+		app.setType(m.getProjectType());
+		appProvider.create(app);
+		return m;
+	}
 }

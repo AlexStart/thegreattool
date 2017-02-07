@@ -30,6 +30,9 @@ public class ProjectData {
 
     @Column(name = "name", unique = true, nullable = false)
     private String name;
+    
+    @Column(name = "type", nullable = false)
+    private String type = "none";    
 
     @Column(name = "ci", unique = true)
     private String ci;

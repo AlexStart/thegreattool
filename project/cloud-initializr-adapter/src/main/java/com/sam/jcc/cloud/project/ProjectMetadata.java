@@ -70,4 +70,9 @@ public class ProjectMetadata implements IProjectMetadata, IStatusable {
 	public boolean hasDb() {
 		return db;
 	}
+
+	@Override
+	public String getType() {
+		return projectType;
+	}
 }

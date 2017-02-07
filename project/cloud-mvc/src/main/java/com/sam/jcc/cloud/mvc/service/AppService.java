@@ -42,6 +42,7 @@ public class AppService extends BaseService<AppDTO> {
 		nameValidator.validate(appName);
 		Map<String, String> props = new HashMap<>();
 		props.put("projectName", appName);
+		props.put("type", "none");
 		return convertModel(appProviderService.create(props));
 	}
 

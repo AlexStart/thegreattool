@@ -38,6 +38,7 @@ class ProjectMetadataDao implements ICRUD<ProjectMetadata> {
 		final ProjectData data = getOrThrow(m);
 
 		data.setSources(m.getProjectSources());
+		data.setType(m.getType());
 		repository.save(data);
 		return m;
 	}
@@ -66,6 +67,7 @@ class ProjectMetadataDao implements ICRUD<ProjectMetadata> {
 		metadata.setGroupId(data.getGroupId());
 		metadata.setArtifactId(data.getName());
 		metadata.setProjectName(metadata.getArtifactId());
+		metadata.setProjectType(data.getType());
 		metadata.setProjectSources(data.getSources());
 		metadata.setVcs(data.getVcs());
 		metadata.setCi(data.getCi());

@@ -56,8 +56,9 @@ public class AppProviderService implements IService<IAppMetadata> {
 
 	@Override
 	public IAppMetadata create(Map<?, ?> props) {
-		IAppMetadata project = new AppMetadata();
+		AppMetadata project = new AppMetadata();
 		project.setProjectName((String) props.get("projectName"));
+		project.setType((String) props.get("type"));
 		IAppMetadata created = appProvider.create(project);
 		return created;
 	}

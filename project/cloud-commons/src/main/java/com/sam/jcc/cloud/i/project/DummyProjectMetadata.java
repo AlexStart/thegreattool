@@ -14,6 +14,7 @@ public class DummyProjectMetadata implements IProjectMetadata {
 
 	private Long id;
 	private String name;
+	private String type;
 	private byte[] projectSources;
 	private String ci;
 	private String vcs;

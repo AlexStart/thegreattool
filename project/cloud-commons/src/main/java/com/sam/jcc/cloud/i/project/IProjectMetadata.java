@@ -12,6 +12,8 @@ public interface IProjectMetadata {
 	Long getId();
 
 	String getName();
+	
+	String getType();
 
 	boolean hasSources();
 
