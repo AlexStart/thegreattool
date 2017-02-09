@@ -15,46 +15,48 @@ import lombok.ToString;
  * @author Alec Kotovich
  */
 @Data
-@ToString(of = {"projectName", "groupId", "artifactId"})
+@ToString(of = { "projectName", "groupId", "artifactId" })
 public class ProjectMetadata implements IProjectMetadata, IStatusable {
 
-    private String bootVersion;
+	private String bootVersion;
 
-    private String projectName;
-    private String projectType;
-    private String javaVersion;
-    private Boolean webAppPackaging;
+	private String projectName;
+	private String projectType;
+	private String javaVersion;
+	private Boolean webAppPackaging;
 
-    private String groupId;
-    private String artifactId;
-    private String version;
-    private String description;
+	private String groupId;
+	private String artifactId;
+	private String version;
+	private String description;
 
-    private String basePackage;
+	private String basePackage;
 
-    private List<String> dependencies = newArrayList();
+	private List<String> dependencies = newArrayList();
 
-    private File directory;
-    private byte[] projectSources;
+	private File directory;
+	private byte[] projectSources;
 
-    private ProjectStatus status;
+	private ProjectStatus status;
 
-    private Long id;
-    
-    private String ci;
-    private String vcs;
-    private boolean db;
-    
+	private Long id;
 
-    @Override
-    public boolean hasSources() {
-        return projectSources != null;
-    }
+	private String ci;
+	private String vcs;
 
-    @Override
-    public String getName() {
-        return projectName;
-    }
+	private String db;
+
+	private boolean isDb;
+
+	@Override
+	public boolean hasSources() {
+		return projectSources != null;
+	}
+
+	@Override
+	public String getName() {
+		return projectName;
+	}
 
 	@Override
 	public boolean hasVCS() {
@@ -68,11 +70,15 @@ public class ProjectMetadata implements IProjectMetadata, IStatusable {
 
 	@Override
 	public boolean hasDb() {
-		return db;
+		return isDb;
 	}
 
 	@Override
 	public String getType() {
 		return projectType;
+	}
+
+	public void setIsDb(Boolean db) {
+		this.isDb = db;
 	}
 }

@@ -39,11 +39,14 @@ public class ProjectData {
 
 	@Column(name = "ci")
 	private String ci;
+	
+	@Column(name = "db")
+	private String db;
 
 	@Column(name = "vcs", unique = true)
 	private String vcs;
 
-	@Column(name = "db")
+	@Column(name = "dataSupport")
 	private Boolean dataSupport = false;
 
 	@Lob

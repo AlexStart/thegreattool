@@ -17,4 +17,6 @@ public interface IAppMetadata {
     String getType();
     
     String getCi();
+    
+    String getDb();
 }

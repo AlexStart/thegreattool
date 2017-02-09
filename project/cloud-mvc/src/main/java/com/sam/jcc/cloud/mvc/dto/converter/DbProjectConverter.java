@@ -22,6 +22,7 @@ public class DbProjectConverter implements Converter<IProjectMetadata, DbProject
 		dbProjectDTO.setHasSources(source.hasSources());
 		dbProjectDTO.setHasVcs(source.hasVCS());
 		dbProjectDTO.setHasDb(source.hasDb());
+		dbProjectDTO.setDb(source.getDb());
 		return dbProjectDTO;
 	}
 

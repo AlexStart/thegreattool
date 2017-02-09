@@ -18,7 +18,11 @@
 				<span style="float: right; padding-right: 5px; color: #3e8f3e"
 				ng-if="item.data.type == 'gradle-project'">&#610;</span> <!--  --> <!--  -->
 				<span style="float: right; padding-right: 5px; color: red"
-				ng-if="item.data.ci == 'jenkins'">&#607;</span>
+				ng-if="item.data.ci == 'jenkins'">&#607;</span> <!--  --> <!--  -->
+				<span style="float: right; padding-right: 5px; color: blue;"
+				ng-if="item.data.db == 'mysql'">M</span> <!--  --> <!--  --> <span
+				style="float: right; padding-right: 5px; color: orange;"
+				ng-if="item.data.db == 'mongo'">(mongo)</span>
 
 			</td>
 		</tr>

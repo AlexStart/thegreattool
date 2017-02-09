@@ -23,6 +23,8 @@ public class AppData implements IDataMetadata, IStatusable {
     private String appName;
     private String dbName;
     private AppDataStatus status = INITIALIZED;
+    
+    // TODO
     private boolean sql;
 
     @Experimental("maybe remove or marks with @JsonIgnore")

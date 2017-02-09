@@ -32,18 +32,18 @@ import com.sam.jcc.cloud.i.data.ISourceGenerator;
  *
  */
 @Component
-public class MySqlDataProvider extends SqlDataProvider<AppData> implements IHealth {
+public class MySqlDataProvider extends SqlDataProvider<AppData>implements IHealth {
 
 	private static final long MYSQL_PROVIDER_ID = 6L;
-	
+
 	@Autowired
-    private MySqlInjector injector;
+	private MySqlInjector injector;
 
-    @Autowired
-    private MySqlDatabaseManager dbManager;
+	@Autowired
+	private MySqlDatabaseManager dbManager;
 
-    @Autowired
-    private JpaSourceGenerator sourceGenerator;	
+	@Autowired
+	private JpaSourceGenerator sourceGenerator;
 
 	public MySqlDataProvider(List<IEventManager<IDataMetadata>> eventManagers) {
 		super(eventManagers);
@@ -205,5 +205,10 @@ public class MySqlDataProvider extends SqlDataProvider<AppData> implements IHeal
 	@Override
 	protected IDBManager<AppData> getDbManager() {
 		return dbManager;
+	}
+
+	@Override
+	public String getType() {
+		return "mysql";
 	}
 }

@@ -139,4 +139,9 @@ public class MongoDataProvider extends NoSqlDataProvider<AppData>implements IHea
 		};
 	}
 
+	@Override
+	public String getType() {
+		return "mongo";
+	}
+
 }
