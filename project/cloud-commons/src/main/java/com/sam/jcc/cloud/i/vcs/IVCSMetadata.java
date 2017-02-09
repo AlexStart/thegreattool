@@ -21,5 +21,5 @@ public interface IVCSMetadata {
 	
 	String getCommitMessage();
 	
-	
+	String getVcsType();
 }

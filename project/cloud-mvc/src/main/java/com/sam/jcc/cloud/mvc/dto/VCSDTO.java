@@ -12,6 +12,8 @@ public class VCSDTO extends BaseDTO {
 	private String name;
 
 	private String description;
+	
+	private String vcs;
 
 	public String getName() {
 		return name;
@@ -38,4 +40,13 @@ public class VCSDTO extends BaseDTO {
 	public void setDisabled(boolean disabled) {
 	}
 
+	public String getVcs() {
+		return vcs;
+	}
+
+	public void setVcs(String vcs) {
+		this.vcs = vcs;
+	}
+
+	
 }

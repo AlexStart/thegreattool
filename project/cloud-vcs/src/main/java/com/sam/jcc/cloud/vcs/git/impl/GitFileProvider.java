@@ -21,23 +21,23 @@ import com.sam.jcc.cloud.i.vcs.IVCSMetadata;
 @Component
 public class GitFileProvider extends VCSProvider implements IHealth {
 
-    private static final long GIT_FILE_PROVIDER_ID = 3L;
-    
-    private static String PATH_2_REPO = getProperty("repository.base.folder");
+	private static final long GIT_FILE_PROVIDER_ID = 3L;
+
+	private static String PATH_2_REPO = getProperty("repository.base.folder");
 
 	public GitFileProvider(List<IEventManager<IVCSMetadata>> eventManagers) {
-        super(eventManagers);
-    }
+		super(eventManagers);
+	}
 
-    @Override
-    protected GitAbstractStorage getStorage() {
-        return new GitFileStorage();
-    }
+	@Override
+	protected GitAbstractStorage getStorage() {
+		return new GitFileStorage();
+	}
 
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
 
 	@Override
 	public Long getId() {
@@ -85,6 +85,7 @@ public class GitFileProvider extends VCSProvider implements IHealth {
 			public boolean isAlive() {
 				return getUrl() != null;
 			}
+
 			@Override
 			public String getName() {
 				return getI18NDescription();
@@ -96,5 +97,10 @@ public class GitFileProvider extends VCSProvider implements IHealth {
 			}
 
 		};
+	}
+
+	@Override
+	public String getType() {
+		return "git-file";
 	}
 }

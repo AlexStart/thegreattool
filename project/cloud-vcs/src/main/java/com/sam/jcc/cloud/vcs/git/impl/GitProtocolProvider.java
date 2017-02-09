@@ -95,4 +95,9 @@ public class GitProtocolProvider extends VCSProvider implements IHealth {
 
 		};
 	}
+
+	@Override
+	public String getType() {
+		return "git-protocol";
+	}
 }

@@ -26,6 +26,7 @@ public class VCSRepository implements IVCSMetadata, IStatusable {
 
     private File sources;
     private String artifactId;
+    private String vcsType;
     private String commitMessage = "Default commit message";
     private VCSRepositoryStatus status = INITIALIZED;    
 

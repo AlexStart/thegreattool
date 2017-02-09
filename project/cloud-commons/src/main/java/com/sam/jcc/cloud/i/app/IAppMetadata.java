@@ -19,4 +19,6 @@ public interface IAppMetadata {
     String getCi();
     
     String getDb();
+    
+    String getVcs();
 }

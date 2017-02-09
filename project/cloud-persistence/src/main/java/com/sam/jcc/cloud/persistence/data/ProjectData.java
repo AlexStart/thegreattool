@@ -42,10 +42,15 @@ public class ProjectData {
 	
 	@Column(name = "db")
 	private String db;
-
-	@Column(name = "vcs", unique = true)
+	
+	@Column(name = "vcs")
 	private String vcs;
+	
 
+	@Column(name = "vcsName", unique = true)
+	private String vcsName;
+
+	
 	@Column(name = "dataSupport")
 	private Boolean dataSupport = false;
 

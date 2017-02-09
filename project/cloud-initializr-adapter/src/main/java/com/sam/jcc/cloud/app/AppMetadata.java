@@ -17,4 +17,5 @@ public class AppMetadata implements IAppMetadata {
     private String ci;
     private String jobName;
     private String db;
+    private String vcs;
 }

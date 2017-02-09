@@ -21,7 +21,15 @@
 				ng-click="vm.select(item.data)" class="row"
 				ng-attr-title="{{vm.status(item)}}"
 				ng-style="item.data.disabled && {'background-color':'#D3D3D3'}"
-				ng-class="{'selectedrow': vm.item.name == item.data.name}">{{item.data.name}}</td>
+				ng-class="{'selectedrow': vm.item.name == item.data.name}">{{item.data.name}}
+
+				<!--  --> <span
+				style="float: right; padding-right: 5px; color: gray;"
+				ng-if="item.data.vcs == 'git-file'">(git)</span> <!--  --> <!--  -->
+				<span style="float: right; padding-right: 5px; color: #ffffff"
+				ng-if="item.data.vcs == 'git-protocol'">(git)</span>
+
+			</td>
 		</tr>
 	</table>
 	<br>

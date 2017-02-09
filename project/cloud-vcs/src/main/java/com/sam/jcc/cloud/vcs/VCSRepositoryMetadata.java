@@ -16,6 +16,7 @@ public class VCSRepositoryMetadata implements IVCSMetadata {
 
     private String name;
     private String description;
+    private String vcsType;
     private String commitMessage;
 
     public VCSRepositoryMetadata(String name, String description, String commitMessage) {

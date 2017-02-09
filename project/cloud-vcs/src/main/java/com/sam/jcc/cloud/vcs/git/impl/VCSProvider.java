@@ -1,5 +1,17 @@
 package com.sam.jcc.cloud.vcs.git.impl;
 
+import static com.sam.jcc.cloud.vcs.VCSRepositoryStatus.CLONED;
+import static com.sam.jcc.cloud.vcs.VCSRepositoryStatus.COMMITED;
+import static com.sam.jcc.cloud.vcs.VCSRepositoryStatus.CREATED;
+import static com.sam.jcc.cloud.vcs.VCSRepositoryStatus.DELETED;
+import static com.sam.jcc.cloud.vcs.VCSRepositoryStatus.PUSHED;
+
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.sam.jcc.cloud.i.IEventManager;
 import com.sam.jcc.cloud.i.vcs.IVCSMetadata;
@@ -9,16 +21,14 @@ import com.sam.jcc.cloud.provider.UnsupportedTypeException;
 import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.VCSRepositoryStatus;
 import com.sam.jcc.cloud.vcs.exception.VCSRepositoryAlreadyExistsException;
+
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.annotation.PostConstruct;
-import java.util.List;
-
-import static com.sam.jcc.cloud.vcs.VCSRepositoryStatus.*;
 
 /**
+ * 
+ * TODO remove git-related code to a new class AbstractGitProvider
+ * 
  * @author olegk
  * @author Alexey Zhytnik
  */

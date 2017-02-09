@@ -94,7 +94,7 @@ public class MySqlDataProviderTest {
     AppData mavenProject(boolean hasSources, boolean dataIncluded) {
         final ProjectData data = new ProjectData();
         data.setName(PROJECT_NAME);
-        data.setVcs("project-vcs");
+        data.setVcsName("project-vcs");
         data.setJobName("project-ci");
         data.setDataSupport(dataIncluded);
 

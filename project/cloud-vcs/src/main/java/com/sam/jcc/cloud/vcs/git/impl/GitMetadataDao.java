@@ -30,7 +30,8 @@ class GitMetadataDao implements ICRUD<VCSRepository> {
     @Override
     public VCSRepository create(VCSRepository p) {
         final ProjectData data = getOrThrow(p);
-        data.setVcs(p.getName());
+        data.setVcs(p.getVcsType());
+        data.setVcsName(p.getName());
         repository.save(data);
         return p;
     }
@@ -61,13 +62,13 @@ class GitMetadataDao implements ICRUD<VCSRepository> {
     }
 
     public boolean exist(VCSRepository p) {
-        return nonNull(getOrThrow(p).getVcs());
+        return nonNull(getOrThrow(p).getVcsName());
     }
 
     private ProjectData getVcsData(VCSRepository p) {
         final ProjectData entity = getOrThrow(p);
 
-        if (isNull(entity.getVcs())) {
+        if (isNull(entity.getVcsName())) {
             throw new VCSRepositoryNotFoundException(p);
         }
         return entity;
@@ -83,6 +84,7 @@ class GitMetadataDao implements ICRUD<VCSRepository> {
     private VCSRepository convert(ProjectData data) {
         final VCSRepository repo = new VCSRepository();
         repo.setArtifactId(data.getName());
+        repo.setVcsType(data.getVcs());
         return repo;
     }
 }

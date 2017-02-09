@@ -19,6 +19,8 @@ public class AppDTO extends BaseDTO {
 
 	private String db;
 
+	private String vcs;
+
 	public String getProjectName() {
 		return projectName;
 	}
@@ -67,4 +69,11 @@ public class AppDTO extends BaseDTO {
 		this.db = db;
 	}
 
+	public String getVcs() {
+		return vcs;
+	}
+
+	public void setVcs(String vcs) {
+		this.vcs = vcs;
+	}
 }

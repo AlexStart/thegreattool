@@ -28,4 +28,6 @@ public interface IProjectMetadata {
 	String getCi();
 	
 	String getDb();
+	
+	String getVcs();
 }

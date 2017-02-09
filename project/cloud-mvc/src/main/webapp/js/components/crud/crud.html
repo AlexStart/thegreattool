@@ -22,7 +22,11 @@
 				<span style="float: right; padding-right: 5px; color: blue;"
 				ng-if="item.data.db == 'mysql'">M</span> <!--  --> <!--  --> <span
 				style="float: right; padding-right: 5px; color: orange;"
-				ng-if="item.data.db == 'mongo'">(mongo)</span>
+				ng-if="item.data.db == 'mongo'">(mongo)</span> <!--  --> <!--  --> <span
+				style="float: right; padding-right: 5px; color: gray;"
+				ng-if="item.data.vcs == 'git-file'">(git)</span> <!--  --> <!--  -->
+				<span style="float: right; padding-right: 5px; color: #ffffff"
+				ng-if="item.data.vcs == 'git-protocol'">(git)</span>
 
 			</td>
 		</tr>

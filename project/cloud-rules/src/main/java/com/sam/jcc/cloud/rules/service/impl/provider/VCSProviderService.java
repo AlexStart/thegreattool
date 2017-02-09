@@ -121,6 +121,7 @@ public class VCSProviderService implements IService<IVCSMetadata> {
 			final VCSRepository repo = new VCSRepository();
 			repo.setArtifactId((String) props.get("projectName"));
 			repo.setSources(tempDir);
+			repo.setVcsType(targetProvider.getType());
 			targetProvider.create(repo); // create empty repo
 			// Commit
 			repo.setCommitMessage(repo.getArtifactId() + " " + getProperty("repository.commit.message"));

@@ -82,7 +82,7 @@ public class ProjectDataRepositoryTest {
     ProjectData projectTemplate() {
         final ProjectData p = new ProjectData();
 
-        p.setVcs("vcs-project");
+        p.setVcsName("vcs-project");
         p.setName("project");
         p.setJobName("ci-project");
         p.setDataSupport(false);

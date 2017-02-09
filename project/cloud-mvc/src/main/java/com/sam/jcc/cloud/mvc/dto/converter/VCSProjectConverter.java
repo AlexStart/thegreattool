@@ -21,6 +21,7 @@ public class VCSProjectConverter implements Converter<IProjectMetadata, VCSProje
 		vcsProjectDTO.setName(source.getName());
 		vcsProjectDTO.setHasSources(source.hasSources());
 		vcsProjectDTO.setHasVcs(source.hasVCS());
+		vcsProjectDTO.setVcs(source.getVcs());
 		return vcsProjectDTO;
 	}
 
