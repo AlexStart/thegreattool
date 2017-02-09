@@ -1,15 +1,15 @@
 package com.sam.jcc.cloud.ci.impl;
 
+import static hudson.util.FormValidation.Kind.ERROR;
+
+import java.util.concurrent.ExecutionException;
+
 import hudson.model.DownloadService;
 import hudson.model.UpdateCenter;
 import hudson.model.UpdateSite;
 import hudson.util.FormValidation;
 import hudson.util.PersistedList;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.concurrent.ExecutionException;
-
-import static hudson.util.FormValidation.Kind.ERROR;
 
 /**
  * @author Alexey Zhytnik
@@ -20,7 +20,8 @@ import static hudson.util.FormValidation.Kind.ERROR;
 class JenkinsUpdateCenterManager {
 
     private static final String JENKINS_CENTRAL = "JenkinsCentral";
-    private static final String JENKINS_CENTRAL_URL = "https://updates.jenkins-ci.org/current/update-center.json";
+    // private static final String JENKINS_CENTRAL_URL = "https://updates.jenkins-ci.org/current/update-center.json";
+    private static final String JENKINS_CENTRAL_URL = "https://updates.jenkins.io/current/update-center.json";
 
     private jenkins.model.Jenkins jenkins;
 
