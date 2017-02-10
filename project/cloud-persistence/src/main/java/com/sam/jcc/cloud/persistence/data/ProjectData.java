@@ -31,8 +31,8 @@ public class ProjectData {
 	@Column(name = "name", unique = true, nullable = false)
 	private String name;
 
-	@Column(name = "type", nullable = false)
-	private String type = "none";
+	@Column(name = "type")
+	private String type;
 
 	@Column(name = "jobName", unique = true)
 	private String jobName;
