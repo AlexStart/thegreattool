@@ -20,8 +20,8 @@ import lombok.extern.slf4j.Slf4j;
 class JenkinsUpdateCenterManager {
 
     private static final String JENKINS_CENTRAL = "JenkinsCentral";
-    // private static final String JENKINS_CENTRAL_URL = "https://updates.jenkins-ci.org/current/update-center.json";
-    private static final String JENKINS_CENTRAL_URL = "https://updates.jenkins.io/current/update-center.json";
+    private static final String JENKINS_CENTRAL_URL = "https://updates.jenkins-ci.org/current/update-center.json";
+    // private static final String JENKINS_CENTRAL_URL = "https://updates.jenkins.io/current/update-center.json";
 
     private jenkins.model.Jenkins jenkins;
 
