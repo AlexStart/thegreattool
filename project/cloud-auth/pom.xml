@@ -13,13 +13,36 @@
 	<artifactId>cloud-auth</artifactId>
 	<name>SaM Java Cloud :: Cloud Authz</name>
 
-	
+	<properties>
+		<spring.security.version>4.2.1.RELEASE</spring.security.version>
+	</properties>
+
+
 	<dependencies>
 		<dependency>
 			<groupId>com.sam.jcc</groupId>
 			<artifactId>cloud-commons</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
