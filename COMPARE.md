@@ -5,7 +5,7 @@
 | Version Control Systems                                | Git (file://)), Git (git://)        | git                            | Git (Gogs)     |
 | Source Code Generation                                 | Spring Boot (via Spring Initializr) | -                              |                |
 | Build Automation                                       | Maven, Gradle                       | maven                          |                |
-| Continuous integration                                 | Jenkins                             | Jenkins                        |                |
+| Continuous integration                                 | Jenkins                             | Jenkins                        | Jenkins        |
 | Databases (data management)                            | MySQL, MongoDB                      | -                              |                |
 | Code Review Systems                                    | -                                   | gerrit                         |                |
 | Testing (TDD, ATDD, BDD, Unittests, Autotests)         | -                                   | unit, automation, perfrormance |                |
