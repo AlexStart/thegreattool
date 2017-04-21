@@ -12,6 +12,7 @@
 | Refactoring (automation)                               | -                                   | -                              | -                                           |
 | Code Quality Automation                                | -                                   | sonar                          |                                             |
 | Deployment Automation                                  | -                                   | minimal only tomcat            |                                             |
+| Artifacts Repository Integration                       | -                                   | TODO                           | Nexus, Artifactory                          |
 | Continuous Delivery                                    | -                                   | via jenkins pipeline           |                                             |
 | Security Management                                    | -                                   | workspaces plugin              |                                             |
 | Project Management                                     | -                                   | -                              |                                             |
