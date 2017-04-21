@@ -13,7 +13,7 @@
 | Code Quality Automation                                | -                                   | sonar                          |                                             |
 | Deployment Automation                                  | -                                   | minimal only tomcat            |                                             |
 | Artifacts Repository Integration                       | -                                   | TODO                           | Nexus, Artifactory                          |
-| Continuous Delivery                                    | -                                   | via jenkins pipeline           |                                             |
+| Continuous Delivery                                    | -                                   | via jenkins pipeline           | via jenkins pipeline                        |
 | Security Management                                    | -                                   | workspaces plugin              |                                             |
 | Project Management                                     | -                                   | -                              |                                             |
 | Cloud integration and container replication            | Dockerfile (full image)             | docker, aws                    |                                             |
