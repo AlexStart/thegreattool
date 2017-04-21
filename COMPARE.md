@@ -8,8 +8,8 @@
 | Continuous integration                                 | Jenkins                             | Jenkins                        | Jenkins               |
 | Databases (data management)                            | MySQL, MongoDB                      | -                              | -                     |
 | Code Review Systems                                    | -                                   | gerrit                         | Gerrit                |
-| Testing (TDD, ATDD, BDD, Unittests, Autotests)         | -                                   | unit, automation, performance  |                       |
-| Refactoring (automation)                               | -                                   | -                              |                       |
+| Testing (TDD, ATDD, BDD, Unittests, Autotests)         | -                                   | unit, automation, performance  | unit, integration     |
+| Refactoring (automation)                               | -                                   | -                              | -                     |
 | Code Quality Automation                                | -                                   | sonar                          |                       |
 | Deployment Automation                                  | -                                   | minimal only tomcat            |                       |
 | Continuous Delivery                                    | -                                   | via jenkins pipeline           |                       |
