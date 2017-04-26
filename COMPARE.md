@@ -16,7 +16,7 @@
 | Continuous Delivery                                    | -                                   | via jenkins pipeline           | via jenkins pipeline                        |
 | Security Management                                    | -                                   | workspaces plugin              | -                                           |
 | Project Management                                     | -                                   | -                              | Taiga                                       |
-| Cloud integration and container replication            | Dockerfile (full image)             | docker, aws                    |                                             |
+| Cloud integration and container replication            | Dockerfile (full image)             | docker, aws                    | Kubernetes cluster over Docker, AWS, GCE    |
 | Logging automation and management                      | -                                   | logstash and elasic            | Elasticsearch + Kibana                      |
 | Monitoring, metrics visualization                      | -                                   | kibana                         | Prometheus + Grafana                        |
 | Issue Tracking Systems integration                     | -                                   | -                              |                                             |
