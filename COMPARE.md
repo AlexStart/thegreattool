@@ -15,10 +15,10 @@
 | Artifacts Repository Integration                       | -                                   | TODO                           | Nexus, Artifactory                          |
 | Continuous Delivery                                    | -                                   | via jenkins pipeline           | via jenkins pipeline                        |
 | Security Management                                    | -                                   | workspaces plugin              | -                                           |
-| Project Management                                     | -                                   | -                              |                                             |
+| Project Management                                     | -                                   | -                              | Taiga                                       |
 | Cloud integration and container replication            | Dockerfile (full image)             | docker, aws                    |                                             |
-| Logging automation and management                      | -                                   | logstash and elasic            |Elasticsearch + Kibana                       |
-| Monitoring, metrics visualization                      | -                                   | kibana                         |Prometheus + Grafana                         |
+| Logging automation and management                      | -                                   | logstash and elasic            | Elasticsearch + Kibana                      |
+| Monitoring, metrics visualization                      | -                                   | kibana                         | Prometheus + Grafana                        |
 | Issue Tracking Systems integration                     | -                                   | -                              |                                             |
 | Project Lifecycle CRUD                                 | C, R                                | R                              | C, R, D                                     |
 | VCS + CI                                               | -                                   | +                              |                                             |
