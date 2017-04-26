@@ -10,7 +10,7 @@
 | Code Review Systems                                    | -                                   | gerrit                         | Gerrit                                      |
 | Testing (TDD, ATDD, BDD, Unittests, Autotests)         | -                                   | unit, automation, performance  | unit, integration, arquillian, chaos monkey |
 | Refactoring (automation)                               | -                                   | -                              | -                                           |
-| Code Quality Automation                                | -                                   | sonar                          |                                             |
+| Code Quality Automation                                | -                                   | sonar                          | +- (SonarQube) fabric8-devops/sonarqube     |
 | Deployment Automation                                  | -                                   | minimal only tomcat            |                                             |
 | Artifacts Repository Integration                       | -                                   | TODO                           | Nexus, Artifactory                          |
 | Continuous Delivery                                    | -                                   | via jenkins pipeline           | via jenkins pipeline                        |
