@@ -22,8 +22,8 @@
 | Issue Tracking Systems integration                     | -                                   | -                              | +-                                          |
 | Project Lifecycle CRUD                                 | C, R                                | R                              | C, R, D                                     |
 | VCS + CI                                               | -                                   | +                              | +                                           |
-| VCS + Code Review                                      | -                                   | gerrit                         |                                             |
-| VCS + Issue Tracking System                            | -                                   | -                              |                                             |
+| VCS + Code Review                                      | -                                   | gerrit                         | Gerrit                                      |
+| VCS + Issue Tracking System                            | -                                   | -                              | Taiga                                       |
 
 
 
