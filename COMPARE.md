@@ -19,7 +19,7 @@
 | Cloud integration and container replication            | Dockerfile (full image)             | docker, aws                    | Kubernetes cluster over Docker, AWS, GCE    |
 | Logging automation and management                      | -                                   | logstash and elasic            | Elasticsearch + Logstash + Kibana           |
 | Monitoring, metrics visualization                      | -                                   | kibana                         | Prometheus + Grafana                        |
-| Issue Tracking Systems integration                     | -                                   | -                              |                                             |
+| Issue Tracking Systems integration                     | -                                   | -                              | +-                                          |
 | Project Lifecycle CRUD                                 | C, R                                | R                              | C, R, D                                     |
 | VCS + CI                                               | -                                   | +                              |                                             |
 | VCS + Code Review                                      | -                                   | gerrit                         |                                             |
