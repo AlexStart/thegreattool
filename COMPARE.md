@@ -12,7 +12,7 @@
 | Refactoring (automation)                               | -                                   | -                              | -                                           |
 | Code Quality Automation                                | -                                   | sonar                          | +- (SonarQube) fabric8-devops/sonarqube     |
 | Deployment Automation                                  | -                                   | minimal only tomcat            | Testing, Staging, Production                |
-| Artifacts Repository Integration                       | -                                   | TODO                           | Nexus, Artifactory                          |
+| Artifacts Repository Integration                       | -                                   | Nexus                          | Nexus, Artifactory                          |
 | Continuous Delivery                                    | -                                   | via jenkins pipeline           | via jenkins pipeline                        |
 | Security Management                                    | -                                   | workspaces plugin              | -                                           |
 | Project Management                                     | -                                   | -                              | Taiga                                       |
