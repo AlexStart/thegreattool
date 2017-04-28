@@ -20,7 +20,7 @@
 | Logging automation and management                      | -                                   | logstash and elasic            | Elasticsearch + Logstash + Kibana           |
 | Monitoring, metrics visualization                      | -                                   | kibana                         | Prometheus + Grafana                        |
 | Issue Tracking Systems integration                     | -                                   | -                              | +-                                          |
-| Project Lifecycle CRUD                                 | C, R                                | R                              | C, R, D                                     |
+| Project Lifecycle CRUD                                 | C, R                                | C,R                            | C, R, D                                     |
 | VCS + CI                                               | -                                   | +                              | +                                           |
 | VCS + Code Review                                      | -                                   | gerrit                         | Gerrit                                      |
 | VCS + Issue Tracking System                            | -                                   | -                              | Taiga                                       |
