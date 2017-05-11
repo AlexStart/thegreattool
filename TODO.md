@@ -28,8 +28,9 @@ When a user creates a project, it is possibile to link it to CI (Jenkins), code 
 automatically link to the project.
 
 Development lifecycle:
+
 Code change (Gitlab) -> Build is triggered with tests (Jenkins) -> Code Review (Gitlab) -> Code checks (SonarQube) -> Deployment on stage (Jenkins) -> Issue mgmt (Gitlab)
 
-Thus, GitLab playes 3 roles: code repository, code review system and issue tracking system
+Thus, GitLab playes 3 roles: code repository, code review system and issue tracking system.
 
 Release management is done by means of Jenkins and Nexus.
