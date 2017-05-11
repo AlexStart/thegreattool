@@ -12,6 +12,7 @@
 |                                                        | > REST support                      |                                |
 |                                                        | > logback+redis+logstash            |                                |
 |                                                        | > Unit and integration tests        |                                |
+|                                                        | > Minimal UI and Swagger for API    |                                |
 
 # Minimal viable product description:
 SaM Java Cloud will be a platform, which consists of at least 9 following linked Docker containers:
