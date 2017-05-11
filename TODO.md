@@ -60,6 +60,6 @@ Development lifecycle:
 
 Code change (Gitlab) -> Build is triggered with tests (Jenkins) -> Code Review (Gitlab) -> Code checks (SonarQube) -> Deployment on stage (Jenkins) -> Issue mgmt (Gitlab)
 
-Thus, GitLab playes 3 roles: code repository, code review system, issue tracking system and PM tool.
+Thus, GitLab playes 4 roles: code repository, code review system, issue tracking system and PM tool.
 
 Release management is done by means of Jenkins and Nexus.
