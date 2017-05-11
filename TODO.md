@@ -2,12 +2,26 @@
 
 | User story                                             | Tasks                               | Estimation, MD                 | 
 | ------------------------------------------------------ | ----------------------------------- | ------------------------------ |
-| 1. Separate containers using Docker Compose/Swarm      |                                     |                                |
-| 2. Security and user/team management setup             |                                     |                                |
-| 3. Integration with GitLab                             |                                     |                                |
-| 4. SonarQube integration                               |                                     |                                |
-| 5. Nexus integration                                   |                                     |                                |
-| 6. Minimal deployment automation                       |                                     |                                |
+| 1. Separate containers using Docker Compose/Swarm      | > apache2 container                 |                                |
+|                                                        | > webconsole container              |                                |
+|                                                        | > jenkins container                 |                                |
+|                                                        | > mysql container                   |                                |
+|                                                        | > mongodb container                 |                                |
+|                                                        | > composing                         |                                |
+|                                                        | > cluster via swarm                 |                                |
+|                                                        | > testing                           |                                |
+|                                                        | >                                   |                                |
+| 2. Security and user/team management setup             | >                                   |                                |
+|                                                        | >                                   |                                |
+| 3. Integration with GitLab                             | > GitLab Docker container           |                                |
+|                                                        | > GitLab provider impl              |                                |
+|                                                        | >                                   |                                |
+| 4. SonarQube integration                               | >                                   |                                |
+|                                                        | >                                   |                                |
+| 5. Nexus integration                                   | >                                   |                                |
+|                                                        | >                                   |                                |
+| 6. Minimal deployment automation                       | > pure oracle java8 container       |                                |
+|                                                        | >                                   |                                |
 | 7. Code generation                                     | > DTO+Services+Transactions         |                                |
 |                                                        | > REST support                      |                                |
 |                                                        | > logback+redis+logstash            |                                |
