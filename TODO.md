@@ -8,12 +8,12 @@
 | 4. SonarQube integration                               |                                     |                                |
 | 5. Nexus integration                                   |                                     |                                |
 | 6. Minimal deployment automation                       |                                     |                                |
-| 7. Logging automation and management                   |                                     |                                |
-| 8. Code generation                                     |                                     |                                |
-
+| 7. Code generation                                     | > DTO+Services+Transactions         |                                |
+|                                                        | > REST support                      |                                |
+|                                                        | > logback+redis+logstash            |                                |
 
 # Minimal viable product description:
-SaM Java Cloud will be a platform, which consists of at least 8 following linked Docker containers:
+SaM Java Cloud will be a platform, which consists of at least 9 following linked Docker containers:
 - apache2 (proxy)
 - webconsole(central mgmt dashboard)
 - gitlab
