@@ -11,6 +11,7 @@
 | 7. Code generation                                     | > DTO+Services+Transactions         |                                |
 |                                                        | > REST support                      |                                |
 |                                                        | > logback+redis+logstash            |                                |
+|                                                        | > Unit and integration tests        |                                |
 
 # Minimal viable product description:
 SaM Java Cloud will be a platform, which consists of at least 9 following linked Docker containers:
