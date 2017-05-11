@@ -11,16 +11,29 @@
 |                                                        | > cluster via swarm                 |                                |
 |                                                        | > testing                           |                                |
 |                                                        | >                                   |                                |
-| 2. Security and user/team management setup             | >                                   |                                |
+| 2. Security and user/team management setup             | > Jenkins auto-config               |                                |
+|                                                        | > MySQL auto-config                 |                                |
+|                                                        | > MongoDB auto-config               |                                |
+|                                                        | > Gitlab auto-config                |                                |
+|                                                        | > SonarQube auto-config             |                                |
+|                                                        | > Nexus auto-config                 |                                |
+|                                                        | > Deployments security              |                                |
+|                                                        | > Apache2 configuration             |                                |
 |                                                        | >                                   |                                |
 | 3. Integration with GitLab                             | > GitLab Docker container           |                                |
 |                                                        | > GitLab provider impl              |                                |
+|                                                        | > Jenkins job customization         |                                |
 |                                                        | >                                   |                                |
-| 4. SonarQube integration                               | >                                   |                                |
+| 4. SonarQube integration                               | > SonarQube Docker container        |                                |
+|                                                        | > SonarQube provider impl           |                                |
+|                                                        | > Jenkins job customization         |                                |
 |                                                        | >                                   |                                |
-| 5. Nexus integration                                   | >                                   |                                |
+| 5. Nexus integration                                   | > Nexus Docker container            |                                |
+|                                                        | > Nexus provider impl               |                                |
+|                                                        | > Jenkins job customization         |                                |
 |                                                        | >                                   |                                |
 | 6. Minimal deployment automation                       | > pure oracle java8 container       |                                |
+|                                                        | > Jenkins job customization         |                                |
 |                                                        | >                                   |                                |
 | 7. Code generation                                     | > DTO+Services+Transactions         |                                |
 |                                                        | > REST support                      |                                |
@@ -47,6 +60,6 @@ Development lifecycle:
 
 Code change (Gitlab) -> Build is triggered with tests (Jenkins) -> Code Review (Gitlab) -> Code checks (SonarQube) -> Deployment on stage (Jenkins) -> Issue mgmt (Gitlab)
 
-Thus, GitLab playes 3 roles: code repository, code review system and issue tracking system.
+Thus, GitLab playes 3 roles: code repository, code review system, issue tracking system and PM tool.
 
 Release management is done by means of Jenkins and Nexus.
