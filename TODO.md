@@ -1,46 +1,46 @@
 ### TODO 
 
-| User story                                             | Tasks                               | Estimation, MD                 | 
-| ------------------------------------------------------ | ----------------------------------- | ------------------------------ |
-| 1. Separate containers using Docker Compose/Swarm      | > apache2 container                 | 1                              |
-|                                                        | > webconsole container              | 5                              |
-|                                                        | > jenkins container                 | 1                              |
-|                                                        | > mysql container                   | 1                              |
-|                                                        | > mongodb container                 | 1                              |
-|                                                        | > composing                         | 5                              |
-|                                                        | > cluster via swarm                 | 5                              |
-|                                                        | > testing                           | 1                              |
-|                                                        | >                                   |                                |
-| 2. Security and user/team management setup             | > Jenkins auto-config               | 3                              |
-|                                                        | > MySQL auto-config                 | 2                              |
-|                                                        | > MongoDB auto-config               | 2                              |
-|                                                        | > Gitlab auto-config                | 3                              |
-|                                                        | > SonarQube auto-config             | 3                              |
-|                                                        | > Nexus auto-config                 | 2                              |
-|                                                        | > Deployments security              | 2                              |
-|                                                        | > Apache2 configuration             | 3                              |
-|                                                        | >                                   |                                |
-| 3. Integration with GitLab                             | > GitLab Docker container           | 1                              |
-|                                                        | > GitLab provider impl              | ?                              |
-|                                                        | > Jenkins job customization         | 1                              |
-|                                                        | >                                   |                                |
-| 4. SonarQube integration                               | > SonarQube Docker container        | 1                              |
-|                                                        | > SonarQube provider impl           | 7                              |
-|                                                        | > Jenkins job customization         | 2                              |
-|                                                        | > Integration with GitLab           | 2                              |
-|                                                        | >                                   |                                |
-| 5. Nexus integration                                   | > Nexus Docker container            | 1                              |
-|                                                        | > Nexus provider impl               | 5                              |
-|                                                        | > Jenkins job customization         | 1                              |
-|                                                        | >                                   |                                |
-| 6. Minimal deployment automation                       | > pure oracle java8 container       |                                |
-|                                                        | > Jenkins job customization         |                                |
-|                                                        | >                                   |                                |
-| 7. Code generation                                     | > DTO+Services+Transactions         |                                |
-|                                                        | > REST support                      |                                |
-|                                                        | > logback+redis+logstash            |                                |
-|                                                        | > Unit and integration tests        |                                |
-|                                                        | > Minimal UI and Swagger for API    |                                |
+| User story                                             | Tasks                                           | Estimation, MD                 | 
+| ------------------------------------------------------ | ----------------------------------------------- | ------------------------------ |
+| 1. Separate containers using Docker Compose/Swarm      | > apache2 container                             | 1                              |
+|                                                        | > webconsole container                          | 5                              |
+|                                                        | > jenkins container                             | 1                              |
+|                                                        | > mysql container                               | 1                              |
+|                                                        | > mongodb container                             | 1                              |
+|                                                        | > composing                                     | 5                              |
+|                                                        | > cluster via swarm                             | 5                              |
+|                                                        | > testing                                       | 1                              |
+|                                                        | >                                               |                                |
+| 2. Security and user/team management setup             | > Jenkins auto-config                           | 3                              |
+|                                                        | > MySQL auto-config                             | 2                              |
+|                                                        | > MongoDB auto-config                           | 2                              |
+|                                                        | > Gitlab auto-config                            | 3                              |
+|                                                        | > SonarQube auto-config                         | 3                              |
+|                                                        | > Nexus auto-config                             | 2                              |
+|                                                        | > Deployments security                          | 2                              |
+|                                                        | > Apache2 configuration                         | 3                              |
+|                                                        | >                                               |                                |
+| 3. Integration with GitLab                             | > GitLab Docker container                       | 1                              |
+|                                                        | > GitLab provider impl                          | ?                              |
+|                                                        | > Jenkins job customization                     | 1                              |
+|                                                        | >                                               |                                |
+| 4. SonarQube integration                               | > SonarQube Docker container                    | 1                              |
+|                                                        | > SonarQube provider impl                       | 7                              |
+|                                                        | > Jenkins job customization                     | 2                              |
+|                                                        | > Integration with GitLab                       | 2                              |
+|                                                        | >                                               |                                |
+| 5. Nexus integration                                   | > Nexus Docker container                        | 1                              |
+|                                                        | > Nexus provider impl                           | 5                              |
+|                                                        | > Jenkins job customization                     | 1                              |
+|                                                        | >                                               |                                |
+| 6. Minimal deployment automation                       | > pure oracle java8 container                   | 1                              |
+|                                                        | > Jenkins pipelines                             | 10                             |
+|                                                        | >                                               |                                |
+| 7. Code generation                                     | > DTO+Services+Transactions                     | ?                              |
+|                                                        | > REST support                                  | ?                              |
+|                                                        | > logback+redis+logstash                        | ?                              |
+|                                                        | > Unit and integration tests                    | ?                              |
+|                                                        | > Minimal UI (SpringFox) and Swagger for API    | ?                              |
 
 # Minimal viable product description:
 SaM Java Cloud will be a platform, which consists of at least 9 following linked Docker containers:
