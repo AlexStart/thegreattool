@@ -11,14 +11,14 @@
 |                                                        | > cluster via swarm                 |                                |
 |                                                        | > testing                           |                                |
 |                                                        | >                                   |                                |
-| 2. Security and user/team management setup             | > Jenkins auto-config               |                                |
-|                                                        | > MySQL auto-config                 |                                |
-|                                                        | > MongoDB auto-config               |                                |
-|                                                        | > Gitlab auto-config                |                                |
+| 2. Security and user/team management setup             | > Jenkins auto-config               | 3                              |
+|                                                        | > MySQL auto-config                 | 2                              |
+|                                                        | > MongoDB auto-config               | 2                              |
+|                                                        | > Gitlab auto-config                | ?                              |
 |                                                        | > SonarQube auto-config             |                                |
 |                                                        | > Nexus auto-config                 |                                |
-|                                                        | > Deployments security              |                                |
-|                                                        | > Apache2 configuration             |                                |
+|                                                        | > Deployments security              | 2                              |
+|                                                        | > Apache2 configuration             | 3                              |
 |                                                        | >                                   |                                |
 | 3. Integration with GitLab                             | > GitLab Docker container           |                                |
 |                                                        | > GitLab provider impl              |                                |
