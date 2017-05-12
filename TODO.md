@@ -25,13 +25,13 @@
 |                                                        | > Jenkins job customization         | 1                              |
 |                                                        | >                                   |                                |
 | 4. SonarQube integration                               | > SonarQube Docker container        | 1                              |
-|                                                        | > SonarQube provider impl           | ?                              |
-|                                                        | > Jenkins job customization         | ?                              |
+|                                                        | > SonarQube provider impl           | 7                              |
+|                                                        | > Jenkins job customization         | 2                              |
 |                                                        | > Integration with GitLab           | 2                              |
 |                                                        | >                                   |                                |
 | 5. Nexus integration                                   | > Nexus Docker container            | 1                              |
-|                                                        | > Nexus provider impl               | ?                              |
-|                                                        | > Jenkins job customization         | ?                              |
+|                                                        | > Nexus provider impl               | 5                              |
+|                                                        | > Jenkins job customization         | 1                              |
 |                                                        | >                                   |                                |
 | 6. Minimal deployment automation                       | > pure oracle java8 container       |                                |
 |                                                        | > Jenkins job customization         |                                |
