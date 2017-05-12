@@ -15,8 +15,8 @@
 |                                                        | > MySQL auto-config                 | 2                              |
 |                                                        | > MongoDB auto-config               | 2                              |
 |                                                        | > Gitlab auto-config                | 3                              |
-|                                                        | > SonarQube auto-config             | ?                              |
-|                                                        | > Nexus auto-config                 | ?                              |
+|                                                        | > SonarQube auto-config             | 3                              |
+|                                                        | > Nexus auto-config                 | 2                              |
 |                                                        | > Deployments security              | 2                              |
 |                                                        | > Apache2 configuration             | 3                              |
 |                                                        | >                                   |                                |
@@ -24,13 +24,14 @@
 |                                                        | > GitLab provider impl              | ?                              |
 |                                                        | > Jenkins job customization         | 1                              |
 |                                                        | >                                   |                                |
-| 4. SonarQube integration                               | > SonarQube Docker container        |                                |
-|                                                        | > SonarQube provider impl           |                                |
-|                                                        | > Jenkins job customization         |                                |
+| 4. SonarQube integration                               | > SonarQube Docker container        | 1                              |
+|                                                        | > SonarQube provider impl           | ?                              |
+|                                                        | > Jenkins job customization         | ?                              |
+|                                                        | > Integration with GitLab           | 2                              |
 |                                                        | >                                   |                                |
-| 5. Nexus integration                                   | > Nexus Docker container            |                                |
-|                                                        | > Nexus provider impl               |                                |
-|                                                        | > Jenkins job customization         |                                |
+| 5. Nexus integration                                   | > Nexus Docker container            | 1                              |
+|                                                        | > Nexus provider impl               | ?                              |
+|                                                        | > Jenkins job customization         | ?                              |
 |                                                        | >                                   |                                |
 | 6. Minimal deployment automation                       | > pure oracle java8 container       |                                |
 |                                                        | > Jenkins job customization         |                                |
