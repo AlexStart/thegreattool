@@ -2,21 +2,21 @@
 
 | User story                                             | Tasks                               | Estimation, MD                 | 
 | ------------------------------------------------------ | ----------------------------------- | ------------------------------ |
-| 1. Separate containers using Docker Compose/Swarm      | > apache2 container                 |                                |
-|                                                        | > webconsole container              |                                |
-|                                                        | > jenkins container                 |                                |
-|                                                        | > mysql container                   |                                |
-|                                                        | > mongodb container                 |                                |
-|                                                        | > composing                         |                                |
-|                                                        | > cluster via swarm                 |                                |
-|                                                        | > testing                           |                                |
+| 1. Separate containers using Docker Compose/Swarm      | > apache2 container                 | 1                              |
+|                                                        | > webconsole container              | 5                              |
+|                                                        | > jenkins container                 | 1                              |
+|                                                        | > mysql container                   | 1                              |
+|                                                        | > mongodb container                 | 1                              |
+|                                                        | > composing                         | 5                              |
+|                                                        | > cluster via swarm                 | 5                              |
+|                                                        | > testing                           | 1                              |
 |                                                        | >                                   |                                |
 | 2. Security and user/team management setup             | > Jenkins auto-config               | 3                              |
 |                                                        | > MySQL auto-config                 | 2                              |
 |                                                        | > MongoDB auto-config               | 2                              |
-|                                                        | > Gitlab auto-config                | ?                              |
-|                                                        | > SonarQube auto-config             |                                |
-|                                                        | > Nexus auto-config                 |                                |
+|                                                        | > Gitlab auto-config                | 3                              |
+|                                                        | > SonarQube auto-config             | ?                              |
+|                                                        | > Nexus auto-config                 | ?                              |
 |                                                        | > Deployments security              | 2                              |
 |                                                        | > Apache2 configuration             | 3                              |
 |                                                        | >                                   |                                |
