@@ -37,9 +37,9 @@
 |                                                        | > Jenkins pipelines                             | 10                             |
 |                                                        | >                                               |                                |
 | 7. Code generation                                     | > DTO+Services+Transactions                     | 2                              |
-|                                                        | > REST support                                  | 1                              |
+|                                                        | > REST support                                  | 2                              |
 |                                                        | > logback+redis+logstash                        | 3                              |
-|                                                        | > Unit and integration tests                    | 1                              |
+|                                                        | > Unit and integration tests                    | 2                              |
 |                                                        | > Minimal UI (SpringFox) and Swagger for API    | 1                              |
 
 # Minimal viable product description:
