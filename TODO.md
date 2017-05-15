@@ -39,7 +39,7 @@
 | 7. Code generation                                     | > DTO+Services+Transactions                     | 2                              |
 |                                                        | > REST support                                  | 2                              |
 |                                                        | > logback+redis+logstash                        | 3                              |
-|                                                        | > Unit and integration tests                    | 2                              |
+|                                                        | > Unit and integration tests                    | 3                              |
 |                                                        | > Minimal UI (SpringFox) and Swagger for API    | 1                              |
 
 # Minimal viable product description:
