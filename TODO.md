@@ -21,7 +21,7 @@
 |                                                        | > Apache2 configuration                         | 3                              |
 |                                                        | >                                               |                                |
 | 3. Integration with GitLab                             | > GitLab Docker container                       | 1                              |
-|                                                        | > GitLab provider impl                          | ?                              |
+|                                                        | > GitLab provider impl                          | 4                              |
 |                                                        | > Jenkins job customization                     | 1                              |
 |                                                        | >                                               |                                |
 | 4. SonarQube integration                               | > SonarQube Docker container                    | 1                              |
@@ -36,11 +36,11 @@
 | 6. Minimal deployment automation                       | > pure oracle java8 container                   | 1                              |
 |                                                        | > Jenkins pipelines                             | 10                             |
 |                                                        | >                                               |                                |
-| 7. Code generation                                     | > DTO+Services+Transactions                     | ?                              |
-|                                                        | > REST support                                  | ?                              |
+| 7. Code generation                                     | > DTO+Services+Transactions                     | 2                              |
+|                                                        | > REST support                                  | 1                              |
 |                                                        | > logback+redis+logstash                        | ?                              |
-|                                                        | > Unit and integration tests                    | ?                              |
-|                                                        | > Minimal UI (SpringFox) and Swagger for API    | ?                              |
+|                                                        | > Unit and integration tests                    | 1                              |
+|                                                        | > Minimal UI (SpringFox) and Swagger for API    | 1                              |
 
 # Minimal viable product description:
 SaM Java Cloud will be a platform, which consists of at least 9 following linked Docker containers:
