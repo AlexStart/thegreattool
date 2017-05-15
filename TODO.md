@@ -41,6 +41,7 @@
 |                                                        | > logback+redis+logstash                        | 3                              |
 |                                                        | > Unit and integration tests                    | 3                              |
 |                                                        | > Minimal UI (SpringFox) and Swagger for API    | 1                              |
+| TOTAL                                                  |                                                 | 88                             |
 
 # Minimal viable product description:
 SaM Java Cloud will be a platform, which consists of at least 9 following linked Docker containers:
