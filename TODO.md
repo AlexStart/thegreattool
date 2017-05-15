@@ -21,7 +21,7 @@
 |                                                        | > Apache2 configuration                         | 3                              |
 |                                                        | >                                               |                                |
 | 3. Integration with GitLab                             | > GitLab Docker container                       | 1                              |
-|                                                        | > GitLab provider impl                          | 4                              |
+|                                                        | > GitLab provider impl                          | 5                              |
 |                                                        | > Jenkins job customization                     | 1                              |
 |                                                        | >                                               |                                |
 | 4. SonarQube integration                               | > SonarQube Docker container                    | 1                              |
