@@ -65,3 +65,6 @@ Code change (Gitlab) -> Build is triggered with tests (Jenkins) -> Code Review (
 Thus, GitLab playes 4 roles: code repository, code review system, issue tracking system and PM tool.
 
 Release management is done by means of Jenkins and Nexus.
+
+# Preliminary project plan
+![](TODO.PNG)
