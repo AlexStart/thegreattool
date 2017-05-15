@@ -38,7 +38,7 @@
 |                                                        | >                                               |                                |
 | 7. Code generation                                     | > DTO+Services+Transactions                     | 2                              |
 |                                                        | > REST support                                  | 1                              |
-|                                                        | > logback+redis+logstash                        | ?                              |
+|                                                        | > logback+redis+logstash                        | 3                              |
 |                                                        | > Unit and integration tests                    | 1                              |
 |                                                        | > Minimal UI (SpringFox) and Swagger for API    | 1                              |
 
