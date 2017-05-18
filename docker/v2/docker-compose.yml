@@ -7,6 +7,7 @@ services:
     container_name: "javacloud-apache2-http-proxy"
   alpine-java:
     build: alpine-java
+     - "30000:30000"    
     container_name: "javacloud-deployments"
   redis:
     image: "redis:alpine"
