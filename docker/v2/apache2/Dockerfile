@@ -4,8 +4,8 @@ RUN \
   apt-get update && \
   apt-get install -y apache2 && \
   a2enmod proxy && \
-  a2enmod proxy_http && \
-  cp /usr/local/apache2/conf/extra/httpd-vhosts.conf /usr/local/apache2/conf/extra/httpd-vhosts.conf.original
+  a2enmod proxy_http
+  #cp /usr/local/apache2/conf/extra/httpd-vhosts.conf /usr/local/apache2/conf/extra/httpd-vhosts.conf.original
   
 #COPY ./httpd-vhosts.conf /usr/local/apache2/conf/extra
 
