@@ -47,9 +47,8 @@ RUN apk add --no-cache --virtual .native-build-deps \
 		gcc \
 		libc-dev \
 		make \
-		"openjdk${JAVA_VERSION%%[-~bu]*}"="$JAVA_ALPINE_VERSION" \
-		openssl-dev \
-	&& ( \
+		openssl-dev
+RUN ( \
 		export CATALINA_HOME="$PWD" \
 		&& cd "$nativeBuildDir/native" \
 		&& gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
