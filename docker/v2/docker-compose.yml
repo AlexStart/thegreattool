@@ -4,6 +4,8 @@ services:
     image: "httpd"
     ports:
      - "80:80"
-    container_name: "http-proxy"
+    container_name: "javacloud-apache2-http-proxy"
   redis:
     image: "redis:alpine"
+    container_name: "javacloud-redis"   
+    
