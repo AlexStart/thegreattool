@@ -1,4 +1,4 @@
-FROM httpd
+FROM httpd:alpine
 
 #RUN \
 #  apt-get update && \
