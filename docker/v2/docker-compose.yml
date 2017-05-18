@@ -1,15 +1,5 @@
 version: '3'
 services:
-  apache2:
-    build: apache2
-    ports:
-     - "80:80"
-    container_name: "javacloud-apache2-http-proxy"
-  webconsole:
-    build: webconsole
-    ports:
-     - "8080:8080"    
-    container_name: "javacloud-webconsole"
   nexus:
     build: nexus
     ports:
@@ -26,3 +16,8 @@ services:
   redis:
     image: "redis:alpine"
     container_name: "javacloud-redis"   
+  webconsole:
+    build: webconsole
+    ports:
+     - "8080:8080"    
+    container_name: "javacloud-webconsole"
