@@ -7,10 +7,12 @@ services:
     container_name: "javacloud-apache2-http-proxy"
   alpine-java:
     build: alpine-java
-    ports:
-     - "8080:8080"    
     container_name: "javacloud-deployments"
   redis:
     image: "redis:alpine"
     container_name: "javacloud-redis"   
-    
+  webconsole:
+    build: webconsole
+    ports:
+     - "8080:8080"    
+    container_name: "javacloud-webconsole"
