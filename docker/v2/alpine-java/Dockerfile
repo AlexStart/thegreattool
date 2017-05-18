@@ -39,6 +39,7 @@ RUN set -x \
 	&& rm tomcat.tar.gz* \
 	\
 	&& nativeBuildDir="$(mktemp -d)" \
+	&& mkdir $nativeBuildDir/native \
 	&& tar -xvf bin/tomcat-native.tar.gz -C "$nativeBuildDir" --strip-components=1
 	
 RUN apk add --no-cache --virtual .native-build-deps \
