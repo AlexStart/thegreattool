@@ -5,14 +5,24 @@ services:
     ports:
      - "80:80"
     container_name: "javacloud-apache2-http-proxy"
+  webconsole:
+    build: webconsole
+    ports:
+     - "8080:8080"    
+    container_name: "javacloud-webconsole"
+  nexus:
+    build: nexus
+    ports:
+     - "8081:8081"
+    container_name: "javacloud-nexus"
+  jenkins:
+    build: jenkins
+    ports:
+     - "8082:8082"
+    container_name: "javacloud-jenkins"
   alpine-java:
     build: alpine-java
     container_name: "javacloud-deployments"
   redis:
     image: "redis:alpine"
     container_name: "javacloud-redis"   
-  webconsole:
-    build: webconsole
-    ports:
-     - "8080:8080"    
-    container_name: "javacloud-webconsole"
