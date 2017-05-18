@@ -1,0 +1,8 @@
+version: '3'
+services:
+  apache2:
+    image: "httpd"
+    ports:
+     - "80:80"
+  redis:
+    image: "redis:alpine"
