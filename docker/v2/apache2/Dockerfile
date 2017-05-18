@@ -1,14 +1,24 @@
-FROM httpd
+#FROM httpd
 
-RUN \
-  apt-get update && \
-  apt-get install -y apache2 && \
-  a2enmod proxy && \
-  a2enmod proxy_http
+#RUN \
+#  apt-get update && \
+#  apt-get install -y apache2 && \
+#  a2enmod proxy && \
+#  a2enmod proxy_http
   #cp /usr/local/apache2/conf/extra/httpd-vhosts.conf /usr/local/apache2/conf/extra/httpd-vhosts.conf.original
   
 #COPY ./httpd-vhosts.conf /usr/local/apache2/conf/extra
 
 #CMD ["apachectl", "restart"]
 
-RUN service apache2 restart
+#RUN service apache2 restart
+
+FROM ubuntu
+
+RUN apt-get update && \
+apt-get install -y apache2 && \
+mkdir -p /var/lock/apache2 /var/run/apache2 && \
+a2enmod proxy && \
+a2enmod proxy_http
+
+EXPOSE 80 
