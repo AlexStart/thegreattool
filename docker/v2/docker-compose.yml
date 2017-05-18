@@ -1,7 +1,7 @@
 version: '3'
 services:
   apache2:
-    image: "httpd"
+    build: apache2
     ports:
      - "80:80"
     container_name: "javacloud-apache2-http-proxy"
