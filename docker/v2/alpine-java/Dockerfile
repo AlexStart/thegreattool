@@ -39,7 +39,7 @@ RUN set -x \
 	&& rm tomcat.tar.gz* \
 	\
 	&& mkdir /tmp/nativeBuildDir \
-	&& export nativeBuildDir "/tmp/nativeBuildDir" \
+	&& nativeBuildDir="/tmp/nativeBuildDir" \
 	&& mkdir $nativeBuildDir/native \
 	&& tar -xvf bin/tomcat-native.tar.gz -C "$nativeBuildDir" --strip-components=1
 	
