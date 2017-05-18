@@ -7,6 +7,6 @@ RUN \
   a2enmod proxy_http && \
   mv /usr/local/apache2/conf/extra/httpd-vhosts.conf /usr/local/apache2/conf/extra/httpd-vhosts.conf.original
   
-COPY ./httpd-vhosts.conf /usr/local/apache2/conf/extra
+#COPY ./httpd-vhosts.conf /usr/local/apache2/conf/extra
 
 CMD ["apachectl", "restart"]
