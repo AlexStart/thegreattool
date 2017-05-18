@@ -1,4 +1,4 @@
-#FROM httpd
+FROM httpd
 
 #RUN \
 #  apt-get update && \
@@ -13,14 +13,3 @@
 
 #RUN service apache2 restart
 
-FROM ubuntu
-
-RUN apt-get update && \
-apt-get install -y apache2 && \
-mkdir -p /var/lock/apache2 /var/run/apache2 && \
-a2enmod proxy && \
-a2enmod proxy_http
-
-EXPOSE 80 
-
-CMD ["apachectl", "start"]
