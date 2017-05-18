@@ -1,4 +1,4 @@
-FROM httpd:alpine
+#FROM httpd:alpine
 
 #RUN \
 #  apt-get update && \
@@ -13,3 +13,12 @@ FROM httpd:alpine
 
 #RUN service apache2 restart
 
+FROM ubuntu
+
+RUN \
+  apt-get update && \
+  apt-get install -y apache2 && \
+  a2enmod proxy && \
+  a2enmod proxy_http
+
+CMD ["apachectl", "start"]
