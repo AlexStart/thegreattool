@@ -4,5 +4,6 @@ services:
     image: "httpd"
     ports:
      - "80:80"
+    container_name: "http-proxy"
   redis:
     image: "redis:alpine"
