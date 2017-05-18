@@ -9,4 +9,6 @@ RUN \
   
 #COPY ./httpd-vhosts.conf /usr/local/apache2/conf/extra
 
-CMD ["apachectl", "restart"]
+#CMD ["apachectl", "restart"]
+
+RUN service apache2 restart
