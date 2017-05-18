@@ -52,7 +52,7 @@ RUN apk add --no-cache --virtual .native-build-deps \
 		openssl-dev
 RUN ( \
 		export CATALINA_HOME="$PWD" \
-		&& cd "$nativeBuildDir/native" \
+		&& cd "/tmp/nativeBuildDir/native" \
 		&& gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
 		&& ./configure \
 			--build="$gnuArch" \
