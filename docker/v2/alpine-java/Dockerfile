@@ -6,4 +6,6 @@ http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096f
 RUN tar -xzf jdk-8u131-linux-x64.tar.gz
 RUN mkdir -p "/usr/lib/jvm" && \
 mv "jdk1.8.0_131" "/usr/lib/jvm/java-8-oracle"
+ENV JAVA_HOME="/usr/lib/jvm/java-8-oracle"
+RUN ln -s "$JAVA_HOME/bin/"* "/usr/bin/"
 
