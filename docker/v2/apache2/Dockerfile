@@ -16,7 +16,7 @@ echo "ServerName localhost" >> /usr/local/apache2/conf/httpd.conf
 
 #CMD ["apachectl", "restart"]
 
-RUN service apache2 restart
+RUN apachectl restart
 
 #FROM ubuntu
 
