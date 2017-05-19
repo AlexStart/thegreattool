@@ -21,6 +21,13 @@ services:
     container_name: "javacloud-mongodb"
   gitlab:
     build: gitlab
+     ports:
+    - "8083:8083"
+    - "8322:8322"
+    environment:    
+    - GITLAB_PORT=8083
+    - GITLAB_SSH_PORT=8322
+    - GITLAB_RELATIVE_URL_ROOT=/gitlab
     container_name: "javacloud-gitlab"
   redis:
     image: "redis:alpine"
