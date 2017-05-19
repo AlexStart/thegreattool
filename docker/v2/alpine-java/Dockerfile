@@ -1,3 +1,5 @@
 FROM frolvlad/alpine-oraclejdk8
 
-CMD ["java", "-version"]
+RUN "java -version"
+
+CMD ["tail", "-f", "/dev/null"]
