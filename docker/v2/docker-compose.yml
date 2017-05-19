@@ -16,6 +16,9 @@ services:
   mysql:
     build: mysql
     container_name: "javacloud-mysql"   
+  mongodb:
+    build: mongodb
+    container_name: "javacloud-mongodb"
   redis:
     image: "redis:alpine"
     container_name: "javacloud-redis"   
