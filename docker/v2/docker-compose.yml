@@ -13,6 +13,9 @@ services:
   alpine-java:
     build: alpine-java
     container_name: "javacloud-deployments"
+  mysql:
+    image: "mysql"
+    container_name: "javacloud-mysql"   
   redis:
     image: "redis:alpine"
     container_name: "javacloud-redis"   
