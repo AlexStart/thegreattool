@@ -26,14 +26,9 @@ services:
     - "8322:8322"
     environment:
       GITLAB_OMNIBUS_CONFIG: |    
+        external_url "http://#{host}/gitlab"
         nginx['listen_port'] = 8083
         gitlab_rails['gitlab_shell_ssh_port'] = 8322
-#    - GITLAB_HTTPS=false
-#    - GITLAB_PORT=8083
-#    - GITLAB_SSH_PORT=8322
-#    - GITLAB_RELATIVE_URL_ROOT=/gitlab
-#    - GITLAB_OMNIBUS_CONFIG: |
-#      gitlab_rails['gitlab_shell_ssh_port'] = 8322
     container_name: "javacloud-gitlab"
   redis:
     image: "redis:alpine"
