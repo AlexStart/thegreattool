@@ -19,6 +19,9 @@ services:
   mongodb:
     build: mongodb
     container_name: "javacloud-mongodb"
+  gitlab:
+    build: gitlab
+    container_name: "javacloud-gitlab"
   redis:
     image: "redis:alpine"
     container_name: "javacloud-redis"   
