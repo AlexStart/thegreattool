@@ -25,6 +25,7 @@ services:
     - "8083:8083"
     - "8322:8322"
     environment:    
+    - GITLAB_HTTPS=false
     - GITLAB_PORT=8083
     - GITLAB_SSH_PORT=8322
     - GITLAB_RELATIVE_URL_ROOT=/gitlab
