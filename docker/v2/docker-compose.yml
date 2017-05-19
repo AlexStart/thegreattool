@@ -24,7 +24,6 @@ services:
     ports:
     - "8083:8083"
     - "8322:8322"
-    environment:    
     environment:
       GITLAB_OMNIBUS_CONFIG: |    
         nginx['listen_port'] = 8083
