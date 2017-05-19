@@ -27,6 +27,7 @@ services:
     environment:    
     environment:
       GITLAB_OMNIBUS_CONFIG: |    
+        gitlab_rails['port'] = 8083
         gitlab_rails['gitlab_shell_ssh_port'] = 8322
 #    - GITLAB_HTTPS=false
 #    - GITLAB_PORT=8083
