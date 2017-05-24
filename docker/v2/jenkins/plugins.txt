@@ -15,3 +15,4 @@ bouncycastle-api
 ssh-agent
 maven-plugin
 gradle
+javadoc
