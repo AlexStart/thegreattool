@@ -13,7 +13,7 @@ ARG SHA=beb91419245395bd69a4a6edad5ca3ec1a8b64e41457672dc687c173a495f034
 ARG BASE_URL=https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries
 
 
-RUN wget -P /var/jenkins_home/ https://apache.osuosl.org/maven/maven-3/3.5.0/binaries/apache-maven-3.5.0-bin.tar.gz
+RUN wget -P /var/jenkins_home/ https://apache.osuosl.org/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz
 #RUN echo "${SHA}  /var/jenkins_home/apache-maven-3.5.0-bin.tar.gz" | sha256sum -c -
 #RUN tar -xzf apache-maven-3.5.0-bin.tar.gz
 
@@ -24,13 +24,13 @@ RUN wget -P /var/jenkins_home/ https://apache.osuosl.org/maven/maven-3/3.5.0/bin
 #  && tar -xzf /var/jenkins_home/apache-maven.tar.gz
 #  && rm -f /tmp/apache-maven.tar.gz
 
-ENV MAVEN_CONFIG /var/jenkins_home/apache-maven-$MAVEN_VERSION/ref
-ENV PATH $PATH:/var/jenkins_home/apache-maven-$MAVEN_VERSION/bin
+#ENV MAVEN_CONFIG /var/jenkins_home/apache-maven-$MAVEN_VERSION/ref
+#ENV PATH $PATH:/var/jenkins_home/apache-maven-$MAVEN_VERSION/bin
 
-COPY mvn-entrypoint.sh /var/jenkins_home/apache-maven-$MAVEN_VERSION/bin/mvn-entrypoint.sh
-COPY settings-docker.xml /var/jenkins_home/apache-maven-$MAVEN_VERSION/ref/
+#COPY mvn-entrypoint.sh /var/jenkins_home/apache-maven-$MAVEN_VERSION/bin/mvn-entrypoint.sh
+#COPY settings-docker.xml /var/jenkins_home/apache-maven-$MAVEN_VERSION/ref/
 
-VOLUME "/var/jenkins_home/.m2"
+#VOLUME "/var/jenkins_home/.m2"
 
 #RUN /usr/local/bin/mvn-entrypoint.sh
 #RUN mvn -version
