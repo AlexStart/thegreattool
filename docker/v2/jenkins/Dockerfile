@@ -15,7 +15,7 @@ ARG BASE_URL=https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries
 
 RUN wget -O /tmp/apache-maven-${MAVEN_VERSION}.tar.gz http://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz \
     && mkdir -p /var/jenkins_home/maven \
-    && tar -xzf /tmp/apache-maven-${MAVEN_VERSION}.tar.gz -C /var/jenkins_home/maven \
+    && tar -xzf /tmp/apache-maven-${MAVEN_VERSION}.tar.gz -C /var/jenkins_home/maven/ \
     && rm -f /tmp/apache-maven-${MAVEN_VERSION}.tar.gz
 
 
