@@ -16,6 +16,7 @@ ARG BASE_URL=https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries
 
 RUN curl -fsSL -o /var/jenkins_home/apache-maven.tar.gz ${BASE_URL}/apache-maven-$MAVEN_VERSION-bin.tar.gz \
   && echo "${SHA}  /var/jenkins_home/apache-maven.tar.gz" | sha256sum -c - \
+  && cd var/jenkins_home \
   && tar -xzf /var/jenkins_home/apache-maven.tar.gz
 #  && rm -f /tmp/apache-maven.tar.gz
 
