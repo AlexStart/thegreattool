@@ -7,6 +7,11 @@ EXPOSE 8082
 COPY plugins.txt /usr/share/jenkins/plugins.txt
 RUN /usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt
 
+#
+RUN apt-get upgrade \
+    && apt-get update |
+    && apt-get install sudo
+
 # Maven
 ARG MAVEN_VERSION=3.5.0
 ARG SHA=beb91419245395bd69a4a6edad5ca3ec1a8b64e41457672dc687c173a495f034
