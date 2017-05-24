@@ -16,7 +16,7 @@ RUN wget -O /tmp/apache-maven-${MAVEN_VERSION}.tar.gz http://archive.apache.org/
 && echo "${SHA}  /tmp/apache-maven-3.5.0.tar.gz" | sha256sum -c -
 
 ENV MAVEN_HOME /tmp/apache-maven-${MAVEN_VERSION}
-ENV PATH $PATH:$MAVEN_HOME
+ENV PATH $PATH:$MAVEN_HOME/bin
 
 #
 CMD ["/usr/local/bin/jenkins.sh"]
