@@ -19,8 +19,8 @@ services:
   mongodb:
     build: mongodb
     ports:
-    - "127.0.0.1:27017:27017"
-    # - "27017:27017"
+    # - "127.0.0.1:27017:27017"
+    - "27017:27017"
     container_name: "javacloud-mongodb"
   gitlab:
     build: gitlab
