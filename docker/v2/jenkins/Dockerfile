@@ -15,9 +15,9 @@ ARG BASE_URL=https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries
 
 #RUN curl -fsSL -o /var/jenkins_home/apache-maven.tar.gz https://apache.osuosl.org/maven/maven-3/3.5.0/binaries/apache-maven-3.5.0-bin.tar.gz
 RUN cd /var/jenkins_home \
-    && wget https://apache.osuosl.org/maven/maven-3/3.5.0/binaries/apache-maven-3.5.0-bin.tar.gz
-RUN echo "${SHA}  /var/jenkins_home/apache-maven-3.5.0-bin.tar.gz" | sha256sum -c -
-RUN tar -xzf apache-maven-3.5.0-bin.tar.gz
+    && wget https://apache.osuosl.org/maven/maven-3/3.5.0/binaries/apache-maven-3.5.0-bin.tar.gz \
+    && echo "${SHA}  /var/jenkins_home/apache-maven-3.5.0-bin.tar.gz" | sha256sum -c - \
+    && tar -xzf apache-maven-3.5.0-bin.tar.gz
 
 
 #RUN curl -fsSL -o /var/jenkins_home/apache-maven.tar.gz ${BASE_URL}/apache-maven-${MAVEN_VERSION}-bin.tar.gz \
