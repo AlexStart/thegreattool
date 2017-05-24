@@ -1,7 +1,12 @@
+workflow-step-api
 workflow-scm-step
 credentials
+structs
 git-client
+display-url-api
 mailer
+junit
+script-security
 matrix-project
 scm-api
 ssh-credentials
