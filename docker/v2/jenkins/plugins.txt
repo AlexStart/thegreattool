@@ -11,3 +11,4 @@ matrix-project
 scm-api
 ssh-credentials
 git
+ssh-agent
