@@ -18,6 +18,8 @@ services:
     container_name: "javacloud-mysql"   
   mongodb:
     build: mongodb
+    ports:
+     - "27017:27017"
     container_name: "javacloud-mongodb"
   gitlab:
     build: gitlab
