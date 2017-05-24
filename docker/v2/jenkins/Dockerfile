@@ -9,7 +9,7 @@ RUN /usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt
 
 #
 RUN apt-get upgrade \
-    && apt-get update |
+    && apt-get update \
     && apt-get install sudo
 
 # Maven
