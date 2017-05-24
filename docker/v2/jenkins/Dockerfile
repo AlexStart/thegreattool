@@ -23,7 +23,7 @@ ARG BASE_URL=https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries
 #COPY mvn-entrypoint.sh /usr/local/bin/mvn-entrypoint.sh
 #COPY settings-docker.xml ~/maven/ref/
 
-VOLUME "$HOME/.m2"
+VOLUME "~/.m2"
 
 #RUN /usr/local/bin/mvn-entrypoint.sh
 #RUN mvn -version
