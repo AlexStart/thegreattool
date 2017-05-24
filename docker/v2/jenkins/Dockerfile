@@ -27,8 +27,8 @@ COPY settings-docker.xml $MAVEN_HOME/ref/
 
 VOLUME "$HOME/.m2"
 
-RUN /usr/local/bin/mvn-entrypoint.sh
-RUN mvn -version
+#RUN /usr/local/bin/mvn-entrypoint.sh
+#RUN mvn -version
 
 #
 CMD ["/usr/local/bin/jenkins.sh"]
