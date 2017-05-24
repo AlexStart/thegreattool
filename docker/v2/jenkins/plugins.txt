@@ -13,3 +13,5 @@ ssh-credentials
 git
 bouncycastle-api
 ssh-agent
+maven-plugin
+gradle
