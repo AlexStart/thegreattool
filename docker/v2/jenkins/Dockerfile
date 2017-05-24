@@ -20,7 +20,7 @@ RUN mkdir -p ~/maven ~/maven/ref \
   && echo "${SHA}  /tmp/apache-maven.tar.gz" | sha256sum -c - \
   && tar -xzf /tmp/apache-maven.tar.gz -C ~/maven --strip-components=1 \
   && rm -f /tmp/apache-maven.tar.gz \
-  && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
+  && ln -s ~/maven/bin/mvn /usr/bin/mvn
 
 COPY mvn-entrypoint.sh /usr/local/bin/mvn-entrypoint.sh
 COPY settings-docker.xml ~/maven/ref/
