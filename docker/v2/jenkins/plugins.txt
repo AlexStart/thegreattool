@@ -1,1 +1,8 @@
+workflow-scm-step
+credentials
+git-client
+mailer
+matrix-project
+scm-api
+ssh-credentials
 git
