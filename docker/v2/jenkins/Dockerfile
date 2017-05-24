@@ -26,7 +26,7 @@ ENV PATH $PATH:~/maven/bin
 COPY mvn-entrypoint.sh ~/maven/bin/mvn-entrypoint.sh
 COPY settings-docker.xml ~/maven/ref/
 
-VOLUME "~/.m2"
+#VOLUME "~/.m2"
 
 #RUN /usr/local/bin/mvn-entrypoint.sh
 #RUN mvn -version
