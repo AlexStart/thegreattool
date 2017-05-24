@@ -17,8 +17,8 @@ ENV MAVEN_CONFIG /var/jenkins_home/maven/ref
 RUN mkdir -p /var/jenkins_home/maven /var/jenkins_home/maven/ref \
   && curl -fsSL -o /tmp/apache-maven.tar.gz ${BASE_URL}/apache-maven-$MAVEN_VERSION-bin.tar.gz \
   && echo "${SHA}  /tmp/apache-maven.tar.gz" | sha256sum -c - \
-  && tar -xzf /tmp/apache-maven.tar.gz -C /var/jenkins_home/maven --strip-components=1 \
-  && rm -f /tmp/apache-maven.tar.gz
+  && tar -xzf /tmp/apache-maven.tar.gz -C /var/jenkins_home/maven --strip-components=1
+#  && rm -f /tmp/apache-maven.tar.gz
 
 ENV PATH $PATH:/var/jenkins_home/maven/bin
 
