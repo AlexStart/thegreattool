@@ -13,11 +13,16 @@ ARG SHA=beb91419245395bd69a4a6edad5ca3ec1a8b64e41457672dc687c173a495f034
 ARG BASE_URL=https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries
 
 
+RUN curl -fsSL -o /var/jenkins_home/apache-maven.tar.gz ${BASE_URL}/apache-maven-$MAVEN_VERSION-bin.tar.gz
 
-RUN curl -fsSL -o /var/jenkins_home/apache-maven.tar.gz ${BASE_URL}/apache-maven-$MAVEN_VERSION-bin.tar.gz \
-  && echo "${SHA}  /var/jenkins_home/apache-maven.tar.gz" | sha256sum -c - \
-  && cd /var/jenkins_home \
-  && tar -xzf /var/jenkins_home/apache-maven.tar.gz
+RUN echo "${SHA}  /var/jenkins_home/apache-maven.tar.gz" | sha256sum -c -
+
+RUN pwd
+
+#RUN curl -fsSL -o /var/jenkins_home/apache-maven.tar.gz ${BASE_URL}/apache-maven-$MAVEN_VERSION-bin.tar.gz \
+#  && echo "${SHA}  /var/jenkins_home/apache-maven.tar.gz" | sha256sum -c - \
+#  && cd /var/jenkins_home \
+#  && tar -xzf /var/jenkins_home/apache-maven.tar.gz
 #  && rm -f /tmp/apache-maven.tar.gz
 
 ENV MAVEN_CONFIG /var/jenkins_home/apache-maven-$MAVEN_VERSION/ref
