@@ -27,7 +27,6 @@ services:
   git:
     build: git
     ports:
-    ports:
     - "127.0.0.1:9418:9418"
     container_name: "javacloud-git"
   gitlab:
