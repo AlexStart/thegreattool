@@ -201,7 +201,8 @@ public class JenkinsProvider extends AbstractProvider<ICIMetadata>implements ICI
 				try {
 					String host = getHost();
 					Integer port = Integer.valueOf(getPort());
-					URL apiUrl = new URL("http", host, port, "/api");
+					// TODO hotfix
+					URL apiUrl = new URL("http", host, port, getProperty("ci.jenkins.postfix") + "/api");
 					HttpGet request = new HttpGet(apiUrl.toString());
 					HttpResponse response = httpClient.execute(request);
 					Validate.isTrue(response.getStatusLine().getStatusCode() == 200);
