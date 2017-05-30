@@ -1,6 +1,6 @@
 FROM alpine
 
-RUN apk update && apk add git
+RUN apk update && apk add git && apk add git-daemon
 
 RUN git config --global user.name "JavaCloud" && git config --global user.email "javacloud@sam-solutions.com" 
 
