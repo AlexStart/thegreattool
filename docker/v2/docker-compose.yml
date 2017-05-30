@@ -24,6 +24,12 @@ services:
     # - "127.0.0.1:27017:27017"
     - "27017:27017"
     container_name: "javacloud-mongodb"
+  git:
+    build: git
+    ports:
+    ports:
+    - "127.0.0.1:9418:9418"
+    container_name: "javacloud-git"
   gitlab:
     build: gitlab
     ports:
