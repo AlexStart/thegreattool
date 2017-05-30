@@ -90,7 +90,7 @@ class MySqlInjector implements IDataInjector<AppData> {
     private String settings(AppData data) {
         return String.join(lineSeparator(),
                 of(
-                        jpa("url", getProperty("db.mysql.url") + data.getAppName()),
+                        jpa("url", getProperty("db.mysql.url") + data.getAppName() + getProperty("db.mysql.url.postfix")),
                         jpa("username", getProperty("db.mysql.user")),
                         jpa("password", getProperty("db.mysql.password")),
                         "spring.jpa.hibernate.ddl-auto=update"
