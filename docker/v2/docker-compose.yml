@@ -15,6 +15,7 @@ services:
     container_name: "javacloud-deployments"
   mysql:
     build: mysql
+    - "127.0.0.1:3306:3306"
     container_name: "javacloud-mysql"   
   mongodb:
     build: mongodb
