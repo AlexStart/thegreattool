@@ -6,7 +6,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends vim
 RUN sed -ie 's/JAVA_OPTS="$JAVA_OPTS/JAVA_OPTS="$JAVA_OPTS -Dci.jenkins.host=http:\/\/javacloud-jenkins:8082\/jenkins -Ddb.mysql.url=jdbc:mysql:\/\/javacloud-mysql:3306 -Ddb.mongo.host=javacloud-mongodb/g' /usr/local/tomcat/bin/catalina.sh
 
 # Install Maven and Gradle 
-RUN apt-get update && apt-get upgrade && apt-get install -y maven && apt-get install -y gradle
+RUN apt-get update && apt-get upgrade && apt-get install -y maven
+RUN apt-get update && apt-get upgrade && apt-get install -y gradle
 
 # Install GIT 
 RUN apt-get update && apt-get upgrade && apt-get install -y git 
