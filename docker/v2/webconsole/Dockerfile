@@ -13,6 +13,8 @@ RUN apt-get update && apt-get install -y git
 RUN git config --global user.name "JavaCloud" && git config --global user.email "javacloud@sam-solutions.com" 
 EXPOSE 9418
 
+RUN nohup git daemon --reuseaddr --base-path=$HOME/.local_repositories --export-all --enable=receive-pack > /var/log/git-daemon.log &
+
 ADD tomcat-users.xml /usr/local/tomcat/conf/
 
 ADD context.xml /usr/local/tomcat/webapps/manager/META-INF/context.xml
