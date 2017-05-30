@@ -209,7 +209,7 @@ public class JenkinsProvider extends AbstractProvider<ICIMetadata>implements ICI
 					String jenkinsVersion = response.getFirstHeader("X-Jenkins").getValue();
 					StringBuilder sb = new StringBuilder();
 					String hostName = host.equals("localhost") ? InetAddress.getLocalHost().getHostName() : host;
-					URL url = new URL("http", hostName, port, "");
+					URL url = new URL("http", hostName, port, getProperty("ci.jenkins.postfix"));
 					sb.append(url.toString()).append("\n");
 					sb.append("Jenkins: ");
 					sb.append(jenkinsVersion);
@@ -231,7 +231,7 @@ public class JenkinsProvider extends AbstractProvider<ICIMetadata>implements ICI
 			@Override
 			public boolean isAlive() {
 				try {
-					URL url = new URL("http", getHost(), Integer.valueOf(getPort()), "/api");
+					URL url = new URL("http", getHost(), Integer.valueOf(getPort()), getProperty("ci.jenkins.postfix") + "/api");
 					HttpGet request = new HttpGet(url.toString());
 					HttpResponse response = httpClient.execute(request);
 					return (response.getStatusLine().getStatusCode() == 200);
