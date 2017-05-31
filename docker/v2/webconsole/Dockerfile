@@ -2,14 +2,9 @@ FROM tomcat
 
 RUN apt-get update && apt-get install -y --no-install-recommends vim
 
-# Install Oracle JDK
-RUN apt-get -y install software-properties-common python-software-properties && \
-echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main" | tee /etc/apt/sources.list.d/webupd8team-java.list && \
-echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main" | tee -a /etc/apt/sources.list.d/webupd8team-java.list && \
-apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886 && \
-apt-get update && \
-apt-get install -y oracle-java8-installer && \
-apt-get install -y oracle-java8-set-default
+# Install Open JDK 8
+RUN apt-get update && \
+apt-get install openjdk-8-jdk
 
 # Install Maven and Gradle 
 RUN apt-get update && apt-get install -y maven && apt-get install -y gradle
