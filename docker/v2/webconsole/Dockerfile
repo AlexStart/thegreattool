@@ -7,7 +7,17 @@ RUN apt-get update && \
 apt-get install -y openjdk-8-jdk
 
 # Install Maven and Gradle 
-RUN apt-get update && apt-get install -y maven && apt-get install -y gradle
+#RUN apt-get update && apt-get install -y maven && apt-get install -y gradle
+
+# Maven 
+ARG MAVEN_VERSION=3.5.0 
+ARG SHA=beb91419245395bd69a4a6edad5ca3ec1a8b64e41457672dc687c173a495f034 
+RUN wget -O /tmp/apache-maven-${MAVEN_VERSION}.tar.gz http://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz \ 
+&& tar xzf /tmp/apache-maven-${MAVEN_VERSION}.tar.gz -C /tmp \ 
+&& echo "${SHA}  /tmp/apache-maven-3.5.0.tar.gz" | sha256sum -c - 
+
+ENV MAVEN_HOME /tmp/apache-maven-${MAVEN_VERSION} 
+ENV PATH $PATH:$MAVEN_HOME/bin 
 
 # Install GIT 
 RUN apt-get update && apt-get install -y git 
