@@ -2,7 +2,8 @@ FROM jenkins
 
 #
 USER root
-RUN apt-get update && apt-get install -y sudo
+#RUN apt-get update && apt-get install -y sudo
+RUN mkdir -p /root/.ci_repositories && chown -R jenkins /root/.ci_repositories
 # drop back to the regular jenkins user - good practice
 USER jenkins
 
