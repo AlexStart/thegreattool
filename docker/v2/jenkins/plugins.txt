@@ -16,3 +16,4 @@ ssh-agent
 maven-plugin
 gradle
 javadoc
+copy-data-to-workspace-plugin 
