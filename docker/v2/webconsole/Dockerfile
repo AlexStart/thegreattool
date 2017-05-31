@@ -4,7 +4,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends vim
 
 # Install Open JDK 8
 RUN apt-get update && \
-apt-get install openjdk-8-jdk
+apt-get install -y openjdk-8-jdk
 
 # Install Maven and Gradle 
 RUN apt-get update && apt-get install -y maven && apt-get install -y gradle
