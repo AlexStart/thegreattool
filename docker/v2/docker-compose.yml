@@ -9,6 +9,8 @@ services:
     build: jenkins
     ports:
      - "127.0.0.1:8082:8082"
+    volumes:
+     - data-volume:/javacloud/datavolume
     container_name: "javacloud-jenkins"
   alpine-java:
     build: alpine-java
