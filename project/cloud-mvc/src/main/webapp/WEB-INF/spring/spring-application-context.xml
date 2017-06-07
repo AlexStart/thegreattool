@@ -6,10 +6,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:property-placeholder location="classpath:cloud.properties" />
 	<context:property-placeholder
-		location="file:${user.home}/cloud-override.properties"
-		ignore-resource-not-found="true" />
+		location="classpath:cloud.properties,file:${user.home}/cloud-override.properties" />
+
+	<!-- context:property-placeholder location="file:${user.home}/cloud-override.properties" 
+		order="2" ignore-resource-not-found="true" / -->
 
 	<!-- bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer"> 
 		<property name="locations"> <list> <value>classpath:cloud.properties</value> 
