@@ -54,4 +54,4 @@ services:
 #  - JavaCloudDataVolume:/javacloud/datavolume
 
 volumes:
-  javacloud-data-volume:
+  data-volume:
