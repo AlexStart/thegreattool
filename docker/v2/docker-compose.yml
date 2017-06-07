@@ -48,6 +48,10 @@ services:
     ports:
      - "127.0.0.1:8080:8080"  
     container_name: "javacloud-webconsole"
-volumes:
+    
+#volumes:
   # Named volume
-  - JavaCloudDataVolume:/javacloud/datavolume
+#  - JavaCloudDataVolume:/javacloud/datavolume
+
+volumes:
+  javacloud-data-volume:
