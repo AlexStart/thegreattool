@@ -1,7 +1,4 @@
 version: '3'
-volumes:
-  # Named volume
-  - JavaCloudDataVolume:/javacloud/datavolume
 services:
   nexus:
     build: nexus
@@ -51,3 +48,6 @@ services:
     ports:
      - "127.0.0.1:8080:8080"  
     container_name: "javacloud-webconsole"
+volumes:
+  # Named volume
+  - JavaCloudDataVolume:/javacloud/datavolume
