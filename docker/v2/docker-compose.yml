@@ -1,6 +1,7 @@
 version: '3'
 volumes:
-  -  JavaCloudDataVolume:/javacloud/datavolume
+  # Named volume
+  - JavaCloudDataVolume:/javacloud/datavolume
 services:
   nexus:
     build: nexus
