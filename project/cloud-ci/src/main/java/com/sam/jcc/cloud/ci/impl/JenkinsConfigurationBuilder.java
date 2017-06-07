@@ -1,5 +1,6 @@
 package com.sam.jcc.cloud.ci.impl;
 
+import com.sam.jcc.cloud.PropertyResolver;
 import com.sam.jcc.cloud.ci.CIProject;
 import com.sam.jcc.cloud.ci.exception.CIException;
 import com.sam.jcc.cloud.ci.impl.JenkinsProjectConfiguration.Builders.HudsonTasksBatchFile;
@@ -7,18 +8,18 @@ import com.sam.jcc.cloud.ci.impl.JenkinsProjectConfiguration.Builders.HudsonTask
 import com.sam.jcc.cloud.exception.InternalCloudException;
 import com.sam.jcc.cloud.i.Experimental;
 import com.sam.jcc.cloud.i.OSDependent;
+import com.sam.jcc.cloud.provider.UnsupportedTypeException;
 import com.sam.jcc.cloud.utils.files.ItemStorage;
 import com.sam.jcc.cloud.utils.parsers.ProjectParser;
+import com.sam.jcc.cloud.vcs.git.impl.GitFileProvider;
+import com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider;
 import org.springframework.core.io.ClassPathResource;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 
 import static com.sam.jcc.cloud.utils.SystemUtils.isWindowsOS;
 
@@ -52,20 +53,54 @@ class JenkinsConfigurationBuilder {
     private String buildUnsecured(CIProject project) throws JAXBException {
         final JenkinsProjectConfiguration config = jaxbSupport.marshal("/basic-config.xml");
 
-        setUpProjectDir(config, project);
+        //TODO[rfisenko 6/7/17]: make refactoring after gitlab implementation
+        if (null == project.getVcsType() || project.getVcsType().isEmpty()) {
+            setUpNonVCSSrc(config, project);
+        } else if (GitFileProvider.TYPE.equals(project.getVcsType())) {
+            setUpGitPlugin(config, createGitFileUrl(project));
+        } else if (GitProtocolProvider.TYPE.equals(project.getVcsType())) {
+            throw new UnsupportedOperationException();//TODO[rfisenko 6/7/17]: implement it
+        } else {
+            throw new UnsupportedTypeException(project.getVcsType());
+        }
 
-        boolean maven = parser.isMaven(workspace.get(project));
+        boolean maven = parser.isMaven(workspace.get(project));//TODO[rfisenko 6/7/17]: use checking without ci_repository
         setUpBuilder(config, maven);
         setUpArtifacts(config, maven);
 
         return jaxbSupport.unmarshal(config);
     }
 
-    private void setUpProjectDir(JenkinsProjectConfiguration config, CIProject project) {
-        final String dir = workspace.get(project).getAbsolutePath();
+    @Deprecated
+    private String createGitFileUrl(CIProject project) {
+        return PropertyResolver.getProperty("repository.base.folder") + File.separator + project.getName();
+    }
 
-        config
-                .getBuildWrappers()
+
+    /**
+     * Setup git plugin configuration
+     *
+     * @param config jenkins config
+     * @param url    url
+     */
+    //TODO[rfisenko 6/7/17]: use object instead url
+    private void setUpGitPlugin(JenkinsProjectConfiguration config, String url) {
+        //TODO[rfisenko 6/7/17]: prepare all config values for deleting dependency to basic-config.xml
+        config.getScm().getUserRemoteConfigs().getHudsonPluginsGitUserRemoteConfig().setUrl(url);
+    }
+
+    /**
+     * Set up using source code without vcs
+     *
+     * @param config  jenkins config
+     * @param project project data
+     * @deprecated Copy-to-workspace plugin must be removed after gitlab implementation
+     */
+    @Deprecated
+    private void setUpNonVCSSrc(JenkinsProjectConfiguration config, CIProject project) {
+        config.getScm().setClazz("hudson.scm.NullSCM");
+        final String dir = workspace.get(project).getAbsolutePath();
+        config.getBuildWrappers()
                 .getHpiCopyDataToWorkspacePlugin()
                 .setFolderPath(dir);
     }

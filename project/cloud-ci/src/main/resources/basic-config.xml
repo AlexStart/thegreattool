@@ -4,7 +4,22 @@
     <description></description>
     <keepDependencies>false</keepDependencies>
     <properties/>
-    <scm class="hudson.scm.NullSCM"/>
+    <scm class="hudson.plugins.git.GitSCM" plugin="git@3.3.0"><!--todo remove hardcode-->
+        <configVersion>2</configVersion>
+        <userRemoteConfigs>
+            <hudson.plugins.git.UserRemoteConfig>
+                <url><!--url of path to git repo--></url>
+            </hudson.plugins.git.UserRemoteConfig>
+        </userRemoteConfigs>
+        <branches>
+            <hudson.plugins.git.BranchSpec>
+                <name>*/master</name>
+            </hudson.plugins.git.BranchSpec>
+        </branches>
+        <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+        <submoduleCfg class="list"/>
+        <extensions/>
+    </scm>
     <canRoam>true</canRoam>
     <disabled>false</disabled>
     <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
@@ -38,8 +53,8 @@
                 <hudson.plugins.build__timeout.operations.FailOperation/>
             </operationList>
         </hudson.plugins.build__timeout.BuildTimeoutWrapper>
-        <hpi.CopyDataToWorkspacePlugin plugin="copy-data-to-workspace-plugin@1.0">
-            <folderPath><!-- Path to our workspace --></folderPath>
+        <hpi.CopyDataToWorkspacePlugin plugin="copy-data-to-workspace-plugin@1.0"><!---->
+            <folderPath><!-- Path to our workspace --></folderPath><!--todo: remove this plugin after gitlab implementation-->
             <makeFilesExecutable>true</makeFilesExecutable>
             <deleteFilesAfterBuild>false</deleteFilesAfterBuild>
         </hpi.CopyDataToWorkspacePlugin>

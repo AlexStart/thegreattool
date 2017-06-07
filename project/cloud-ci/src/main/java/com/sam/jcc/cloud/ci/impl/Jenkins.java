@@ -1,23 +1,5 @@
 package com.sam.jcc.cloud.ci.impl;
 
-import static com.google.common.collect.Maps.immutableEntry;
-import static com.google.common.collect.Sets.newHashSet;
-import static com.offbytwo.jenkins.model.Build.BUILD_HAS_NEVER_RAN;
-import static com.sam.jcc.cloud.PropertyResolver.getProperty;
-import static org.apache.commons.io.IOUtils.closeQuietly;
-import static org.springframework.util.StreamUtils.copyToByteArray;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
-
 import com.google.common.annotations.VisibleForTesting;
 import com.offbytwo.jenkins.JenkinsServer;
 import com.offbytwo.jenkins.model.Artifact;
@@ -33,9 +15,25 @@ import com.sam.jcc.cloud.ci.exception.CIProjectAlreadyExistsException;
 import com.sam.jcc.cloud.ci.exception.CIServerNotAvailableException;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.ItemStorage;
-
 import lombok.AccessLevel;
 import lombok.Getter;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
+
+import static com.google.common.collect.Maps.immutableEntry;
+import static com.google.common.collect.Sets.newHashSet;
+import static com.offbytwo.jenkins.model.Build.BUILD_HAS_NEVER_RAN;
+import static com.sam.jcc.cloud.PropertyResolver.getProperty;
+import static org.apache.commons.io.IOUtils.closeQuietly;
+import static org.springframework.util.StreamUtils.copyToByteArray;
 
 /**
  * @author Alexey Zhytnik
@@ -54,7 +52,7 @@ public class Jenkins implements CIServer {
 	private ItemStorage<CIProject> workspace;
 
 	private JenkinsJobManager jobManager;
-	private JenkinsConfigurationBuilder builder;
+	private JenkinsConfigurationBuilder configBuilder;
 
 	// TODO(a bad part of the app): should be compliant with Spring
 	public Jenkins() {
@@ -74,24 +72,24 @@ public class Jenkins implements CIServer {
 		workspace.setRoot(root);
 
 		jobManager = new JenkinsJobManager(server);
-		builder = new JenkinsConfigurationBuilder(workspace);
+		configBuilder = new JenkinsConfigurationBuilder(workspace);
 	}
 
 	@SuppressWarnings("unchecked")
 	// TODO: maybe transfer to top level as separated feature
 	private void installRequiredPlugins() {
 		new JenkinsPluginInstaller(server).install(newHashSet(immutableEntry("copyartifact", "1.38.1"), // TODO
-																										// hardcoded.
-																										// Move
-																										// to
-																										// the
-																										// properties
+				// hardcoded.
+				// Move
+				// to
+				// the
+				// properties
 				immutableEntry("copy-data-to-workspace-plugin", "1.0") // TODO
-																		// hardcoded.
-																		// Move
-																		// to
-																		// the
-																		// properties
+				// hardcoded.
+				// Move
+				// to
+				// the
+				// properties
 		));
 	}
 
@@ -105,11 +103,11 @@ public class Jenkins implements CIServer {
 		failOnExist(project);
 		try {
 			workspace.create(project);
-			updateSources(project);
-			final String config = builder.build(project);
+			copySourcesToCIRepo(project);
+			final String config = configBuilder.build(project);
 			server.createJob(project.getName(), config, true);
 		} catch (IOException e) {
-			workspace.delete(project);
+			workspace.delete(project);//TODO[rfisenko 6/7/17]: delete after gitlab implementation
 			throw new CIException(e);
 		}
 	}
@@ -123,7 +121,7 @@ public class Jenkins implements CIServer {
 	@Override
 	public void build(CIProject project) {
 		final JobWithDetails job = jobManager.loadJob(project);
-		updateSources(project);
+		copySourcesToCIRepo(project);
 		try {
 			job.build(true);
 		} catch (IOException e) {
@@ -131,7 +129,15 @@ public class Jenkins implements CIServer {
 		}
 	}
 
-	private void updateSources(CIProject project) {
+	/**
+	 * Copy sources from project to CI local repository
+	 * NOTE: Also it need for checking project as maven or gradle. Please change checking method before removing
+	 *
+	 * @param project project data
+	 * @deprecated method will deleted after gitlab implementation
+	 */
+	@Deprecated
+	private void copySourcesToCIRepo(CIProject project) {
 		final FileManager files = new FileManager();
 		final File src = workspace.get(project);
 
@@ -208,11 +214,11 @@ public class Jenkins implements CIServer {
 	}
 
 	public static JenkinsServer defaultJenkinsServer() {
-		
-		return new JenkinsServer(URI.create(getProperty("ci.jenkins.host")));		
-		
+
+		return new JenkinsServer(URI.create(getProperty("ci.jenkins.host")));
+
 		// TODO Commented because User Management is not implemented yet.
-		
+
 //		return new JenkinsServer(URI.create(getProperty("ci.jenkins.host")), getProperty("ci.jenkins.user"),
 //				getProperty("ci.jenkins.password"));
 	}

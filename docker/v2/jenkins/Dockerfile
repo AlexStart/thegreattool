@@ -8,7 +8,7 @@ RUN mkdir -p /root/.ci_repositories
 # drop back to the regular jenkins user - good practice
 USER jenkins
 
-ENV JENKINS_OPTS "--httpPort=8082 --prefix=/jenkins"
+ENV JENKINS_OPTS "--httpPort=8082"
 ARG jenkins_install_wizard=false 
 ENV JAVA_OPTS -Djenkins.install.runSetupWizard=$jenkins_install_wizard
 EXPOSE 8082
