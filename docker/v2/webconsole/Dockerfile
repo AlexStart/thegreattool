@@ -45,4 +45,4 @@ ADD context.xml /usr/local/tomcat/webapps/manager/META-INF/context.xml
 ADD cloud-override.properties /root/cloud-override.properties
 
 # TODO temporary!
-RUN wget -P /usr/local/tomcat/webapps/ http://mirrors.jenkins-ci.org/war/latest/jenkins.war
+#RUN wget -P /usr/local/tomcat/webapps/ http://mirrors.jenkins-ci.org/war/latest/jenkins.war
