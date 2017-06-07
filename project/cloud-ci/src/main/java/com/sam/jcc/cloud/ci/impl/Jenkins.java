@@ -12,7 +12,6 @@ import com.sam.jcc.cloud.ci.CIServer;
 import com.sam.jcc.cloud.ci.exception.CIBuildNotFoundException;
 import com.sam.jcc.cloud.ci.exception.CIException;
 import com.sam.jcc.cloud.ci.exception.CIProjectAlreadyExistsException;
-import com.sam.jcc.cloud.ci.exception.CIServerNotAvailableException;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.ItemStorage;
 import lombok.AccessLevel;
@@ -54,18 +53,28 @@ public class Jenkins implements CIServer {
 	private JenkinsJobManager jobManager;
 	private JenkinsConfigurationBuilder configBuilder;
 
+	private boolean connected;
+
 	// TODO(a bad part of the app): should be compliant with Spring
 	public Jenkins() {
-		this(defaultJenkinsServer(), defaultWorkspace());
+		init(defaultJenkinsServer(), defaultWorkspace());
 	}
 
+	@VisibleForTesting
 	public Jenkins(JenkinsServer jenkins, File root) {
+		init(jenkins, root);
+	}
+
+	private void init(JenkinsServer jenkins, File root) {
 		server = jenkins;
 
-		if (!server.isRunning()) {
-			throw new CIServerNotAvailableException();
+		// Issue # 29 Make all system connections LAZY
+		if (connected = server.isRunning()) {
+			prepareJenkins(root);
 		}
+	}
 
+	private void prepareJenkins(File root) {
 		installRequiredPlugins();
 
 		workspace = new ItemStorage<>(CIProject::getName, null);
@@ -95,6 +104,10 @@ public class Jenkins implements CIServer {
 
 	@Override
 	public boolean isEnabled() {
+		if (!server.isRunning() || !connected) {
+			// Issue # 29 Make all system connections LAZY
+			init(defaultJenkinsServer(), defaultWorkspace()); // reconnect
+		}
 		return server.isRunning();
 	}
 
@@ -219,7 +232,8 @@ public class Jenkins implements CIServer {
 
 		// TODO Commented because User Management is not implemented yet.
 
-//		return new JenkinsServer(URI.create(getProperty("ci.jenkins.host")), getProperty("ci.jenkins.user"),
-//				getProperty("ci.jenkins.password"));
+		// return new JenkinsServer(URI.create(getProperty("ci.jenkins.host")),
+		// getProperty("ci.jenkins.user"),
+		// getProperty("ci.jenkins.password"));
 	}
 }
