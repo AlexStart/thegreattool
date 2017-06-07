@@ -46,12 +46,10 @@ services:
   webconsole:
     build: webconsole
     ports:
-     - "127.0.0.1:8080:8080"  
+     - "127.0.0.1:8080:8080"
+    volumes:
+     - data-volume:/javacloud/datavolume
     container_name: "javacloud-webconsole"
-    
-#volumes:
-  # Named volume
-#  - JavaCloudDataVolume:/javacloud/datavolume
 
 volumes:
-  data-volume:/javacloud/datavolume
+  data-volume:
