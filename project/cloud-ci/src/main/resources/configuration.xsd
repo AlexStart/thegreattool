@@ -9,11 +9,44 @@
                 <xs:element type="xs:string" name="properties"/>
                 <xs:element name="scm">
                     <xs:complexType>
-                        <xs:simpleContent>
-                            <xs:extension base="xs:string">
-                                <xs:attribute type="xs:string" name="class"/>
-                            </xs:extension>
-                        </xs:simpleContent>
+                        <xs:sequence>
+                            <xs:element name="configVersion" type="xs:int"/>
+                            <xs:element name="userRemoteConfigs">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="hudson.plugins.git.UserRemoteConfig">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="url" type="xs:string"/>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="branches">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="hudson.plugins.git.BranchSpec">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="name" type="xs:string"/>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="doGenerateSubmoduleConfigurations" type="xs:boolean"/>
+                            <xs:element name="submoduleCfg">
+                                <xs:complexType>
+                                    <xs:attribute name="class" type="xs:string"/>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="extensions" type="xs:string"/>
+                        </xs:sequence>
+                        <xs:attribute name="class" type="xs:string"/>
+                        <xs:attribute name="plugin" type="xs:string"/>
                     </xs:complexType>
                 </xs:element>
                 <xs:element type="xs:string" name="canRoam"/>

@@ -26,6 +26,7 @@ public class CIProject implements ICIMetadata, IStatusable {
 	private String artifactId;
 	private String type;
 	private CIProjectStatus status = CONFIGURED;
+	private String vcsType; //TODO[rfisenko 6/6/17]: Replace to object after gitlab implementation
 
 	/**
 	 * Generates a identifier of CIProject. Used only for internal module

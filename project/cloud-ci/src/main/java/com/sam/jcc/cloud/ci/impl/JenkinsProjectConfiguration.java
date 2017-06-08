@@ -2,13 +2,7 @@ package com.sam.jcc.cloud.ci.impl;
 
 import lombok.Data;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlValue;
+import javax.xml.bind.annotation.*;
 
 @Data
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -230,13 +224,79 @@ public class JenkinsProjectConfiguration {
     @Data
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
-            "value"
+            "configVersion",
+            "userRemoteConfigs",
+            "branches",
+            "doGenerateSubmoduleConfigurations",
+            "submoduleCfg",
+            "extensions"
     })
     public static class Scm {
 
-        @XmlValue
-        protected String value;
+        protected int configVersion;
+        @XmlElement(required = true)
+        protected JenkinsProjectConfiguration.Scm.UserRemoteConfigs userRemoteConfigs;
+        @XmlElement(required = true)
+        protected JenkinsProjectConfiguration.Scm.Branches branches;
+        protected boolean doGenerateSubmoduleConfigurations;
+        @XmlElement(required = true)
+        protected JenkinsProjectConfiguration.Scm.SubmoduleCfg submoduleCfg;
+        @XmlElement(required = true)
+        protected String extensions;
         @XmlAttribute(name = "class")
         protected String clazz;
+        @XmlAttribute(name = "plugin")
+        protected String plugin;
+
+        @Data
+        @XmlAccessorType(XmlAccessType.FIELD)
+        @XmlType(name = "", propOrder = {
+                "hudsonPluginsGitBranchSpec"
+        })
+        public static class Branches {
+
+            @XmlElement(name = "hudson.plugins.git.BranchSpec", required = true)
+            protected JenkinsProjectConfiguration.Scm.Branches.HudsonPluginsGitBranchSpec hudsonPluginsGitBranchSpec;
+
+            @XmlAccessorType(XmlAccessType.FIELD)
+            @XmlType(name = "", propOrder = {
+                    "name"
+            })
+            public static class HudsonPluginsGitBranchSpec {
+                @XmlElement(required = true)
+                protected String name;
+            }
+        }
+
+        @Data
+        @XmlAccessorType(XmlAccessType.FIELD)
+        @XmlType(name = "")
+        public static class SubmoduleCfg {
+
+            @XmlAttribute(name = "class")
+            protected String clazz;
+
+        }
+
+        @Data
+        @XmlAccessorType(XmlAccessType.FIELD)
+        @XmlType(name = "", propOrder = {
+                "hudsonPluginsGitUserRemoteConfig"
+        })
+        public static class UserRemoteConfigs {
+
+            @XmlElement(name = "hudson.plugins.git.UserRemoteConfig", required = true)
+            protected JenkinsProjectConfiguration.Scm.UserRemoteConfigs.HudsonPluginsGitUserRemoteConfig hudsonPluginsGitUserRemoteConfig;
+
+            @Data
+            @XmlAccessorType(XmlAccessType.FIELD)
+            @XmlType(name = "", propOrder = {
+                    "url"
+            })
+            public static class HudsonPluginsGitUserRemoteConfig {
+                @XmlElement(required = true)
+                protected String url;
+            }
+        }
     }
 }
