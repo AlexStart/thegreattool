@@ -4,8 +4,9 @@ FROM jenkins
 USER root
 RUN apt-get update && apt-get install -y sudo
 
-# For Jenkins user; TODO hardcoded path
+# For Jenkins user; TODO hardcoded path!!!
 RUN mkdir -p /javacloud/datavolume/.ci_repositories && chmod -R 0777 /javacloud/datavolume/.ci_repositories
+RUN mkdir -p /javacloud/datavolume/.local_repositories && chmod -R 0777 /javacloud/datavolume/.local_repositories
 
 # drop back to the regular jenkins user - good practice
 USER jenkins
