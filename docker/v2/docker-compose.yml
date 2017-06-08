@@ -11,7 +11,8 @@ services:
      - "127.0.0.1:8082:8082"
     container_name: "javacloud-jenkins"
     volumes:
-     - data-volume:/javacloud/datavolume
+     #- data-volume:/javacloud/datavolume
+      - $HOME/.ci_repositories:$HOME/.ci_repositories
      #todo: remove this values in future
       #NOTE: This value must be identical with cloud.properties#ci.workspace.folder and relevant cloud-override.properties property
      #- /javacloud/datavolume/.ci_repositories:/javacloud/datavolume/.ci_repositories
