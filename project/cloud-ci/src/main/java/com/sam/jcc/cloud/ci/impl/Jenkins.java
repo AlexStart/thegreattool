@@ -42,198 +42,196 @@ import static org.springframework.util.StreamUtils.copyToByteArray;
 @Profile("prod")
 public class Jenkins implements CIServer {
 
-	@VisibleForTesting
-	@Getter(AccessLevel.PACKAGE)
-	private JenkinsServer server;
+    @VisibleForTesting
+    @Getter(AccessLevel.PACKAGE)
+    private JenkinsServer server;
 
-	@VisibleForTesting
-	@Getter(AccessLevel.PACKAGE)
-	private ItemStorage<CIProject> workspace;
+    @VisibleForTesting
+    @Getter(AccessLevel.PACKAGE)
+    private ItemStorage<CIProject> workspace;
 
-	private JenkinsJobManager jobManager;
-	private JenkinsConfigurationBuilder configBuilder;
+    private JenkinsJobManager jobManager;
+    private JenkinsConfigurationBuilder configBuilder;
 
-	private boolean connected;
+    private boolean connected;
 
-	// TODO(a bad part of the app): should be compliant with Spring
-	public Jenkins() {
-		init(defaultJenkinsServer(), defaultWorkspace());
-	}
+    // TODO(a bad part of the app): should be compliant with Spring
+    public Jenkins() {
+        init(defaultJenkinsServer(), defaultWorkspace());
+    }
 
-	@VisibleForTesting
-	public Jenkins(JenkinsServer jenkins, File root) {
-		init(jenkins, root);
-	}
+    @VisibleForTesting
+    public Jenkins(JenkinsServer jenkins, File root) {
+        init(jenkins, root);
+    }
 
-	private void init(JenkinsServer jenkins, File root) {
-		server = jenkins;
+    private void init(JenkinsServer jenkins, File root) {
+        server = jenkins;
 
-		// Issue # 29 Make all system connections LAZY
-		if (connected = server.isRunning()) {
-			prepareJenkins(root);
-		}
-	}
+        // Issue # 29 Make all system connections LAZY
+        if (connected = server.isRunning()) {
+            prepareJenkins(root);
+        }
+    }
 
-	private void prepareJenkins(File root) {
-		installRequiredPlugins();
+    private void prepareJenkins(File root) {
+        installRequiredPlugins();
 
-		workspace = new ItemStorage<>(CIProject::getName, null);
-		workspace.setRoot(root);
+        workspace = new ItemStorage<>(CIProject::getName, null);
+        workspace.setRoot(root);
 
-		jobManager = new JenkinsJobManager(server);
-		configBuilder = new JenkinsConfigurationBuilder(workspace);
-	}
+        jobManager = new JenkinsJobManager(server);
+        configBuilder = new JenkinsConfigurationBuilder(workspace);
+    }
 
-	@SuppressWarnings("unchecked")
-	// TODO: maybe transfer to top level as separated feature
-	private void installRequiredPlugins() {
-		new JenkinsPluginInstaller(server).install(newHashSet(immutableEntry("copyartifact", "1.38.1"), // TODO
-				// hardcoded.
-				// Move
-				// to
-				// the
-				// properties
-				immutableEntry("copy-data-to-workspace-plugin", "1.0") // TODO
-				// hardcoded.
-				// Move
-				// to
-				// the
-				// properties
-		));
-	}
+    @SuppressWarnings("unchecked")
+    // TODO: maybe transfer to top level as separated feature
+    private void installRequiredPlugins() {
+        new JenkinsPluginInstaller(server).install(newHashSet(immutableEntry("copyartifact", "1.38.1"), // TODO
+                // hardcoded.
+                // Move
+                // to
+                // the
+                // properties
+                immutableEntry("copy-data-to-workspace-plugin", "1.0") // TODO
+                // hardcoded.
+                // Move
+                // to
+                // the
+                // properties
+        ));
+    }
 
-	@Override
-	public boolean isEnabled() {
-		if (!server.isRunning() || !connected) {
-			// Issue # 29 Make all system connections LAZY
-			init(defaultJenkinsServer(), defaultWorkspace()); // reconnect
-		}
-		return server.isRunning();
-	}
+    @Override
+    public boolean isEnabled() {
+        if (!server.isRunning() || !connected) {
+            // Issue # 29 Make all system connections LAZY
+            init(defaultJenkinsServer(), defaultWorkspace()); // reconnect
+        }
+        return server.isRunning();
+    }
 
-	@Override
-	public void create(CIProject project) {
-		failOnExist(project);
-		try {
-			workspace.create(project);
-			copySourcesToCIRepo(project);
-			final String config = configBuilder.build(project);
-			server.createJob(project.getName(), config, true);
-		} catch (IOException e) {
-			workspace.delete(project);//TODO[rfisenko 6/7/17]: delete after gitlab implementation
-			throw new CIException(e);
-		}
-	}
+    @Override
+    public void create(CIProject project) {
+        failOnExist(project);
+        try {
+            workspace.create(project);
+            copySourcesToCIRepo(project);
+            final String config = configBuilder.build(project);
+            server.createJob(project.getName(), config, true);
+        } catch (IOException e) {
+            workspace.delete(project);
+            throw new CIException(e);
+        }
+    }
 
-	private void failOnExist(CIProject project) {
-		if (jobManager.hasJob(project)) {
-			throw new CIProjectAlreadyExistsException(project);
-		}
-	}
+    private void failOnExist(CIProject project) {
+        if (jobManager.hasJob(project)) {
+            throw new CIProjectAlreadyExistsException(project);
+        }
+    }
 
-	@Override
-	public void build(CIProject project) {
-		final JobWithDetails job = jobManager.loadJob(project);
-		copySourcesToCIRepo(project);
-		try {
-			job.build(true);
-		} catch (IOException e) {
-			throw new CIException(e);
-		}
-	}
+    @Override
+    public void build(CIProject project) {
+        final JobWithDetails job = jobManager.loadJob(project);
+        copySourcesToCIRepo(project);
+        try {
+            job.build(true);
+        } catch (IOException e) {
+            throw new CIException(e);
+        }
+    }
 
-	/**
-	 * Copy sources from project to CI local repository
-	 * NOTE: Also it need for checking project as maven or gradle. Please change checking method before removing
-	 *
-	 * @param project project data
-	 * @deprecated method will deleted after gitlab implementation
-	 */
-	@Deprecated
-	private void copySourcesToCIRepo(CIProject project) {
-		final FileManager files = new FileManager();
-		final File src = workspace.get(project);
+    /**
+     * Copy sources from project to CI local repository
+     * NOTE: Also it need for checking project as maven or gradle. Please change checking method before removing
+     *
+     * @param project project data
+     */
+    private void copySourcesToCIRepo(CIProject project) {
+        final FileManager files = new FileManager();
+        final File src = workspace.get(project);
 
-		files.cleanDir(src);
-		files.copyDir(project.getSources(), src);
-	}
+        files.cleanDir(src);
+        files.copyDir(project.getSources(), src);
+    }
 
-	@Override
-	public byte[] getLastSuccessfulBuild(CIProject project) {
-		final JobWithDetails job = jobManager.loadJob(project);
-		final Build build = job.getLastSuccessfulBuild();
+    @Override
+    public byte[] getLastSuccessfulBuild(CIProject project) {
+        final JobWithDetails job = jobManager.loadJob(project);
+        final Build build = job.getLastSuccessfulBuild();
 
-		if (build.equals(BUILD_HAS_NEVER_RAN)) {
-			throw new CIBuildNotFoundException(project, getLastBuildStatus(project), getLog(job));
-		}
-		try {
-			final BuildWithDetails details = build.details();
-			final Optional<Artifact> artifact = details.getArtifacts().stream().findFirst();
+        if (build.equals(BUILD_HAS_NEVER_RAN)) {
+            throw new CIBuildNotFoundException(project, getLastBuildStatus(project), getLog(job));
+        }
+        try {
+            final BuildWithDetails details = build.details();
+            final Optional<Artifact> artifact = details.getArtifacts().stream().findFirst();
 
-			if (!artifact.isPresent()) {
-				throw new CIBuildNotFoundException(project, getLastBuildStatus(project), getLog(job));
-			}
-			final InputStream stream = details.downloadArtifact(artifact.get());
-			return getBytes(stream);
-		} catch (IOException | URISyntaxException e) {
-			throw new CIException(e);
-		}
-	}
+            if (!artifact.isPresent()) {
+                throw new CIBuildNotFoundException(project, getLastBuildStatus(project), getLog(job));
+            }
+            final InputStream stream = details.downloadArtifact(artifact.get());
+            return getBytes(stream);
+        } catch (IOException | URISyntaxException e) {
+            throw new CIException(e);
+        }
+    }
 
-	private String getLog(JobWithDetails job) {
-		final Build build = job.getLastBuild();
+    private String getLog(JobWithDetails job) {
+        final Build build = job.getLastBuild();
 
-		if (build.equals(BUILD_HAS_NEVER_RAN))
-			return "";
+        if (build.equals(BUILD_HAS_NEVER_RAN))
+            return "";
 
-		try {
-			return build.details().getConsoleOutputText();
-		} catch (IOException e) {
-			throw new CIException(e);
-		}
-	}
+        try {
+            return build.details().getConsoleOutputText();
+        } catch (IOException e) {
+            throw new CIException(e);
+        }
+    }
 
-	private byte[] getBytes(InputStream stream) throws IOException {
-		try {
-			return copyToByteArray(stream);
-		} finally {
-			closeQuietly(stream);
-		}
-	}
+    private byte[] getBytes(InputStream stream) throws IOException {
+        try {
+            return copyToByteArray(stream);
+        } finally {
+            closeQuietly(stream);
+        }
+    }
 
-	@Override
-	public void delete(CIProject project) {
-		try {
-			jobManager.loadJob(project);
-			server.deleteJob(project.getName(), true);
-			workspace.delete(project);
-		} catch (IOException e) {
-			throw new CIException(e);
-		}
-	}
+    @Override
+    public void delete(CIProject project) {
+        try {
+            jobManager.loadJob(project);
+            server.deleteJob(project.getName(), true);
+            workspace.delete(project);
+        } catch (IOException e) {
+            throw new CIException(e);
+        }
+    }
 
-	@Override
-	public List<CIProject> getAllProjects() {
-		return jobManager.loadAllManagedProjects();
-	}
+    @Override
+    public List<CIProject> getAllProjects() {
+        return jobManager.loadAllManagedProjects();
+    }
 
-	@Override
-	public CIBuildStatus getLastBuildStatus(CIProject project) {
-		return jobManager.getBuildStatus(project);
-	}
+    @Override
+    public CIBuildStatus getLastBuildStatus(CIProject project) {
+        return jobManager.getBuildStatus(project);
+    }
 
-	private static File defaultWorkspace() {
-		return new File(getProperty("ci.workspace.folder"));
-	}
+    private static File defaultWorkspace() {
+        return new File(getProperty("ci.workspace.folder"));
+    }
 
-	public static JenkinsServer defaultJenkinsServer() {
+    public static JenkinsServer defaultJenkinsServer() {
 
-		return new JenkinsServer(URI.create(getProperty("ci.jenkins.host")));
+        return new JenkinsServer(URI.create(getProperty("ci.jenkins.host")));
 
-		// TODO Commented because User Management is not implemented yet.
+        // TODO Commented because User Management is not implemented yet.
 
-		// return new JenkinsServer(URI.create(getProperty("ci.jenkins.host")),
-		// getProperty("ci.jenkins.user"),
-		// getProperty("ci.jenkins.password"));
-	}
+        // return new JenkinsServer(URI.create(getProperty("ci.jenkins.host")),
+        // getProperty("ci.jenkins.user"),
+        // getProperty("ci.jenkins.password"));
+    }
 }

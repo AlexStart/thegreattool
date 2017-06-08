@@ -54,7 +54,7 @@
             </operationList>
         </hudson.plugins.build__timeout.BuildTimeoutWrapper>
         <hpi.CopyDataToWorkspacePlugin plugin="copy-data-to-workspace-plugin@1.0"><!---->
-            <folderPath><!-- Path to our workspace --></folderPath><!--todo: remove this plugin after gitlab implementation-->
+            <folderPath><!-- Path to our workspace --></folderPath>
             <makeFilesExecutable>true</makeFilesExecutable>
             <deleteFilesAfterBuild>false</deleteFilesAfterBuild>
         </hpi.CopyDataToWorkspacePlugin>

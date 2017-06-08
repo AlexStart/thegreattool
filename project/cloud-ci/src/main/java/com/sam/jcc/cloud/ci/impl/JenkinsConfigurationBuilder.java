@@ -60,7 +60,7 @@ class JenkinsConfigurationBuilder {
     }
 
     private void setUpVCS(CIProject project, JenkinsProjectConfiguration config) {
-        //TODO[rfisenko 6/7/17]: make refactoring after gitlab implementation
+        //TODO[rfisenko 6/8/17]: make refactoring
         if (null == project.getVcsType() || project.getVcsType().isEmpty()) {
             setUpNonVCSSrc(config, project);
         } else if (GitFileProvider.TYPE.equals(project.getVcsType())) {
@@ -73,12 +73,11 @@ class JenkinsConfigurationBuilder {
         }
     }
 
-    @Deprecated
+    //TODO[rfisenko 6/8/17]: create different providers for configuring and move this methods
     private String createGitFileUrl(CIProject project) {
         return property("repository.base.folder") + File.separator + project.getName();
     }
 
-    @Deprecated
     private String createGitProtocolUrl(CIProject project) {
         return property("protocols.git") + property("git.remote.server.host") + ":"
                 + property("git.remote.server.port") + "/" + project.getName();
@@ -101,9 +100,7 @@ class JenkinsConfigurationBuilder {
      *
      * @param config  jenkins config
      * @param project project data
-     * @deprecated Copy-to-workspace plugin must be removed after gitlab implementation
      */
-    @Deprecated
     private void setUpNonVCSSrc(JenkinsProjectConfiguration config, CIProject project) {
         config.getScm().setClazz("hudson.scm.NullSCM");
         final String dir = workspace.get(project).getAbsolutePath();
