@@ -44,6 +44,9 @@ services:
         nginx['listen_port'] = 8083
         gitlab_rails['gitlab_shell_ssh_port'] = 8322
     container_name: "javacloud-gitlab"
+  sonarqube:
+    build: sonarqube
+    container_name: "javacloud-sonarqube"
   redis:
     image: "redis:alpine"
     container_name: "javacloud-redis"   
