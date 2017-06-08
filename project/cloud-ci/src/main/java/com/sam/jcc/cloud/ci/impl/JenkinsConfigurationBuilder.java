@@ -52,30 +52,37 @@ class JenkinsConfigurationBuilder {
 
     private String buildUnsecured(CIProject project) throws JAXBException {
         final JenkinsProjectConfiguration config = jaxbSupport.marshal("/basic-config.xml");
+        setUpVCS(project, config);
+        boolean maven = parser.isMaven(workspace.get(project));//TODO[rfisenko 6/7/17]: use checking without ci_repository
+        setUpBuilder(config, maven);
+        setUpArtifacts(config, maven);
+        return jaxbSupport.unmarshal(config);
+    }
 
+    private void setUpVCS(CIProject project, JenkinsProjectConfiguration config) {
         //TODO[rfisenko 6/7/17]: make refactoring after gitlab implementation
         if (null == project.getVcsType() || project.getVcsType().isEmpty()) {
             setUpNonVCSSrc(config, project);
         } else if (GitFileProvider.TYPE.equals(project.getVcsType())) {
             setUpGitPlugin(config, createGitFileUrl(project));
         } else if (GitProtocolProvider.TYPE.equals(project.getVcsType())) {
-            throw new UnsupportedOperationException();//TODO[rfisenko 6/7/17]: implement it
+            setUpNonVCSSrc(config, project); //TODO[rfisenko 6/8/17]: Temp solution. Change after docker networking configuration(git daemon visibility on jenkins container)
+//            setUpGitPlugin(config, createGitProtocolUrl(project));
         } else {
             throw new UnsupportedTypeException(project.getVcsType());
         }
-
-        boolean maven = parser.isMaven(workspace.get(project));//TODO[rfisenko 6/7/17]: use checking without ci_repository
-        setUpBuilder(config, maven);
-        setUpArtifacts(config, maven);
-
-        return jaxbSupport.unmarshal(config);
     }
 
     @Deprecated
     private String createGitFileUrl(CIProject project) {
-        return PropertyResolver.getProperty("repository.base.folder") + File.separator + project.getName();
+        return property("repository.base.folder") + File.separator + project.getName();
     }
 
+    @Deprecated
+    private String createGitProtocolUrl(CIProject project) {
+        return property("protocols.git") + property("git.remote.server.host") + ":"
+                + property("git.remote.server.port") + "/" + project.getName();
+    }
 
     /**
      * Setup git plugin configuration
@@ -187,5 +194,10 @@ class JenkinsConfigurationBuilder {
                 throw new InternalCloudException(e);
             }
         }
+
+    }
+
+    private String property(String key) {
+        return PropertyResolver.getProperty(key);
     }
 }

@@ -3,25 +3,26 @@ package com.sam.jcc.cloud.ci.impl;
 import com.sam.jcc.cloud.ci.CIProject;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.ItemStorage;
+import com.sam.jcc.cloud.vcs.git.impl.GitFileProvider;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+
+import java.io.IOException;
 
 import static com.sam.jcc.cloud.ci.impl.JenkinsConfigurationBuilder.MAVEN_ARTIFACTS;
 import static com.sam.jcc.cloud.ci.util.CIProjectTemplates.loadProject;
 import static com.sam.jcc.cloud.utils.SystemUtils.resetOSSettings;
 import static com.sam.jcc.cloud.utils.SystemUtils.setWindowsOS;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 /**
  * @author Alexey Zhytnik
  * @since 18-Dec-16
  */
-public class JenkinsConfigurationBuilderTest {
+public class JenkinsConfigurationBuilderTest extends JenkinsBaseTest {
 
     @Rule
     public TemporaryFolder temp = new TemporaryFolder();
@@ -55,7 +56,7 @@ public class JenkinsConfigurationBuilderTest {
 
     @Test
     public void configuresProjectsForDifferentOS() {
-        try{
+        try {
             setWindowsOS(true);
             assertThat(builder.build(mavenProject)).contains("mvnw.cmd install");
             assertThat(builder.build(gradleProject)).contains("gradlew.bat build");
@@ -85,7 +86,32 @@ public class JenkinsConfigurationBuilderTest {
         verify(workspace, atLeastOnce()).get(mavenProject);
     }
 
-    void copySourcesIntoWorkspace(CIProject project) {
+    @Test
+    public void setUpVCSTest() {
+        mavenProject.setVcsType(null);
+        assertThat(builder.build(mavenProject).contains("hudson.scm.NullSCM"));
+
+        mavenProject.setVcsType(GitFileProvider.TYPE);
+        assertThat(builder.build(mavenProject)).contains("scm class=\"hudson.plugins.git.GitSCM\"")
+                .containsPattern("<hudson.plugins.git.UserRemoteConfig>\n\\s*<url>\\S+</url>");
+
+        //TODO[rfisenko 6/8/17]: white same test for GitProtocolProvider
+    }
+
+    /**
+     * Check that config of created job in server same as generated.
+     * It need for checking that jenkins not modify configuration.
+     */
+    @Test
+    public void gitPluginConfigTest() throws IOException {
+        mavenProject.setVcsType(GitFileProvider.TYPE);
+        jenkins.create(mavenProject);
+        assertThat(jenkins.getServer().getJobXml(mavenProject.getName()))
+                .contains("scm class=\"hudson.plugins.git.GitSCM\"")
+                .containsPattern("<hudson.plugins.git.UserRemoteConfig>\n\\s*<url>\\S+</url>");
+    }
+
+    private void copySourcesIntoWorkspace(CIProject project) {
         new FileManager().copyDir(
                 project.getSources(),
                 workspace.create(project)

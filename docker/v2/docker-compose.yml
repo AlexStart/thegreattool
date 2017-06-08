@@ -9,10 +9,9 @@ services:
     build: jenkins
     ports:
      - "127.0.0.1:8082:8082"
-    volumes:
-     - data-volume:/javacloud/datavolume
     container_name: "javacloud-jenkins"
     volumes:
+     - data-volume:/javacloud/datavolume
       #TODO: It is temp solution. This volumes will removed after implementing GitLab.
       #NOTE: This value must be identical with cloud.properties#ci.workspace.folder
      - $HOME/.ci_repositories:$HOME/.ci_repositories
