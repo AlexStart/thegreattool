@@ -13,10 +13,10 @@ services:
     volumes:
      - data-volume:/javacloud/datavolume
      #todo: remove this values in future
-      #NOTE: This value must be identical with cloud.properties#ci.workspace.folder
-     - $HOME/.ci_repositories:$HOME/.ci_repositories
-      #NOTE: This value must be identical with cloud.properties#repository.base.folder
-     - $HOME/.local_repositories:$HOME/.local_repositories
+      #NOTE: This value must be identical with cloud.properties#ci.workspace.folder and relevant cloud-override.properties property
+     - /javacloud/datavolume/.ci_repositories:/javacloud/datavolume/.ci_repositories
+      #NOTE: This value must be identical with cloud.properties#repository.base.folder and relevant cloud-override.properties property
+     - /javacloud/datavolume/.local_repositories:/javacloud/datavolume/.local_repositories
   alpine-java:
     build: alpine-java
     container_name: "javacloud-deployments"
