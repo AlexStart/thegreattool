@@ -78,6 +78,8 @@ public class PropertyResolver {
 			String valueOverridden = configurationOverride.getString(key);
 			if (valueOverridden != null) {
 				value = valueOverridden;
+				// fix: expose to the rest of the world )
+				System.setProperty(key, valueOverridden);
 			}
 		}
 		return value;

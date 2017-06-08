@@ -36,7 +36,8 @@
 		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 
 	<beans:bean id="adminProperties"
-		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		class="org.springframework.beans.factory.config.PropertiesFactoryBean"
+		depends-on="initOnceAdminBean">
 		<beans:property name="location"
 			value="file:${javacloud.home}/sjc_admins.properties" />
 	</beans:bean>
