@@ -61,11 +61,11 @@ public class ProvidersTest {
 	@Test
 	public void listProvidersTest() {
 		assertNotNull(providers);
-		assertEquals(8, providers.size());
+		assertEquals(9, providers.size());
 		//
 		assertNotNull(providersWithHealth);
 		providersWithHealth.stream().map(p -> p.checkHealth().getUrl()).forEach(System.out::println);
-		assertEquals(7, providersWithHealth.size());
+		assertEquals(8, providersWithHealth.size());
 	}
 
 	@Test
@@ -78,7 +78,7 @@ public class ProvidersTest {
 	@Test
 	public void listVcsProvidersTest() {
 		assertNotNull(vcsProviders);
-		assertEquals(2, vcsProviders.size());
+		assertEquals(3, vcsProviders.size());
 		vcsProviders.stream().map(p -> p.getI18NName()).forEach(System.out::println);
 	}
 
