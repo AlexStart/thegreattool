@@ -117,12 +117,12 @@ public abstract class VCSProvider extends AbstractProvider<IVCSMetadata> impleme
         return m;
     }
 
-    private void updateStatus(IVCSMetadata m, VCSRepositoryStatus status) {
+    protected void updateStatus(IVCSMetadata m, VCSRepositoryStatus status) {
         asVCSRepository(m).setStatus(status);
         notify(m);
     }
 
-    private VCSRepository asVCSRepository(IVCSMetadata metadata) {
+    protected VCSRepository asVCSRepository(IVCSMetadata metadata) {
         if (!supports(metadata)) {
             throw new UnsupportedTypeException(metadata);
         }

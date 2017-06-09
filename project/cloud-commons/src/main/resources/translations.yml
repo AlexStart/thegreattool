@@ -54,6 +54,13 @@ JenkinsProvider:
   description:
     ru: "Jenkins CI"
     en: "Jenkins CI"
+GitlabProvider:
+  name:
+    ru: "GitLab"
+    en: "GitLab"
+  description:
+    ru: "GitLab репозиторий"
+    en: "GitLab repository"
 button:
   create:
     metadata:
