@@ -44,4 +44,4 @@ ADD context.xml /usr/local/tomcat/webapps/manager/META-INF/context.xml
 
 ADD cloud-override.properties /root/cloud-override.properties
 
-RUN mkdir -p $HOME/.ci_repositories && chown -R jenkins:jenkins $HOME/.ci_repositories
+RUN mkdir -p $HOME/.ci_repositories && chown -R 1000 $HOME/.ci_repositories
