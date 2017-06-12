@@ -13,7 +13,8 @@ FAILED="$REF_DIR/failed-plugins.txt"
 . /usr/local/bin/jenkins-support
 
 getLockFile() {
-    printf '%s' "$REF_DIR/${1}.lock"
+    #printf '%s' "$REF_DIR/${1}.lock"
+    printf '%s' "$REF_DIR/plugins.txt.lock"
 }
 
 getArchiveFilename() {
