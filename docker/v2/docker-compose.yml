@@ -16,7 +16,7 @@ services:
      #todo: remove this values in future (HOST:CONTAINER)
       #NOTE: This value must be identical with cloud.properties#ci.workspace.folder and relevant cloud-override.properties property
       #- /javacloud/datavolume/.ci_repositories:/javacloud/datavolume/.ci_repositories
-      - ./.ci_repositories:$HOME/.ci_repositories
+      - ./.ci_repositories:/var/jenkins_home/.ci_repositories/
       #NOTE: This value must be identical with cloud.properties#repository.base.folder and relevant cloud-override.properties property
       #- /javacloud/datavolume/.local_repositories:/javacloud/datavolume/.local_repositories
       - ./.local_repositories:$HOME/.local_repositories
