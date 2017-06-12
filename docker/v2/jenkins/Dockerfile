@@ -61,19 +61,19 @@ COPY install-plugins.sh /usr/local/bin/install-plugins.sh
 
 #
 COPY plugins.txt /usr/share/jenkins/plugins.txt
-RUN /usr/local/bin/install-plugins.sh /usr/share/jenkins/plugins.txt
+#RUN /usr/local/bin/install-plugins.sh /usr/share/jenkins/plugins.txt
 
 # Maven
-ARG MAVEN_VERSION=3.5.0
-ARG SHA=beb91419245395bd69a4a6edad5ca3ec1a8b64e41457672dc687c173a495f034
+#ARG MAVEN_VERSION=3.5.0
+#ARG SHA=beb91419245395bd69a4a6edad5ca3ec1a8b64e41457672dc687c173a495f034
 
 # TODO tmp
-RUN wget -O /tmp/apache-maven-${MAVEN_VERSION}.tar.gz http://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz \
-&& tar xzf /tmp/apache-maven-${MAVEN_VERSION}.tar.gz -C /tmp \
-&& echo "${SHA}  /tmp/apache-maven-3.5.0.tar.gz" | sha256sum -c -
+#RUN wget -O /tmp/apache-maven-${MAVEN_VERSION}.tar.gz http://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz \
+#&& tar xzf /tmp/apache-maven-${MAVEN_VERSION}.tar.gz -C /tmp \
+#&& echo "${SHA}  /tmp/apache-maven-3.5.0.tar.gz" | sha256sum -c -
 
-ENV MAVEN_HOME /tmp/apache-maven-${MAVEN_VERSION}
-ENV PATH $PATH:$MAVEN_HOME/bin
+#ENV MAVEN_HOME /tmp/apache-maven-${MAVEN_VERSION}
+#ENV PATH $PATH:$MAVEN_HOME/bin
 
 #
 CMD ["/usr/local/bin/jenkins.sh"]
