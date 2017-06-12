@@ -30,7 +30,10 @@ ENV MAVEN_HOME /tmp/apache-maven-${MAVEN_VERSION}
 ENV PATH $PATH:$MAVEN_HOME/bin
 
 USER root
-RUN chown -R jenkins:jenkins $HOME/.ci_repositories
+RUN mkdir -p $HOME/.ci_repositories && chown -R jenkins:jenkins $HOME/.ci_repositories
+
+# drop back to the regular jenkins user - good practice
+USER jenkins
 
 #
 CMD ["/usr/local/bin/jenkins.sh"]
