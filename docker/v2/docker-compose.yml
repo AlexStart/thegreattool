@@ -48,6 +48,8 @@ services:
         external_url "http://#{host}/gitlab"
         nginx['listen_port'] = 8083
         gitlab_rails['gitlab_shell_ssh_port'] = 8322
+      #Requirement for GITLAB_ROOT_PASSWORD characters number >= 8
+      GITLAB_ROOT_PASSWORD: rootpassword
     container_name: "javacloud-gitlab"
   sonarqube:
     build: sonarqube

@@ -37,7 +37,7 @@ public abstract class VCSProvider extends AbstractProvider<IVCSMetadata> impleme
     @Getter
     @Autowired
     @VisibleForTesting
-    private GitVCS git;
+    protected GitVCS git;
 
     @Setter
     @Autowired
