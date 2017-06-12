@@ -29,5 +29,8 @@ RUN wget -O /tmp/apache-maven-${MAVEN_VERSION}.tar.gz http://archive.apache.org/
 ENV MAVEN_HOME /tmp/apache-maven-${MAVEN_VERSION}
 ENV PATH $PATH:$MAVEN_HOME/bin
 
+USER root
+RUN chown -R jenkins:jenkins $HOME/.ci_repositories
+
 #
 CMD ["/usr/local/bin/jenkins.sh"]
