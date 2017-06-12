@@ -53,7 +53,9 @@ USER root
 
 COPY jenkins-support /usr/local/bin/jenkins-support
 COPY jenkins.sh /usr/local/bin/jenkins.sh
-ENTRYPOINT ["/bin/tini", "--", "/usr/local/bin/jenkins.sh"]
+#ENTRYPOINT ["/bin/tini", "--", "/usr/local/bin/jenkins.sh"]
+
+ENTRYPOINT ["tail", "-f",  "/dev/null"]
 
 # from a derived Dockerfile, can use `RUN plugins.sh active.txt` to setup /usr/share/jenkins/ref/plugins from a support bundle
 #COPY plugins.sh /usr/local/bin/plugins.sh
