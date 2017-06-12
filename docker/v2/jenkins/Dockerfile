@@ -35,7 +35,7 @@ ENV PATH $PATH:$MAVEN_HOME/bin
 # drop back to the regular jenkins user - good practice
 #USER jenkins
 
-VOLUME["/var/jenkins_home/.ci_repositories"]
+VOLUME ["/var/jenkins_home/.ci_repositories"]
 
 #
 CMD ["/usr/local/bin/jenkins.sh"]
