@@ -29,11 +29,13 @@ RUN wget -O /tmp/apache-maven-${MAVEN_VERSION}.tar.gz http://archive.apache.org/
 ENV MAVEN_HOME /tmp/apache-maven-${MAVEN_VERSION}
 ENV PATH $PATH:$MAVEN_HOME/bin
 
-USER root
-RUN mkdir -p /var/jenkins_home/.ci_repositories && chown -R jenkins:jenkins /var/jenkins_home/.ci_repositories
+#USER root
+#RUN mkdir -p /var/jenkins_home/.ci_repositories && chown -R jenkins:jenkins /var/jenkins_home/.ci_repositories
 
 # drop back to the regular jenkins user - good practice
-USER jenkins
+#USER jenkins
+
+VOLUME["/var/jenkins_home/.ci_repositories"]
 
 #
 CMD ["/usr/local/bin/jenkins.sh"]
