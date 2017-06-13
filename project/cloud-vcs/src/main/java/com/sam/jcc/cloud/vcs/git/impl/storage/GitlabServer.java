@@ -1,4 +1,4 @@
-package com.sam.jcc.cloud.vcs.git.impl;
+package com.sam.jcc.cloud.vcs.git.impl.storage;
 
 import com.sam.jcc.cloud.i.Experimental;
 import com.sam.jcc.cloud.vcs.VCSCredentials;
@@ -7,12 +7,17 @@ import com.sam.jcc.cloud.vcs.VCSStorage;
 import com.sam.jcc.cloud.vcs.exception.VCSException;
 import com.sam.jcc.cloud.vcs.exception.VCSRepositoryNotFoundException;
 import com.sam.jcc.cloud.vcs.exception.VCSUnknownProtocolException;
-import lombok.Setter;
+import com.sam.jcc.cloud.vcs.git.impl.GitCredentials;
+import com.sam.jcc.cloud.vcs.git.impl.storage.gitlab.GitlabCreateCommitCommand;
+import lombok.Getter;
 import org.gitlab.api.GitlabAPI;
 import org.gitlab.api.models.GitlabCommit;
 import org.gitlab.api.models.GitlabProject;
 import org.gitlab.api.models.GitlabSession;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -22,22 +27,32 @@ import java.util.stream.Collectors;
 import static com.sam.jcc.cloud.PropertyResolver.getProperty;
 import static java.text.MessageFormat.format;
 import static java.util.Optional.of;
+import static org.apache.commons.io.FileUtils.writeByteArrayToFile;
 
 /**
  * @author Alexey Zhytnik
  * @since 28.11.2016
  */
-@Setter
-@Experimental("Integration with a GitLab storage")
-public class GitlabServer extends GitAbstractStorage implements VCSStorage<VCSCredentials> {
+@Component
+@Experimental("Integration with a GitLab storage") //TODO - probably, this can be removed
+public class GitlabServer extends AbstractGitServerStorage implements VCSStorage<VCSCredentials> {
 
+    @Getter
     private String host = getProperty("gitlab.remote.server.host");
+    @Getter
     private String port = getProperty("gitlab.remote.server.port");
+    @Getter
     private String url = getProperty("gitlab.remote.server.path");
     private String user = getProperty("gitlab.remote.server.user");
     private String password = getProperty("gitlab.remote.server.password");
     //TODO find compromise timeout
     private int requestTimeout = Integer.parseInt(getProperty("gitlab.remote.server.timeout"));
+
+    @PostConstruct
+    public void setUp() {
+        setUser(user);
+        setPassword(password);
+    }
 
     @Override
     public void create(VCSRepository repo) {
@@ -91,6 +106,7 @@ public class GitlabServer extends GitAbstractStorage implements VCSStorage<VCSCr
         }
     }
 
+    @Override
     public void commit(VCSRepository repo) {
         String token = getToken();
         final GitlabProject project = search(connect(), repo);
@@ -99,7 +115,26 @@ public class GitlabServer extends GitAbstractStorage implements VCSStorage<VCSCr
         commitCommand.call(repo, getRepositoryURI(), project.getId(), token);
     }
 
-    List<GitlabCommit> getAllCommits(VCSRepository repo) {
+    @Override
+    public void read(VCSRepository repo) {
+        final GitlabAPI api = connect();
+        final GitlabProject project = search(api, repo);
+        repo.setSources(archiveProject(api, project));
+    }
+
+    //TODO solve byte array to archive
+    private File archiveProject(final GitlabAPI api, GitlabProject project) {
+        try {
+            File archive = new File("file");
+            writeByteArrayToFile(archive, api.getFileArchive(project));
+            return archive;
+        } catch (IOException e) {
+            throw new VCSException(e);
+        }
+    }
+
+    //Used for testing
+    public List<GitlabCommit> getAllCommits(VCSRepository repo) {
         final GitlabAPI api = connect();
         final GitlabProject project = search(api, repo);
         try {

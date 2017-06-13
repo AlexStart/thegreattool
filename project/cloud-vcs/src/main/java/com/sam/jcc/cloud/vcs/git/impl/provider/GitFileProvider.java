@@ -1,18 +1,24 @@
-package com.sam.jcc.cloud.vcs.git.impl;
+package com.sam.jcc.cloud.vcs.git.impl.provider;
 
 import com.sam.jcc.cloud.i.IEventManager;
 import com.sam.jcc.cloud.i.IHealth;
 import com.sam.jcc.cloud.i.IHealthMetadata;
 import com.sam.jcc.cloud.i.vcs.IVCSMetadata;
+import com.sam.jcc.cloud.vcs.VCS;
+import com.sam.jcc.cloud.vcs.git.impl.storage.GitFileStorage;
 import org.apache.commons.lang3.SystemUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 
 import static com.sam.jcc.cloud.PropertyResolver.getProperty;
+import static java.util.Objects.requireNonNull;
 
 /**
  * @author olegk
@@ -25,13 +31,22 @@ public class GitFileProvider extends VCSProvider implements IHealth {
 
     private static String PATH_2_REPO = getProperty("repository.base.folder");
 
+    @Autowired
+    private GitFileStorage storage;
+
+    @Autowired
+    @Qualifier("gitVCS")
+    private VCS vcs;
+
     public GitFileProvider(List<IEventManager<IVCSMetadata>> eventManagers) {
         super(eventManagers);
     }
 
-    @Override
-    protected GitAbstractStorage getStorage() {
-        return new GitFileStorage();
+    @PostConstruct
+    public void setUp() {
+        setVcs(requireNonNull(vcs));
+        vcs.setStorage(requireNonNull(storage));
+        storage.installBaseRepository();
     }
 
     @Override

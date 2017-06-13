@@ -1,4 +1,4 @@
-package com.sam.jcc.cloud.vcs.git.impl;
+package com.sam.jcc.cloud.vcs.git.impl.storage;
 
 import org.junit.Ignore;
 import org.junit.Test;

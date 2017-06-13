@@ -11,8 +11,8 @@ import com.sam.jcc.cloud.i.OSDependent;
 import com.sam.jcc.cloud.provider.UnsupportedTypeException;
 import com.sam.jcc.cloud.utils.files.ItemStorage;
 import com.sam.jcc.cloud.utils.parsers.ProjectParser;
-import com.sam.jcc.cloud.vcs.git.impl.GitFileProvider;
-import com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider;
+import com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider;
+import com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider;
 import org.springframework.core.io.ClassPathResource;
 
 import javax.xml.bind.JAXBContext;

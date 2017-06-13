@@ -1,14 +1,21 @@
-package com.sam.jcc.cloud.vcs.git.impl;
+package com.sam.jcc.cloud.vcs.git.impl.provider;
 
 import com.sam.jcc.cloud.i.IEventManager;
 import com.sam.jcc.cloud.i.IHealth;
 import com.sam.jcc.cloud.i.IHealthMetadata;
 import com.sam.jcc.cloud.i.vcs.IVCSMetadata;
+import com.sam.jcc.cloud.vcs.VCS;
+import com.sam.jcc.cloud.vcs.git.impl.storage.GitRemoteStorage;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.List;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * @author olegk
@@ -19,13 +26,22 @@ public class GitProtocolProvider extends VCSProvider implements IHealth {
     private static final long GIT_PROTOCOL_PROVIDER_ID = 4L;
     public static final String TYPE = "git-protocol";
 
+    @Autowired
+    private GitRemoteStorage storage;
+
+    @Autowired
+    @Qualifier("gitVCS")
+    protected VCS vcs;
+
     public GitProtocolProvider(List<IEventManager<IVCSMetadata>> eventManagers) {
         super(eventManagers);
     }
 
-    @Override
-    protected GitAbstractStorage getStorage() {
-        return new GitRemoteStorage();
+    @PostConstruct
+    public void setUp() {
+        setVcs(requireNonNull(vcs));
+        vcs.setStorage(requireNonNull(storage));
+        storage.installBaseRepository();
     }
 
     // TODO: need check server
@@ -45,22 +61,19 @@ public class GitProtocolProvider extends VCSProvider implements IHealth {
 
             @Override
             public String getHost() {
-                GitRemoteStorage remoteStorage = (GitRemoteStorage) getStorage();
-                return remoteStorage.getHost();
+                return storage.getHost();
             }
 
             @Override
             public String getPort() {
-                GitRemoteStorage remoteStorage = (GitRemoteStorage) getStorage();
-                return String.valueOf(remoteStorage.getPort());
+                return String.valueOf(storage.getPort());
             }
 
             @Override
             public String getUrl() {
                 try {
-                    GitRemoteStorage remoteStorage = (GitRemoteStorage) getStorage();
                     StringBuilder sb = new StringBuilder();
-                    String line = remoteStorage.getRepositoryURL();
+                    String line = storage.getRepositoryURL();
                     sb.append(line);
                     return sb.toString();
                 } catch (Exception e) {

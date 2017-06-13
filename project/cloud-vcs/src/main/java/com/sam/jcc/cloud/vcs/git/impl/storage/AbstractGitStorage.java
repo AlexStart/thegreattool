@@ -1,37 +1,35 @@
-package com.sam.jcc.cloud.vcs.git.impl;
+package com.sam.jcc.cloud.vcs.git.impl.storage;
 
-import static com.sam.jcc.cloud.PropertyResolver.getProperty;
-import static java.util.Optional.empty;
+import com.sam.jcc.cloud.utils.files.ItemStorage;
+import com.sam.jcc.cloud.utils.files.ItemStorage.ItemAlreadyExistsException;
+import com.sam.jcc.cloud.utils.files.ItemStorage.ItemNotFoundException;
+import com.sam.jcc.cloud.vcs.VCSCredentials;
+import com.sam.jcc.cloud.vcs.VCSRepository;
+import com.sam.jcc.cloud.vcs.exception.VCSException;
+import com.sam.jcc.cloud.vcs.exception.VCSRepositoryAlreadyExistsException;
+import com.sam.jcc.cloud.vcs.exception.VCSRepositoryNotFoundException;
+import com.sam.jcc.cloud.vcs.git.impl.VCSRepositoryBuilder;
+import lombok.extern.slf4j.Slf4j;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
 
 import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
-import com.sam.jcc.cloud.utils.files.ItemStorage;
-import com.sam.jcc.cloud.utils.files.ItemStorage.ItemAlreadyExistsException;
-import com.sam.jcc.cloud.utils.files.ItemStorage.ItemNotFoundException;
-import com.sam.jcc.cloud.vcs.exception.VCSRepositoryAlreadyExistsException;
-import com.sam.jcc.cloud.vcs.exception.VCSRepositoryNotFoundException;
-import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.errors.GitAPIException;
-
-import com.sam.jcc.cloud.vcs.VCSCredentials;
-import com.sam.jcc.cloud.vcs.exception.VCSException;
-import com.sam.jcc.cloud.vcs.VCSRepository;
-import com.sam.jcc.cloud.vcs.VCSStorage;
-
-import lombok.extern.slf4j.Slf4j;
+import static com.sam.jcc.cloud.PropertyResolver.getProperty;
+import static java.util.Optional.empty;
 
 /**
  * @author Alexey Zhytnik
  * @since 06.12.2016
  */
 @Slf4j
-public abstract class GitAbstractStorage implements VCSStorage<VCSCredentials> {
+public abstract class AbstractGitStorage extends AbstractStorage {
 
     protected final ItemStorage<VCSRepository> storage;
 
-    public GitAbstractStorage() {
+    public AbstractGitStorage() {
         storage = new ItemStorage<>(VCSRepository::getName, new VCSRepositoryBuilder());
     }
 
@@ -78,7 +76,7 @@ public abstract class GitAbstractStorage implements VCSStorage<VCSCredentials> {
     }
 
     /**
-     * You should call for install the git storage in production mode!
+     * You should call for install the vcs storage in production mode!
      */
     //TODO(a bad part of the app): should be changed by @PostConstruct
     public void installBaseRepository() {
@@ -90,7 +88,7 @@ public abstract class GitAbstractStorage implements VCSStorage<VCSCredentials> {
         storage.setRoot(dir);
     }
 
-    public File getBaseRepository(){
+    public File getBaseRepository() {
         return storage.getRoot();
     }
 }

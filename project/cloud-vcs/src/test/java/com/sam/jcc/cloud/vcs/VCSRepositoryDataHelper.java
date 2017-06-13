@@ -28,7 +28,6 @@ public class VCSRepositoryDataHelper {
 
         final File temp = new FileManager().createTempDir();
         temp.deleteOnExit();
-        r.setArtifactId("notEmptyProject");
         r.setSources(new File(temp.getPath()));
         return r;
     }

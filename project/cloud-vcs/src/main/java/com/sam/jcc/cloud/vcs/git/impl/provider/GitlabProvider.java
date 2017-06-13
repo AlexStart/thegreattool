@@ -1,27 +1,26 @@
 /**
  *
  */
-package com.sam.jcc.cloud.vcs.git.impl;
+package com.sam.jcc.cloud.vcs.git.impl.provider;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.sam.jcc.cloud.i.IEventManager;
 import com.sam.jcc.cloud.i.IHealth;
 import com.sam.jcc.cloud.i.IHealthMetadata;
 import com.sam.jcc.cloud.i.vcs.IVCSMetadata;
-import com.sam.jcc.cloud.vcs.VCSRepository;
-import lombok.Getter;
+import com.sam.jcc.cloud.vcs.VCS;
+import com.sam.jcc.cloud.vcs.git.impl.storage.GitlabServer;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
 
-import static com.sam.jcc.cloud.PropertyResolver.getProperty;
-import static com.sam.jcc.cloud.vcs.VCSRepositoryStatus.COMMITED;
-import static com.sam.jcc.cloud.vcs.VCSRepositoryStatus.PUSHED;
+import static java.util.Objects.requireNonNull;
 
 /**
  * @author olegk
@@ -32,9 +31,12 @@ public class GitlabProvider extends VCSProvider implements IHealth {
     private static final long GITLAB_PROVIDER_ID = 8L;
     public static final String TYPE = "gitlab";
 
-    @Getter
-    @VisibleForTesting
-    private GitlabServer gitlab;
+    @Autowired
+    private GitlabServer storage;
+
+    @Autowired
+    @Qualifier("gitServerVCS")
+    protected VCS vcs;
 
     public GitlabProvider(List<IEventManager<IVCSMetadata>> eventManagers) {
         super(eventManagers);
@@ -42,18 +44,13 @@ public class GitlabProvider extends VCSProvider implements IHealth {
 
     @PostConstruct
     public void setUp() {
-        gitlab = new GitlabServer();
-        git.setStorage(gitlab);
+        setVcs(requireNonNull(vcs));
+        vcs.setStorage(requireNonNull(storage));
     }
 
     @Override
     public Long getId() {
         return GITLAB_PROVIDER_ID;
-    }
-
-    @Override
-    public boolean supports(IVCSMetadata metadata) {
-        return metadata instanceof VCSRepository;
     }
 
     @Override
@@ -64,23 +61,6 @@ public class GitlabProvider extends VCSProvider implements IHealth {
     @Override
     public String getType() {
         return TYPE;
-    }
-
-    //TODO refactor, resolve copy-paste
-    @Override
-    public IVCSMetadata update(IVCSMetadata m) {
-        final VCSRepository repo = asVCSRepository(m);
-
-        gitlab.commit(repo);
-
-        updateStatus(repo, COMMITED);
-        updateStatus(repo, PUSHED);
-        return repo;
-    }
-
-    @Override
-    protected GitAbstractStorage getStorage() {
-        return gitlab;
     }
 
     @Override
@@ -101,17 +81,17 @@ public class GitlabProvider extends VCSProvider implements IHealth {
 
             @Override
             public String getHost() {
-                return getProperty("gitlab.remote.server.host");
+                return storage.getHost();
             }
 
             @Override
             public String getPort() {
-                return getProperty("gitlab.remote.server.port");
+                return storage.getPort();
             }
 
             @Override
             public String getUrl() {
-                return "http://" + getHost() + ":" + getPort() + "/" + getProperty("gitlab.remote.server.path");
+                return "http://" + getHost() + ":" + getPort() + "/" + storage.getUrl();
             }
 
             @Override

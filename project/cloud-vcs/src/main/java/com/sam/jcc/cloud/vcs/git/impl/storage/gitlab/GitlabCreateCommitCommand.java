@@ -1,4 +1,4 @@
-package com.sam.jcc.cloud.vcs.git.impl;
+package com.sam.jcc.cloud.vcs.git.impl.storage.gitlab;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -30,12 +30,10 @@ public class GitlabCreateCommitCommand {
     private final String defaultBranch = "master";
 
     public void call(VCSRepository repo, String repositoryUri, Integer projectId, String token) {
-
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         HttpPost request = new HttpPost(getCreateCommitUri(repositoryUri, projectId));
         setRequestHeaders(request, token);
         try {
-
             request.setEntity(createRequestEntity(repo));
             HttpResponse response = httpClient.execute(request);
             isTrue(response.getStatusLine().getStatusCode() == 201,
@@ -86,7 +84,7 @@ public class GitlabCreateCommitCommand {
     }
 
     @Data
-    class CreateCommitData {
+    private class CreateCommitData {
         //Error in gitlab docs: 'branch_name' should be used instead of 'branch'
         @JsonProperty("branch_name")
         private String branch;
@@ -96,7 +94,7 @@ public class GitlabCreateCommitCommand {
     }
 
     @Data
-    class FileAction {
+    private class FileAction {
         private String action;
         @JsonProperty("file_path")
         private String filePath;

@@ -1,10 +1,9 @@
-package com.sam.jcc.cloud.vcs.git.impl;
+package com.sam.jcc.cloud.vcs.git.impl.vcs;
 
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.VCSRepositoryDataHelper;
-import com.sam.jcc.cloud.vcs.git.impl.GitFileStorage;
-import com.sam.jcc.cloud.vcs.git.impl.GitVCS;
+import com.sam.jcc.cloud.vcs.git.impl.storage.GitFileStorage;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

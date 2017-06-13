@@ -1,18 +1,21 @@
-package com.sam.jcc.cloud.vcs.git.impl;
+package com.sam.jcc.cloud.vcs.git.impl.storage;
 
 import com.sam.jcc.cloud.PropertyResolver;
 import com.sam.jcc.cloud.exception.NotImplementedCloudException;
 import com.sam.jcc.cloud.i.Experimental;
-import com.sam.jcc.cloud.vcs.exception.VCSRepositoryNotFoundException;
-import com.sam.jcc.cloud.vcs.exception.VCSUnknownProtocolException;
-import com.sam.jcc.cloud.vcs.exception.VCSException;
+import com.sam.jcc.cloud.vcs.VCSCredentials;
 import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.VCSStorage;
+import com.sam.jcc.cloud.vcs.exception.VCSException;
+import com.sam.jcc.cloud.vcs.exception.VCSRepositoryNotFoundException;
+import com.sam.jcc.cloud.vcs.exception.VCSUnknownProtocolException;
+import com.sam.jcc.cloud.vcs.git.impl.GitCredentials;
 import lombok.Setter;
 import org.kohsuke.github.GHCreateRepositoryBuilder;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -27,14 +30,19 @@ import static java.util.Optional.of;
  */
 @Setter
 @Experimental("Integration with GitHub")
-public class GitHubServer implements VCSStorage<GitCredentials> {
+public class GitHubServer extends AbstractGitServerStorage implements VCSStorage<VCSCredentials> {
 
     private String user;
     private String token;
-
     private String password;
 
     private String github = PropertyResolver.getProperty("servers.github");
+
+    @PostConstruct
+    public void setUp() {
+        setUser(user);
+        setPassword(password);
+    }
 
     @Override
     public void create(VCSRepository repo) {
@@ -63,8 +71,18 @@ public class GitHubServer implements VCSStorage<GitCredentials> {
     }
 
     @Override
-    public Optional<GitCredentials> getCredentialsProvider() {
+    public Optional<VCSCredentials> getCredentialsProvider() {
         return of(new GitCredentials(user, password));
+    }
+
+    @Override
+    public void commit(VCSRepository repo) {
+        throw new NotImplementedCloudException();
+    }
+
+    @Override
+    public void read(VCSRepository repo) {
+        throw new NotImplementedCloudException();
     }
 
     @Override

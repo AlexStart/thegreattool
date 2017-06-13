@@ -7,7 +7,7 @@ import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
  * @author Alexey Zhytnik
  * @since 02-Dec-16
  */
-class GitCredentials extends UsernamePasswordCredentialsProvider implements VCSCredentials {
+public class GitCredentials extends UsernamePasswordCredentialsProvider implements VCSCredentials {
 
     public GitCredentials(String username, String password) {
         super(username, password);

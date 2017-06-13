@@ -1,10 +1,9 @@
-package com.sam.jcc.cloud.vcs.git.impl;
+package com.sam.jcc.cloud.vcs.git.impl.storage;
 
 import com.sam.jcc.cloud.utils.files.FileManager;
+import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.exception.VCSRepositoryAlreadyExistsException;
 import com.sam.jcc.cloud.vcs.exception.VCSRepositoryNotFoundException;
-import com.sam.jcc.cloud.vcs.VCSRepository;
-import com.sam.jcc.cloud.vcs.git.impl.GitFileStorage;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

@@ -1,8 +1,9 @@
-package com.sam.jcc.cloud.vcs.git.impl;
+package com.sam.jcc.cloud.vcs.git.impl.vcs;
 
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.VCSRepositoryDataHelper;
+import com.sam.jcc.cloud.vcs.git.impl.storage.GitlabServer;
 import org.junit.*;
 import org.junit.rules.TemporaryFolder;
 

@@ -9,9 +9,9 @@ import java.util.Arrays;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.TempFile;
 import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
-import com.sam.jcc.cloud.vcs.git.impl.GitFileStorage;
-import com.sam.jcc.cloud.vcs.git.impl.GitRemoteStorage;
-import com.sam.jcc.cloud.vcs.git.impl.GitVCS;
+import com.sam.jcc.cloud.vcs.git.impl.storage.GitFileStorage;
+import com.sam.jcc.cloud.vcs.git.impl.storage.GitRemoteStorage;
+import com.sam.jcc.cloud.vcs.git.impl.vcs.GitVCS;
 import com.sam.jcc.cloud.vcs.git.impl.VCSRepositoryBuilder;
 
 /**

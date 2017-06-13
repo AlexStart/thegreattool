@@ -1,16 +1,4 @@
-package com.sam.jcc.cloud.vcs.git.impl;
-
-import static com.sam.jcc.cloud.vcs.VCSRepositoryStatus.CLONED;
-import static com.sam.jcc.cloud.vcs.VCSRepositoryStatus.COMMITED;
-import static com.sam.jcc.cloud.vcs.VCSRepositoryStatus.CREATED;
-import static com.sam.jcc.cloud.vcs.VCSRepositoryStatus.DELETED;
-import static com.sam.jcc.cloud.vcs.VCSRepositoryStatus.PUSHED;
-
-import java.util.List;
-
-import javax.annotation.PostConstruct;
-
-import org.springframework.beans.factory.annotation.Autowired;
+package com.sam.jcc.cloud.vcs.git.impl.provider;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.sam.jcc.cloud.i.IEventManager;
@@ -18,26 +6,30 @@ import com.sam.jcc.cloud.i.vcs.IVCSMetadata;
 import com.sam.jcc.cloud.i.vcs.IVCSProvider;
 import com.sam.jcc.cloud.provider.AbstractProvider;
 import com.sam.jcc.cloud.provider.UnsupportedTypeException;
+import com.sam.jcc.cloud.vcs.VCS;
 import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.VCSRepositoryStatus;
 import com.sam.jcc.cloud.vcs.exception.VCSRepositoryAlreadyExistsException;
-
+import com.sam.jcc.cloud.vcs.git.impl.GitMetadataDao;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+
+import static com.sam.jcc.cloud.vcs.VCSRepositoryStatus.*;
+import static lombok.AccessLevel.PROTECTED;
 
 /**
- * 
- * TODO remove git-related code to a new class AbstractGitProvider
- * 
  * @author olegk
  * @author Alexey Zhytnik
  */
 public abstract class VCSProvider extends AbstractProvider<IVCSMetadata> implements IVCSProvider {
 
+    @Setter(PROTECTED)
     @Getter
-    @Autowired
     @VisibleForTesting
-    protected GitVCS git;
+    protected VCS vcs;
 
     @Setter
     @Autowired
@@ -49,16 +41,6 @@ public abstract class VCSProvider extends AbstractProvider<IVCSMetadata> impleme
         super(eventManagers);
     }
 
-    @PostConstruct
-    public void setUp() {
-        final GitAbstractStorage storage = getStorage();
-        storage.installBaseRepository();
-        git.setStorage(storage);
-    }
-
-    //TODO(a bad part of the app): the injection should be changed by @Autowired + @Qualifier
-    protected abstract GitAbstractStorage getStorage();
-
     @Override
     public boolean supports(IVCSMetadata m) {
         return m instanceof VCSRepository;
@@ -66,7 +48,7 @@ public abstract class VCSProvider extends AbstractProvider<IVCSMetadata> impleme
 
     @Override
     public IVCSMetadata read(IVCSMetadata m) {
-        git.read(asVCSRepository(m));
+        vcs.read(asVCSRepository(m));
         updateStatus(m, CLONED);
         return m;
     }
@@ -75,7 +57,7 @@ public abstract class VCSProvider extends AbstractProvider<IVCSMetadata> impleme
     public IVCSMetadata update(IVCSMetadata m) {
         final VCSRepository repo = asVCSRepository(m);
 
-        git.commit(repo);
+        vcs.commit(repo);
         updateStatus(repo, COMMITED);
         updateStatus(repo, PUSHED);
         return repo;
@@ -84,7 +66,7 @@ public abstract class VCSProvider extends AbstractProvider<IVCSMetadata> impleme
     @Override
     public void delete(IVCSMetadata m) {
         final VCSRepository repo = asVCSRepository(m);
-        git.delete(repo);
+        vcs.delete(repo);
         dao.delete(repo);
         updateStatus(repo, DELETED);
     }
@@ -92,7 +74,7 @@ public abstract class VCSProvider extends AbstractProvider<IVCSMetadata> impleme
     @Override
     @SuppressWarnings("unchecked")
     public List<? super IVCSMetadata> findAll() {
-        return (List<IVCSMetadata>) (List<?>) git.getAllRepositories();
+        return (List<IVCSMetadata>) (List<?>) vcs.getAllRepositories();
     }
 
     @Override
@@ -106,7 +88,7 @@ public abstract class VCSProvider extends AbstractProvider<IVCSMetadata> impleme
 
     @Override
     public IVCSMetadata process(IVCSMetadata m) {
-        git.create(asVCSRepository(m));
+        vcs.create(asVCSRepository(m));
         return m;
     }
 
