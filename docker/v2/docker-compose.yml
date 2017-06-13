@@ -1,4 +1,4 @@
-# Compose
+### Compose ###
 version: '3'
 services:
   nexus:
@@ -12,14 +12,14 @@ services:
      - "127.0.0.1:8082:8082"
     container_name: "javacloud-jenkins"
     volumes:
-     # - data-volume:/javacloud/datavolume
-     #todo: remove this values in future (HOST:CONTAINER)
+      - data-volume:/javacloud/datavolume
+      #todo: remove this values in future (HOST:CONTAINER)
       #NOTE: This value must be identical with cloud.properties#ci.workspace.folder and relevant cloud-override.properties property
       #- /javacloud/datavolume/.ci_repositories:/javacloud/datavolume/.ci_repositories
-      - $HOME/.ci_repositories:$HOME/.ci_repositories
+      #- ./.ci_repositories:/var/jenkins_home/.ci_repositories/
       #NOTE: This value must be identical with cloud.properties#repository.base.folder and relevant cloud-override.properties property
       #- /javacloud/datavolume/.local_repositories:/javacloud/datavolume/.local_repositories
-      - $HOME/.local_repositories:$HOME/.local_repositories
+      #- ./.local_repositories:$HOME/.local_repositories
   alpine-java:
     build: alpine-java
     container_name: "javacloud-deployments"
@@ -39,11 +39,11 @@ services:
     ports:
     - "127.0.0.1:9418:9418"
     volumes:
-     # - data-volume:/javacloud/datavolume
+      - data-volume:/javacloud/datavolume
      #todo: remove this values in future (HOST:CONTAINER)
-      #NOTE: This value must be identical with cloud.properties#repository.base.folder and relevant cloud-override.properties property
-      #- /javacloud/datavolume/.local_repositories:/javacloud/datavolume/.local_repositories
-      - $HOME/.local_repositories:$HOME/.local_repositories
+     #NOTE: This value must be identical with cloud.properties#repository.base.folder and relevant cloud-override.properties property
+     #- /javacloud/datavolume/.local_repositories:/javacloud/datavolume/.local_repositories
+     # - ./.local_repositories:$HOME/.local_repositories
     container_name: "javacloud-git"
   gitlab:
     build: gitlab
@@ -68,13 +68,13 @@ services:
      - "127.0.0.1:8080:8080"
     volumes:
       - data-volume:/javacloud/datavolume
-     #todo: remove this values in future (HOST:CONTAINER)
+      #todo: remove this values in future (HOST:CONTAINER)
       #NOTE: This value must be identical with cloud.properties#ci.workspace.folder and relevant cloud-override.properties property
       #- /javacloud/datavolume/.ci_repositories:/javacloud/datavolume/.ci_repositories
-      - $HOME/.ci_repositories:$HOME/.ci_repositories
+      #- ./.ci_repositories:$HOME/.ci_repositories
       #NOTE: This value must be identical with cloud.properties#repository.base.folder and relevant cloud-override.properties property
       #- /javacloud/datavolume/.local_repositories:/javacloud/datavolume/.local_repositories
-      - $HOME/.local_repositories:$HOME/.local_repositories
+      #- ./.local_repositories:$HOME/.local_repositories
     container_name: "javacloud-webconsole"
 
 volumes:
