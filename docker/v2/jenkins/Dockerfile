@@ -68,4 +68,3 @@ RUN /usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt
 
 #
 CMD ["/usr/local/bin/jenkins.sh"]
-
