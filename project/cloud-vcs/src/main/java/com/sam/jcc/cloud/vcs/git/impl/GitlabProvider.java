@@ -58,7 +58,7 @@ public class GitlabProvider extends VCSProvider implements IHealth {
 
     @Override
     public boolean isEnabled() {
-        return gitlab.isEnabled();
+        return checkHealth().isAlive();
     }
 
     @Override
@@ -111,7 +111,7 @@ public class GitlabProvider extends VCSProvider implements IHealth {
 
             @Override
             public String getUrl() {
-                return "http" + getHost() + ":" + getPort() + "/" + getUrl() + "/" + getProperty("gitlab.remote.path");
+                return "http://" + getHost() + ":" + getPort() + "/" + getProperty("gitlab.remote.server.path");
             }
 
             @Override
@@ -119,7 +119,7 @@ public class GitlabProvider extends VCSProvider implements IHealth {
                 try {
                     HttpGet request = new HttpGet(getUrl());
                     HttpResponse response = httpClient.execute(request);
-                    return (response.getStatusLine().getStatusCode() == 200);
+                    return response.getStatusLine().getStatusCode() == 200;
                 } catch (Exception e) {
                     return false;
                 }
