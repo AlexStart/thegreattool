@@ -93,7 +93,7 @@ public class JenkinsConfigurationBuilderTest extends JenkinsBaseTest {
 
         mavenProject.setVcsType(GitFileProvider.TYPE);
         assertThat(builder.build(mavenProject)).contains("scm class=\"hudson.plugins.git.GitSCM\"")
-                .containsPattern("<hudson.plugins.git.UserRemoteConfig>\n\\s*<url>\\S+</url>");
+                .containsPattern("<hudson.plugins.git.UserRemoteConfig>\\s*<url>\\S+</url>");
 
         //TODO[rfisenko 6/8/17]: white same test for GitProtocolProvider
     }
@@ -108,7 +108,7 @@ public class JenkinsConfigurationBuilderTest extends JenkinsBaseTest {
         jenkins.create(mavenProject);
         assertThat(jenkins.getServer().getJobXml(mavenProject.getName()))
                 .contains("scm class=\"hudson.plugins.git.GitSCM\"")
-                .containsPattern("<hudson.plugins.git.UserRemoteConfig>\n\\s*<url>\\S+</url>");
+                .containsPattern("<hudson.plugins.git.UserRemoteConfig>\\s*<url>\\S+</url>");
     }
 
     private void copySourcesIntoWorkspace(CIProject project) {
