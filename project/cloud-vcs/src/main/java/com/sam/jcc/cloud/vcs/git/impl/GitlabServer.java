@@ -6,12 +6,13 @@ import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.VCSStorage;
 import com.sam.jcc.cloud.vcs.exception.VCSException;
 import com.sam.jcc.cloud.vcs.exception.VCSRepositoryNotFoundException;
+import com.sam.jcc.cloud.vcs.exception.VCSUnknownProtocolException;
 import lombok.Setter;
 import org.gitlab.api.GitlabAPI;
+import org.gitlab.api.models.GitlabCommit;
 import org.gitlab.api.models.GitlabProject;
 import org.gitlab.api.models.GitlabSession;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +22,6 @@ import java.util.stream.Collectors;
 import static com.sam.jcc.cloud.PropertyResolver.getProperty;
 import static java.text.MessageFormat.format;
 import static java.util.Optional.of;
-import static org.apache.commons.io.FileUtils.writeByteArrayToFile;
 
 /**
  * @author Alexey Zhytnik
@@ -36,6 +36,8 @@ public class GitlabServer extends GitAbstractStorage implements VCSStorage<VCSCr
     private String url = getProperty("gitlab.remote.server.path");
     private String user = getProperty("gitlab.remote.server.user");
     private String password = getProperty("gitlab.remote.server.password");
+    //TODO find compromise timeout
+    private int requestTimeout = Integer.parseInt(getProperty("gitlab.remote.server.timeout"));
 
     @Override
     public void create(VCSRepository repo) {
@@ -67,10 +69,6 @@ public class GitlabServer extends GitAbstractStorage implements VCSStorage<VCSCr
         return getRepositoryURI() + format("/{0}/{1}.git", user, repo.getName());
     }
 
-    private String getRepositoryURI() {
-        return format("http://{0}:{1}/{2}", host, port, url);
-    }
-
     @Override
     public Optional<VCSCredentials> getCredentialsProvider() {
         return of(new GitCredentials(user, password));
@@ -82,26 +80,37 @@ public class GitlabServer extends GitAbstractStorage implements VCSStorage<VCSCr
         return trySearchAll(api).stream().map(p -> {
             VCSRepository repo = new VCSRepository();
             repo.setArtifactId(p.getName());
-            repo.setSources(archiveProject(api, p));
             return repo;
         }).collect(Collectors.toList());
     }
 
-    //TODO fix byte array transformation
-    private File archiveProject(final GitlabAPI api, GitlabProject project) {
+    @Override
+    public void setProtocol(String protocol) {
+        if (!protocol.equals("http")) {
+            throw new VCSUnknownProtocolException(protocol);
+        }
+    }
+
+    public void commit(VCSRepository repo) {
+        String token = getToken();
+        final GitlabProject project = search(connect(), repo);
+        final GitlabCreateCommitCommand commitCommand = new GitlabCreateCommitCommand();
+
+        commitCommand.call(repo, getRepositoryURI(), project.getId(), token);
+    }
+
+    List<GitlabCommit> getAllCommits(VCSRepository repo) {
+        final GitlabAPI api = connect();
+        final GitlabProject project = search(api, repo);
         try {
-            File archive = new File("file");
-            writeByteArrayToFile(archive, api.getFileArchive(project));
-            return archive;
+            return api.getAllCommits(project.getId());
         } catch (IOException e) {
             throw new VCSException(e);
         }
     }
 
-    //TODO http is currently used
-    @Override
-    public void setProtocol(String protocol) {
-        throw new UnsupportedOperationException("Protocol is not supported yet");
+    private String getRepositoryURI() {
+        return format("http://{0}:{1}/{2}", host, port, url);
     }
 
     private GitlabProject search(GitlabAPI api, VCSRepository repo) {
@@ -132,7 +141,9 @@ public class GitlabServer extends GitAbstractStorage implements VCSStorage<VCSCr
     }
 
     private GitlabAPI connect() {
-        return GitlabAPI.connect(getRepositoryURI(), getToken());
+        GitlabAPI api = GitlabAPI.connect(getRepositoryURI(), getToken());
+        api.setRequestTimeout(requestTimeout);
+        return api;
     }
 
     private String getToken() {
@@ -142,23 +153,5 @@ public class GitlabServer extends GitAbstractStorage implements VCSStorage<VCSCr
         } catch (IOException e) {
             throw new VCSException(e);
         }
-    }
-
-    public boolean isEnabled() {
-        try {
-            GitlabAPI.connect(getRepositoryURI(), user, password);
-            return true;
-        } catch (IOException e) {
-            return false;
-        }
-    }
-
-    //TODO - 3 connects
-    public void commit(VCSRepository repo) {
-        GitlabCreateCommitCommand commitCommand = new GitlabCreateCommitCommand();
-        String token = getToken();
-        final GitlabProject project = search(connect(), repo);
-
-        commitCommand.call(repo, getRepositoryURI(), project.getId(), token);
     }
 }

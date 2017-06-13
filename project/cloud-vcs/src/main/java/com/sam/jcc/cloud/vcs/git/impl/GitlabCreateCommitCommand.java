@@ -39,7 +39,7 @@ public class GitlabCreateCommitCommand {
             request.setEntity(createRequestEntity(repo));
             HttpResponse response = httpClient.execute(request);
             isTrue(response.getStatusLine().getStatusCode() == 201,
-                    "Commit to project with id=" + projectId + " failed");
+                    "Commit to project with id=" + projectId + " failed due to" + response.getStatusLine());
         } catch (IOException e) {
             throw new VCSException(e);
         }
@@ -51,9 +51,7 @@ public class GitlabCreateCommitCommand {
 
     private void setRequestHeaders(HttpPost request, String token) {
         request.setHeader("PRIVATE-TOKEN", token);
-        request.setHeader("Content-Type", "application/json; charset=utf-8");
-        request.setHeader("Accept-Encoding", "UTF-8");
-        request.setHeader("Accept", "*/*");
+        request.setHeader("Content-Type", "application/json;");
     }
 
     private StringEntity createRequestEntity(VCSRepository repo) throws JsonProcessingException, UnsupportedEncodingException {
