@@ -43,3 +43,6 @@ ADD tomcat-users.xml /usr/local/tomcat/conf/
 ADD context.xml /usr/local/tomcat/webapps/manager/META-INF/context.xml
 
 ADD cloud-override.properties /root/cloud-override.properties
+
+# UNCOMMENT BEFORE INSTALLATION #
+# ADD ROOT.war /usr/local/tomcat/webapps
