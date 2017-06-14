@@ -42,6 +42,7 @@ services:
     container_name: "javacloud-mysql"   
   mongodb:
     build: mongodb
+    image: localhost:5000/javacloud-mongodb # goes to local registry
     ports:
     - "127.0.0.1:27017:27017"
     #- "27017:27017"
