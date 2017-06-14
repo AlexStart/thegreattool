@@ -1,5 +1,13 @@
 ### Compose ###
-version: '2'
+#version: '2'
+registry:
+  restart: always
+  build: registry
+  ports:
+    - 5000:5000
+  volumes:
+    - /path/data:/var/lib/registry
+
 services:
   nexus:
     build: nexus
@@ -76,14 +84,7 @@ services:
       #- /javacloud/datavolume/.local_repositories:/javacloud/datavolume/.local_repositories
       #- ./.local_repositories:$HOME/.local_repositories
     container_name: "javacloud-webconsole"
-registry:
-  restart: always
-  build: registry
-  ports:
-    - 5000:5000
-  volumes:
-    - /path/data:/var/lib/registry
-    
+
 volumes:
   data-volume:
   
