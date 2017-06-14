@@ -76,7 +76,6 @@ services:
       #- /javacloud/datavolume/.local_repositories:/javacloud/datavolume/.local_repositories
       #- ./.local_repositories:$HOME/.local_repositories
     container_name: "javacloud-webconsole"
-
 registry:
   restart: always
   image: registry
