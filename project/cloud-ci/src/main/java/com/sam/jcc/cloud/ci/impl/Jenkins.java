@@ -16,7 +16,7 @@ import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.ItemStorage;
 import lombok.AccessLevel;
 import lombok.Getter;
-import org.springframework.context.annotation.Profile;
+//import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -39,7 +39,7 @@ import static org.springframework.util.StreamUtils.copyToByteArray;
  * @since 15-Dec-16
  */
 @Component
-@Profile("prod")
+//@Profile("prod")
 public class Jenkins implements CIServer {
 
     @VisibleForTesting
