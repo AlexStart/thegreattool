@@ -79,6 +79,7 @@ services:
     container_name: "javacloud-redis"   
   webconsole:
     build: webconsole
+    image: localhost:5000/javacloud-webconsole # goes to local registry
     ports:
      - "127.0.0.1:8080:8080"
     volumes:
