@@ -12,6 +12,7 @@ services:
     container_name: "javacloud-registry"
   nexus:
     build: nexus
+    image: localhost:5000/javacloud-nexus # goes to local registry
     ports:
      - "127.0.0.1:8081:8081"
     container_name: "javacloud-nexus"
