@@ -8,10 +8,12 @@
 		<param-value>/WEB-INF/spring/spring-application-context.xml</param-value>
 	</context-param>
 
+<!--
 	<context-param>
 		<param-name>spring.profiles.active</param-name>
 		<param-value>prod</param-value>
 	</context-param>
+-->	
 
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
