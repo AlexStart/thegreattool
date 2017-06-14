@@ -3,7 +3,7 @@ package com.sam.jcc.cloud.ci.impl;
 import com.sam.jcc.cloud.ci.CIProject;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.ItemStorage;
-import com.sam.jcc.cloud.vcs.git.impl.GitFileProvider;
+import com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
