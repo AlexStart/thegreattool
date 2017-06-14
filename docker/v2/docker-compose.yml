@@ -9,6 +9,7 @@ services:
       - 5000:5000
     volumes:
       - /path/data:/var/lib/registry
+    container_name: "javacloud-registry"
   nexus:
     build: nexus
     ports:
