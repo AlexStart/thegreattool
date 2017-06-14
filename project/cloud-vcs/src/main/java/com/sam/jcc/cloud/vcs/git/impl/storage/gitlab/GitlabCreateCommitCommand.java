@@ -20,14 +20,15 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.sam.jcc.cloud.PropertyResolver.getProperty;
 import static org.apache.commons.lang.StringUtils.EMPTY;
 import static org.apache.commons.lang.StringUtils.isEmpty;
 import static org.apache.commons.lang3.Validate.isTrue;
 
 public class GitlabCreateCommitCommand {
 
-    private final String apiVersion = "/api/v3";
-    private final String defaultBranch = "master";
+    private final static String API_VERSION = "/api/" + getProperty("gitlab.remote.server.api.version");
+    private final static String DEFAULT_BRANCH = "master";
 
     public void call(VCSRepository repo, String repositoryUri, Integer projectId, String token) {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
@@ -44,7 +45,7 @@ public class GitlabCreateCommitCommand {
     }
 
     private String getCreateCommitUri(String repositoryUri, Integer projectId) {
-        return repositoryUri + apiVersion + "/projects/" + projectId + "/repository/commits";
+        return repositoryUri + API_VERSION + "/projects/" + projectId + "/repository/commits";
     }
 
     private void setRequestHeaders(HttpPost request, String token) {
@@ -54,7 +55,7 @@ public class GitlabCreateCommitCommand {
 
     private StringEntity createRequestEntity(VCSRepository repo) throws JsonProcessingException, UnsupportedEncodingException {
         CreateCommitData commitData = new CreateCommitData();
-        commitData.setBranch(defaultBranch);
+        commitData.setBranch(DEFAULT_BRANCH);
         commitData.setMessage(repo.getCommitMessage());
         commitData.setActions(getFileActions(repo.getSources(), EMPTY));
         ObjectMapper mapper = new ObjectMapper();

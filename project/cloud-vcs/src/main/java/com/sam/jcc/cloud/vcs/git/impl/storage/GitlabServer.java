@@ -1,6 +1,9 @@
 package com.sam.jcc.cloud.vcs.git.impl.storage;
 
+import com.google.common.io.Files;
 import com.sam.jcc.cloud.i.Experimental;
+import com.sam.jcc.cloud.utils.files.FileManager;
+import com.sam.jcc.cloud.utils.files.GzipTarArchiveManager;
 import com.sam.jcc.cloud.vcs.VCSCredentials;
 import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.VCSStorage;
@@ -27,6 +30,7 @@ import java.util.stream.Collectors;
 import static com.sam.jcc.cloud.PropertyResolver.getProperty;
 import static java.text.MessageFormat.format;
 import static java.util.Optional.of;
+import static org.apache.commons.io.FileUtils.copyDirectory;
 import static org.apache.commons.io.FileUtils.writeByteArrayToFile;
 
 /**
@@ -119,15 +123,19 @@ public class GitlabServer extends AbstractGitServerStorage implements VCSStorage
     public void read(VCSRepository repo) {
         final GitlabAPI api = connect();
         final GitlabProject project = search(api, repo);
-        repo.setSources(archiveProject(api, project));
+        downloadSources(api, project, repo.getSources());
     }
 
-    //TODO solve byte array to archive
-    private File archiveProject(final GitlabAPI api, GitlabProject project) {
+    //Get project gzip-archive, ungzip, untar project, put to repository sources
+    private void downloadSources(final GitlabAPI api, GitlabProject project, File sources) {
         try {
-            File archive = new File("file");
-            writeByteArrayToFile(archive, api.getFileArchive(project));
-            return archive;
+            byte[] archiveBytes = api.getFileArchive(project);
+            File targz = new FileManager().createTempFile();
+            writeByteArrayToFile(targz, archiveBytes);
+            GzipTarArchiveManager archiveManager = new GzipTarArchiveManager();
+            File tar = archiveManager.unGzip(targz);
+            File sourcesTemp = archiveManager.unTar(tar, Files.createTempDir());
+            copyDirectory(sourcesTemp, sources);
         } catch (IOException e) {
             throw new VCSException(e);
         }
