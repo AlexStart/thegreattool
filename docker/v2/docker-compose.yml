@@ -69,6 +69,7 @@ services:
     container_name: "javacloud-gitlab"
   sonarqube:
     build: sonarqube
+    image: localhost:5000/javacloud-sonarqube # goes to local registry    
     container_name: "javacloud-sonarqube"
   redis:
     image: "redis:alpine"
