@@ -5,6 +5,7 @@ services:
   registry:
     restart: always
     build: registry
+    image: localhost:5000/javacloud-registry # goes to local registry
     ports:
       - 5000:5000
     volumes:
