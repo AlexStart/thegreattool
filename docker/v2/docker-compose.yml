@@ -32,9 +32,11 @@ services:
       #- ./.local_repositories:$HOME/.local_repositories
   alpine-java:
     build: alpine-java
+    image: localhost:5000/javacloud-deployments # goes to local registry
     container_name: "javacloud-deployments"
   mysql:
     build: mysql
+    image: localhost:5000/javacloud-mysql # goes to local registry
     ports:
     - "127.0.0.1:3306:3306"
     container_name: "javacloud-mysql"   
