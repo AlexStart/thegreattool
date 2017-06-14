@@ -36,8 +36,6 @@ services:
     container_name: "javacloud-mongodb"
   git:
     build: git
-    # TODO remove
-    image: "fakerepo789465:javacloud-git"
     ports:
     - "127.0.0.1:9418:9418"
     volumes:
