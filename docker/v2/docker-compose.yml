@@ -58,6 +58,7 @@ services:
     container_name: "javacloud-git"
   gitlab:
     build: gitlab
+    image: localhost:5000/javacloud-gitlab # goes to local registry    
     ports:
     - "8083:8083"
     - "8322:8322"
