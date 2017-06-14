@@ -77,9 +77,6 @@ services:
       #- ./.local_repositories:$HOME/.local_repositories
     container_name: "javacloud-webconsole"
 
-volumes:
-  data-volume:
-  
 registry:
   restart: always
   image: registry
@@ -87,3 +84,7 @@ registry:
     - 5000:5000
   volumes:
     - /path/data:/var/lib/registry
+    
+volumes:
+  data-volume:
+  
