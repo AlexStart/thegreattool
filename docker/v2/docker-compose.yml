@@ -46,6 +46,7 @@ services:
     container_name: "javacloud-mongodb"
   git:
     build: git
+    image: localhost:5000/javacloud-git # goes to local registry    
     ports:
     - "127.0.0.1:9418:9418"
     volumes:
