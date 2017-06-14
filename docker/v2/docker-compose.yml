@@ -78,7 +78,7 @@ services:
     container_name: "javacloud-webconsole"
 registry:
   restart: always
-  image: registry
+  build: registry
   ports:
     - 5000:5000
   volumes:
