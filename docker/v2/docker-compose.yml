@@ -19,6 +19,7 @@ services:
     container_name: "javacloud-nexus"
   jenkins:
     build: jenkins
+    image: localhost:5000/javacloud-jenkins # goes to local registry
     ports:
      - "127.0.0.1:8082:8082"
     container_name: "javacloud-jenkins"
