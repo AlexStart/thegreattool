@@ -5,7 +5,6 @@ import com.sam.jcc.cloud.vcs.exception.VCSUnknownProtocolException;
 import org.gitlab.api.models.GitlabCommit;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
@@ -19,7 +18,6 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
  * @author Alexey Zhytnik
  * @since 28.11.2016
  */
-@Ignore
 public class GitlabServerTest {
 
     private GitlabServer server;
