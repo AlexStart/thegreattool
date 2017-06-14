@@ -7,8 +7,8 @@ services:
     build: registry
     ports:
       - 5000:5000
-  volumes:
-    - /path/data:/var/lib/registry
+    volumes:
+      - /path/data:/var/lib/registry
   nexus:
     build: nexus
     ports:
