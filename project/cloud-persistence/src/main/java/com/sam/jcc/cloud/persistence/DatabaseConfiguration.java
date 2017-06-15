@@ -1,6 +1,7 @@
 package com.sam.jcc.cloud.persistence;
 
 import com.sam.jcc.cloud.PropertyResolver;
+import com.sam.jcc.cloud.PropertyResolverHelper;
 import org.flywaydb.core.Flyway;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +16,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.util.Properties;
+
+import static com.sam.jcc.cloud.PropertyResolver.getProperty;
 
 /**
  * @author Alexey Zhytnik
@@ -59,7 +62,7 @@ public class DatabaseConfiguration {
     public JdbcTemplate mySqlJdbcTemplate() {
         final DriverManagerDataSource ds = new DriverManagerDataSource();
 
-        ds.setUrl(property("db.mysql.url"));
+        ds.setUrl(getMySqlJdbcUrl());
         ds.setUsername(property("db.mysql.user"));
         ds.setPassword(property("db.mysql.password"));
         ds.setDriverClassName(property("db.mysql.driver"));
@@ -87,5 +90,10 @@ public class DatabaseConfiguration {
 
     private String property(String key) {
         return PropertyResolver.getProperty(key);
+    }
+
+    private String getMySqlJdbcUrl() {
+        return PropertyResolverHelper.
+                getConnectionUrl(getProperty("db.mysql.protocol"), getProperty("db.mysql.host"),getProperty("db.mysql.port"));
     }
 }

@@ -14,6 +14,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import com.sam.jcc.cloud.PropertyResolverHelper;
 import org.apache.commons.lang.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -71,7 +72,7 @@ public class MySqlDataProvider extends SqlDataProvider<AppData>implements IHealt
 			@Override
 			public String getHost() {
 				try {
-					URL url = new URL(getProperty("db.mysql.url").replaceAll("jdbc:mysql", "http")); // TODO
+					URL url = new URL(getMySqlJdbcUrl().replaceAll("jdbc:mysql", "http")); // TODO
 					// unknown
 					// protocol:
 					// jdbc
@@ -84,7 +85,7 @@ public class MySqlDataProvider extends SqlDataProvider<AppData>implements IHealt
 			@Override
 			public String getPort() {
 				try {
-					URL url = new URL(getProperty("db.mysql.url").replaceAll("jdbc:mysql", "http")); // TODO
+					URL url = new URL(getMySqlJdbcUrl().replaceAll("jdbc:mysql", "http")); // TODO
 					// unknown
 					// protocol:
 					// jdbc
@@ -210,5 +211,10 @@ public class MySqlDataProvider extends SqlDataProvider<AppData>implements IHealt
 	@Override
 	public String getType() {
 		return "mysql";
+	}
+
+	private String getMySqlJdbcUrl() {
+		return PropertyResolverHelper.
+				getConnectionUrl(getProperty("db.mysql.protocol"), getProperty("db.mysql.host"),getProperty("db.mysql.port"));
 	}
 }
