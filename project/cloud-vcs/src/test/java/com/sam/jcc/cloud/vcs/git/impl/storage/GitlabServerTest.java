@@ -1,6 +1,7 @@
 package com.sam.jcc.cloud.vcs.git.impl.storage;
 
 import com.sam.jcc.cloud.vcs.VCSRepository;
+import com.sam.jcc.cloud.vcs.exception.VCSException;
 import com.sam.jcc.cloud.vcs.exception.VCSUnknownProtocolException;
 import org.gitlab.api.models.GitlabCommit;
 import org.junit.After;
@@ -28,15 +29,6 @@ public class GitlabServerTest {
     @Before
     public void setUp() {
         server = new GitlabServer();
-    }
-
-    @Test
-    public void createsAndChecksExistence() {
-        assertThat(server.isExist(emptyRepository)).isFalse();
-
-        server.create(emptyRepository);
-
-        assertThat(server.isExist(emptyRepository)).isTrue();
     }
 
     @Test
@@ -74,10 +66,36 @@ public class GitlabServerTest {
         assertThat(repos.size()).isEqualTo(2);
         assertThat(repos.get(0).getArtifactId()).startsWith("temp");
         assertThat(repos.get(1).getArtifactId()).startsWith("temp");
-
     }
 
-    //TODO don't like sleep here
+    @Test
+    public void isEnabled() {
+        assertThat(server.isEnabled()).isTrue();
+    }
+
+    @Test
+    public void updateCurrentUserPassword() {
+        String user = server.getUser();
+        String oldPassword = server.getPassword();
+        server.getToken(user, oldPassword);
+
+        String newPassword = "newPassword";
+        server.updateCurrentUserPassword(newPassword);
+        server.getToken(user, newPassword);
+
+        try {
+            server.getToken(user, oldPassword);
+        } catch (VCSException ex) {
+            assertThat(ex.getMessage()).isEqualTo("Version Control System Error");
+            assertThat(ex.getCause()).isNotNull();
+            assertThat(ex.getCause().getMessage()).contains("401 Unauthorized");
+        }
+
+        //Set old password back
+        server.updateCurrentUserPassword(oldPassword);
+        server.getToken(user, oldPassword);
+    }
+
     @After
     public void clearDown() throws InterruptedException {
         if (server.isExist(emptyRepository)) {
@@ -86,6 +104,7 @@ public class GitlabServerTest {
         if (server.isExist(notEmptyRepository)) {
             server.delete(notEmptyRepository);
         }
-        sleep(2000);
+//        //TODO don't like sleep here
+//        sleep(2000);
     }
 }

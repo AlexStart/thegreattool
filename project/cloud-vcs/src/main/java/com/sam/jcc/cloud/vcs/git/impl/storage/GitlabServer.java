@@ -17,6 +17,7 @@ import org.gitlab.api.GitlabAPI;
 import org.gitlab.api.models.GitlabCommit;
 import org.gitlab.api.models.GitlabProject;
 import org.gitlab.api.models.GitlabSession;
+import org.gitlab.api.models.GitlabUser;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -47,10 +48,12 @@ public class GitlabServer extends AbstractGitServerStorage implements VCSStorage
     private String port = getProperty("gitlab.remote.server.port");
     @Getter
     private String url = getProperty("gitlab.remote.server.path");
+    @Getter
     private String user = getProperty("gitlab.remote.server.user");
+    @Getter
     private String password = getProperty("gitlab.remote.server.password");
-    //TODO find compromise timeout
-    private int requestTimeout = Integer.parseInt(getProperty("gitlab.remote.server.timeout"));
+    //TODO find compromise timeout or remove if tests keep stable
+//    private int requestTimeout = Integer.parseInt(getProperty("gitlab.remote.server.timeout"));
 
     @PostConstruct
     public void setUp() {
@@ -152,6 +155,29 @@ public class GitlabServer extends AbstractGitServerStorage implements VCSStorage
         }
     }
 
+    //TODO remove isAlive.isEnabled
+    public boolean isEnabled() {
+        try {
+            GitlabAPI.connect(getRepositoryURI(), user, password);
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    public void updateCurrentUserPassword(String newPassword) {
+        GitlabAPI api = connect();
+        try {
+            GitlabUser user = api.getUser();
+            api.updateUser(user.getId(), user.getEmail(), newPassword, null,
+                    null, null, null, null, null, null,
+                    null, null, null, null, null);
+            this.password = newPassword;
+        } catch (IOException e) {
+            throw new VCSException(e);
+        }
+    }
+
     private String getRepositoryURI() {
         return format("http://{0}:{1}/{2}", host, port, url);
     }
@@ -185,11 +211,16 @@ public class GitlabServer extends AbstractGitServerStorage implements VCSStorage
 
     private GitlabAPI connect() {
         GitlabAPI api = GitlabAPI.connect(getRepositoryURI(), getToken());
-        api.setRequestTimeout(requestTimeout);
+//TODO find compromise timeout or remove if tests keep stable
+        //        api.setRequestTimeout(requestTimeout);
         return api;
     }
 
     private String getToken() {
+        return getToken(user, password);
+    }
+
+    String getToken(String user, String password) {
         try {
             GitlabSession session = GitlabAPI.connect(getRepositoryURI(), user, password);
             return session.getPrivateToken();

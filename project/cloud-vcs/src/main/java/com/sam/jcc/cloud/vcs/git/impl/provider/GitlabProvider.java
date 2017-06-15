@@ -105,6 +105,12 @@ public class GitlabProvider extends VCSProvider implements IHealth {
                 }
             }
 
+            //TODO remove isAlive.isEnabled
+//            @Override
+//            public boolean isAlive() {
+//                return storage.isEnabled();
+//            }
+
         };
 
     }

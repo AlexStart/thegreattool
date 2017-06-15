@@ -5,8 +5,10 @@ import com.sam.jcc.cloud.vcs.utils.GitDaemon;
 import org.junit.*;
 import org.junit.rules.TemporaryFolder;
 
+import java.io.File;
 import java.io.IOException;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
 
 /**
@@ -63,5 +65,15 @@ public class GitRemoteVCSTest extends AbstractVCSTest {
             fail(e.getMessage());
         }
         vcs.delete(repository);
+    }
+
+    @Override
+    public Object writeToFileToCommit(File file) throws IOException {
+        return writeRandomBinaryToFile(file);
+    }
+
+    @Override
+    public void checkFileContent(File file, Object content) throws IOException {
+        assertThat(file).hasBinaryContent((byte[]) content);
     }
 }

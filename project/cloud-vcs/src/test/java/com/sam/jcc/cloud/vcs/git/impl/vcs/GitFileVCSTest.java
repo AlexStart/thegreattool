@@ -6,7 +6,10 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.TemporaryFolder;
 
+import java.io.File;
 import java.io.IOException;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Alexey Zhytnik
@@ -34,5 +37,15 @@ public class GitFileVCSTest extends AbstractVCSTest {
         if (vcs.isExist(repository)) {
             vcs.delete(repository);
         }
+    }
+
+    @Override
+    public Object writeToFileToCommit(File file) throws IOException {
+        return writeRandomStringToFile(file);
+    }
+
+    @Override
+    public void checkFileContent(File file, Object content) throws IOException {
+        assertThat(file).hasContent((String) content);
     }
 }

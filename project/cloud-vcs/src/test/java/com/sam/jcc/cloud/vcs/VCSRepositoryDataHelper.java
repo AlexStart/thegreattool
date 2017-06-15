@@ -3,6 +3,10 @@ package com.sam.jcc.cloud.vcs;
 import com.sam.jcc.cloud.utils.files.FileManager;
 
 import java.io.File;
+import java.io.IOException;
+
+import static org.apache.commons.io.FileUtils.writeStringToFile;
+import static org.junit.Assert.fail;
 
 /**
  * @author Alexey Zhytnik
@@ -24,11 +28,15 @@ public class VCSRepositoryDataHelper {
     }
 
     public static VCSRepository notEmptyRepository() {
+        final File tempSource = new FileManager().createTempDir();
+        final File tempFile = new File(tempSource, "test-file.txt");
         final VCSRepository r = repository();
-
-        final File temp = new FileManager().createTempDir();
-        temp.deleteOnExit();
-        r.setSources(new File(temp.getPath()));
+        try {
+            writeStringToFile(tempFile, r.getArtifactId() + r.getCommitMessage());
+        } catch (IOException e) {
+            fail(e.getMessage());
+        }
+        r.setSources(tempSource);
         return r;
     }
 }

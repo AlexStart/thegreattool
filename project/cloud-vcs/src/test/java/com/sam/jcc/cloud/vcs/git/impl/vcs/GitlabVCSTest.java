@@ -8,13 +8,15 @@ import org.junit.Rule;
 import org.junit.rules.TemporaryFolder;
 import org.testcontainers.containers.GenericContainer;
 
+import java.io.File;
 import java.io.IOException;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.testcontainers.containers.wait.Wait.forHttp;
 
 public class GitlabVCSTest extends AbstractVCSTest {
 
-    //TODO set fixed image version
+    //TODO maybe set fixed image version: latest to 9.2.5-ce.0
     @ClassRule
     public static GenericContainer gitlab =
             new GenericContainer("gitlab/gitlab-ce:latest")
@@ -47,5 +49,16 @@ public class GitlabVCSTest extends AbstractVCSTest {
         if (vcs.isExist(repository)) {
             vcs.delete(repository);
         }
+    }
+
+    @Override
+    public Object writeToFileToCommit(File file) throws IOException {
+        //Gitlab supports only utf-8 (in our application) or base64 (in common) encoding for commits via api
+        return writeRandomStringToFile(file);
+    }
+
+    @Override
+    public void checkFileContent(File file, Object content) throws IOException {
+        assertThat(file).hasContent((String) content);
     }
 }
