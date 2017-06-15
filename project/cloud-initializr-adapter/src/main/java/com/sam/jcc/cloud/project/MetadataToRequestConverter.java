@@ -23,7 +23,7 @@ class MetadataToRequestConverter {
         r.setBootVersion(p.getBootVersion());
         r.setJavaVersion(p.getJavaVersion());
         r.setDescription(p.getDescription());
-        r.setPackageName(p.getBasePackage());
+        r.setPackageName(ProjectGeneratorHelper.getProjectPackage(p.getBasePackage()));
         r.setPackaging(convertPackaging(p.getWebAppPackaging()));
         return r;
     }

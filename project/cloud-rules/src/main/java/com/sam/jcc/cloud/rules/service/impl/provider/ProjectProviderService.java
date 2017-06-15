@@ -11,6 +11,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.sam.jcc.cloud.project.ProjectGeneratorHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -123,7 +124,7 @@ public class ProjectProviderService implements IService<IProjectMetadata> {
 			metadata.setBootVersion("1.4.3.RELEASE"); // TODO property or
 														// dynamic calc
 
-			metadata.setBasePackage(metadata.getGroupId() + "." + metadata.getArtifactId());
+			metadata.setBasePackage(ProjectGeneratorHelper.getProjectPackage(metadata.getGroupId() + "." + metadata.getArtifactId()));
 			metadata.setDependencies(singletonList("web"));
 
 			metadata.setProjectName(metadata.getArtifactId());
