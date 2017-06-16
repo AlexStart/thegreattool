@@ -16,7 +16,10 @@ import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.ItemStorage;
 import lombok.AccessLevel;
 import lombok.Getter;
-//import org.springframework.context.annotation.Profile;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -39,8 +42,12 @@ import static org.springframework.util.StreamUtils.copyToByteArray;
  * @since 15-Dec-16
  */
 @Component
+//TODO[rfisenko 6/16/17]: remove dependency to 'root' workspace when bean creation and remove this scope
+@Scope("prototype")
 //@Profile("prod")
-public class Jenkins implements CIServer {
+public class Jenkins implements CIServer, ApplicationContextAware {
+
+    private ApplicationContext context;
 
     @VisibleForTesting
     @Getter(AccessLevel.PACKAGE)
@@ -51,7 +58,6 @@ public class Jenkins implements CIServer {
     private ItemStorage<CIProject> workspace;
 
     private JenkinsJobManager jobManager;
-    private JenkinsConfigurationBuilder configBuilder;
 
     private boolean connected;
 
@@ -81,7 +87,6 @@ public class Jenkins implements CIServer {
         workspace.setRoot(root);
 
         jobManager = new JenkinsJobManager(server);
-        configBuilder = new JenkinsConfigurationBuilder(workspace);
     }
 
     @SuppressWarnings("unchecked")
@@ -117,7 +122,7 @@ public class Jenkins implements CIServer {
         try {
             workspace.create(project);
             copySourcesToCIRepo(project);
-            final String config = configBuilder.build(project);
+            final String config = createConfigBuilder().build(project);
             server.createJob(project.getName(), config, true);
         } catch (IOException e) {
             workspace.delete(project);
@@ -233,5 +238,20 @@ public class Jenkins implements CIServer {
         // return new JenkinsServer(URI.create(getProperty("ci.jenkins.host")),
         // getProperty("ci.jenkins.user"),
         // getProperty("ci.jenkins.password"));
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.context = applicationContext;
+    }
+
+    /**
+     * Lazy initialization of {@link JenkinsConfigurationBuilder} for Spring container working
+     * NOTE: don't use this method before calling JenkinsConfigurationBuilder#prepareJenkins()
+     *
+     * @return new instance of builder
+     */
+    public JenkinsConfigurationBuilder createConfigBuilder() {
+        return context.getBean(JenkinsConfigurationBuilder.class, workspace);
     }
 }

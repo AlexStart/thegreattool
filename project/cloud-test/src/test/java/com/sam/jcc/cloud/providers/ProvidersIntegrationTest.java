@@ -1,5 +1,7 @@
 package com.sam.jcc.cloud.providers;
 
+import static com.sam.jcc.cloud.ci.CIBuildStatus.IN_PROGRESS;
+import static java.lang.Thread.sleep;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -7,12 +9,15 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
+import com.sam.jcc.cloud.ci.impl.Jenkins;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.sam.jcc.cloud.app.AppMetadata;
@@ -42,16 +47,20 @@ import com.sam.jcc.cloud.vcs.git.impl.GitRemoteStorage;
  */
 @SpringBootTest
 @RunWith(SpringRunner.class)
+@Slf4j
 public class ProvidersIntegrationTest extends TestEnvironment {
 
 	static final String PROJECT_ARTIFACT_ID = "iproject" + new Random().nextInt(1000);
 	static final String PROJECT_GROUP_ID = "com.samsolutions";
 
 	@Autowired
+	ApplicationContext context;
+
+	@Autowired
 	AppProvider apps;
 
 	@Autowired
-	JenkinsProvider jenkins;
+	JenkinsProvider jenkinsProvider;
 
 	@Autowired
 	GitProtocolProvider git;
@@ -68,9 +77,11 @@ public class ProvidersIntegrationTest extends TestEnvironment {
 	CIProject job;
 	ProjectMetadata metadata;
 	VCSRepository repository;
+	private Jenkins jenkins; //TODO[rfisenko 6/16/17]: bad solution. make refactoring. Move to TestEnvironment.class
 
 	@Before
 	public void setUp() throws IOException {
+		jenkins = context.getBean(Jenkins.class, jenkinsServer, temp.newFolder());
 		job = job();
 		app = app();
 		data = data(app);
@@ -80,7 +91,7 @@ public class ProvidersIntegrationTest extends TestEnvironment {
 		mySqlManager.drop(data);
 		apps.findAll().forEach(apps::delete);
 
-		jenkins.setJenkins(TestEnvironment.jenkins);
+		jenkinsProvider.setJenkins(jenkins);
 		setUpGitRemoteStorage(TestEnvironment.daemon);
 	}
 
@@ -108,9 +119,9 @@ public class ProvidersIntegrationTest extends TestEnvironment {
 		clearLocalSources(repository);
 		copySourcesTo(git.read(repository), job, data);
 
-		jenkins.create(job);
+		jenkinsProvider.create(job);
 		waitWhileProcessing(job);
-		assertThat(getBuild(jenkins.read(job))).isNotEmpty();
+		assertThat(getBuild(jenkinsProvider.read(job))).isNotEmpty();
 
 		deleteQuietly(job);
 		disableGitSupport(repository);
@@ -225,12 +236,39 @@ public class ProvidersIntegrationTest extends TestEnvironment {
 	}
 
 	byte[] getBuild(ICIMetadata metadata) {
-		final CIProject job = (CIProject) jenkins.read(metadata);
+		final CIProject job = (CIProject) jenkinsProvider.read(metadata);
 		return job.getBuild();
 	}
 
 	void disableGitSupport(VCSRepository repo) throws IOException {
 		daemon.disableExport(repo);
 		git.delete(repo);
+	}
+
+	protected final void waitWhileProcessing(CIProject project) throws Exception {
+		log.info("Start wait {}", project);
+		log.info("Waiting for {}", project);
+
+		long timeOut = JOB_TIMEOUT;
+
+		while (jenkins.getLastBuildStatus(project) == IN_PROGRESS && timeOut > 0L) {
+			sleep(500L);
+			timeOut -= 500L;
+		}
+
+		if (timeOut <= 0L) {
+			throw new RuntimeException("TimeOut");
+		}
+		log.info("{} finished", project);
+
+		sleep(1_000L /* timeout for Jenkins stabilization */);
+	}
+
+	/**
+	 * Sometimes Jenkins does some actions with CIProject and can't immediately delete Job.
+	 */
+	protected final void deleteQuietly(CIProject project) throws Exception {
+		sleep(1_500L);
+		jenkinsProvider.delete(project);
 	}
 }

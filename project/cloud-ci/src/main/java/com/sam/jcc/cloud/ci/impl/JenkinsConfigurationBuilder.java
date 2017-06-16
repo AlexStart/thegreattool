@@ -13,7 +13,10 @@ import com.sam.jcc.cloud.utils.files.ItemStorage;
 import com.sam.jcc.cloud.utils.parsers.ProjectParser;
 import com.sam.jcc.cloud.vcs.git.impl.GitFileProvider;
 import com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Scope;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.stereotype.Component;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -27,7 +30,10 @@ import static com.sam.jcc.cloud.utils.SystemUtils.isWindowsOS;
  * @author Alexey Zhytnik
  * @since 18-Dec-16
  */
-class JenkinsConfigurationBuilder {
+@Component
+@Scope("prototype")
+@Lazy
+public class JenkinsConfigurationBuilder {
 
     public static final String MAVEN_ARTIFACTS = "target/*.jar";
     public static final String GRADLE_ARTIFACTS = "build/libs/*.jar";
