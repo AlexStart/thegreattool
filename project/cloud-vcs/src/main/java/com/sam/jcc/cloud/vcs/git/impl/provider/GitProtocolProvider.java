@@ -4,18 +4,12 @@ import com.sam.jcc.cloud.i.IEventManager;
 import com.sam.jcc.cloud.i.IHealth;
 import com.sam.jcc.cloud.i.IHealthMetadata;
 import com.sam.jcc.cloud.i.vcs.IVCSMetadata;
-import com.sam.jcc.cloud.vcs.VCS;
-import com.sam.jcc.cloud.vcs.git.impl.storage.GitRemoteStorage;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.sam.jcc.cloud.vcs.git.impl.vcs.GitRemoteVCS;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.List;
-
-import static java.util.Objects.requireNonNull;
 
 /**
  * @author olegk
@@ -26,22 +20,12 @@ public class GitProtocolProvider extends VCSProvider implements IHealth {
     private static final long GIT_PROTOCOL_PROVIDER_ID = 4L;
     public static final String TYPE = "git-protocol";
 
-    @Autowired
-    private GitRemoteStorage storage;
+    protected GitRemoteVCS vcs;
 
-    @Autowired
-    @Qualifier("gitVCS")
-    protected VCS vcs;
-
-    public GitProtocolProvider(List<IEventManager<IVCSMetadata>> eventManagers) {
-        super(eventManagers);
-    }
-
-    @PostConstruct
-    public void setUp() {
-        setVcs(requireNonNull(vcs));
-        vcs.setStorage(requireNonNull(storage));
-        storage.installBaseRepository();
+    public GitProtocolProvider(List<IEventManager<IVCSMetadata>> eventManagers, GitRemoteVCS vcs) {
+        super(eventManagers, vcs);
+        this.vcs = vcs;
+        vcs.installBaseRepository();
     }
 
     // TODO: need check server
@@ -61,19 +45,19 @@ public class GitProtocolProvider extends VCSProvider implements IHealth {
 
             @Override
             public String getHost() {
-                return storage.getHost();
+                return vcs.getHost();
             }
 
             @Override
             public String getPort() {
-                return String.valueOf(storage.getPort());
+                return String.valueOf(vcs.getPort());
             }
 
             @Override
             public String getUrl() {
                 try {
                     StringBuilder sb = new StringBuilder();
-                    String line = storage.getRepositoryURL();
+                    String line = vcs.getRepositoryURL();
                     sb.append(line);
                     return sb.toString();
                 } catch (Exception e) {

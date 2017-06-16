@@ -7,20 +7,14 @@ import com.sam.jcc.cloud.i.IEventManager;
 import com.sam.jcc.cloud.i.IHealth;
 import com.sam.jcc.cloud.i.IHealthMetadata;
 import com.sam.jcc.cloud.i.vcs.IVCSMetadata;
-import com.sam.jcc.cloud.vcs.VCS;
-import com.sam.jcc.cloud.vcs.git.impl.storage.GitlabServer;
+import com.sam.jcc.cloud.vcs.git.impl.vcs.GitlabServerVCS;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
-
-import static java.util.Objects.requireNonNull;
 
 /**
  * @author olegk
@@ -31,21 +25,11 @@ public class GitlabProvider extends VCSProvider implements IHealth {
     private static final long GITLAB_PROVIDER_ID = 8L;
     public static final String TYPE = "gitlab";
 
-    @Autowired
-    private GitlabServer storage;
+    private GitlabServerVCS vcs;
 
-    @Autowired
-    @Qualifier("gitServerVCS")
-    protected VCS vcs;
-
-    public GitlabProvider(List<IEventManager<IVCSMetadata>> eventManagers) {
-        super(eventManagers);
-    }
-
-    @PostConstruct
-    public void setUp() {
-        setVcs(requireNonNull(vcs));
-        vcs.setStorage(requireNonNull(storage));
+    public GitlabProvider(List<IEventManager<IVCSMetadata>> eventManagers, GitlabServerVCS vcs) {
+        super(eventManagers, vcs);
+        this.vcs = vcs;
     }
 
     @Override
@@ -81,17 +65,17 @@ public class GitlabProvider extends VCSProvider implements IHealth {
 
             @Override
             public String getHost() {
-                return storage.getHost();
+                return vcs.getHost();
             }
 
             @Override
             public String getPort() {
-                return storage.getPort();
+                return vcs.getPort();
             }
 
             @Override
             public String getUrl() {
-                return "http://" + getHost() + ":" + getPort() + "/" + storage.getUrl();
+                return "http://" + getHost() + ":" + getPort() + "/" + vcs.getUrl();
             }
 
             @Override

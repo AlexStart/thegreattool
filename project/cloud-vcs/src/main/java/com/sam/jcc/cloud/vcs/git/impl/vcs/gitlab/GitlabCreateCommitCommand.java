@@ -1,4 +1,4 @@
-package com.sam.jcc.cloud.vcs.git.impl.storage.gitlab;
+package com.sam.jcc.cloud.vcs.git.impl.vcs.gitlab;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;

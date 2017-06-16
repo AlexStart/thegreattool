@@ -1,4 +1,4 @@
-package com.sam.jcc.cloud.vcs.git.impl.storage;
+package com.sam.jcc.cloud.vcs.git.impl.vcs;
 
 import com.sam.jcc.cloud.utils.files.ItemStorage.ItemNotFoundException;
 import com.sam.jcc.cloud.vcs.VCSRepository;
@@ -13,7 +13,7 @@ import static com.sam.jcc.cloud.PropertyResolver.getProperty;
  * @since 06.12.2016
  */
 @Component
-public class GitFileStorage extends AbstractGitStorage {
+public class GitFileVCS extends AbstractGitVCS {
 
     private String protocol = getProperty("protocols.file");
 

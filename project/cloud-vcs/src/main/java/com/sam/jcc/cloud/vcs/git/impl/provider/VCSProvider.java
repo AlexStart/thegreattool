@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 import static com.sam.jcc.cloud.vcs.VCSRepositoryStatus.*;
-import static lombok.AccessLevel.PROTECTED;
+import static java.util.Objects.requireNonNull;
 
 /**
  * @author olegk
@@ -26,7 +26,6 @@ import static lombok.AccessLevel.PROTECTED;
  */
 public abstract class VCSProvider extends AbstractProvider<IVCSMetadata> implements IVCSProvider {
 
-    @Setter(PROTECTED)
     @Getter
     @VisibleForTesting
     protected VCS vcs;
@@ -37,8 +36,9 @@ public abstract class VCSProvider extends AbstractProvider<IVCSMetadata> impleme
     private GitMetadataDao dao;
 
     @Autowired
-    public VCSProvider(List<IEventManager<IVCSMetadata>> eventManagers) {
+    public VCSProvider(List<IEventManager<IVCSMetadata>> eventManagers, VCS vcs) {
         super(eventManagers);
+        this.vcs = requireNonNull(vcs);
     }
 
     @Override

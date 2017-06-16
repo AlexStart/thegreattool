@@ -4,6 +4,7 @@ import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.vcs.VCS;
 import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.VCSRepositoryDataHelper;
+import com.sam.jcc.cloud.vcs.exception.VCSRepositoryNotFoundException;
 import lombok.Setter;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -36,100 +37,44 @@ public abstract class AbstractVCSTest {
     }
 
     @Test
-    public void createsAndDeletes() throws IOException {
+    public void checksExistenceAfterCreateDelete() {
+        assertThat(vcs.isExist(repository)).isFalse();
+
         vcs.create(repository);
+
+        assertThat(vcs.isExist(repository)).isTrue();
+
         vcs.delete(repository);
-    }
 
-    @Test
-    public void reads() throws IOException {
-        vcs.create(repository);
-        final Entry<String, Object> data = writeSomeDataAndCommit();
-
-        final File dest = temp.newFolder();
-        repository.setSources(dest);
-
-        vcs.read(repository);
-        assertThat(dest.listFiles()).isNotNull().isNotEmpty();
-
-        final File copy = new File(dest, data.getKey());
-
-        assertThat(copy).exists().isFile();
-        checkFileContent(copy, data.getValue());
+        assertThat(vcs.isExist(repository)).isFalse();
     }
 
     @Test
     public void worksStable() throws IOException {
         vcs.create(repository);
 
-        writeSomeDataAndCommit();
-        writeSomeDataAndCommit();
+        writeSomeBinaryDataAndCommit();
+        writeSomeBinaryDataAndCommit();
 
         repository.setSources(temp.newFolder());
         vcs.read(repository);
     }
 
-    @Test
-    public void checksExistence() {
-        assertThat(vcs.isExist(repository)).isFalse();
-
-        vcs.create(repository);
-
-        assertThat(vcs.isExist(repository)).isTrue();
-
+    @Test(expected = VCSRepositoryNotFoundException.class)
+    public void failsOnDeleteNotExistence() {
         vcs.delete(repository);
-
-        assertThat(vcs.isExist(repository)).isFalse();
     }
 
-    @Test
-    public void commits() throws IOException {
-        vcs.create(repository);
-        writeSomeDataAndCommit();
-    }
-
-    @Test
-    public void integrationTest() throws IOException {
-        assertThat(vcs.isExist(repository)).isFalse();
-        vcs.create(repository);
-        assertThat(vcs.isExist(repository)).isTrue();
-
-        repository.setSources(temp.newFolder());
-        writeSomeDataAndCommit();
-
-        repository.setSources(temp.newFolder());
-        vcs.read(repository);
-
-        assertThat(repository.getSources().listFiles())
-                .isNotNull()
-                .isNotEmpty();
-
-        vscDelete();
-        assertThat(vcs.isExist(repository)).isFalse();
-    }
-
-    Entry<String, Object> writeSomeDataAndCommit() throws IOException {
+    protected Entry<String, byte[]> writeSomeBinaryDataAndCommit() throws IOException {
         final File src = temp.newFolder();
         final File file = new File(src, new Random().nextInt() + "-file.txt");
-        Object content = writeToFileToCommit(file);
+        byte[] content = writeRandomBinaryToFile(file);
         repository.setSources(src);
 
         vcs.commit(repository);
 
         return entry(file.getName(), content);
     }
-
-    public void vscDelete() {
-        vcs.delete(repository);
-    }
-
-    /**
-     * @param file
-     * @return content of file
-     */
-    public abstract Object writeToFileToCommit(File file) throws IOException;
-
-    public abstract void checkFileContent(File file, Object content) throws IOException;
 
     protected byte[] writeRandomBinaryToFile(File file) {
         final Random random = new Random();

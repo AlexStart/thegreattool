@@ -1,17 +1,17 @@
-package com.sam.jcc.cloud.vcs.git.impl.storage;
+package com.sam.jcc.cloud.vcs.git.impl.vcs;
 
 import com.google.common.io.Files;
 import com.sam.jcc.cloud.i.Experimental;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.GzipTarArchiveManager;
+import com.sam.jcc.cloud.vcs.VCS;
 import com.sam.jcc.cloud.vcs.VCSCredentials;
 import com.sam.jcc.cloud.vcs.VCSRepository;
-import com.sam.jcc.cloud.vcs.VCSStorage;
 import com.sam.jcc.cloud.vcs.exception.VCSException;
 import com.sam.jcc.cloud.vcs.exception.VCSRepositoryNotFoundException;
 import com.sam.jcc.cloud.vcs.exception.VCSUnknownProtocolException;
 import com.sam.jcc.cloud.vcs.git.impl.GitCredentials;
-import com.sam.jcc.cloud.vcs.git.impl.storage.gitlab.GitlabCreateCommitCommand;
+import com.sam.jcc.cloud.vcs.git.impl.vcs.gitlab.GitlabCreateCommitCommand;
 import lombok.Getter;
 import org.gitlab.api.GitlabAPI;
 import org.gitlab.api.models.GitlabCommit;
@@ -40,7 +40,7 @@ import static org.apache.commons.io.FileUtils.writeByteArrayToFile;
  */
 @Component
 @Experimental("Integration with a GitLab storage") //TODO - probably, this can be removed
-public class GitlabServer extends AbstractGitServerStorage implements VCSStorage<VCSCredentials> {
+public class GitLabServerVCS extends AbstractGitServerVCS implements VCS<VCSCredentials> {
 
     @Getter
     private String host = getProperty("gitlab.remote.server.host");

@@ -1,16 +1,17 @@
 package com.sam.jcc.cloud.vcs.git.impl.vcs;
 
+import com.sam.jcc.cloud.utils.files.ItemStorage;
 import com.sam.jcc.cloud.vcs.VCS;
 import com.sam.jcc.cloud.vcs.VCSCredentials;
 import com.sam.jcc.cloud.vcs.VCSRepository;
-import com.sam.jcc.cloud.vcs.VCSStorage;
-import lombok.Getter;
-import lombok.Setter;
+import com.sam.jcc.cloud.vcs.git.impl.VCSRepositoryBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.Optional;
+
+import static java.util.Optional.empty;
 
 /**
  * @author Alexey Zhytnik
@@ -21,27 +22,14 @@ import java.util.List;
 @Scope("prototype")
 public abstract class AbstractVCS implements VCS<VCSCredentials> {
 
-    @Setter
-    @Getter
-    protected VCSStorage<VCSCredentials> storage;
+    protected final ItemStorage<VCSRepository> storage;
 
-    @Override
-    public boolean isExist(VCSRepository repo) {
-        return storage.isExist(repo);
+    public AbstractVCS() {
+        storage = new ItemStorage<>(VCSRepository::getName, new VCSRepositoryBuilder());
     }
 
     @Override
-    public void delete(VCSRepository repo) {
-        storage.delete(repo);
-    }
-
-    @Override
-    public void create(VCSRepository repo) {
-        storage.create(repo);
-    }
-
-    @Override
-    public List<VCSRepository> getAllRepositories() {
-        return storage.getAllRepositories();
+    public Optional<VCSCredentials> getCredentialsProvider() {
+        return empty();
     }
 }

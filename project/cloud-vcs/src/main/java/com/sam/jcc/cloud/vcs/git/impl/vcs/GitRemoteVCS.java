@@ -1,4 +1,4 @@
-package com.sam.jcc.cloud.vcs.git.impl.storage;
+package com.sam.jcc.cloud.vcs.git.impl.vcs;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.sam.jcc.cloud.vcs.VCSRepository;
@@ -19,7 +19,7 @@ import static java.text.MessageFormat.format;
  * @since 06.12.2016
  */
 @Component
-public class GitRemoteStorage extends AbstractGitStorage {
+public class GitRemoteVCS extends AbstractGitVCS {
 
     @Getter
     private String host = getProperty("git.remote.server.host");

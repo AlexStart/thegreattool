@@ -1,9 +1,9 @@
-package com.sam.jcc.cloud.vcs.git.impl.storage;
+package com.sam.jcc.cloud.vcs.git.impl.vcs;
 
 import com.sam.jcc.cloud.vcs.VCSRepository;
-import com.sam.jcc.cloud.vcs.VCSStorage;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static com.sam.jcc.cloud.vcs.VCSRepositoryDataHelper.repository;
@@ -14,14 +14,23 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
  * @author Alexey Zhytnik
  * @since 28.11.2016
  */
-public abstract class AbstractVCSStorageTest<T extends VCSStorage<?>> {
+@Ignore
+public class GitHubVCSTest {
 
-    protected T server;
+    protected GitHubServerVCS server;
 
     protected VCSRepository repository = repository();
 
     @Before
-    public abstract void setUp();
+    public void setUp() {
+        server = new GitHubServerVCS();
+        //TODO: set user, password, access token
+    }
+
+    @Test
+    public void worksWithHttps() {
+        server.setProtocol("https");
+    }
 
     @Test
     public void createsAndChecksExistence() throws Exception {

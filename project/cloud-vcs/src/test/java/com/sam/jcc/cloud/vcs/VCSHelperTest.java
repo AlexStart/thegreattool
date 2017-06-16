@@ -1,22 +1,21 @@
 package com.sam.jcc.cloud.vcs;
 
-import static com.sam.jcc.cloud.utils.files.FileManager.getResource;
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.io.File;
-import java.io.IOException;
-
+import com.sam.jcc.cloud.utils.files.DirectoryComparator;
+import com.sam.jcc.cloud.utils.files.TempFile;
+import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
 import com.sam.jcc.cloud.vcs.exception.VCSRepositoryNotFoundException;
+import com.sam.jcc.cloud.vcs.git.impl.vcs.GitFileVCS;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.SystemOutRule;
 import org.junit.rules.TemporaryFolder;
 
-import com.sam.jcc.cloud.utils.files.DirectoryComparator;
-import com.sam.jcc.cloud.utils.files.TempFile;
-import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
-import com.sam.jcc.cloud.vcs.git.impl.storage.GitFileStorage;
+import java.io.File;
+import java.io.IOException;
+
+import static com.sam.jcc.cloud.utils.files.FileManager.getResource;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Alexey Zhytnik
@@ -35,7 +34,7 @@ public class VCSHelperTest {
 
     @Before
     public void setUp() throws IOException {
-        final GitFileStorage localGit = new GitFileStorage();
+        final GitFileVCS localGit = new GitFileVCS();
         localGit.setBaseRepository(temp.newFolder());
 
         vcsHelper = new VCSHelper(localGit);

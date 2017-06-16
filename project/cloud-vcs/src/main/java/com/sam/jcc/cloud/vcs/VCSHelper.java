@@ -1,18 +1,20 @@
 package com.sam.jcc.cloud.vcs;
 
-import static java.text.MessageFormat.format;
-import static java.util.Arrays.stream;
+import com.sam.jcc.cloud.auth.InitOnceAdminBean;
+import com.sam.jcc.cloud.utils.files.FileManager;
+import com.sam.jcc.cloud.utils.files.TempFile;
+import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
+import com.sam.jcc.cloud.vcs.exception.VCSUnknownProtocolException;
+import com.sam.jcc.cloud.vcs.git.impl.VCSRepositoryBuilder;
+import com.sam.jcc.cloud.vcs.git.impl.vcs.GitFileVCS;
+import com.sam.jcc.cloud.vcs.git.impl.vcs.GitRemoteVCS;
+import com.sam.jcc.cloud.vcs.git.impl.vcs.GitlabServerVCS;
 
 import java.io.File;
 import java.util.Arrays;
 
-import com.sam.jcc.cloud.utils.files.FileManager;
-import com.sam.jcc.cloud.utils.files.TempFile;
-import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
-import com.sam.jcc.cloud.vcs.git.impl.storage.GitFileStorage;
-import com.sam.jcc.cloud.vcs.git.impl.storage.GitRemoteStorage;
-import com.sam.jcc.cloud.vcs.git.impl.vcs.GitVCS;
-import com.sam.jcc.cloud.vcs.git.impl.VCSRepositoryBuilder;
+import static java.text.MessageFormat.format;
+import static java.util.Arrays.stream;
 
 /**
  * @author Alexey Zhytnik
@@ -28,28 +30,28 @@ public class VCSHelper {
 
     public VCSHelper(String protocol) {
         files = new FileManager();
-        vcs = new GitVCS();
-
-        setUpStorageByProtocol(protocol);
+        vcs = setUpVcsByProtocol(protocol);
     }
 
-    VCSHelper(VCSStorage<VCSCredentials> storage) {
+    VCSHelper(VCS<VCSCredentials> vcs) {
         files = new FileManager();
-
-        vcs = new GitVCS();
-        vcs.setStorage(storage);
+        this.vcs = vcs;
     }
 
-    private void setUpStorageByProtocol(String protocol) {
+    private VCS<VCSCredentials> setUpVcsByProtocol(String protocol) {
+        VCS<VCSCredentials> vcs;
         if (protocol.equals("git")) {
-            final GitRemoteStorage storage = new GitRemoteStorage();
-            storage.installBaseRepository();
-            vcs.setStorage(storage);
+            vcs = new GitRemoteVCS();
+            ((GitRemoteVCS) vcs).installBaseRepository();
+        } else if (protocol.equals("file")) {
+            vcs = new GitFileVCS();
+            ((GitFileVCS) vcs).installBaseRepository();
+        } else if (protocol.equals("gitlab")) {
+            vcs = new GitlabServerVCS(new InitOnceAdminBean());
         } else {
-            final GitFileStorage storage = new GitFileStorage();
-            storage.installBaseRepository();
-            vcs.setStorage(storage);
+            throw new VCSUnknownProtocolException(protocol);
         }
+        return vcs;
     }
 
     public static void main(String[] args) {
@@ -61,7 +63,7 @@ public class VCSHelper {
         final File project = new File(args[3]);
 
         failOnNotExistence(vcs, "git");
-        failOnNotExistence(protocol, "git", "file");
+        failOnNotExistence(protocol, "git", "file", "gitlab");
         failOnNotExistence(operation, "create", "read", "update", "delete");
         failOnSimpleFile(project);
 

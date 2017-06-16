@@ -1,15 +1,15 @@
 package com.sam.jcc.cloud.vcs.git.impl.vcs;
 
-import com.sam.jcc.cloud.vcs.git.impl.storage.GitRemoteStorage;
+import com.sam.jcc.cloud.vcs.exception.VCSRepositoryAlreadyExistsException;
 import com.sam.jcc.cloud.vcs.utils.GitDaemon;
 import org.junit.*;
 import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.fail;
 
 /**
  * @author Alexey Zhytnik
@@ -22,8 +22,11 @@ public class GitRemoteVCSTest extends AbstractVCSTest {
 
     static GitDaemon daemon;
 
+    private final GitRemoteVCS vcs;
+
     public GitRemoteVCSTest() {
-        super(new GitVCS());
+        super(new GitRemoteVCS());
+        this.vcs = (GitRemoteVCS) super.vcs;
     }
 
     @BeforeClass
@@ -39,10 +42,8 @@ public class GitRemoteVCSTest extends AbstractVCSTest {
 
     @Before
     public final void setUp() throws Exception {
-        final GitRemoteStorage storage = new GitRemoteStorage();
-        storage.setBaseRepository(daemon.getStorage());
-        storage.setPort(daemon.getCurrentPort());
-        vcs.setStorage(storage);
+        vcs.setBaseRepository(daemon.getStorage());
+        vcs.setPort(daemon.getCurrentPort());
         setTemp(temp);
     }
 
@@ -54,26 +55,24 @@ public class GitRemoteVCSTest extends AbstractVCSTest {
         }
     }
 
-    /**
-     * GitDaemon bug - see daemon.disableExport comments
-     */
-    @Override
-    public void vscDelete() {
-        try {
-            daemon.disableExport(repository);
-        } catch (IOException e) {
-            fail(e.getMessage());
-        }
-        vcs.delete(repository);
+    @Test(expected = VCSRepositoryAlreadyExistsException.class)
+    public void failsOnCreationExistence() {
+        vcs.create(repository);
+        vcs.create(repository);
     }
 
-    @Override
-    public Object writeToFileToCommit(File file) throws IOException {
-        return writeRandomBinaryToFile(file);
-    }
+    @Test
+    public void commitRead() throws IOException {
+        vcs.create(repository);
+        final File dest = temp.newFolder();
+        repository.setSources(dest);
 
-    @Override
-    public void checkFileContent(File file, Object content) throws IOException {
-        assertThat(file).hasBinaryContent((byte[]) content);
+        Map.Entry<String, byte[]> data = writeSomeBinaryDataAndCommit();
+        repository.setSources(dest);
+        vcs.read(repository);
+
+        assertThat(dest.listFiles()).isNotNull().isNotEmpty();
+        final File copy = new File(dest, data.getKey());
+        assertThat(copy).exists().isFile().hasBinaryContent(data.getValue());
     }
 }

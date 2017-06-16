@@ -1,11 +1,11 @@
-package com.sam.jcc.cloud.vcs.git.impl.storage;
+package com.sam.jcc.cloud.vcs.git.impl.vcs;
 
 import com.sam.jcc.cloud.PropertyResolver;
 import com.sam.jcc.cloud.exception.NotImplementedCloudException;
 import com.sam.jcc.cloud.i.Experimental;
+import com.sam.jcc.cloud.vcs.VCS;
 import com.sam.jcc.cloud.vcs.VCSCredentials;
 import com.sam.jcc.cloud.vcs.VCSRepository;
-import com.sam.jcc.cloud.vcs.VCSStorage;
 import com.sam.jcc.cloud.vcs.exception.VCSException;
 import com.sam.jcc.cloud.vcs.exception.VCSRepositoryNotFoundException;
 import com.sam.jcc.cloud.vcs.exception.VCSUnknownProtocolException;
@@ -30,7 +30,7 @@ import static java.util.Optional.of;
  */
 @Setter
 @Experimental("Integration with GitHub")
-public class GitHubServer extends AbstractGitServerStorage implements VCSStorage<VCSCredentials> {
+public class GitHubServerVCS extends AbstractGitServerVCS implements VCS<VCSCredentials> {
 
     private String user;
     private String token;
