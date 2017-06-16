@@ -1,6 +1,7 @@
 package com.sam.jcc.cloud.vcs.git.impl.vcs;
 
 import com.google.common.io.Files;
+import com.sam.jcc.cloud.auth.InitOnceAdminBean;
 import com.sam.jcc.cloud.i.Experimental;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.GzipTarArchiveManager;
@@ -10,7 +11,6 @@ import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.exception.VCSException;
 import com.sam.jcc.cloud.vcs.exception.VCSRepositoryNotFoundException;
 import com.sam.jcc.cloud.vcs.exception.VCSUnknownProtocolException;
-import com.sam.jcc.cloud.vcs.git.impl.GitCredentials;
 import com.sam.jcc.cloud.vcs.git.impl.vcs.gitlab.GitlabCreateCommitCommand;
 import lombok.Getter;
 import org.gitlab.api.GitlabAPI;
@@ -30,9 +30,10 @@ import java.util.stream.Collectors;
 
 import static com.sam.jcc.cloud.PropertyResolver.getProperty;
 import static java.text.MessageFormat.format;
-import static java.util.Optional.of;
+import static java.util.Objects.requireNonNull;
 import static org.apache.commons.io.FileUtils.copyDirectory;
 import static org.apache.commons.io.FileUtils.writeByteArrayToFile;
+import static org.apache.commons.lang.StringUtils.isNotBlank;
 
 /**
  * @author Alexey Zhytnik
@@ -40,7 +41,7 @@ import static org.apache.commons.io.FileUtils.writeByteArrayToFile;
  */
 @Component
 @Experimental("Integration with a GitLab storage") //TODO - probably, this can be removed
-public class GitLabServerVCS extends AbstractGitServerVCS implements VCS<VCSCredentials> {
+public class GitlabServerVCS extends AbstractGitServerVCS implements VCS<VCSCredentials> {
 
     @Getter
     private String host = getProperty("gitlab.remote.server.host");
@@ -52,13 +53,21 @@ public class GitLabServerVCS extends AbstractGitServerVCS implements VCS<VCSCred
     private String user = getProperty("gitlab.remote.server.user");
     @Getter
     private String password = getProperty("gitlab.remote.server.password");
+
     //TODO find compromise timeout or remove if tests keep stable
 //    private int requestTimeout = Integer.parseInt(getProperty("gitlab.remote.server.timeout"));
 
+    private final InitOnceAdminBean initAdmin;
+
+    public GitlabServerVCS(InitOnceAdminBean initAdmin) {
+        this.initAdmin = requireNonNull(initAdmin);
+    }
+
     @PostConstruct
     public void setUp() {
-        setUser(user);
-        setPassword(password);
+        if (isNotBlank(initAdmin.getRawPassword())) {
+            updateCurrentUserPassword(initAdmin.getRawPassword());
+        }
     }
 
     @Override
@@ -89,11 +98,6 @@ public class GitLabServerVCS extends AbstractGitServerVCS implements VCS<VCSCred
     @Override
     public String getRepositoryURI(VCSRepository repo) {
         return getRepositoryURI() + format("/{0}/{1}.git", user, repo.getName());
-    }
-
-    @Override
-    public Optional<VCSCredentials> getCredentialsProvider() {
-        return of(new GitCredentials(user, password));
     }
 
     @Override

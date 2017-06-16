@@ -9,7 +9,6 @@ import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.exception.VCSException;
 import com.sam.jcc.cloud.vcs.exception.VCSRepositoryNotFoundException;
 import com.sam.jcc.cloud.vcs.exception.VCSUnknownProtocolException;
-import com.sam.jcc.cloud.vcs.git.impl.GitCredentials;
 import lombok.Setter;
 import org.kohsuke.github.GHCreateRepositoryBuilder;
 import org.kohsuke.github.GHRepository;
@@ -22,7 +21,6 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 import static java.text.MessageFormat.format;
-import static java.util.Optional.of;
 
 /**
  * @author Alexey Zhytnik
@@ -68,11 +66,6 @@ public class GitHubServerVCS extends AbstractGitServerVCS implements VCS<VCSCred
     @Override
     public String getRepositoryURI(VCSRepository repo) {
         return format("{0}/{1}/{2}.git", github, user, repo.getName());
-    }
-
-    @Override
-    public Optional<VCSCredentials> getCredentialsProvider() {
-        return of(new GitCredentials(user, password));
     }
 
     @Override

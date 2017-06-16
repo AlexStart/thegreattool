@@ -24,10 +24,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Optional;
 
 import static com.sam.jcc.cloud.PropertyResolver.getProperty;
-import static java.util.Optional.empty;
 
 /**
  * @author Alexey Zhytnik
@@ -66,11 +64,6 @@ public abstract class AbstractGitVCS extends AbstractVCS implements VCS<VCSCrede
     @Override
     public List<VCSRepository> getAllRepositories() {
         return storage.getItems();
-    }
-
-    @Override
-    public Optional<VCSCredentials> getCredentialsProvider() {
-        return empty();
     }
 
     @Override

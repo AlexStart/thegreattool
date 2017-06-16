@@ -1,5 +1,6 @@
 package com.sam.jcc.cloud.vcs.git.impl.vcs;
 
+import com.sam.jcc.cloud.auth.InitOnceAdminBean;
 import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.exception.VCSException;
 import com.sam.jcc.cloud.vcs.exception.VCSUnknownProtocolException;
@@ -18,7 +19,7 @@ import static com.sam.jcc.cloud.vcs.VCSRepositoryDataHelper.notEmptyRepository;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.testcontainers.containers.wait.Wait.forHttp;
 
-public class GitLabVCSTest extends AbstractVCSTest {
+public class GitlabVCSTest extends AbstractVCSTest {
 
     //TODO maybe set fixed image version: latest to 9.2.5-ce.0
     @ClassRule
@@ -35,16 +36,16 @@ public class GitLabVCSTest extends AbstractVCSTest {
                             .forStatusCode(200)
                             .usingTls());
 
-    private final GitLabServerVCS vcs;
+    private final GitlabServerVCS vcs;
 
     private final VCSRepository notEmptyRepository = notEmptyRepository();
 
     @Rule
     public TemporaryFolder temp = new TemporaryFolder();
 
-    public GitLabVCSTest() {
-        super(new GitLabServerVCS());
-        this.vcs = (GitLabServerVCS) super.vcs;
+    public GitlabVCSTest() {
+        super(new GitlabServerVCS(new InitOnceAdminBean()));
+        this.vcs = (GitlabServerVCS) super.vcs;
     }
 
     @Before
