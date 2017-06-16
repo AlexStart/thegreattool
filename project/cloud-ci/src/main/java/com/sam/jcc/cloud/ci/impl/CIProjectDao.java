@@ -22,7 +22,7 @@ import com.sam.jcc.cloud.persistence.data.ProjectDataRepository;
  * @since 22-Jan-17
  */
 @Component
-class CIProjectDao implements ICRUD<CIProject> {
+public class CIProjectDao implements ICRUD<CIProject> {
 
 	@Autowired
 	private ProjectDataRepository repository;

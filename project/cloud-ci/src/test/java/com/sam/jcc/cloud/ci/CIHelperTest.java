@@ -1,7 +1,7 @@
 package com.sam.jcc.cloud.ci;
 
 import com.sam.jcc.cloud.ci.exception.CIBuildNotFoundException;
-import com.sam.jcc.cloud.ci.impl.JenkinsBaseTest;
+import com.sam.jcc.cloud.ci.jenkins.JenkinsBaseTest;
 import com.sam.jcc.cloud.utils.files.TempFile;
 import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
 import org.junit.Before;

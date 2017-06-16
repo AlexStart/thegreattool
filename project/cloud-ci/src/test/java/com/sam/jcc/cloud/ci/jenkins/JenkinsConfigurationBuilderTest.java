@@ -1,6 +1,10 @@
-package com.sam.jcc.cloud.ci.impl;
+package com.sam.jcc.cloud.ci.jenkins;
 
 import com.sam.jcc.cloud.ci.CIProject;
+import com.sam.jcc.cloud.ci.jenkins.config.JenkinsConfigurationBuilder;
+import com.sam.jcc.cloud.ci.jenkins.config.vcs.GitFileGonfigurator;
+import com.sam.jcc.cloud.ci.jenkins.config.vcs.GitProtocolGonfigurator;
+import com.sam.jcc.cloud.ci.jenkins.config.vcs.WithoutVCSConfigurator;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.ItemStorage;
 import com.sam.jcc.cloud.vcs.git.impl.GitFileProvider;
@@ -10,8 +14,9 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import java.io.IOException;
+import java.util.Arrays;
 
-import static com.sam.jcc.cloud.ci.impl.JenkinsConfigurationBuilder.MAVEN_ARTIFACTS;
+import static com.sam.jcc.cloud.ci.jenkins.config.JenkinsConfigurationBuilder.MAVEN_ARTIFACTS;
 import static com.sam.jcc.cloud.ci.util.CIProjectTemplates.loadProject;
 import static com.sam.jcc.cloud.utils.SystemUtils.resetOSSettings;
 import static com.sam.jcc.cloud.utils.SystemUtils.setWindowsOS;
@@ -45,6 +50,10 @@ public class JenkinsConfigurationBuilderTest extends JenkinsBaseTest {
         copySourcesIntoWorkspace(gradleProject);
 
         builder = new JenkinsConfigurationBuilder(workspace);
+        builder.setVcsConfigurators(Arrays.asList(
+                new GitFileGonfigurator(),
+                new GitProtocolGonfigurator(),
+                new WithoutVCSConfigurator()));
     }
 
     @Test

@@ -1,4 +1,4 @@
-package com.sam.jcc.cloud.ci.impl;
+package com.sam.jcc.cloud.ci.jenkins;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.offbytwo.jenkins.JenkinsServer;
@@ -12,6 +12,7 @@ import com.sam.jcc.cloud.ci.CIServer;
 import com.sam.jcc.cloud.ci.exception.CIBuildNotFoundException;
 import com.sam.jcc.cloud.ci.exception.CIException;
 import com.sam.jcc.cloud.ci.exception.CIProjectAlreadyExistsException;
+import com.sam.jcc.cloud.ci.jenkins.config.JenkinsConfigurationBuilder;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.ItemStorage;
 import lombok.AccessLevel;
@@ -61,7 +62,6 @@ public class Jenkins implements CIServer, ApplicationContextAware {
 
     private boolean connected;
 
-    // TODO(a bad part of the app): should be compliant with Spring
     public Jenkins() {
         init(defaultJenkinsServer(), defaultWorkspace());
     }

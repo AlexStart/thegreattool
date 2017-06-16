@@ -1,4 +1,4 @@
-package com.sam.jcc.cloud.ci.impl;
+package com.sam.jcc.cloud.ci.jenkins;
 
 import static com.sam.jcc.cloud.PropertyResolver.getProperty;
 import static com.sam.jcc.cloud.ci.CIProjectStatus.CREATED;
@@ -11,6 +11,7 @@ import java.net.InetAddress;
 import java.net.URL;
 import java.util.List;
 
+import com.sam.jcc.cloud.ci.impl.CIProjectDao;
 import org.apache.commons.lang.Validate;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;

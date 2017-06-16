@@ -1,4 +1,4 @@
-package com.sam.jcc.cloud.ci.impl;
+package com.sam.jcc.cloud.ci.jenkins;
 
 import com.offbytwo.jenkins.model.JobWithDetails;
 import com.sam.jcc.cloud.ci.CIBuildStatus;

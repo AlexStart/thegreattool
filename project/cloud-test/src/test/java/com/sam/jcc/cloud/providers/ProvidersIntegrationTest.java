@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
-import com.sam.jcc.cloud.ci.impl.Jenkins;
+import com.sam.jcc.cloud.ci.jenkins.Jenkins;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Before;
@@ -23,7 +23,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.sam.jcc.cloud.app.AppMetadata;
 import com.sam.jcc.cloud.app.AppProvider;
 import com.sam.jcc.cloud.ci.CIProject;
-import com.sam.jcc.cloud.ci.impl.JenkinsProvider;
+import com.sam.jcc.cloud.ci.jenkins.JenkinsProvider;
 import com.sam.jcc.cloud.dataprovider.AppData;
 import com.sam.jcc.cloud.dataprovider.impl.MySqlDataProvider;
 import com.sam.jcc.cloud.dataprovider.impl.MySqlDatabaseManager;

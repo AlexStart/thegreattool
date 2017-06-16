@@ -1,4 +1,4 @@
-package com.sam.jcc.cloud.ci.impl;
+package com.sam.jcc.cloud.ci.jenkins.config;
 
 import lombok.Data;
 
