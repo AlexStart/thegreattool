@@ -7,6 +7,7 @@ import static java.lang.System.lineSeparator;
 
 import java.io.File;
 
+import com.sam.jcc.cloud.PropertyResolverHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -90,7 +91,7 @@ class MySqlInjector implements IDataInjector<AppData> {
     private String settings(AppData data) {
         return String.join(lineSeparator(),
                 of(
-                        jpa("url", getProperty("db.mysql.url") + data.getAppName() + getProperty("db.mysql.url.postfix")),
+                        jpa("url", getMySqlConnectionUrl() + data.getAppName() + getProperty("db.mysql.url.postfix")),
                         jpa("username", getProperty("db.mysql.user")),
                         jpa("password", getProperty("db.mysql.password")),
                         "spring.jpa.hibernate.ddl-auto=update"
@@ -99,5 +100,10 @@ class MySqlInjector implements IDataInjector<AppData> {
 
     private String jpa(String property, String value) {
         return format("%s.%s=%s", JPA, property, value);
+    }
+
+    private String getMySqlConnectionUrl() {
+        return PropertyResolverHelper.
+                    getConnectionUrl(getProperty("db.mysql.protocol"), getProperty("db.mysql.host"),getProperty("db.mysql.port"));
     }
 }
