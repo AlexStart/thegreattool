@@ -13,17 +13,10 @@ import com.sam.jcc.cloud.exception.BusinessCloudException;
 @Component
 public class ArtifactIdValidator {
 
-	private static final String ARTIFACT_REGEX = "[A-Za-z0-9_\\-.]+";
-
 	public void validate(String s) {
-		if (isNull(s))
+		if (!ProjectPackageHelper.isProjectNameValid(s)) {
 			throw new AppMetadataValidationException();
-		if (!s.trim().toLowerCase().equals(s))
-			throw new AppMetadataValidationException();
-		if (!s.matches(ARTIFACT_REGEX))
-			throw new AppMetadataValidationException();
-		if (s.startsWith("cloud") || s.startsWith("sam-checkstyle"))
-			throw new AppMetadataValidationException();
+		}
 	}
 
 	public static class AppMetadataValidationException extends BusinessCloudException {

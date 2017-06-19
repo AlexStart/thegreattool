@@ -12,6 +12,7 @@ import java.net.URL;
 import java.util.List;
 
 import com.sam.jcc.cloud.ci.impl.CIProjectDao;
+import com.sam.jcc.cloud.PropertyResolverHelper;
 import org.apache.commons.lang.Validate;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -179,7 +180,7 @@ public class JenkinsProvider extends AbstractProvider<ICIMetadata>implements ICI
 			@Override
 			public String getHost() {
 				try {
-					URL url = new URL(getProperty("ci.jenkins.host"));
+					URL url = new URL(getJenkinsUrl());
 					return String.valueOf(url.getHost());
 				} catch (Exception e) {
 					return null;
@@ -189,7 +190,7 @@ public class JenkinsProvider extends AbstractProvider<ICIMetadata>implements ICI
 			@Override
 			public String getPort() {
 				try {
-					URL url = new URL(getProperty("ci.jenkins.host"));
+					URL url = new URL(getJenkinsUrl());
 					return String.valueOf(url.getPort());
 				} catch (Exception e) {
 					return null;
@@ -247,5 +248,10 @@ public class JenkinsProvider extends AbstractProvider<ICIMetadata>implements ICI
 	@Override
 	public String getType() {
 		return "jenkins";
+	}
+
+	private String getJenkinsUrl() {
+		return PropertyResolverHelper.
+				getConnectionUrl(getProperty("ci.jenkins.protocol"), getProperty("ci.jenkins.host"),getProperty("ci.jenkins.port"));
 	}
 }

@@ -6,6 +6,7 @@ import com.offbytwo.jenkins.model.Artifact;
 import com.offbytwo.jenkins.model.Build;
 import com.offbytwo.jenkins.model.BuildWithDetails;
 import com.offbytwo.jenkins.model.JobWithDetails;
+import com.sam.jcc.cloud.PropertyResolverHelper;
 import com.sam.jcc.cloud.ci.CIBuildStatus;
 import com.sam.jcc.cloud.ci.CIProject;
 import com.sam.jcc.cloud.ci.CIServer;
@@ -231,7 +232,7 @@ public class Jenkins implements CIServer, ApplicationContextAware {
 
     public static JenkinsServer defaultJenkinsServer() {
 
-        return new JenkinsServer(URI.create(getProperty("ci.jenkins.host")));
+        return new JenkinsServer(URI.create(getJenkinsUrl()));
 
         // TODO Commented because User Management is not implemented yet.
 
@@ -253,5 +254,10 @@ public class Jenkins implements CIServer, ApplicationContextAware {
      */
     public JenkinsConfigurationBuilder createConfigBuilder() {
         return context.getBean(JenkinsConfigurationBuilder.class, workspace);
+    }
+
+    private static String getJenkinsUrl(){
+        return PropertyResolverHelper.
+                getConnectionUrl(getProperty("ci.jenkins.protocol"), getProperty("ci.jenkins.host"),getProperty("ci.jenkins.port"));
     }
 }
