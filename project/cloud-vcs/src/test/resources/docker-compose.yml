@@ -1,7 +1,7 @@
 version: '3'
 services:
   gitlab-test:
-    build: gitlab
+    image: gitlab/gitlab-ce
     ports:
     - "18083:18083"
     - "18322:18322"
