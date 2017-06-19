@@ -8,7 +8,7 @@ import org.assertj.core.api.Java6Assertions;
 import org.gitlab.api.models.GitlabCommit;
 import org.junit.*;
 import org.junit.rules.TemporaryFolder;
-import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.containers.DockerComposeContainer;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,24 +17,14 @@ import java.util.Random;
 
 import static com.sam.jcc.cloud.vcs.VCSRepositoryDataHelper.notEmptyRepository;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.testcontainers.containers.wait.Wait.forHttp;
 
 public class GitlabVCSTest extends AbstractVCSTest {
 
-    //TODO maybe set fixed image version: latest to 9.2.5-ce.0
     @ClassRule
-    public static GenericContainer gitlab =
-            new GenericContainer("gitlab/gitlab-ce:latest")
-                    .withExposedPorts(8083, 8322)
-                    .withEnv("GITLAB_OMNIBUS_CONFIG", "|\n" +
-                            "        external_url \"http://#{host}/gitlab\"\n" +
-                            "        nginx['listen_port'] = 8083\n" +
-                            "        gitlab_rails['gitlab_shell_ssh_port'] = 8322")
-                    .withEnv("GITLAB_ROOT_PASSWORD", "rootpassword")
-                    .withEnv("GITLAB_HOST", "localhost")
-                    .waitingFor(forHttp("/gitlab")
-                            .forStatusCode(200)
-                            .usingTls());
+    public static DockerComposeContainer gitlab = new DockerComposeContainer(
+            new File("../../docker/v2/docker-compose.yml"))
+            .withExposedService("gitlab", 8083)
+            .withExposedService("gitlab", 8322);
 
     private final GitlabServerVCS vcs;
 
