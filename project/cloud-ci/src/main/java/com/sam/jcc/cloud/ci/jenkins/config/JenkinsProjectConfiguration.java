@@ -262,6 +262,7 @@ public class JenkinsProjectConfiguration {
             @XmlType(name = "", propOrder = {
                     "name"
             })
+            @Data
             public static class HudsonPluginsGitBranchSpec {
                 @XmlElement(required = true)
                 protected String name;
