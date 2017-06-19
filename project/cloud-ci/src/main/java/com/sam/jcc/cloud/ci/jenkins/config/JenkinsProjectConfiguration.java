@@ -1,4 +1,4 @@
-package com.sam.jcc.cloud.ci.impl;
+package com.sam.jcc.cloud.ci.jenkins.config;
 
 import lombok.Data;
 
@@ -262,6 +262,7 @@ public class JenkinsProjectConfiguration {
             @XmlType(name = "", propOrder = {
                     "name"
             })
+            @Data
             public static class HudsonPluginsGitBranchSpec {
                 @XmlElement(required = true)
                 protected String name;

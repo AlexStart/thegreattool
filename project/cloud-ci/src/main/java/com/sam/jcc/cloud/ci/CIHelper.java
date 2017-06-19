@@ -1,6 +1,6 @@
 package com.sam.jcc.cloud.ci;
 
-import com.sam.jcc.cloud.ci.impl.Jenkins;
+import com.sam.jcc.cloud.ci.jenkins.Jenkins;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
 import com.sam.jcc.cloud.utils.parsers.ProjectParser;
