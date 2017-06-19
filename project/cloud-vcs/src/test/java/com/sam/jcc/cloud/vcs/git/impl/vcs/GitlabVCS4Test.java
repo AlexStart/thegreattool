@@ -11,8 +11,8 @@ public class GitlabVCS4Test extends AbstractVCSTest {
     @ClassRule
     public static GenericContainer gitlab =
             new GenericContainer("gitlab/gitlab-ce:latest")
-                    .withExposedPorts(443, 80, 22)
-                    .waitingFor(forHttp("/"));
+                    .withExposedPorts(443, 80, 22);
+//                    .waitingFor(forHttp("/"));
 
     public GitlabVCS4Test() {
         super(new GitlabServerVCS(new InitOnceAdminBean()));
