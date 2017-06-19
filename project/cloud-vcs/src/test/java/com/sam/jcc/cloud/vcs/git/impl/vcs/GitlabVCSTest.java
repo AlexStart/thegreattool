@@ -63,7 +63,6 @@ public class GitlabVCSTest extends AbstractVCSTest {
     }
 
     @Test
-    @Ignore
     public void setHttpProtocolSuccessfully() throws Exception {
         vcs.setProtocol("http");
     }
