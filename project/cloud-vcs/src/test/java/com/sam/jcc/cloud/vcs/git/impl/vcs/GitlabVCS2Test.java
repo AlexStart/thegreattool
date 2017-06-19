@@ -24,8 +24,8 @@ public class GitlabVCS2Test extends AbstractVCSTest {
     public static DockerComposeContainer gitlab = new DockerComposeContainer(
             new File("src/test/resources/docker-compose.yml"))
             .withEnv("api.version", "1.23")
-            .withExposedService("javacloud-gitlab", 18083)
-            .withExposedService("javacloud-gitlab", 18322);
+            .withExposedService("javacloud-gitlab-test", 18083)
+            .withExposedService("javacloud-gitlab-test", 18322);
 
     private final GitlabServerVCS vcs;
 

@@ -12,4 +12,4 @@ services:
         gitlab_rails['gitlab_shell_ssh_port'] = 18322
       #Requirement for GITLAB_ROOT_PASSWORD characters number >= 8
       GITLAB_ROOT_PASSWORD: rootpassword
-    container_name: "javacloud-gitlab"
+    container_name: "javacloud-gitlab-test"
