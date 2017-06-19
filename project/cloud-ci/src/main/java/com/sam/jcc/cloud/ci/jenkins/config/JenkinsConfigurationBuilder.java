@@ -81,8 +81,7 @@ public class JenkinsConfigurationBuilder {
 
     private void setUpVCS(CIProject project, JenkinsProjectConfiguration config) {
         VCSConfigurator configurator = Objects.requireNonNull(vcsConfigurators.stream()
-                        .filter(c -> (null == c.getType() && null == project.getVcsType())
-                                || c.getType().equals(project.getVcsType()))
+                        .filter(c -> Objects.equals(c.getType(), project.getVcsType()))
                         .findAny().orElse(defaultVCSConfigurator),
                 String.format("Configurator with type %s not found", project.getVcsType()));
         configurator.setUp(VCSConfigurationData.builder()

@@ -2,12 +2,13 @@ package com.sam.jcc.cloud.ci.jenkins;
 
 import com.sam.jcc.cloud.ci.CIProject;
 import com.sam.jcc.cloud.ci.jenkins.config.JenkinsConfigurationBuilder;
-import com.sam.jcc.cloud.ci.jenkins.config.vcs.GitFileGonfigurator;
-import com.sam.jcc.cloud.ci.jenkins.config.vcs.GitProtocolGonfigurator;
+import com.sam.jcc.cloud.ci.jenkins.config.vcs.GitFileVCSConfigurator;
+import com.sam.jcc.cloud.ci.jenkins.config.vcs.GitProtocolVCSConfigurator;
 import com.sam.jcc.cloud.ci.jenkins.config.vcs.WithoutVCSConfigurator;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.ItemStorage;
 import com.sam.jcc.cloud.vcs.git.impl.GitFileProvider;
+import com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -51,8 +52,8 @@ public class JenkinsConfigurationBuilderTest extends JenkinsBaseTest {
 
         builder = new JenkinsConfigurationBuilder(workspace);
         builder.setVcsConfigurators(Arrays.asList(
-                new GitFileGonfigurator(),
-                new GitProtocolGonfigurator(),
+                new GitFileVCSConfigurator(),
+                new GitProtocolVCSConfigurator(),
                 new WithoutVCSConfigurator()));
     }
 
@@ -104,7 +105,9 @@ public class JenkinsConfigurationBuilderTest extends JenkinsBaseTest {
         assertThat(builder.build(mavenProject)).contains("scm class=\"hudson.plugins.git.GitSCM\"")
                 .containsPattern("<hudson.plugins.git.UserRemoteConfig>\\s*<url>\\S+</url>");
 
-        //TODO[rfisenko 6/8/17]: white same test for GitProtocolProvider
+        mavenProject.setVcsType(GitProtocolProvider.TYPE);
+        assertThat(builder.build(mavenProject)).contains("scm class=\"hudson.plugins.git.GitSCM\"")
+                .containsPattern("<hudson.plugins.git.UserRemoteConfig>\\s*<url>\\S+</url>");
     }
 
     /**
