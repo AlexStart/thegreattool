@@ -22,10 +22,10 @@ public class GitlabVCSTest extends AbstractVCSTest {
 
     @ClassRule
     public static DockerComposeContainer gitlab = new DockerComposeContainer(
-            new File("../../docker/v2/docker-compose.yml"))
+            new File("src/test/resources/docker-compose.yml"))
             .withEnv("api.version", "1.23")
-            .withExposedService("gitlab", 8083)
-            .withExposedService("gitlab", 8322);
+            .withExposedService("gitlab", 18083)
+            .withExposedService("gitlab", 18322);
 
     private final GitlabServerVCS vcs;
 
