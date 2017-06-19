@@ -1,9 +1,21 @@
 package com.sam.jcc.cloud;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Created by Apanovich Alexander on 13.06.2017.
  */
-public class PropertyResolverHelper {
+public final class PropertyResolverHelper {
+
+    private static final String IP_ADRRESS_PATTERN = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
+
+    private static final String HOSTNAME_PATTERN = "^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])$";
+
+    private PropertyResolverHelper () {
+
+    }
+
     /*
      * Returns string for specified connection parameters.
      */
@@ -41,7 +53,12 @@ public class PropertyResolverHelper {
      * Returns true if specified string is a valid host name.
      */
     public static boolean isHostValid(String host) {
-        return !isEmpty(host) ? host.matches("(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})|^([a-zA-Z0-9]([a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,6}$|(localhost)") : false;
+        if(isEmpty(host)) {
+            return false;
+        }
+        Pattern p = Pattern.compile(IP_ADRRESS_PATTERN+"|"+HOSTNAME_PATTERN);
+        Matcher m = p.matcher(host);
+        return m.matches();
     }
 
     /*

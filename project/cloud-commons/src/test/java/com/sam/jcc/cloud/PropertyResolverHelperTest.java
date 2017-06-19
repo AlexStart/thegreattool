@@ -75,9 +75,6 @@ public class PropertyResolverHelperTest {
         assertThat(PropertyResolverHelper.isHostValid("localhost:/")).isFalse();
         assertThat(PropertyResolverHelper.isHostValid("localhost/")).isFalse();
         assertThat(PropertyResolverHelper.isHostValid("local host")).isFalse();
-        assertThat(PropertyResolverHelper.isHostValid("local-host")).isFalse();
-        assertThat(PropertyResolverHelper.isHostValid("localhost")).isTrue();
-        assertThat(PropertyResolverHelper.isHostValid("my.site-1.com")).isTrue();
 
         //**************** host as ip validation ************************
          assertThat(PropertyResolverHelper.isHostValid("://127.0.0.1")).isFalse();
@@ -87,8 +84,11 @@ public class PropertyResolverHelperTest {
          assertThat(PropertyResolverHelper.isHostValid("127.0.0.1:8080")).isFalse();
          assertThat(PropertyResolverHelper.isHostValid("127.0.0.1:/")).isFalse();
          assertThat(PropertyResolverHelper.isHostValid("127.0.0.1/")).isFalse();
-         assertThat(PropertyResolverHelper.isHostValid("127.0.0.1.1")).isFalse();
-         assertThat(PropertyResolverHelper.isHostValid("127.0.1")).isFalse();
+
+         assertThat(PropertyResolverHelper.isHostValid("localhost")).isTrue();
+         assertThat(PropertyResolverHelper.isHostValid("local-host")).isTrue();
+         assertThat(PropertyResolverHelper.isHostValid("my.site-1.com")).isTrue();
+         assertThat(PropertyResolverHelper.isHostValid("javacloud.sam-solutions.net")).isTrue();
          assertThat(PropertyResolverHelper.isHostValid("127.0.0.1")).isTrue();
          assertThat(PropertyResolverHelper.isHostValid("192.168.99.100")).isTrue();
     }
