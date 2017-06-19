@@ -50,14 +50,6 @@ services:
         gitlab_rails['gitlab_shell_ssh_port'] = 8322
       #Requirement for GITLAB_ROOT_PASSWORD characters number >= 8
       GITLAB_ROOT_PASSWORD: rootpassword
-    #TODO: move a test docker-compose
-    stop_signal: SIGKILL
-    stdin_open: true
-    tty: true
-    working_dir: $PWD
-    volumes:
-      - $PWD:$PWD
-      - /var/run/docker.sock:/var/run/docker.sock
     container_name: "javacloud-gitlab"
   sonarqube:
     build: sonarqube
