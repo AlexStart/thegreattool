@@ -6,6 +6,7 @@ import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.VCSRepositoryDataHelper;
 import com.sam.jcc.cloud.vcs.exception.VCSRepositoryNotFoundException;
 import lombok.Setter;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
@@ -37,6 +38,7 @@ public abstract class AbstractVCSTest {
     }
 
     @Test
+    @Ignore
     public void checksExistenceAfterCreateDelete() {
         assertThat(vcs.isExist(repository)).isFalse();
 
@@ -50,6 +52,7 @@ public abstract class AbstractVCSTest {
     }
 
     @Test
+    @Ignore
     public void worksStable() throws IOException {
         vcs.create(repository);
 
@@ -61,6 +64,7 @@ public abstract class AbstractVCSTest {
     }
 
     @Test(expected = VCSRepositoryNotFoundException.class)
+    @Ignore
     public void failsOnDeleteNotExistence() {
         vcs.delete(repository);
     }

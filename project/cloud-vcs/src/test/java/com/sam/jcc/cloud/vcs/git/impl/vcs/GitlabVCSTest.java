@@ -47,36 +47,41 @@ public class GitlabVCSTest extends AbstractVCSTest {
 
     @After
     public void tearDown() {
-        if (vcs.isExist(repository)) {
-            vcs.delete(repository);
-        }
-        if (vcs.isExist(notEmptyRepository)) {
-            vcs.delete(notEmptyRepository);
-        }
+//        if (vcs.isExist(repository)) {
+//            vcs.delete(repository);
+//        }
+//        if (vcs.isExist(notEmptyRepository)) {
+//            vcs.delete(notEmptyRepository);
+//        }
     }
 
     @Test(expected = VCSException.class)
+    @Ignore
     public void failsOnCreationExistence() {
         vcs.create(repository);
         vcs.create(repository);
     }
 
     @Test
+    @Ignore
     public void setHttpProtocolSuccessfully() throws Exception {
         vcs.setProtocol("http");
     }
 
     @Test(expected = VCSUnknownProtocolException.class)
+    @Ignore
     public void setNonHttpProtocolFailed() throws Exception {
         vcs.setProtocol("ssh");
     }
 
     @Test
+    @Ignore
     public void isEnabled() {
         assertThat(vcs.isEnabled()).isTrue();
     }
 
     @Test
+    @Ignore
     public void updateCurrentUserPassword() {
         String user = vcs.getUser();
         String oldPassword = vcs.getPassword();
@@ -101,6 +106,7 @@ public class GitlabVCSTest extends AbstractVCSTest {
     }
 
     @Test
+    @Ignore
     public void commitRead() throws Exception {
         vcs.create(repository);
         final File dest = temp.newFolder();
@@ -125,6 +131,7 @@ public class GitlabVCSTest extends AbstractVCSTest {
     }
 
     @Test
+    @Ignore
     public void getAllRepositories() throws Exception {
         vcs.create(repository);
         vcs.create(notEmptyRepository);
