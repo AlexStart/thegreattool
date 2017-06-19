@@ -4,7 +4,6 @@ import com.sam.jcc.cloud.auth.InitOnceAdminBean;
 import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.exception.VCSException;
 import com.sam.jcc.cloud.vcs.exception.VCSUnknownProtocolException;
-import org.assertj.core.api.Java6Assertions;
 import org.gitlab.api.models.GitlabCommit;
 import org.junit.*;
 import org.junit.rules.TemporaryFolder;
@@ -17,12 +16,14 @@ import java.util.Random;
 
 import static com.sam.jcc.cloud.vcs.VCSRepositoryDataHelper.notEmptyRepository;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 
 public class GitlabVCSTest extends AbstractVCSTest {
 
     @ClassRule
     public static DockerComposeContainer gitlab = new DockerComposeContainer(
             new File("../../docker/v2/docker-compose.yml"))
+            .withEnv("api.version", "1.23")
             .withExposedService("gitlab", 8083)
             .withExposedService("gitlab", 8322);
 
@@ -86,10 +87,11 @@ public class GitlabVCSTest extends AbstractVCSTest {
 
         try {
             vcs.getToken(user, oldPassword);
+            failBecauseExceptionWasNotThrown(VCSException.class);
         } catch (VCSException ex) {
-            Java6Assertions.assertThat(ex.getMessage()).isEqualTo("Version Control System Error");
-            Java6Assertions.assertThat(ex.getCause()).isNotNull();
-            Java6Assertions.assertThat(ex.getCause().getMessage()).contains("401 Unauthorized");
+            assertThat(ex.getMessage()).isEqualTo("Version Control System Error");
+            assertThat(ex.getCause()).isNotNull();
+            assertThat(ex.getCause().getMessage()).contains("401 Unauthorized");
         }
 
         //Set old password back

@@ -44,12 +44,17 @@ services:
     - "8083:8083"
     - "8322:8322"
     environment:
-      GITLAB_OMNIBUS_CONFIG: |    
+      GITLAB_OMNIBUS_CONFIG: |
         external_url "http://#{host}/gitlab"
         nginx['listen_port'] = 8083
         gitlab_rails['gitlab_shell_ssh_port'] = 8322
       #Requirement for GITLAB_ROOT_PASSWORD characters number >= 8
       GITLAB_ROOT_PASSWORD: rootpassword
+    #TODO: move a test docker-compose
+    working_dir: $PWD
+      volumes:
+        - $PWD:$PWD
+        - /var/run/docker.sock:/var/run/docker.sock
     container_name: "javacloud-gitlab"
   sonarqube:
     build: sonarqube
