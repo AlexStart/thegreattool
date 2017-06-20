@@ -18,7 +18,6 @@ import static com.sam.jcc.cloud.vcs.VCSRepositoryDataHelper.notEmptyRepository;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 
-//TODO remove
 public class GitlabVCSTest extends AbstractVCSTest {
 
     @ClassRule
