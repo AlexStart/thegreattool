@@ -4,8 +4,6 @@ import com.offbytwo.jenkins.JenkinsServer;
 import com.sam.jcc.cloud.ci.CIProject;
 import com.sam.jcc.cloud.ci.impl.Jenkins;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.rules.TemporaryFolder;
 import org.jvnet.hudson.test.JenkinsRule;
@@ -37,25 +35,14 @@ public abstract class TestEnvironment {
 
     protected static Jenkins jenkins;
 
-    protected static GitDaemon daemon;
-
     static {
         disableJenkinsUglyLogging();
     }
 
-    @BeforeClass
-    public static void startUpEnv() throws Exception {
+    protected static void startUpJenkins() throws Exception {
         log.info("Jenkins started");
         jenkins = new Jenkins(getJenkins(), temp.newFolder());
         log.info("Jenkins fully configured");
-
-        daemon = new GitDaemon();
-        daemon.startUp(temp.newFolder());
-    }
-
-    @AfterClass
-    public static void shutDownGitDaemon(){
-        daemon.shutDown();
     }
 
     protected final void waitWhileProcessing(CIProject project) throws Exception {

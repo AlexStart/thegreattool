@@ -1,11 +1,5 @@
 package com.sam.jcc.cloud.dataprovider.impl;
 
-import static com.mongodb.MongoCredential.createCredential;
-import static com.sam.jcc.cloud.PropertyResolver.getProperty;
-import static java.util.Collections.singletonList;
-
-import org.springframework.stereotype.Component;
-
 import com.google.common.annotations.VisibleForTesting;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoCredential;
@@ -13,13 +7,18 @@ import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoDatabase;
 import com.sam.jcc.cloud.dataprovider.AppData;
 import com.sam.jcc.cloud.i.data.IDBManager;
+import org.springframework.stereotype.Component;
+
+import static com.mongodb.MongoCredential.createCredential;
+import static com.sam.jcc.cloud.PropertyResolver.getProperty;
+import static java.util.Collections.singletonList;
 
 /**
  * @author Alexey Zhytnik
  * @since 23-Jan-17
  */
 @Component
-class MongoDatabaseManager implements IDBManager<AppData> {
+public class MongoDatabaseManager implements IDBManager<AppData> {
 
     protected static final String COLLECTION_EXAMPLE = "example";
 
