@@ -54,8 +54,7 @@ public class GitlabVCSTest extends AbstractVCSTest {
 //        }
     }
 
-    @Test(expected = VCSException.class)
-    @Ignore
+//    @Test(expected = VCSException.class)
     public void failsOnCreationExistence() {
         vcs.create(repository);
         vcs.create(repository);
