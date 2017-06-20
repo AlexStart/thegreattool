@@ -1,6 +1,6 @@
 version: '2'
 services:
-  gitlab-test:
+  javacloud-gitlab-test:
     image: gitlab/gitlab-ce
     ports:
     - "18083:18083"
