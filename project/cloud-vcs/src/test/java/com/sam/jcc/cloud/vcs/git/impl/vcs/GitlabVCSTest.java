@@ -7,6 +7,7 @@ import com.sam.jcc.cloud.vcs.exception.VCSUnknownProtocolException;
 import org.gitlab.api.models.GitlabCommit;
 import org.junit.*;
 import org.junit.rules.TemporaryFolder;
+import org.springframework.context.annotation.Profile;
 import org.testcontainers.containers.DockerComposeContainer;
 
 import java.io.File;
@@ -18,11 +19,12 @@ import static com.sam.jcc.cloud.vcs.VCSRepositoryDataHelper.notEmptyRepository;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 
+@Profile("testcontainers")
 public class GitlabVCSTest extends AbstractVCSTest {
 
-//TODO: wait for testcontainers 1.3.1 release - expected the next bugs to eb fixed:
-//TODO: https://github.com/testcontainers/testcontainers-java/pull/358
-//TODO: https://github.com/testcontainers/testcontainers-java/issues/342
+    //TODO: wait for testcontainers 1.3.1 release - expected the next bugs to eb fixed:
+    //TODO: https://github.com/testcontainers/testcontainers-java/pull/358
+    //TODO: https://github.com/testcontainers/testcontainers-java/issues/342
     @ClassRule
     public static DockerComposeContainer gitlab = new DockerComposeContainer(
             new File("src/test/resources/docker-compose.yml"))
@@ -49,15 +51,15 @@ public class GitlabVCSTest extends AbstractVCSTest {
 
     @After
     public void tearDown() {
-//        if (vcs.isExist(repository)) {
-//            vcs.delete(repository);
-//        }
-//        if (vcs.isExist(notEmptyRepository)) {
-//            vcs.delete(notEmptyRepository);
-//        }
+        if (vcs.isExist(repository)) {
+            vcs.delete(repository);
+        }
+        if (vcs.isExist(notEmptyRepository)) {
+            vcs.delete(notEmptyRepository);
+        }
     }
 
-//    @Test(expected = VCSException.class)
+    @Test(expected = VCSException.class)
     public void failsOnCreationExistence() {
         vcs.create(repository);
         vcs.create(repository);
@@ -69,7 +71,6 @@ public class GitlabVCSTest extends AbstractVCSTest {
     }
 
     @Test(expected = VCSUnknownProtocolException.class)
-    @Ignore
     public void setNonHttpProtocolFailed() throws Exception {
         vcs.setProtocol("ssh");
     }
@@ -81,7 +82,6 @@ public class GitlabVCSTest extends AbstractVCSTest {
     }
 
     @Test
-    @Ignore
     public void updateCurrentUserPassword() {
         String user = vcs.getUser();
         String oldPassword = vcs.getPassword();
@@ -106,7 +106,6 @@ public class GitlabVCSTest extends AbstractVCSTest {
     }
 
     @Test
-    @Ignore
     public void commitRead() throws Exception {
         vcs.create(repository);
         final File dest = temp.newFolder();
@@ -131,7 +130,6 @@ public class GitlabVCSTest extends AbstractVCSTest {
     }
 
     @Test
-    @Ignore
     public void getAllRepositories() throws Exception {
         vcs.create(repository);
         vcs.create(notEmptyRepository);

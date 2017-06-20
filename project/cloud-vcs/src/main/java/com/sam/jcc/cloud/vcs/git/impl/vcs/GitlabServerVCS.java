@@ -2,7 +2,6 @@ package com.sam.jcc.cloud.vcs.git.impl.vcs;
 
 import com.google.common.io.Files;
 import com.sam.jcc.cloud.auth.InitOnceAdminBean;
-import com.sam.jcc.cloud.i.Experimental;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.GzipTarArchiveManager;
 import com.sam.jcc.cloud.vcs.VCS;
@@ -42,7 +41,6 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
  */
 @Component
 @Scope("prototype")
-@Experimental("Integration with a GitLab storage") //TODO - probably, this can be removed
 public class GitlabServerVCS extends AbstractGitServerVCS implements VCS<VCSCredentials> {
 
     @Getter
@@ -55,9 +53,6 @@ public class GitlabServerVCS extends AbstractGitServerVCS implements VCS<VCSCred
     private String user = getProperty("gitlab.remote.server.user");
     @Getter
     private String password = getProperty("gitlab.remote.server.password");
-
-    //TODO find compromise timeout or remove if tests keep stable
-//    private int requestTimeout = Integer.parseInt(getProperty("gitlab.remote.server.timeout"));
 
     private final InitOnceAdminBean initAdmin;
 
@@ -161,7 +156,6 @@ public class GitlabServerVCS extends AbstractGitServerVCS implements VCS<VCSCred
         }
     }
 
-    //TODO remove isAlive.isEnabled
     public boolean isEnabled() {
         try {
             GitlabAPI.connect(getRepositoryURI(), user, password);
@@ -216,10 +210,7 @@ public class GitlabServerVCS extends AbstractGitServerVCS implements VCS<VCSCred
     }
 
     private GitlabAPI connect() {
-        GitlabAPI api = GitlabAPI.connect(getRepositoryURI(), getToken());
-//TODO find compromise timeout or remove if tests keep stable
-        //        api.setRequestTimeout(requestTimeout);
-        return api;
+        return GitlabAPI.connect(getRepositoryURI(), getToken());
     }
 
     private String getToken() {

@@ -39,7 +39,7 @@ public class GitlabProvider extends VCSProvider implements IHealth {
 
     @Override
     public boolean isEnabled() {
-        return checkHealth().isAlive();
+        return vcs.isEnabled();
     }
 
     @Override
@@ -88,15 +88,6 @@ public class GitlabProvider extends VCSProvider implements IHealth {
                     return false;
                 }
             }
-
-            //TODO remove isAlive.isEnabled
-//            @Override
-//            public boolean isAlive() {
-//                return storage.isEnabled();
-//            }
-
         };
-
     }
-
 }
