@@ -29,6 +29,16 @@
 			<version>${project.version}</version>
 			<type>pom</type>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<artifactId>de.flapdoodle.embed.mongo</artifactId>
+					<groupId>de.flapdoodle.embed</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>de.flapdoodle.embed.process</artifactId>
+					<groupId>de.flapdoodle.embed</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.sam.jcc</groupId>
