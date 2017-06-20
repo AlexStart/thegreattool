@@ -50,6 +50,10 @@ services:
         gitlab_rails['gitlab_shell_ssh_port'] = 8322
       #Requirement for GITLAB_ROOT_PASSWORD characters number >= 8
       GITLAB_ROOT_PASSWORD: rootpassword
+    volumes:
+      - /srv/gitlab/data:/var/opt/gitlab
+      - /srv/gitlab/logs:/var/log/gitlab
+      - /srv/gitlab/config:/etc/gitlab
     container_name: "javacloud-gitlab"
   sonarqube:
     build: sonarqube
