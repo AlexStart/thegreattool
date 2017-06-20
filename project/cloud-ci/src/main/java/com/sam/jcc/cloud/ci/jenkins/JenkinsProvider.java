@@ -189,12 +189,12 @@ public class JenkinsProvider extends AbstractProvider<ICIMetadata> implements IC
                     HttpGet request = new HttpGet(apiUrl.toString());
                     HttpResponse response = httpClient.execute(request);
                     Validate.isTrue(response.getStatusLine().getStatusCode() == 200);
-                    return createHostReplacedJenkinsUrl().toString() +
+                    return createHostReplacedUrl().toString() +
                             "\nJenkins: " +
                             response.getFirstHeader("X-Jenkins").getValue();
                 } catch (Exception e) {
                     try {
-                        return createHostReplacedJenkinsUrl().toString();
+                        return createHostReplacedUrl().toString();
                     } catch (Exception e2) {
                         return null;
                     }
@@ -202,17 +202,17 @@ public class JenkinsProvider extends AbstractProvider<ICIMetadata> implements IC
 
             }
 
+
             /**
-             * Create jenkins url with replacing host if need
+             * Create url with replacing host if need
+             * //TODO[rfisenko 6/20/17]: why it need?
              * @return url
              */
-            private URL createHostReplacedJenkinsUrl() throws MalformedURLException, UnknownHostException {
-                return new URL(
-                        getProperty("ci.jenkins.protocol"),
-                        //TODO[rfisenko 6/20/17]: why it need?
-                        getHost().equals("localhost") ? InetAddress.getLocalHost().getHostName() : getHost(),
-                        Integer.valueOf(getPort()),
-                        getProperty("ci.jenkins.postfix"));
+            //TODO[rfisenko 6/20/17]: remove copy paste in all health checks
+            private URL createHostReplacedUrl() throws MalformedURLException, UnknownHostException {
+                String jenkinsUrl = getProperty("ci.jenkins.url");
+                return "localhost".equals(getHost()) ? new URL(jenkinsUrl.replace(getHost(), InetAddress.getLocalHost().getHostName())) :
+                        new URL(jenkinsUrl);
             }
 
             @Override
