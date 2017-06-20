@@ -5,6 +5,7 @@ import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.exception.VCSUnknownProtocolException;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.net.InetAddress;
@@ -19,6 +20,7 @@ import static java.text.MessageFormat.format;
  * @since 06.12.2016
  */
 @Component
+@Scope("prototype")
 public class GitRemoteVCS extends AbstractGitVCS {
 
     @Getter

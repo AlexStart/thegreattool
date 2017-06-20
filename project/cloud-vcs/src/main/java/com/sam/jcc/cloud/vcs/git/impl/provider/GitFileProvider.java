@@ -14,7 +14,6 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import static com.sam.jcc.cloud.PropertyResolver.getProperty;
-import static java.util.Objects.requireNonNull;
 
 /**
  * @author olegk
@@ -29,7 +28,7 @@ public class GitFileProvider extends VCSProvider implements IHealth {
 
     public GitFileProvider(List<IEventManager<IVCSMetadata>> eventManagers, GitFileVCS vcs) {
         super(eventManagers, vcs);
-        this.vcs = requireNonNull(vcs);
+        this.vcs = vcs;
         vcs.installBaseRepository();
     }
 

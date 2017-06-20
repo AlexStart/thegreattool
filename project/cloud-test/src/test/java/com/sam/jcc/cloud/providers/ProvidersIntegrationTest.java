@@ -177,12 +177,6 @@ public class ProvidersIntegrationTest extends TestEnvironment {
         final GitRemoteVCS vcs = new GitRemoteVCS();
         vcs.setBaseRepository(daemon.getStorage());
         vcs.setPort(daemon.getCurrentPort());
-
-//		final GitRemoteStorage storage = new GitRemoteStorage();
-//		storage.setBaseRepository(daemon.getStorage());
-//		storage.setPort(daemon.getCurrentPort());
-//
-//		git.getVcs().setStorage(storage);
     }
 
     byte[] readSources(IProjectMetadata metadata) {

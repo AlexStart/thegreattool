@@ -18,6 +18,7 @@ import org.gitlab.api.models.GitlabCommit;
 import org.gitlab.api.models.GitlabProject;
 import org.gitlab.api.models.GitlabSession;
 import org.gitlab.api.models.GitlabUser;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -40,6 +41,7 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
  * @since 28.11.2016
  */
 @Component
+@Scope("prototype")
 @Experimental("Integration with a GitLab storage") //TODO - probably, this can be removed
 public class GitlabServerVCS extends AbstractGitServerVCS implements VCS<VCSCredentials> {
 

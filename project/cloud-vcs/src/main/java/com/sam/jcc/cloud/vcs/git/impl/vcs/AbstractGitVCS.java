@@ -17,8 +17,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.URIish;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,8 +30,6 @@ import static com.sam.jcc.cloud.PropertyResolver.getProperty;
  * @since 25.11.2016
  */
 @Slf4j
-@Component
-@Scope("prototype")
 public abstract class AbstractGitVCS extends AbstractVCS implements VCS<VCSCredentials> {
 
     private FileManager files = new FileManager();
