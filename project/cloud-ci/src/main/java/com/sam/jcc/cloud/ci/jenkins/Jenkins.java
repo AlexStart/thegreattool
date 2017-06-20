@@ -6,7 +6,6 @@ import com.offbytwo.jenkins.model.Artifact;
 import com.offbytwo.jenkins.model.Build;
 import com.offbytwo.jenkins.model.BuildWithDetails;
 import com.offbytwo.jenkins.model.JobWithDetails;
-import com.sam.jcc.cloud.PropertyResolverHelper;
 import com.sam.jcc.cloud.ci.CIBuildStatus;
 import com.sam.jcc.cloud.ci.CIProject;
 import com.sam.jcc.cloud.ci.CIServer;
@@ -27,8 +26,9 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 
@@ -231,8 +231,11 @@ public class Jenkins implements CIServer, ApplicationContextAware {
     }
 
     public static JenkinsServer defaultJenkinsServer() {
-
-        return new JenkinsServer(URI.create(getJenkinsUrl()));
+        try {
+            return new JenkinsServer(new URL(getProperty("ci.jenkins.url")).toURI());
+        } catch (URISyntaxException | MalformedURLException e) {
+            throw new IllegalArgumentException(e.getMessage(), e);
+        }
 
         // TODO Commented because User Management is not implemented yet.
 
@@ -256,9 +259,4 @@ public class Jenkins implements CIServer, ApplicationContextAware {
         return context.getBean(JenkinsConfigurationBuilder.class, workspace);
     }
 
-    private static String getJenkinsUrl() {
-        return PropertyResolverHelper.
-                getConnectionUrl(getProperty("ci.jenkins.protocol"), getProperty("ci.jenkins.host"), getProperty("ci.jenkins.port"))
-                + getProperty("ci.jenkins.postfix");
-    }
 }
