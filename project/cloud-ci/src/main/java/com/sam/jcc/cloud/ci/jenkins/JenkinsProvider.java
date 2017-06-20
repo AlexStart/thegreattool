@@ -185,16 +185,16 @@ public class JenkinsProvider extends AbstractProvider<ICIMetadata> implements IC
             @Override
             public String getUrl() {
                 try {
-                    URL apiUrl = new URL(getProperty("ci.jenkins.url") + "/api");
+                    URL apiUrl = new URL(getProperty("ci.jenkins.url.api"));
                     HttpGet request = new HttpGet(apiUrl.toString());
                     HttpResponse response = httpClient.execute(request);
                     Validate.isTrue(response.getStatusLine().getStatusCode() == 200);
-                    return createModifiedJenkinsUrl().toString() +
+                    return createHostReplacedJenkinsUrl().toString() +
                             "\nJenkins: " +
                             response.getFirstHeader("X-Jenkins").getValue();
                 } catch (Exception e) {
                     try {
-                        return createModifiedJenkinsUrl().toString();
+                        return createHostReplacedJenkinsUrl().toString();
                     } catch (Exception e2) {
                         return null;
                     }
@@ -206,7 +206,7 @@ public class JenkinsProvider extends AbstractProvider<ICIMetadata> implements IC
              * Create jenkins url with replacing host if need
              * @return url
              */
-            private URL createModifiedJenkinsUrl() throws MalformedURLException, UnknownHostException {
+            private URL createHostReplacedJenkinsUrl() throws MalformedURLException, UnknownHostException {
                 return new URL(
                         getProperty("ci.jenkins.protocol"),
                         //TODO[rfisenko 6/20/17]: why it need?
@@ -218,7 +218,7 @@ public class JenkinsProvider extends AbstractProvider<ICIMetadata> implements IC
             @Override
             public boolean isAlive() {
                 try {
-                    URL url = new URL(getProperty("ci.jenkins.url") + "/api");
+                    URL url = new URL(getProperty("ci.jenkins.url.api"));
                     HttpGet request = new HttpGet(url.toString());
                     HttpResponse response = httpClient.execute(request);
                     return (response.getStatusLine().getStatusCode() == 200);
