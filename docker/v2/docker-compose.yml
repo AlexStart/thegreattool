@@ -43,6 +43,8 @@ services:
     ports:
     - "8083:8083"
     - "8322:8322"
+    # TODO Change to your real host; stage server name is only by default
+    hostname: javacloud.sam-solutions.net
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         external_url "http://#{host}/gitlab"

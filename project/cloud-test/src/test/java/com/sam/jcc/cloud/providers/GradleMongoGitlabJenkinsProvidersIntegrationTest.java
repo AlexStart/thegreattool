@@ -5,29 +5,33 @@ import com.sam.jcc.cloud.dataprovider.impl.MongoDatabaseManager;
 import com.sam.jcc.cloud.project.impl.GradleProjectProvider;
 import com.sam.jcc.cloud.util.TestEnvironment;
 import com.sam.jcc.cloud.vcs.git.impl.provider.GitlabProvider;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.testcontainers.containers.DockerComposeContainer;
 
+import java.io.File;
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
+@Profile("testcontainers")
 public class GradleMongoGitlabJenkinsProvidersIntegrationTest extends AbstractProvidersIntegrationTest {
 
-//    @ClassRule
-//    public static DockerComposeContainer gitlabContainer = new DockerComposeContainer(
-//            new File("src/test/resources/docker-compose.yml"))
-//            .withEnv("api.version", "1.23")
-//            .withExposedService("javacloud-gitlab-test", 18083)
-//            .withExposedService("javacloud-gitlab-test", 18322);
+    //TODO: wait for testcontainers 1.3.1 release - expected the next bugs to eb fixed:
+    //TODO: https://github.com/testcontainers/testcontainers-java/pull/358
+    //TODO: https://github.com/testcontainers/testcontainers-java/issues/342
+    @ClassRule
+    public static DockerComposeContainer gitlabContainer = new DockerComposeContainer(
+            new File("src/test/resources/docker-compose.yml"))
+            .withEnv("api.version", "1.23")
+            .withExposedService("javacloud-gitlab-test", 18083)
+            .withExposedService("javacloud-gitlab-test", 18322);
 
     private static final String GRADLE_PROJECT = "gradle-project";
 
