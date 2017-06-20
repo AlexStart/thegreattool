@@ -256,8 +256,9 @@ public class Jenkins implements CIServer, ApplicationContextAware {
         return context.getBean(JenkinsConfigurationBuilder.class, workspace);
     }
 
-    private static String getJenkinsUrl(){
+    private static String getJenkinsUrl() {
         return PropertyResolverHelper.
-                getConnectionUrl(getProperty("ci.jenkins.protocol"), getProperty("ci.jenkins.host"),getProperty("ci.jenkins.port"));
+                getConnectionUrl(getProperty("ci.jenkins.protocol"), getProperty("ci.jenkins.host"), getProperty("ci.jenkins.port"))
+                + getProperty("ci.jenkins.postfix");
     }
 }
