@@ -51,7 +51,7 @@ public class VCSHelperTest {
         vcsHelper.execute("git", "file", "create", project());
         vcsHelper.execute("git", "file", "read", project());
 
-        try (TempFile zip = new TempFile(out.getLog())) {
+        try (TempFile zip = new TempFile(getFilenameFromLastLineLogs(out.getLog()))) {
             assertThat(zip).exists();
         }
     }
@@ -77,7 +77,7 @@ public class VCSHelperTest {
         vcsHelper.execute("git", "file", "create", project());
         vcsHelper.execute("git", "file", "read", project());
 
-        try (TempFile zip = new TempFile(out.getLog())) {
+        try (TempFile zip = new TempFile(getFilenameFromLastLineLogs(out.getLog()))) {
             checkZipContents(project(), zip);
         }
     }
@@ -88,9 +88,15 @@ public class VCSHelperTest {
         vcsHelper.execute("git", "file", "update", changedProject());
         vcsHelper.execute("git", "file", "read", project());
 
-        try (TempFile zip = new TempFile(out.getLog())) {
+
+        try (TempFile zip = new TempFile(getFilenameFromLastLineLogs(out.getLog()))) {
             checkZipContents(changedProject(), zip);
         }
+    }
+
+    private String getFilenameFromLastLineLogs(String logs) {
+        int lastLineIndex = logs.lastIndexOf("\n") + 1;
+        return logs.substring(lastLineIndex);
     }
 
     void checkZipContents(File realZip, File copyZip) throws IOException {

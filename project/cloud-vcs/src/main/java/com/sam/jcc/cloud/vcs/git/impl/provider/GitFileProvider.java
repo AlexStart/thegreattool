@@ -28,7 +28,6 @@ public class GitFileProvider extends VCSProvider implements IHealth {
 
     public GitFileProvider(List<IEventManager<IVCSMetadata>> eventManagers, GitFileVCS vcs) {
         super(eventManagers, vcs);
-        this.vcs = vcs;
         vcs.installBaseRepository();
     }
 

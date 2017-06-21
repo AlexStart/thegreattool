@@ -10,7 +10,9 @@ import com.sam.jcc.cloud.vcs.git.impl.vcs.gitlab.GitlabVersion;
 import org.gitlab.api.models.GitlabCommit;
 import org.junit.*;
 import org.junit.rules.TemporaryFolder;
-import org.springframework.context.annotation.Profile;
+import org.junit.runner.RunWith;
+import org.springframework.test.annotation.IfProfileValue;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.containers.DockerComposeContainer;
 
 import java.io.File;
@@ -23,7 +25,8 @@ import static com.sam.jcc.cloud.vcs.VCSRepositoryDataHelper.notEmptyRepository;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 
-@Profile("testcontainers")
+@IfProfileValue(name = "spring.profiles.active", value = "testcontainers")
+@RunWith(SpringRunner.class) //TODO: remove with testcontainers 1.3.1 release - used for @IfProfileValue
 public class GitlabVCSTest extends AbstractVCSTest {
 
     //TODO: wait for testcontainers 1.3.1 release - expected the next bugs to eb fixed:
