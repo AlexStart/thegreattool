@@ -4,6 +4,9 @@ import com.sam.jcc.cloud.auth.InitOnceAdminBean;
 import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.exception.VCSException;
 import com.sam.jcc.cloud.vcs.exception.VCSUnknownProtocolException;
+import com.sam.jcc.cloud.vcs.git.impl.vcs.gitlab.CreateCommitCommand;
+import com.sam.jcc.cloud.vcs.git.impl.vcs.gitlab.GetVersionCommand;
+import com.sam.jcc.cloud.vcs.git.impl.vcs.gitlab.GitlabVersion;
 import org.gitlab.api.models.GitlabCommit;
 import org.junit.*;
 import org.junit.rules.TemporaryFolder;
@@ -12,6 +15,7 @@ import org.testcontainers.containers.DockerComposeContainer;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 import java.util.Random;
 
@@ -40,7 +44,8 @@ public class GitlabVCSTest extends AbstractVCSTest {
     public TemporaryFolder temp = new TemporaryFolder();
 
     public GitlabVCSTest() {
-        super(new GitlabServerVCS(new InitOnceAdminBean()));
+        super(new GitlabServerVCS(
+                new InitOnceAdminBean(), new CreateCommitCommand(), new GetVersionCommand()));
         this.vcs = (GitlabServerVCS) super.vcs;
     }
 
@@ -76,7 +81,6 @@ public class GitlabVCSTest extends AbstractVCSTest {
     }
 
     @Test
-    @Ignore
     public void isEnabled() {
         assertThat(vcs.isEnabled()).isTrue();
     }
@@ -98,11 +102,10 @@ public class GitlabVCSTest extends AbstractVCSTest {
             assertThat(ex.getMessage()).isEqualTo("Version Control System Error");
             assertThat(ex.getCause()).isNotNull();
             assertThat(ex.getCause().getMessage()).contains("401 Unauthorized");
+        } finally {
+            //Set old password back
+            vcs.updateCurrentUserPassword(oldPassword);
         }
-
-        //Set old password back
-        vcs.updateCurrentUserPassword(oldPassword);
-        vcs.getToken(user, oldPassword);
     }
 
     @Test
@@ -140,5 +143,22 @@ public class GitlabVCSTest extends AbstractVCSTest {
         assertThat(repos.size()).isEqualTo(2);
         assertThat(repos.get(0).getArtifactId()).startsWith("temp");
         assertThat(repos.get(1).getArtifactId()).startsWith("temp");
+    }
+
+    @Test
+    public void getVersion() throws Exception {
+        GitlabVersion version = vcs.getVersion();
+
+        assertThat(version).isNotNull();
+        assertThat(version.getVersion()).isNotEmpty();
+        assertThat(version.getRevision()).isNotEmpty();
+    }
+
+    @Test
+    public void getApiUrl() throws Exception {
+        URL apiURL = vcs.getApiUrl();
+
+        assertThat(apiURL).isNotNull();
+        assertThat(apiURL.toString()).startsWith("http://");
     }
 }

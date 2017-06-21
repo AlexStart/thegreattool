@@ -9,6 +9,8 @@ import com.sam.jcc.cloud.vcs.git.impl.VCSRepositoryBuilder;
 import com.sam.jcc.cloud.vcs.git.impl.vcs.GitFileVCS;
 import com.sam.jcc.cloud.vcs.git.impl.vcs.GitRemoteVCS;
 import com.sam.jcc.cloud.vcs.git.impl.vcs.GitlabServerVCS;
+import com.sam.jcc.cloud.vcs.git.impl.vcs.gitlab.CreateCommitCommand;
+import com.sam.jcc.cloud.vcs.git.impl.vcs.gitlab.GetVersionCommand;
 
 import java.io.File;
 import java.util.Arrays;
@@ -47,7 +49,8 @@ public class VCSHelper {
             vcs = new GitFileVCS();
             ((GitFileVCS) vcs).installBaseRepository();
         } else if (protocol.equals("gitlab")) {
-            vcs = new GitlabServerVCS(new InitOnceAdminBean());
+            vcs = new GitlabServerVCS(
+                    new InitOnceAdminBean(), new CreateCommitCommand(), new GetVersionCommand());
         } else {
             throw new VCSUnknownProtocolException(protocol);
         }

@@ -10,7 +10,9 @@ import com.sam.jcc.cloud.vcs.VCSRepository;
 import com.sam.jcc.cloud.vcs.exception.VCSException;
 import com.sam.jcc.cloud.vcs.exception.VCSRepositoryNotFoundException;
 import com.sam.jcc.cloud.vcs.exception.VCSUnknownProtocolException;
-import com.sam.jcc.cloud.vcs.git.impl.vcs.gitlab.GitlabCreateCommitCommand;
+import com.sam.jcc.cloud.vcs.git.impl.vcs.gitlab.CreateCommitCommand;
+import com.sam.jcc.cloud.vcs.git.impl.vcs.gitlab.GetVersionCommand;
+import com.sam.jcc.cloud.vcs.git.impl.vcs.gitlab.GitlabVersion;
 import lombok.Getter;
 import org.gitlab.api.GitlabAPI;
 import org.gitlab.api.models.GitlabCommit;
@@ -23,6 +25,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -33,6 +36,7 @@ import static java.text.MessageFormat.format;
 import static java.util.Objects.requireNonNull;
 import static org.apache.commons.io.FileUtils.copyDirectory;
 import static org.apache.commons.io.FileUtils.writeByteArrayToFile;
+import static org.apache.commons.lang.StringUtils.EMPTY;
 import static org.apache.commons.lang.StringUtils.isNotBlank;
 
 /**
@@ -55,8 +59,12 @@ public class GitlabServerVCS extends AbstractGitServerVCS implements VCS<VCSCred
     private String password = getProperty("gitlab.remote.server.password");
 
     private final InitOnceAdminBean initAdmin;
+    private final CreateCommitCommand commitCommand;
+    private final GetVersionCommand versionCommand;
 
-    public GitlabServerVCS(InitOnceAdminBean initAdmin) {
+    public GitlabServerVCS(InitOnceAdminBean initAdmin, CreateCommitCommand commitCommand, GetVersionCommand versionCommand) {
+        this.commitCommand = requireNonNull(commitCommand);
+        this.versionCommand = requireNonNull(versionCommand);
         this.initAdmin = requireNonNull(initAdmin);
     }
 
@@ -116,11 +124,8 @@ public class GitlabServerVCS extends AbstractGitServerVCS implements VCS<VCSCred
 
     @Override
     public void commit(VCSRepository repo) {
-        String token = getToken();
         final GitlabProject project = search(connect(), repo);
-        final GitlabCreateCommitCommand commitCommand = new GitlabCreateCommitCommand();
-
-        commitCommand.call(repo, getRepositoryURI(), project.getId(), token);
+        commitCommand.call(repo, getRepositoryURI(), project.getId(), getToken());
     }
 
     @Override
@@ -173,6 +178,18 @@ public class GitlabServerVCS extends AbstractGitServerVCS implements VCS<VCSCred
                     null, null, null, null, null, null,
                     null, null, null, null, null);
             this.password = newPassword;
+        } catch (IOException e) {
+            throw new VCSException(e);
+        }
+    }
+
+    public GitlabVersion getVersion() {
+        return versionCommand.call(getRepositoryURI(), getToken());
+    }
+
+    public URL getApiUrl() {
+        try {
+            return connect().getAPIUrl(EMPTY);
         } catch (IOException e) {
             throw new VCSException(e);
         }
