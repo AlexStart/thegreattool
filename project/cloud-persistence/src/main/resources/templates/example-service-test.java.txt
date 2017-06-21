@@ -1,0 +1,67 @@
+package ${package};
+
+import ${exampleDTO};
+import ${exampleService};
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+/**
+ * @author The Great Tool
+ * @since 20.06.2017
+ */
+@SpringBootTest
+@RunWith(SpringRunner.class)
+public class ExampleServiceTest {
+
+    @Autowired
+    ExampleService<ExampleDTO, Long> service;
+    ExampleDTO exampleDTO;
+    int count;
+
+    @Before
+    public void setUp() {
+        exampleDTO = new ExampleDTO();
+        exampleDTO.setData("some DTO");
+    }
+
+    @Test
+    public void creates() {
+         final ExampleDTO savedExampleDTO = service.save(exampleDTO);
+
+         assertThat(service.find(savedExampleDTO.getId())).isNotNull();
+    }
+
+    @Test
+    public void reads() {
+         ExampleDTO savedExampleDTO = service.save(exampleDTO);
+         final ExampleDTO foundExampleDTO = service.find(savedExampleDTO.getId());
+
+         assertThat(foundExampleDTO).isNotNull();
+         assertThat(foundExampleDTO.getId()).isEqualTo(savedExampleDTO.getId());
+    }
+
+     @Test
+     public void updates() {
+          final ExampleDTO savedExampleDTO = service.save(exampleDTO);
+          savedExampleDTO.setData("updated DTO");
+          final ExampleDTO updatedExampleDTO = service.update(savedExampleDTO);
+          final ExampleDTO foundExampleDTO = service.find(savedExampleDTO.getId());
+
+            assertThat(foundExampleDTO.getData()).isEqualTo(updatedExampleDTO.getData());
+     }
+
+      @Test
+      public void deletes() {
+           final ExampleDTO savedExampleDTO = service.save(exampleDTO);
+           assertThat(service.find(savedExampleDTO.getId())).isNotNull();
+           service.delete(savedExampleDTO.getId());
+
+           assertThat(service.find(savedExampleDTO.getId())).isNull();
+      }
+}

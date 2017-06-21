@@ -1,5 +1,6 @@
 package com.sam.jcc.cloud.dataprovider.impl;
 
+import com.sam.jcc.cloud.dataprovider.AppData;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -16,5 +17,25 @@ class MongoSourceGenerator extends AbstractSourceGenerator {
         entityTemplate = read("/templates/example-mongo.java.txt");
         daoTemplate = read("/templates/example-dao-mongo.java.txt");
         testTemplate = read("/templates/example-dao-test.java.txt");
+    }
+
+    @Override
+    protected void addDto(AppData app) {
+        return;
+    }
+
+    @Override
+    protected void addService(AppData app) {
+        return;
+    }
+
+    @Override
+    protected void addServiceTest(AppData app) {
+        return;
+    }
+
+    @Override
+    protected void addConverter(AppData app) {
+        return;
     }
 }

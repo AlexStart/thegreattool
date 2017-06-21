@@ -1,0 +1,22 @@
+package ${package};
+
+import lombok.Getter;
+import lombok.Setter;
+
+import java.io.Serializable;
+
+/**
+ * @author The Great Tool
+ * @since ${created}
+ */
+@Setter
+@Getter
+public class ExampleDTO implements Serializable {
+
+    private Long id;
+    private String data;
+
+    public ExampleDTO () {
+    }
+
+}
