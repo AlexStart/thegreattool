@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * Functionality for configuring Jenkins config for VSC with type {@link GitFileProvider#TYPE}
@@ -20,9 +21,15 @@ public class GitFileVCSConfigurator extends GitConfigurator {
         return GitFileProvider.TYPE;
     }
 
-    //TODO[rfisenko 6/16/17]: make test
     @Override
-    protected URI resolveGitURL(CIProject project) { //TODO: check after Rodion's commit
-        return new File(PropertyResolver.getProperty("repository.base.folder") + File.separator + project.getName()).toURI();
+    protected URI resolveGitURL(CIProject project) {
+        try {
+            return new URI(PropertyResolver.getProperty("protocols.file")
+                    + PropertyResolver.getProperty("repository.base.folder").replace(File.separator, "/")
+                    + "/" + project.getName());
+        } catch (URISyntaxException e) {
+            log.error(e.getMessage(), e);
+            throw new IllegalArgumentException(e.getMessage(), e);
+        }
     }
 }

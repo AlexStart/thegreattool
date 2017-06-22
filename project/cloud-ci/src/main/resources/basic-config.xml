@@ -25,24 +25,5 @@
         </hudson.tasks.ArtifactArchiver>
     </publishers>
     <buildWrappers>
-        <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.32">
-            <deleteDirs>false</deleteDirs>
-            <cleanupParameter></cleanupParameter>
-            <externalDelete></externalDelete>
-        </hudson.plugins.ws__cleanup.PreBuildCleanup>
-        <hudson.plugins.build__timeout.BuildTimeoutWrapper plugin="build-timeout@1.18">
-            <strategy class="hudson.plugins.build_timeout.impl.AbsoluteTimeOutStrategy">
-                <timeoutMinutes>5</timeoutMinutes>
-            </strategy>
-            <operationList>
-                <hudson.plugins.build__timeout.operations.FailOperation/>
-            </operationList>
-        </hudson.plugins.build__timeout.BuildTimeoutWrapper>
-        <hpi.CopyDataToWorkspacePlugin
-                plugin="copy-data-to-workspace-plugin@1.0"><!--todo: remove after solving problem with Permission denied-->
-            <folderPath><!-- Path to our workspace --></folderPath>
-            <makeFilesExecutable>true</makeFilesExecutable>
-            <deleteFilesAfterBuild>false</deleteFilesAfterBuild>
-        </hpi.CopyDataToWorkspacePlugin>
     </buildWrappers>
 </project>
