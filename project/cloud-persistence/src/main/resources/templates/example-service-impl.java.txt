@@ -1,0 +1,63 @@
+package ${package};
+
+import ${exampleDTO};
+import ${exampleService};
+import ${exampleConverter};
+import ${exampleDAO};
+import ${example};
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @author The Great Tool
+ * @since ${created}
+ */
+@Service
+@Transactional
+public class ExampleServiceImpl implements ExampleService<ExampleDTO, Long> {
+    @Autowired
+    private ExampleDAO exampleDAO;
+    @Autowired
+    private ExampleConverter<ExampleDTO, Example> exampleConverter;
+
+
+    @Override
+    public ExampleDTO save(ExampleDTO dto) {
+        Example entity = exampleDAO.save(exampleConverter.convertDTOToEntity(dto));
+        return exampleConverter.convertEntityToDTO (entity);
+    }
+
+    @Override
+    public ExampleDTO update(ExampleDTO dto) {
+        Example entity = exampleDAO.save(exampleConverter.convertDTOToEntity(dto));
+        return exampleConverter.convertEntityToDTO (entity);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public ExampleDTO find(Long id) {
+        return exampleConverter.convertEntityToDTO (exampleDAO.findOne(id));
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<ExampleDTO> findAll() {
+        return exampleConverter.convertEntityListToDTOList((List<Example>) exampleDAO.findAll());
+    }
+
+    @Override
+    public void delete(Long id) {
+        exampleDAO.delete(id);
+    }
+
+    @Override
+    public void deleteAll() {
+        exampleDAO.deleteAll();
+    }
+}
+
