@@ -28,13 +28,13 @@ public class ExampleServiceImpl implements ExampleService<ExampleDTO, Long> {
 
     @Override
     public ExampleDTO save(ExampleDTO dto) {
-        Example entity = exampleDAO.save(convertDTOToEntity(dto));
+        Example entity = exampleDAO.save(exampleConverter.convertDTOToEntity(dto));
         return exampleConverter.convertEntityToDTO (entity);
     }
 
     @Override
     public ExampleDTO update(ExampleDTO dto) {
-        Example entity = exampleDAO.save(convertDTOToEntity(dto));
+        Example entity = exampleDAO.save(exampleConverter.convertDTOToEntity(dto));
         return exampleConverter.convertEntityToDTO (entity);
     }
 
@@ -53,29 +53,6 @@ public class ExampleServiceImpl implements ExampleService<ExampleDTO, Long> {
     @Override
     public void delete(Long id) {
         exampleDAO.delete(id);
-    }
-
-    // TODO : Place these converters into separate class.
-    private ExampleDTO convertEntityToDTO (Example entity) {
-        ExampleDTO dto = new ExampleDTO();
-        dto.setId(entity.getId());
-        dto.setData(entity.getData());
-        return dto;
-    }
-
-    private List<ExampleDTO> convertEntityListToDTOList (List<Example> entities) {
-        List<ExampleDTO> dtos = new ArrayList<>();
-        for(Example entity : entities) {
-            dtos.add(convertEntityToDTO(entity));
-        }
-        return dtos;
-    }
-
-    private Example convertDTOToEntity (ExampleDTO dto) {
-        Example entity = new Example();
-        entity.setId(dto.getId());
-        entity.setData(dto.getData());
-        return entity;
     }
 }
 
