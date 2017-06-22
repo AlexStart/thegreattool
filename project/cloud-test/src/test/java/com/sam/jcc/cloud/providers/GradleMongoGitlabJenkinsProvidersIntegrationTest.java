@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.IfProfileValue;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.containers.DockerComposeContainer;
 
@@ -21,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-//@IfProfileValue(name = "spring.profiles.active", value = "testcontainers")
+@IfProfileValue(name = "spring.profiles.active", value = "testcontainers")
 public class GradleMongoGitlabJenkinsProvidersIntegrationTest extends AbstractProvidersIntegrationTest {
 
     //TODO: wait for testcontainers 1.3.1 release - expected the next bugs to eb fixed:
