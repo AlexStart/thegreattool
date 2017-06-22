@@ -10,7 +10,6 @@ import com.sam.jcc.cloud.ci.jenkins.config.vcs.VCSConfigurator;
 import com.sam.jcc.cloud.ci.jenkins.config.vcs.WithoutVCSConfigurator;
 import com.sam.jcc.cloud.exception.InternalCloudException;
 import com.sam.jcc.cloud.i.Experimental;
-import com.sam.jcc.cloud.i.OSDependent;
 import com.sam.jcc.cloud.utils.files.ItemStorage;
 import com.sam.jcc.cloud.utils.parsers.ProjectParser;
 import lombok.Setter;
@@ -114,19 +113,11 @@ public class JenkinsConfigurationBuilder {
                 .setArtifacts(artifacts);
     }
 
-    @OSDependent("Supported for Windows & Unix")
     private String getBuildCommand(boolean maven) {
-        if (isWindowsOS()) {
-            if (maven) {
-                return "mvnw.cmd install";
-            } else {
-                return "gradlew.bat build";
-            }
-        }
         if (maven) {
-            return "./mvnw install";
+            return "mvn install";
         }
-        return "./gradlew build";
+        return "gradle build";
     }
 
     @Experimental("JAXB configuration loader")
