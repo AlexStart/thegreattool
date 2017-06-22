@@ -6,7 +6,6 @@ import com.sam.jcc.cloud.vcs.git.impl.GitFileProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -21,11 +20,11 @@ public class GitFileVCSConfigurator extends GitConfigurator {
         return GitFileProvider.TYPE;
     }
 
-    //TODO[rfisenko 6/16/17]: make test
     @Override
     protected URI resolveGitURL(CIProject project) {
         try {
-            return new URI(PropertyResolver.getProperty("repository.base.folder") + File.separator + project.getName());
+            return new URI(PropertyResolver.getProperty("protocols.file") + PropertyResolver.getProperty("repository.base.folder")
+                    + "/" + project.getName());
         } catch (URISyntaxException e) {
             log.error(e.getMessage(), e);
             throw new IllegalArgumentException(e.getMessage(), e);
