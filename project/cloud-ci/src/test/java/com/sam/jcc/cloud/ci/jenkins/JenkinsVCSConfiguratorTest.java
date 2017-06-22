@@ -6,7 +6,6 @@ import com.sam.jcc.cloud.ci.jenkins.config.vcs.GitProtocolVCSConfigurator;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -31,7 +30,7 @@ public class JenkinsVCSConfiguratorTest {
             }
         }.resolveGitURL(project);
 
-        assertThat(url.toString()).containsPattern("\\S+" + File.separator + project.getName());
+        assertThat(url.toString()).containsPattern("file:\\/\\/\\S+\\/" + project.getName());
     }
 
     @Test

@@ -20,7 +20,6 @@ public class GitProtocolVCSConfigurator extends GitConfigurator {
         return GitProtocolProvider.TYPE;
     }
 
-    //TODO[rfisenko 6/16/17]: make test
     @Override
     protected URI resolveGitURL(CIProject project) {
         try {
