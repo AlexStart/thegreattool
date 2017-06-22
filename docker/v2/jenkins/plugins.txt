@@ -1,5 +1,5 @@
 workflow-step-api
-workflow-scm-step
+workflow-scm-step:2.5
 credentials
 structs
 git-client
