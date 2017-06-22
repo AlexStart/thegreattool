@@ -25,7 +25,7 @@ public class GitFileVCSConfigurator extends GitConfigurator {
     protected URI resolveGitURL(CIProject project) {
         try {
             return new URI(PropertyResolver.getProperty("protocols.file")
-                    + new File(PropertyResolver.getProperty("repository.base.folder")).getAbsolutePath()
+                    + PropertyResolver.getProperty("repository.base.folder").replace(File.separator,"/")
                     + "/" + project.getName());
         } catch (URISyntaxException e) {
             log.error(e.getMessage(), e);
