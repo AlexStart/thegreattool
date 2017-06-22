@@ -15,4 +15,5 @@ public interface ExampleService <T extends ExampleDTO, K extends Serializable>  
     T find(K id);
     List<T> findAll();
     void delete(K id);
+    void deleteAll();
 }

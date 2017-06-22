@@ -49,7 +49,7 @@ class GradleDependencyManager implements IDependencyManager<Dependency> {
     @Override
     public String add(File config, Dependency dependency) {
         final Matcher matcher = getDependenciesMatcher(config);
-        return matcher.replaceFirst(format("dependencies { $1 %s}", asString(dependency)));
+        return matcher.replaceFirst(format("\ndependencies { $1 %s}", asString(dependency)));
     }
 
     private Matcher getDependenciesMatcher(File file) {

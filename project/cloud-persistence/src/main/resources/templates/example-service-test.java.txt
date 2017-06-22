@@ -2,12 +2,15 @@ package ${package};
 
 import ${exampleDTO};
 import ${exampleService};
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -20,14 +23,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ExampleServiceTest {
 
     @Autowired
-    ExampleService<ExampleDTO, Long> service;
-    ExampleDTO exampleDTO;
-    int count;
+    private ExampleService<ExampleDTO, Long> service;
+    private ExampleDTO exampleDTO;
+    private int count;
 
     @Before
     public void setUp() {
         exampleDTO = new ExampleDTO();
         exampleDTO.setData("some DTO");
+
+        service.deleteAll();
     }
 
     @Test
@@ -46,22 +51,45 @@ public class ExampleServiceTest {
          assertThat(foundExampleDTO.getId()).isEqualTo(savedExampleDTO.getId());
     }
 
-     @Test
-     public void updates() {
+    @Test
+    public void readAll() {
+         service.deleteAll();
+         count = getElementCount(service.findAll());
+
+         assertThat(count).isZero();
+
+         service.save(exampleDTO);
+         count = getElementCount(service.findAll());
+
+         assertThat(count).isEqualTo(1);
+    }
+
+    @Test
+    public void updates() {
+         final ExampleDTO savedExampleDTO = service.save(exampleDTO);
+         savedExampleDTO.setData("updated DTO");
+         final ExampleDTO updatedExampleDTO = service.update(savedExampleDTO);
+         final ExampleDTO foundExampleDTO = service.find(savedExampleDTO.getId());
+
+         assertThat(foundExampleDTO.getData()).isEqualTo(updatedExampleDTO.getData());
+    }
+
+    @Test
+    public void deletes() {
           final ExampleDTO savedExampleDTO = service.save(exampleDTO);
-          savedExampleDTO.setData("updated DTO");
-          final ExampleDTO updatedExampleDTO = service.update(savedExampleDTO);
-          final ExampleDTO foundExampleDTO = service.find(savedExampleDTO.getId());
+          assertThat(service.find(savedExampleDTO.getId())).isNotNull();
+          service.delete(savedExampleDTO.getId());
 
-            assertThat(foundExampleDTO.getData()).isEqualTo(updatedExampleDTO.getData());
-     }
+          assertThat(service.find(savedExampleDTO.getId())).isNull();
+    }
 
-      @Test
-      public void deletes() {
-           final ExampleDTO savedExampleDTO = service.save(exampleDTO);
-           assertThat(service.find(savedExampleDTO.getId())).isNotNull();
-           service.delete(savedExampleDTO.getId());
+    @After
+    public void tearDown() {
+          service.deleteAll();
+    }
 
-           assertThat(service.find(savedExampleDTO.getId())).isNull();
-      }
+    private int getElementCount(List<ExampleDTO> dtos) {
+          return dtos !=null ? dtos.size() : 0;
+    }
+
 }

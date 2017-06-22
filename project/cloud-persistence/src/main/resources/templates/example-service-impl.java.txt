@@ -23,7 +23,7 @@ public class ExampleServiceImpl implements ExampleService<ExampleDTO, Long> {
     @Autowired
     private ExampleDAO exampleDAO;
     @Autowired
-    private ExampleConverter exampleConverter;
+    private ExampleConverter<ExampleDTO, Example> exampleConverter;
 
 
     @Override
@@ -53,6 +53,11 @@ public class ExampleServiceImpl implements ExampleService<ExampleDTO, Long> {
     @Override
     public void delete(Long id) {
         exampleDAO.delete(id);
+    }
+
+    @Override
+    public void deleteAll() {
+        exampleDAO.deleteAll();
     }
 }
 
