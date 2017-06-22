@@ -1,4 +1,4 @@
-package com.sam.jcc.cloud.ci.impl;
+package com.sam.jcc.cloud.ci.jenkins;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.offbytwo.jenkins.JenkinsServer;
@@ -12,18 +12,23 @@ import com.sam.jcc.cloud.ci.CIServer;
 import com.sam.jcc.cloud.ci.exception.CIBuildNotFoundException;
 import com.sam.jcc.cloud.ci.exception.CIException;
 import com.sam.jcc.cloud.ci.exception.CIProjectAlreadyExistsException;
+import com.sam.jcc.cloud.ci.jenkins.config.JenkinsConfigurationBuilder;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.ItemStorage;
 import lombok.AccessLevel;
 import lombok.Getter;
-import org.springframework.context.annotation.Profile;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,8 +44,12 @@ import static org.springframework.util.StreamUtils.copyToByteArray;
  * @since 15-Dec-16
  */
 @Component
-@Profile("prod")
-public class Jenkins implements CIServer {
+//TODO[rfisenko 6/16/17]: remove dependency to 'root' workspace when bean creation and remove this scope
+@Scope("prototype")
+//@Profile("prod")
+public class Jenkins implements CIServer, ApplicationContextAware {
+
+    private ApplicationContext context;
 
     @VisibleForTesting
     @Getter(AccessLevel.PACKAGE)
@@ -51,11 +60,9 @@ public class Jenkins implements CIServer {
     private ItemStorage<CIProject> workspace;
 
     private JenkinsJobManager jobManager;
-    private JenkinsConfigurationBuilder configBuilder;
 
     private boolean connected;
 
-    // TODO(a bad part of the app): should be compliant with Spring
     public Jenkins() {
         init(defaultJenkinsServer(), defaultWorkspace());
     }
@@ -81,7 +88,6 @@ public class Jenkins implements CIServer {
         workspace.setRoot(root);
 
         jobManager = new JenkinsJobManager(server);
-        configBuilder = new JenkinsConfigurationBuilder(workspace);
     }
 
     @SuppressWarnings("unchecked")
@@ -117,7 +123,7 @@ public class Jenkins implements CIServer {
         try {
             workspace.create(project);
             copySourcesToCIRepo(project);
-            final String config = configBuilder.build(project);
+            final String config = createConfigBuilder().build(project);
             server.createJob(project.getName(), config, true);
         } catch (IOException e) {
             workspace.delete(project);
@@ -225,8 +231,11 @@ public class Jenkins implements CIServer {
     }
 
     public static JenkinsServer defaultJenkinsServer() {
-
-        return new JenkinsServer(URI.create(getProperty("ci.jenkins.host")));
+        try {
+            return new JenkinsServer(new URL(getProperty("ci.jenkins.url")).toURI());
+        } catch (URISyntaxException | MalformedURLException e) {
+            throw new IllegalArgumentException(e.getMessage(), e);
+        }
 
         // TODO Commented because User Management is not implemented yet.
 
@@ -234,4 +243,20 @@ public class Jenkins implements CIServer {
         // getProperty("ci.jenkins.user"),
         // getProperty("ci.jenkins.password"));
     }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.context = applicationContext;
+    }
+
+    /**
+     * Lazy initialization of {@link JenkinsConfigurationBuilder} for Spring container working
+     * NOTE: don't use this method before calling JenkinsConfigurationBuilder#prepareJenkins()
+     *
+     * @return new instance of builder
+     */
+    public JenkinsConfigurationBuilder createConfigBuilder() {
+        return context.getBean(JenkinsConfigurationBuilder.class, workspace);
+    }
+
 }

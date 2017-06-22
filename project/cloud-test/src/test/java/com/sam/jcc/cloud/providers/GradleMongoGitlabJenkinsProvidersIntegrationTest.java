@@ -1,26 +1,27 @@
 package com.sam.jcc.cloud.providers;
 
+import com.sam.jcc.cloud.ci.jenkins.Jenkins;
 import com.sam.jcc.cloud.dataprovider.impl.MongoDataProvider;
 import com.sam.jcc.cloud.dataprovider.impl.MongoDatabaseManager;
 import com.sam.jcc.cloud.project.impl.GradleProjectProvider;
-import com.sam.jcc.cloud.util.TestEnvironment;
 import com.sam.jcc.cloud.vcs.git.impl.provider.GitlabProvider;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.ClassRule;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.IfProfileValue;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.containers.DockerComposeContainer;
 
 import java.io.File;
-import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-@IfProfileValue(name = "spring.profiles.active", value = "testcontainers")
+//@IfProfileValue(name = "spring.profiles.active", value = "testcontainers")
 public class GradleMongoGitlabJenkinsProvidersIntegrationTest extends AbstractProvidersIntegrationTest {
 
     //TODO: wait for testcontainers 1.3.1 release - expected the next bugs to eb fixed:
@@ -47,13 +48,11 @@ public class GradleMongoGitlabJenkinsProvidersIntegrationTest extends AbstractPr
     @Autowired
     GitlabProvider gitlab;
 
-    @BeforeClass
-    public static void startUpEnv() throws Exception {
-        startUpJenkins();
-    }
-
     @Before
-    public void setUp() throws IOException {
+    public void setUp() throws Exception {
+        startUpJenkins();
+
+        jenkins = context.getBean(Jenkins.class, jenkinsServer, temp.newFolder());
         job = job();
         app = app(GRADLE_PROJECT);
         data = data(app);
@@ -63,7 +62,7 @@ public class GradleMongoGitlabJenkinsProvidersIntegrationTest extends AbstractPr
         mongoManager.drop(data);
         apps.findAll().forEach(apps::delete);
 
-        jenkins.setJenkins(TestEnvironment.jenkins);
+        jenkinsProvider.setJenkins(jenkins);
     }
 
     @After
@@ -90,12 +89,12 @@ public class GradleMongoGitlabJenkinsProvidersIntegrationTest extends AbstractPr
         clearLocalSources(repository);
         copySourcesTo(gitlab.read(repository), job, data);
 
-        jenkins.create(job);
-        waitWhileProcessing(job);
         //TODO: uncommit after jenkins and gitlab integration
-        //assertThat(getBuild(jenkins.read(job))).isNotEmpty();
+//        jenkins.create(job);
+//        waitWhileProcessing(job);
+//        assertThat(getBuild(jenkins.read(job))).isNotEmpty();
 
-        deleteQuietly(job);
+//        deleteQuietly(job);
         gitlab.delete(repository);
         apps.delete(app);
     }

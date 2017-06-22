@@ -1,7 +1,8 @@
-package com.sam.jcc.cloud.ci.impl;
+package com.sam.jcc.cloud.ci.jenkins;
 
 import com.sam.jcc.cloud.ci.CIProject;
 import com.sam.jcc.cloud.ci.exception.CIBuildNotFoundException;
+import com.sam.jcc.cloud.ci.impl.CIProjectDao;
 import com.sam.jcc.cloud.event.DefaultLoggingEventManager;
 import org.junit.Before;
 import org.junit.Test;

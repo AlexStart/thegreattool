@@ -1,25 +1,35 @@
-package com.sam.jcc.cloud.ci.impl;
+package com.sam.jcc.cloud.ci.jenkins.config;
 
 import com.sam.jcc.cloud.PropertyResolver;
 import com.sam.jcc.cloud.ci.CIProject;
 import com.sam.jcc.cloud.ci.exception.CIException;
-import com.sam.jcc.cloud.ci.impl.JenkinsProjectConfiguration.Builders.HudsonTasksBatchFile;
-import com.sam.jcc.cloud.ci.impl.JenkinsProjectConfiguration.Builders.HudsonTasksShell;
+import com.sam.jcc.cloud.ci.jenkins.config.JenkinsProjectConfiguration.Builders.HudsonTasksBatchFile;
+import com.sam.jcc.cloud.ci.jenkins.config.JenkinsProjectConfiguration.Builders.HudsonTasksShell;
+import com.sam.jcc.cloud.ci.jenkins.config.vcs.VCSConfigurationData;
+import com.sam.jcc.cloud.ci.jenkins.config.vcs.VCSConfigurator;
+import com.sam.jcc.cloud.ci.jenkins.config.vcs.WithoutVCSConfigurator;
 import com.sam.jcc.cloud.exception.InternalCloudException;
 import com.sam.jcc.cloud.i.Experimental;
 import com.sam.jcc.cloud.i.OSDependent;
-import com.sam.jcc.cloud.provider.UnsupportedTypeException;
 import com.sam.jcc.cloud.utils.files.ItemStorage;
 import com.sam.jcc.cloud.utils.parsers.ProjectParser;
-import com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider;
-import com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Scope;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.stereotype.Component;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.List;
+import java.util.Objects;
 
 import static com.sam.jcc.cloud.utils.SystemUtils.isWindowsOS;
 
@@ -27,7 +37,17 @@ import static com.sam.jcc.cloud.utils.SystemUtils.isWindowsOS;
  * @author Alexey Zhytnik
  * @since 18-Dec-16
  */
-class JenkinsConfigurationBuilder {
+@Component
+@Scope("prototype")
+@Lazy
+public class JenkinsConfigurationBuilder {
+
+    @Autowired
+    @Setter
+    List<VCSConfigurator> vcsConfigurators;
+
+    @Autowired
+    WithoutVCSConfigurator defaultVCSConfigurator;
 
     public static final String MAVEN_ARTIFACTS = "target/*.jar";
     public static final String GRADLE_ARTIFACTS = "build/libs/*.jar";
@@ -60,53 +80,15 @@ class JenkinsConfigurationBuilder {
     }
 
     private void setUpVCS(CIProject project, JenkinsProjectConfiguration config) {
-        //TODO[rfisenko 6/8/17]: make refactoring
-        if (null == project.getVcsType() || project.getVcsType().isEmpty()) {
-            setUpNonVCSSrc(config, project);
-        } else if (GitFileProvider.TYPE.equals(project.getVcsType())) {
-            setUpGitPlugin(config, createGitFileUrl(project));
-        } else if (GitProtocolProvider.TYPE.equals(project.getVcsType())) {
-            setUpNonVCSSrc(config, project); //TODO[rfisenko 6/8/17]: Temp solution. Change after docker networking configuration(git daemon visibility on jenkins container)
-//            setUpGitPlugin(config, createGitProtocolUrl(project));
-        } else {
-            throw new UnsupportedTypeException(project.getVcsType());
-        }
-    }
-
-    //TODO[rfisenko 6/8/17]: create different providers for configuring and move this methods
-    private String createGitFileUrl(CIProject project) {
-        return property("repository.base.folder") + File.separator + project.getName();
-    }
-
-    private String createGitProtocolUrl(CIProject project) {
-        return property("protocols.git") + property("git.remote.server.host") + ":"
-                + property("git.remote.server.port") + "/" + project.getName();
-    }
-
-    /**
-     * Setup git plugin configuration
-     *
-     * @param config jenkins config
-     * @param url    url
-     */
-    //TODO[rfisenko 6/7/17]: use object instead url
-    private void setUpGitPlugin(JenkinsProjectConfiguration config, String url) {
-        //TODO[rfisenko 6/7/17]: prepare all config values for deleting dependency to basic-config.xml
-        config.getScm().getUserRemoteConfigs().getHudsonPluginsGitUserRemoteConfig().setUrl(url);
-    }
-
-    /**
-     * Set up using source code without vcs
-     *
-     * @param config  jenkins config
-     * @param project project data
-     */
-    private void setUpNonVCSSrc(JenkinsProjectConfiguration config, CIProject project) {
-        config.getScm().setClazz("hudson.scm.NullSCM");
-        final String dir = workspace.get(project).getAbsolutePath();
-        config.getBuildWrappers()
-                .getHpiCopyDataToWorkspacePlugin()
-                .setFolderPath(dir);
+        VCSConfigurator configurator = Objects.requireNonNull(vcsConfigurators.stream()
+                        .filter(c -> Objects.equals(c.getType(), project.getVcsType()))
+                        .findAny().orElse(defaultVCSConfigurator),
+                String.format("Configurator with type %s not found", project.getVcsType()));
+        configurator.setUp(VCSConfigurationData.builder()
+                .config(config)
+                .project(project)
+                .workspace(workspace)
+                .build());
     }
 
     private void setUpBuilder(JenkinsProjectConfiguration config, boolean isMaven) {

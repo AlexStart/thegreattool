@@ -3,7 +3,8 @@ package com.sam.jcc.cloud.providers;
 import com.sam.jcc.cloud.app.AppMetadata;
 import com.sam.jcc.cloud.app.AppProvider;
 import com.sam.jcc.cloud.ci.CIProject;
-import com.sam.jcc.cloud.ci.impl.JenkinsProvider;
+import com.sam.jcc.cloud.ci.jenkins.JenkinsProvider;
+import com.sam.jcc.cloud.ci.jenkins.Jenkins;
 import com.sam.jcc.cloud.dataprovider.AppData;
 import com.sam.jcc.cloud.i.ci.ICIMetadata;
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
@@ -14,28 +15,35 @@ import com.sam.jcc.cloud.util.TestEnvironment;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.ZipArchiveManager;
 import com.sam.jcc.cloud.vcs.VCSRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
+import static com.sam.jcc.cloud.ci.CIBuildStatus.IN_PROGRESS;
+import static java.lang.Thread.sleep;
 import static java.util.Collections.singletonList;
 
 /**
  * @author Alexey Zhytnik
  * @since 19-Jan-17
  */
+@Slf4j
 public class AbstractProvidersIntegrationTest extends TestEnvironment {
 
     final String PROJECT_ARTIFACT_ID = "iproject" + new Random().nextInt(1000);
     final String PROJECT_GROUP_ID = "com.samsolutions";
 
     @Autowired
-    protected AppProvider apps;
+    ApplicationContext context;
 
     @Autowired
-    protected JenkinsProvider jenkins;
+    protected AppProvider apps;
+    @Autowired
+    protected JenkinsProvider jenkinsProvider;
 
     protected AppMetadata app;
 
@@ -43,6 +51,7 @@ public class AbstractProvidersIntegrationTest extends TestEnvironment {
     protected CIProject job;
     protected ProjectMetadata metadata;
     protected VCSRepository repository;
+    protected Jenkins jenkins; //TODO[rfisenko 6/16/17]: bad solution. make refactoring. Move to TestEnvironment.class
 
     AppMetadata app(String projectType) {
         final AppMetadata app = new AppMetadata();
@@ -141,7 +150,34 @@ public class AbstractProvidersIntegrationTest extends TestEnvironment {
     }
 
     byte[] getBuild(ICIMetadata metadata) {
-        final CIProject job = (CIProject) jenkins.read(metadata);
+        final CIProject job = (CIProject) jenkinsProvider.read(metadata);
         return job.getBuild();
+    }
+
+    protected void waitWhileProcessing(CIProject project) throws Exception {
+        log.info("Start wait {}", project);
+        log.info("Waiting for {}", project);
+
+        long timeOut = JOB_TIMEOUT;
+
+        while (jenkins.getLastBuildStatus(project) == IN_PROGRESS && timeOut > 0L) {
+            sleep(500L);
+            timeOut -= 500L;
+        }
+
+        if (timeOut <= 0L) {
+            throw new RuntimeException("TimeOut");
+        }
+        log.info("{} finished", project);
+
+        sleep(1_000L /* timeout for Jenkins stabilization */);
+    }
+
+    /**
+     * Sometimes Jenkins does some actions with CIProject and can't immediately delete Job.
+     */
+    protected void deleteQuietly(CIProject project) throws Exception {
+        sleep(1_500L);
+        jenkinsProvider.delete(project);
     }
 }

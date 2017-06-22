@@ -59,7 +59,7 @@ public class MavenProjectProvider extends ProjectProvider implements IHealth {
 			public String getUrl() {
 				try {
 					Runtime rt = Runtime.getRuntime();
-					String exec = SystemUtils.IS_OS_WINDOWS ? "mvn.bat -version" : "mvn -version";
+					String exec = SystemUtils.IS_OS_WINDOWS ? "cmd.exe /c mvn -version" : "mvn -version";
 					Process proc = rt.exec(exec);
 					InputStream is = proc.getInputStream();
 					InputStreamReader isr = new InputStreamReader(is);

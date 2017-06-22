@@ -1,45 +1,69 @@
+### Compose ###
 version: '3'
+
 services:
+  registry:
+    restart: always
+    build: registry
+    image: localhost:5000/javacloud-registry # goes to local registry
+    ports:
+      - 5000:5000
+    volumes:
+      - /path/data:/var/lib/registry
+    container_name: "javacloud-registry"
   nexus:
     build: nexus
+    image: localhost:5000/javacloud-nexus # goes to local registry
     ports:
      - "127.0.0.1:8081:8081"
     container_name: "javacloud-nexus"
   jenkins:
     build: jenkins
+    image: localhost:5000/javacloud-jenkins # goes to local registry
     ports:
      - "127.0.0.1:8082:8082"
     container_name: "javacloud-jenkins"
     volumes:
       - data-volume:/javacloud/datavolume
-     #todo: remove this values in future
+      #todo: remove this values in future (HOST:CONTAINER)
       #NOTE: This value must be identical with cloud.properties#ci.workspace.folder and relevant cloud-override.properties property
-     #- /javacloud/datavolume/.ci_repositories:/javacloud/datavolume/.ci_repositories
+      #- /javacloud/datavolume/.ci_repositories:/javacloud/datavolume/.ci_repositories
+      #- ./.ci_repositories:/var/jenkins_home/.ci_repositories/
       #NOTE: This value must be identical with cloud.properties#repository.base.folder and relevant cloud-override.properties property
-     #- /javacloud/datavolume/.local_repositories:/javacloud/datavolume/.local_repositories
+      #- /javacloud/datavolume/.local_repositories:/javacloud/datavolume/.local_repositories
+      #- ./.local_repositories:$HOME/.local_repositories
   alpine-java:
     build: alpine-java
+    image: localhost:5000/javacloud-deployments # goes to local registry
     container_name: "javacloud-deployments"
   mysql:
     build: mysql
+    image: localhost:5000/javacloud-mysql # goes to local registry
     ports:
     - "127.0.0.1:3306:3306"
     container_name: "javacloud-mysql"   
   mongodb:
     build: mongodb
+    image: localhost:5000/javacloud-mongodb # goes to local registry
     ports:
     - "127.0.0.1:27017:27017"
     #- "27017:27017"
     container_name: "javacloud-mongodb"
   git:
     build: git
+    image: localhost:5000/javacloud-git # goes to local registry    
     ports:
     - "127.0.0.1:9418:9418"
     volumes:
-     - data-volume:/javacloud/datavolume
+      - data-volume:/javacloud/datavolume
+     #todo: remove this values in future (HOST:CONTAINER)
+     #NOTE: This value must be identical with cloud.properties#repository.base.folder and relevant cloud-override.properties property
+     #- /javacloud/datavolume/.local_repositories:/javacloud/datavolume/.local_repositories
+     # - ./.local_repositories:$HOME/.local_repositories
     container_name: "javacloud-git"
   gitlab:
     build: gitlab
+    image: localhost:5000/javacloud-gitlab # goes to local registry    
     ports:
     - "8083:8083"
     - "8322:8322"
@@ -59,16 +83,25 @@ services:
     container_name: "javacloud-gitlab"
   sonarqube:
     build: sonarqube
+    image: localhost:5000/javacloud-sonarqube # goes to local registry    
     container_name: "javacloud-sonarqube"
   redis:
     image: "redis:alpine"
     container_name: "javacloud-redis"   
   webconsole:
     build: webconsole
+    image: localhost:5000/javacloud-webconsole # goes to local registry
     ports:
      - "127.0.0.1:8080:8080"
     volumes:
-     - data-volume:/javacloud/datavolume
+      - data-volume:/javacloud/datavolume
+      #todo: remove this values in future (HOST:CONTAINER)
+      #NOTE: This value must be identical with cloud.properties#ci.workspace.folder and relevant cloud-override.properties property
+      #- /javacloud/datavolume/.ci_repositories:/javacloud/datavolume/.ci_repositories
+      #- ./.ci_repositories:$HOME/.ci_repositories
+      #NOTE: This value must be identical with cloud.properties#repository.base.folder and relevant cloud-override.properties property
+      #- /javacloud/datavolume/.local_repositories:/javacloud/datavolume/.local_repositories
+      #- ./.local_repositories:$HOME/.local_repositories
     container_name: "javacloud-webconsole"
 
 volumes:

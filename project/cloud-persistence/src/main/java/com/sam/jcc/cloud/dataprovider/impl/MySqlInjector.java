@@ -1,23 +1,21 @@
 package com.sam.jcc.cloud.dataprovider.impl;
 
-import static com.google.common.collect.ImmutableList.of;
-import static com.sam.jcc.cloud.PropertyResolver.getProperty;
-import static java.lang.String.format;
-import static java.lang.System.lineSeparator;
-
-import java.io.File;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.sam.jcc.cloud.dataprovider.AppData;
 import com.sam.jcc.cloud.i.data.IDataInjector;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.parsers.ProjectParser;
 import com.sam.jcc.cloud.utils.project.DependencyManager;
 import com.sam.jcc.cloud.utils.project.DependencyManager.Dependency;
-
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.io.File;
+
+import static com.google.common.collect.ImmutableList.of;
+import static com.sam.jcc.cloud.PropertyResolver.getProperty;
+import static java.lang.String.format;
+import static java.lang.System.lineSeparator;
 
 /**
  * @author Alexey Zhytnik
@@ -66,7 +64,7 @@ class MySqlInjector implements IDataInjector<AppData> {
         return jpa;
     }
 
-    private Dependency mysqlConnector(){
+    private Dependency mysqlConnector() {
         final Dependency mysql = new Dependency();
 
         mysql.setScope("compile");
@@ -77,7 +75,7 @@ class MySqlInjector implements IDataInjector<AppData> {
     }
 
     //TODO: transfer
-    private Dependency lombok(){
+    private Dependency lombok() {
         final Dependency lombok = new Dependency();
 
         lombok.setScope("compile");
@@ -90,7 +88,7 @@ class MySqlInjector implements IDataInjector<AppData> {
     private String settings(AppData data) {
         return String.join(lineSeparator(),
                 of(
-                        jpa("url", getProperty("db.mysql.url") + data.getAppName() + getProperty("db.mysql.url.postfix")),
+                        jpa("url", String.format(getProperty("db.mysql.url.full.pattern"), data.getAppName())),
                         jpa("username", getProperty("db.mysql.user")),
                         jpa("password", getProperty("db.mysql.password")),
                         "spring.jpa.hibernate.ddl-auto=update"
@@ -100,4 +98,5 @@ class MySqlInjector implements IDataInjector<AppData> {
     private String jpa(String property, String value) {
         return format("%s.%s=%s", JPA, property, value);
     }
+
 }

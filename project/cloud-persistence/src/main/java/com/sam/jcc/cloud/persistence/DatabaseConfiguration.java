@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 import java.util.Properties;
 
+import static com.sam.jcc.cloud.PropertyResolver.getProperty;
+
 /**
  * @author Alexey Zhytnik
  * @since 18.11.2016
@@ -59,7 +61,7 @@ public class DatabaseConfiguration {
     public JdbcTemplate mySqlJdbcTemplate() {
         final DriverManagerDataSource ds = new DriverManagerDataSource();
 
-        ds.setUrl(property("db.mysql.url"));
+        ds.setUrl(getProperty("db.mysql.url"));
         ds.setUsername(property("db.mysql.user"));
         ds.setPassword(property("db.mysql.password"));
         ds.setDriverClassName(property("db.mysql.driver"));
@@ -88,4 +90,5 @@ public class DatabaseConfiguration {
     private String property(String key) {
         return PropertyResolver.getProperty(key);
     }
+
 }
