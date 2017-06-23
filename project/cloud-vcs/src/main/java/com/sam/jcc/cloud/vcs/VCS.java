@@ -1,6 +1,7 @@
 package com.sam.jcc.cloud.vcs;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Alexey Zhytnik
@@ -20,7 +21,12 @@ public interface VCS<CP extends VCSCredentials> {
 
     List<VCSRepository> getAllRepositories();
 
-    void setStorage(VCSStorage<CP> storage);
+    /**
+     * Returns a URI for access to the storage.
+     */
+    String getRepositoryURI(VCSRepository repo);
 
-    VCSStorage<CP> getStorage();
+    Optional<CP> getCredentialsProvider();
+
+    void setProtocol(String protocol);
 }

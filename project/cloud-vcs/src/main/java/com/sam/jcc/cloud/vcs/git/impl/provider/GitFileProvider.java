@@ -1,9 +1,10 @@
-package com.sam.jcc.cloud.vcs.git.impl;
+package com.sam.jcc.cloud.vcs.git.impl.provider;
 
 import com.sam.jcc.cloud.i.IEventManager;
 import com.sam.jcc.cloud.i.IHealth;
 import com.sam.jcc.cloud.i.IHealthMetadata;
 import com.sam.jcc.cloud.i.vcs.IVCSMetadata;
+import com.sam.jcc.cloud.vcs.git.impl.vcs.GitFileVCS;
 import org.apache.commons.lang3.SystemUtils;
 import org.springframework.stereotype.Component;
 
@@ -25,13 +26,9 @@ public class GitFileProvider extends VCSProvider implements IHealth {
 
     private static String PATH_2_REPO = getProperty("repository.base.folder");
 
-    public GitFileProvider(List<IEventManager<IVCSMetadata>> eventManagers) {
-        super(eventManagers);
-    }
-
-    @Override
-    protected GitAbstractStorage getStorage() {
-        return new GitFileStorage();
+    public GitFileProvider(List<IEventManager<IVCSMetadata>> eventManagers, GitFileVCS vcs) {
+        super(eventManagers, vcs);
+        vcs.installBaseRepository();
     }
 
     @Override

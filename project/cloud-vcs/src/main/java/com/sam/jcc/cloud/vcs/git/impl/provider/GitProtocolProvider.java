@@ -1,9 +1,10 @@
-package com.sam.jcc.cloud.vcs.git.impl;
+package com.sam.jcc.cloud.vcs.git.impl.provider;
 
 import com.sam.jcc.cloud.i.IEventManager;
 import com.sam.jcc.cloud.i.IHealth;
 import com.sam.jcc.cloud.i.IHealthMetadata;
 import com.sam.jcc.cloud.i.vcs.IVCSMetadata;
+import com.sam.jcc.cloud.vcs.git.impl.vcs.GitRemoteVCS;
 import org.springframework.stereotype.Component;
 
 import java.net.InetSocketAddress;
@@ -19,13 +20,12 @@ public class GitProtocolProvider extends VCSProvider implements IHealth {
     private static final long GIT_PROTOCOL_PROVIDER_ID = 4L;
     public static final String TYPE = "git-protocol";
 
-    public GitProtocolProvider(List<IEventManager<IVCSMetadata>> eventManagers) {
-        super(eventManagers);
-    }
+    protected GitRemoteVCS vcs;
 
-    @Override
-    protected GitAbstractStorage getStorage() {
-        return new GitRemoteStorage();
+    public GitProtocolProvider(List<IEventManager<IVCSMetadata>> eventManagers, GitRemoteVCS vcs) {
+        super(eventManagers, vcs);
+        this.vcs = vcs;
+        vcs.installBaseRepository();
     }
 
     // TODO: need check server
@@ -45,22 +45,19 @@ public class GitProtocolProvider extends VCSProvider implements IHealth {
 
             @Override
             public String getHost() {
-                GitRemoteStorage remoteStorage = (GitRemoteStorage) getStorage();
-                return remoteStorage.getHost();
+                return vcs.getHost();
             }
 
             @Override
             public String getPort() {
-                GitRemoteStorage remoteStorage = (GitRemoteStorage) getStorage();
-                return String.valueOf(remoteStorage.getPort());
+                return String.valueOf(vcs.getPort());
             }
 
             @Override
             public String getUrl() {
                 try {
-                    GitRemoteStorage remoteStorage = (GitRemoteStorage) getStorage();
                     StringBuilder sb = new StringBuilder();
-                    String line = remoteStorage.getRepositoryURL();
+                    String line = vcs.getRepositoryURL();
                     sb.append(line);
                     return sb.toString();
                 } catch (Exception e) {

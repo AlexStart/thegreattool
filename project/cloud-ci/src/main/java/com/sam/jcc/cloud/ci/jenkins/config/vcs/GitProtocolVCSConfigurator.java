@@ -2,7 +2,7 @@ package com.sam.jcc.cloud.ci.jenkins.config.vcs;
 
 import com.sam.jcc.cloud.PropertyResolver;
 import com.sam.jcc.cloud.ci.CIProject;
-import com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider;
+import com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

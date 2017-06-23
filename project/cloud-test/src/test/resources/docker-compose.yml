@@ -1,0 +1,14 @@
+version: '2'
+services:
+  javacloud-gitlab-test:
+    image: gitlab/gitlab-ce
+    ports:
+    - "18083:18083"
+    - "18322:18322"
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url "http://#{host}/gitlab"
+        nginx['listen_port'] = 18083
+        gitlab_rails['gitlab_shell_ssh_port'] = 18322
+      #Requirement for GITLAB_ROOT_PASSWORD characters number >= 8
+      GITLAB_ROOT_PASSWORD: rootpassword

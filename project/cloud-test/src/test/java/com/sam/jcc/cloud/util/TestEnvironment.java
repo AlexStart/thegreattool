@@ -2,8 +2,6 @@ package com.sam.jcc.cloud.util;
 
 import com.offbytwo.jenkins.JenkinsServer;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.rules.TemporaryFolder;
 import org.jvnet.hudson.test.JenkinsRule;
@@ -31,28 +29,17 @@ public abstract class TestEnvironment {
 
     protected static final long JOB_TIMEOUT = 200_000L;
 
-    protected static GitDaemon daemon;
     protected static JenkinsServer jenkinsServer;
 
     static {
         disableJenkinsUglyLogging();
     }
 
-    @BeforeClass
-    public static void startUpEnv() throws Exception {
+    protected static void startUpJenkins() throws Exception {
         log.info("Jenkins started");
         jenkinsServer = initJenkinsServer();
         log.info("Jenkins fully configured");
-
-        daemon = new GitDaemon();
-        daemon.startUp(temp.newFolder());
     }
-
-    @AfterClass
-    public static void shutDownGitDaemon() {
-        daemon.shutDown();
-    }
-
 
     private static JenkinsServer initJenkinsServer() throws Exception {
         setUpPluginRepository();

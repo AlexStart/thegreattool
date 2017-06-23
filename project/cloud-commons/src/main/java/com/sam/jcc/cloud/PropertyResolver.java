@@ -79,7 +79,8 @@ public class PropertyResolver {
 			if (valueOverridden != null) {
 				value = valueOverridden;
 				// fix: expose to the rest of the world )
-				System.setProperty(key, valueOverridden);
+				//Buggy behaviour: allows overriding only once
+//				System.setProperty(key, valueOverridden);
 			}
 		}
 		return value;
