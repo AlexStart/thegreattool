@@ -21,8 +21,7 @@ public class MySqlDatabaseManager implements IDBManager<AppData> {
     private TableNameValidator validator;
 
     public void create(AppData data) {
-        final String name = data.getAppName();
-        validator.validate(name);
+        final String name = validator.getValidTableName(data.getAppName());
 
         jdbcTemplate.execute("CREATE DATABASE " + name);
     }

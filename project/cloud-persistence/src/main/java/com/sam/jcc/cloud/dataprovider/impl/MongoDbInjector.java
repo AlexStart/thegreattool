@@ -1,23 +1,21 @@
 package com.sam.jcc.cloud.dataprovider.impl;
 
-import static com.google.common.collect.ImmutableList.of;
-import static com.sam.jcc.cloud.PropertyResolver.getProperty;
-import static java.lang.String.format;
-import static java.lang.System.lineSeparator;
-
-import java.io.File;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.sam.jcc.cloud.dataprovider.AppData;
 import com.sam.jcc.cloud.i.data.IDataInjector;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.parsers.ProjectParser;
 import com.sam.jcc.cloud.utils.project.DependencyManager;
 import com.sam.jcc.cloud.utils.project.DependencyManager.Dependency;
-
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.io.File;
+
+import static com.google.common.collect.ImmutableList.of;
+import static com.sam.jcc.cloud.PropertyResolver.getProperty;
+import static java.lang.String.format;
+import static java.lang.System.lineSeparator;
 
 /**
  * @author Alexey Zhytnik
@@ -40,6 +38,9 @@ class MongoDbInjector implements IDataInjector<AppData> {
 
     @Autowired
     private DependencyManager dependencyManager;
+
+    @Autowired
+    private TableNameValidator validator;
 
     public void inject(AppData data) {
         final byte[] updated = sandbox.apply(data.getSources(), sources -> inject(data, sources));
@@ -80,7 +81,7 @@ class MongoDbInjector implements IDataInjector<AppData> {
         final String uri = String.format("mongodb://%s:%s/%s",
                 getProperty("db.mongo.host"),
                 getProperty("db.mongo.port"),
-                data.getAppName()
+                validator.getValidTableName(data.getAppName())
         );
 
         if (getProperty("db.mongo.user").isEmpty()) {
