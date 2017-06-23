@@ -29,9 +29,9 @@ import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 @RunWith(SpringRunner.class) //TODO: remove with testcontainers 1.3.1 release - used for @IfProfileValue
 public class GitlabVCSTest extends AbstractVCSTest {
 
-    //TODO: wait for testcontainers 1.3.1 release - expected the next bugs to eb fixed:
-    //TODO: https://github.com/testcontainers/testcontainers-java/pull/358
-    //TODO: https://github.com/testcontainers/testcontainers-java/issues/342
+//    //TODO: wait for testcontainers 1.3.1 release - expected the next bugs to eb fixed:
+//    //TODO: https://github.com/testcontainers/testcontainers-java/pull/358
+//    //TODO: https://github.com/testcontainers/testcontainers-java/issues/342
     @ClassRule
     public static DockerComposeContainer gitlab = new DockerComposeContainer(
             new File("src/test/resources/docker-compose.yml"))
