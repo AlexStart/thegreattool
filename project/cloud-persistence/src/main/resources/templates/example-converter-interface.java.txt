@@ -1,0 +1,18 @@
+package ${package};
+
+import ${example};
+import ${exampleDTO};
+
+import java.util.List;
+
+/**
+ * @author The Great Tool
+ * @since ${created}
+ */
+public interface ExampleConverter <D extends ExampleDTO, P extends Example>  {
+    D convertEntityToDTO (P entity);
+
+    List<D> convertEntityListToDTOList (List<P> entities);
+
+    P convertDTOToEntity (D dto);
+}

@@ -1,6 +1,7 @@
 package ${package};
 
 import ${example};
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -64,5 +65,10 @@ public class ExampleDAOTest {
 
         dao.delete(example);
         assertThat(dao.count()).isZero();
+    }
+
+    @After
+    public void tearDown() {
+        dao.deleteAll();
     }
 }

@@ -36,6 +36,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 })
 public class JpaSourceGeneratorTest {
 
+    static final String DTO = "src/main/java/com/zhytnik/app/dto/ExampleDTO.java";
+    static final String SERVICE = "src/main/java/com/zhytnik/app/service/ExampleService.java";
+    static final String SERVICE_IMPL = "src/main/java/com/zhytnik/app/service/impl/ExampleServiceImpl.java";
+    static final String SERVICE_TEST = "src/test/java/com/zhytnik/app/service/ExampleServiceTest.java";
+    static final String CONVERTER = "src/main/java/com/zhytnik/app/converter/ExampleConverter.java";
+    static final String CONVERTER_IMPL = "src/main/java/com/zhytnik/app/converter/impl/ExampleConverterImpl.java";
     static final String ENTITY = "src/main/java/com/zhytnik/app/persistence/entity/Example.java";
     static final String DAO = "src/main/java/com/zhytnik/app/persistence/repository/ExampleDAO.java";
     static final String TEST = "src/test/java/com/zhytnik/app/persistence/repository/ExampleDAOTest.java";
@@ -64,6 +70,12 @@ public class JpaSourceGeneratorTest {
 
         final File sources = readSources(app);
 
+        assertThat(new File(sources, DTO)).exists();
+        assertThat(new File(sources, SERVICE)).exists();
+        assertThat(new File(sources, SERVICE_IMPL)).exists();
+        assertThat(new File(sources, SERVICE_TEST)).exists();
+        assertThat(new File(sources, CONVERTER)).exists();
+        assertThat(new File(sources, CONVERTER_IMPL)).exists();
         assertThat(new File(sources, DAO)).exists();
         assertThat(new File(sources, TEST)).exists();
         assertThat(new File(sources, ENTITY)).exists();
