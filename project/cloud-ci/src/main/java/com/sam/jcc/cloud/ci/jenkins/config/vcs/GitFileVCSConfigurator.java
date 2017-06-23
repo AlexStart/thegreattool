@@ -2,7 +2,7 @@ package com.sam.jcc.cloud.ci.jenkins.config.vcs;
 
 import com.sam.jcc.cloud.PropertyResolver;
 import com.sam.jcc.cloud.ci.CIProject;
-import com.sam.jcc.cloud.vcs.git.impl.GitFileProvider;
+import com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -21,11 +21,12 @@ public class GitFileVCSConfigurator extends GitConfigurator {
         return GitFileProvider.TYPE;
     }
 
-    //TODO[rfisenko 6/16/17]: make test
     @Override
     protected URI resolveGitURL(CIProject project) {
         try {
-            return new URI(PropertyResolver.getProperty("repository.base.folder") + File.separator + project.getName());
+            return new URI(PropertyResolver.getProperty("protocols.file")
+                    + PropertyResolver.getProperty("repository.base.folder").replaceAll(File.separator, "/")
+                    + "/" + project.getName());
         } catch (URISyntaxException e) {
             log.error(e.getMessage(), e);
             throw new IllegalArgumentException(e.getMessage(), e);

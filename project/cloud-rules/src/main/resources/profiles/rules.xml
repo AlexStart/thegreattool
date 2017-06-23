@@ -137,7 +137,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -145,7 +145,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -153,7 +153,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -161,7 +161,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -169,7 +169,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -177,7 +177,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -185,7 +185,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -193,7 +193,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -338,7 +338,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -346,7 +346,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -354,7 +354,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -362,7 +362,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -370,7 +370,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -378,7 +378,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -386,7 +386,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -394,7 +394,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -539,7 +539,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -547,7 +547,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -555,7 +555,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -563,7 +563,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -571,7 +571,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -579,7 +579,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -587,7 +587,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -595,7 +595,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -740,7 +740,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -748,7 +748,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -756,7 +756,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -764,7 +764,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -772,7 +772,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -780,7 +780,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -788,7 +788,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -796,7 +796,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -941,7 +941,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -949,7 +949,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -957,7 +957,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -965,7 +965,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -973,7 +973,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -981,7 +981,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -989,7 +989,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -997,7 +997,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1142,7 +1142,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1150,7 +1150,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1158,7 +1158,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1166,7 +1166,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1174,7 +1174,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1182,7 +1182,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1190,7 +1190,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1198,7 +1198,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1343,7 +1343,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1351,7 +1351,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1359,7 +1359,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1367,7 +1367,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1375,7 +1375,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1383,7 +1383,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1391,7 +1391,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1399,7 +1399,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1544,7 +1544,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1552,7 +1552,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1560,7 +1560,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1568,7 +1568,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1576,7 +1576,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1584,7 +1584,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1592,7 +1592,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1600,7 +1600,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1745,7 +1745,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1753,7 +1753,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1761,7 +1761,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1769,7 +1769,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1777,7 +1777,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1785,7 +1785,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1793,7 +1793,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1801,7 +1801,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1946,7 +1946,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1954,7 +1954,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1962,7 +1962,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1970,7 +1970,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1978,7 +1978,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1986,7 +1986,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -1994,7 +1994,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2002,7 +2002,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2147,7 +2147,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2155,7 +2155,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2163,7 +2163,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2171,7 +2171,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2179,7 +2179,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2187,7 +2187,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2195,7 +2195,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2203,7 +2203,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2348,7 +2348,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2356,7 +2356,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2364,7 +2364,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2372,7 +2372,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2380,7 +2380,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2388,7 +2388,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2396,7 +2396,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2404,7 +2404,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2549,7 +2549,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2557,7 +2557,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2565,7 +2565,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2573,7 +2573,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2581,7 +2581,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2589,7 +2589,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2597,7 +2597,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2605,7 +2605,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2750,7 +2750,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2758,7 +2758,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2766,7 +2766,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2774,7 +2774,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2782,7 +2782,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2790,7 +2790,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2798,7 +2798,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2806,7 +2806,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2951,7 +2951,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2959,7 +2959,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2967,7 +2967,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2975,7 +2975,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2983,7 +2983,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2991,7 +2991,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -2999,7 +2999,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3007,7 +3007,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3152,7 +3152,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3160,7 +3160,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3168,7 +3168,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3176,7 +3176,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3184,7 +3184,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3192,7 +3192,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3200,7 +3200,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3208,7 +3208,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3353,7 +3353,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3361,7 +3361,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3369,7 +3369,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3377,7 +3377,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3385,7 +3385,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3393,7 +3393,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3401,7 +3401,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3409,14 +3409,14 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
 			</rules>
 			<operation>
 				<name>create</name>
-				<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+				<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 				<allowed>false</allowed>
 			</operation>
 		</com.sam.jcc.cloud.rules.model.Rule>
@@ -3554,7 +3554,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3562,7 +3562,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3570,7 +3570,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3578,7 +3578,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3586,7 +3586,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3594,7 +3594,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3602,7 +3602,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3610,14 +3610,14 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
 			</rules>
 			<operation>
 				<name>read</name>
-				<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+				<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 				<allowed>false</allowed>
 			</operation>
 		</com.sam.jcc.cloud.rules.model.Rule>
@@ -3755,7 +3755,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3763,7 +3763,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3771,7 +3771,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3779,7 +3779,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3787,7 +3787,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3795,7 +3795,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3803,7 +3803,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3811,14 +3811,14 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
 			</rules>
 			<operation>
 				<name>update</name>
-				<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+				<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 				<allowed>false</allowed>
 			</operation>
 		</com.sam.jcc.cloud.rules.model.Rule>
@@ -3956,7 +3956,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3964,7 +3964,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3972,7 +3972,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3980,7 +3980,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3988,7 +3988,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -3996,7 +3996,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -4004,7 +4004,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -4012,14 +4012,14 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
 			</rules>
 			<operation>
 				<name>delete</name>
-				<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+				<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 				<allowed>false</allowed>
 			</operation>
 		</com.sam.jcc.cloud.rules.model.Rule>
@@ -4157,7 +4157,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -4165,7 +4165,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -4173,7 +4173,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -4181,7 +4181,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -4189,7 +4189,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -4197,7 +4197,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -4205,7 +4205,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -4213,14 +4213,14 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
 			</rules>
 			<operation>
 				<name>create</name>
-				<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+				<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 				<allowed>false</allowed>
 			</operation>
 		</com.sam.jcc.cloud.rules.model.Rule>
@@ -4358,7 +4358,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -4366,7 +4366,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -4374,7 +4374,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -4382,7 +4382,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -4390,7 +4390,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -4398,7 +4398,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -4406,7 +4406,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -4414,14 +4414,14 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
 			</rules>
 			<operation>
 				<name>read</name>
-				<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+				<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 				<allowed>false</allowed>
 			</operation>
 		</com.sam.jcc.cloud.rules.model.Rule>
@@ -4559,7 +4559,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -4567,7 +4567,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -4575,7 +4575,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -4583,7 +4583,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -4591,7 +4591,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -4599,7 +4599,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -4607,7 +4607,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -4615,14 +4615,14 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
 			</rules>
 			<operation>
 				<name>update</name>
-				<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+				<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 				<allowed>false</allowed>
 			</operation>
 		</com.sam.jcc.cloud.rules.model.Rule>
@@ -4760,7 +4760,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -4768,7 +4768,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -4776,7 +4776,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -4784,7 +4784,7 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitFileProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -4792,7 +4792,7 @@
 					<rules />
 					<operation>
 						<name>create</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -4800,7 +4800,7 @@
 					<rules />
 					<operation>
 						<name>read</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -4808,7 +4808,7 @@
 					<rules />
 					<operation>
 						<name>update</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
@@ -4816,14 +4816,14 @@
 					<rules />
 					<operation>
 						<name>delete</name>
-						<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+						<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 						<allowed>false</allowed>
 					</operation>
 				</com.sam.jcc.cloud.rules.model.Rule>
 			</rules>
 			<operation>
 				<name>delete</name>
-				<operation>com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider</operation>
+				<operation>com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider</operation>
 				<allowed>false</allowed>
 			</operation>
 		</com.sam.jcc.cloud.rules.model.Rule>

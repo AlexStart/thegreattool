@@ -2,7 +2,7 @@ package com.sam.jcc.cloud.ci.jenkins.config.vcs;
 
 import com.sam.jcc.cloud.PropertyResolver;
 import com.sam.jcc.cloud.ci.CIProject;
-import com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider;
+import com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +20,6 @@ public class GitProtocolVCSConfigurator extends GitConfigurator {
         return GitProtocolProvider.TYPE;
     }
 
-    //TODO[rfisenko 6/16/17]: make test
     @Override
     protected URI resolveGitURL(CIProject project) {
         try {

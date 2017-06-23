@@ -7,7 +7,10 @@ import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoDatabase;
 import com.sam.jcc.cloud.dataprovider.AppData;
 import com.sam.jcc.cloud.i.data.IDBManager;
+<<<<<<< HEAD
 import org.springframework.beans.factory.annotation.Autowired;
+=======
+>>>>>>> master
 import org.springframework.stereotype.Component;
 
 import static com.mongodb.MongoCredential.createCredential;
@@ -19,7 +22,7 @@ import static java.util.Collections.singletonList;
  * @since 23-Jan-17
  */
 @Component
-class MongoDatabaseManager implements IDBManager<AppData> {
+public class MongoDatabaseManager implements IDBManager<AppData> {
 
     @Autowired
     private TableNameValidator validator;

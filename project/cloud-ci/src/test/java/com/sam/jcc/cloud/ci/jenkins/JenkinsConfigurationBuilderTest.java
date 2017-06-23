@@ -7,8 +7,8 @@ import com.sam.jcc.cloud.ci.jenkins.config.vcs.GitProtocolVCSConfigurator;
 import com.sam.jcc.cloud.ci.jenkins.config.vcs.WithoutVCSConfigurator;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.files.ItemStorage;
-import com.sam.jcc.cloud.vcs.git.impl.GitFileProvider;
-import com.sam.jcc.cloud.vcs.git.impl.GitProtocolProvider;
+import com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider;
+import com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -19,8 +19,6 @@ import java.util.Arrays;
 
 import static com.sam.jcc.cloud.ci.jenkins.config.JenkinsConfigurationBuilder.MAVEN_ARTIFACTS;
 import static com.sam.jcc.cloud.ci.util.CIProjectTemplates.loadProject;
-import static com.sam.jcc.cloud.utils.SystemUtils.resetOSSettings;
-import static com.sam.jcc.cloud.utils.SystemUtils.setWindowsOS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
@@ -65,18 +63,9 @@ public class JenkinsConfigurationBuilderTest extends JenkinsBaseTest {
     }
 
     @Test
-    public void configuresProjectsForDifferentOS() {
-        try {
-            setWindowsOS(true);
-            assertThat(builder.build(mavenProject)).contains("mvnw.cmd install");
-            assertThat(builder.build(gradleProject)).contains("gradlew.bat build");
-
-            setWindowsOS(false);
-            assertThat(builder.build(mavenProject)).contains("./mvnw install");
-            assertThat(builder.build(gradleProject)).contains("./gradlew build");
-        } finally {
-            resetOSSettings();
-        }
+    public void configuresRunCommandTest() {
+        assertThat(builder.build(mavenProject)).contains("mvn install");
+        assertThat(builder.build(gradleProject)).contains("gradle build");
     }
 
     @Test
