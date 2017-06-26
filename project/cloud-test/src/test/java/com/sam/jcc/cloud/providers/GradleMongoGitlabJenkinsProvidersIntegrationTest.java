@@ -37,6 +37,7 @@ public class GradleMongoGitlabJenkinsProvidersIntegrationTest extends AbstractPr
             .withExposedService("javacloud-gitlab-test", 18083)
             .withExposedService("javacloud-gitlab-test", 18322);
 
+
     private static final String GRADLE_PROJECT = "gradle-project";
 
     @Autowired
@@ -74,7 +75,6 @@ public class GradleMongoGitlabJenkinsProvidersIntegrationTest extends AbstractPr
 
     @After
     public void tearDown() {
-        gitlab.delete(repository);
         mongoManager.drop(data);
     }
 
@@ -97,11 +97,12 @@ public class GradleMongoGitlabJenkinsProvidersIntegrationTest extends AbstractPr
         clearLocalSources(repository);
         copySourcesTo(gitlab.read(repository), job, data);
 
-        jenkins.create(job);
+        jenkinsProvider.create(job);
         waitWhileProcessing(job);
         assertThat(getBuild(jenkinsProvider.read(job))).isNotEmpty();
 
         deleteQuietly(job);
+        gitlab.delete(repository);
         apps.delete(app);
     }
 }

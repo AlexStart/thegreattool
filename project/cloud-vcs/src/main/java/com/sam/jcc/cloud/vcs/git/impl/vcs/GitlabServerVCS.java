@@ -78,8 +78,7 @@ public class GitlabServerVCS extends AbstractGitServerVCS implements VCS<VCSCred
     @Override
     public void create(VCSRepository repo) {
         try {
-            connect().createProject(repo.getName(), null, null, null, null,
-                    null, null, null, true, null, null);
+            connect().createProject(repo.getName());
         } catch (IOException e) {
             throw new VCSException(e);
         }

@@ -1,6 +1,7 @@
 package com.sam.jcc.cloud.ci.jenkins;
 
 import com.offbytwo.jenkins.JenkinsServer;
+import com.sam.jcc.cloud.auth.InitOnceAdminBean;
 import com.sam.jcc.cloud.ci.CIProject;
 import com.sam.jcc.cloud.i.IEventManager;
 import com.sam.jcc.cloud.i.ci.ICIMetadata;
@@ -134,6 +135,11 @@ public abstract class JenkinsBaseTest {
         @Bean
         public List<IEventManager<ICIMetadata>> eventManagers() {
             return Collections.emptyList();
+        }
+
+        @Bean
+        public InitOnceAdminBean initOnceAdminBean() {
+            return new InitOnceAdminBean();
         }
 
     }
