@@ -1,6 +1,7 @@
 package com.sam.jcc.cloud.providers;
 
 import com.sam.jcc.cloud.ci.jenkins.Jenkins;
+import com.sam.jcc.cloud.ci.jenkins.config.vcs.JenkinsCredentialsApi;
 import com.sam.jcc.cloud.dataprovider.impl.MongoDataProvider;
 import com.sam.jcc.cloud.dataprovider.impl.MongoDatabaseManager;
 import com.sam.jcc.cloud.project.impl.GradleProjectProvider;
@@ -18,6 +19,7 @@ import org.testcontainers.containers.DockerComposeContainer;
 
 import java.io.File;
 
+import static jcifs.Config.getProperty;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -64,10 +66,15 @@ public class GradleMongoGitlabJenkinsProvidersIntegrationTest extends AbstractPr
         apps.findAll().forEach(apps::delete);
 
         jenkinsProvider.setJenkins(jenkins);
+        JenkinsCredentialsApi credentialsApi = new JenkinsCredentialsApi();
+        credentialsApi.createJenkinsCredentials(
+                getProperty("ci.jenkins.gitlab.credentialsId"), getProperty("gitlab.remote.server.user"),
+                getProperty("gitlab.remote.server.password"), getProperty("ci.jenkins.gitlab.credentialsId"));
     }
 
     @After
     public void tearDown() {
+        gitlab.delete(repository);
         mongoManager.drop(data);
     }
 
@@ -90,13 +97,11 @@ public class GradleMongoGitlabJenkinsProvidersIntegrationTest extends AbstractPr
         clearLocalSources(repository);
         copySourcesTo(gitlab.read(repository), job, data);
 
-        //TODO: uncommit after jenkins and gitlab integration
-//        jenkins.create(job);
-//        waitWhileProcessing(job);
-//        assertThat(getBuild(jenkins.read(job))).isNotEmpty();
+        jenkins.create(job);
+        waitWhileProcessing(job);
+        assertThat(getBuild(jenkinsProvider.read(job))).isNotEmpty();
 
-//        deleteQuietly(job);
-        gitlab.delete(repository);
+        deleteQuietly(job);
         apps.delete(app);
     }
 }
