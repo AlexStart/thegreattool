@@ -292,11 +292,15 @@ public class JenkinsProjectConfiguration {
             @Data
             @XmlAccessorType(XmlAccessType.FIELD)
             @XmlType(name = "", propOrder = {
-                    "url"
+                    "url",
+                    "credentialsId"
             })
             public static class HudsonPluginsGitUserRemoteConfig {
                 @XmlElement(required = true)
                 protected String url;
+
+                @XmlElement
+                protected String credentialsId;
             }
         }
     }
