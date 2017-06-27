@@ -15,7 +15,7 @@ If you discover a security vulnerability within SaM Java Cloud project, please s
 
 # About:
 
-The project is RAD tool for DevOps and quick and easy project infrastructure management.
+The project is [RAD](https://en.wikipedia.org/wiki/Rapid_application_development) tool for DevOps and quick and easy project infrastructure management.
 
 ## Code generation
 Spring Boot (with databases support: MySQL and MongoDB)
