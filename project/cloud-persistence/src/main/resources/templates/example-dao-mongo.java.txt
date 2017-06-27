@@ -3,11 +3,12 @@ package ${package};
 import ${example};
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 /**
  * @author The Great Tool
  * @since ${created}
  */
-@Repository
+@RepositoryRestResource(collectionResourceRel = "examples", path = "examples")
 public interface ExampleDAO extends MongoRepository<Example, String> {
 }

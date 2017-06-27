@@ -1,0 +1,217 @@
+package ${package};
+
+import ${example};
+import ${exampleDAO};
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.embedded.LocalServerPort;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+/**
+ * @author The Great Tool
+ * @since ${created}
+ */
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@RunWith(SpringRunner.class)
+public class ExampleDataRestTest {
+
+    @Value("${spring.data.mongodb.test.rest.url}")
+    private String baseRestUrl;
+    @Value("${spring.data.mongodb.test.rest.content.type}")
+    private String contentType;
+    @Value("${spring.data.mongodb.test.rest.entity.id}")
+    private String entityId;
+
+    @Autowired
+    private TestRestTemplate restTemplate;
+    @LocalServerPort
+    private int port;
+    @Autowired
+    ExampleDAO dao;
+
+    private ObjectMapper mapper;
+    private Example example;
+    private Example updatedExample;
+    private List<Example> examples;
+
+    @Before
+    @SneakyThrows
+    public void setUp() {
+        mapper = new ObjectMapper();
+
+        example = new Example();
+        example.setData("some data");
+
+        updatedExample = new Example();
+        updatedExample.setId(entityId);
+        updatedExample.setData("updated Data");
+
+        examples = getExampleList();
+
+        cleanDataBase();
+    }
+
+    @Test
+    @SneakyThrows
+    public void create() {
+        example.setId(entityId);
+
+        ResponseEntity<String> createResponse = createEntity(example);
+
+        checkEntityLocation(createResponse.getBody(), example.getId());
+
+        checkEntityDataProperty(createResponse.getBody(), example.getData());
+    }
+
+    @Test
+    @SneakyThrows
+    public void find() {
+        example.setId(entityId);
+
+        ResponseEntity<String> createResponse = createEntity(example);
+        checkEntityLocation(createResponse.getBody(), entityId);
+
+        ResponseEntity<String> findResponse = findEntity(example.getId());
+        checkEntityDataProperty(findResponse.getBody(), example.getData());
+        checkEntityLocation(findResponse.getBody(), entityId);
+    }
+
+    @Test
+    public void findAll() {
+       for (Example example : examples) {
+            createEntity(example);
+        }
+        ResponseEntity<String> findAllResponse = findAllEntities();
+        int entityCount = getCountOfEntities(findAllResponse.getBody());
+        assertThat(entityCount).isEqualTo(examples.size());
+    }
+
+    @Test
+    public void update() {
+        example.setId(entityId);
+        ResponseEntity<String> createResponse = createEntity(example);
+        checkEntityLocation(createResponse.getBody(), entityId);
+
+        restTemplate.put(getEntityLocation(createResponse.getBody()), updatedExample, String.class);
+
+        ResponseEntity<String> updateResponse = findEntity(entityId);
+        checkEntityDataProperty(updateResponse.getBody(), updatedExample.getData());
+        checkEntityLocation(updateResponse.getBody(), entityId);
+    }
+
+    @Test
+    public void delete() {
+        example.setId(entityId);
+
+        ResponseEntity<String> createResponse = createEntity(example);
+        checkEntityLocation(createResponse.getBody(), entityId);
+
+        ResponseEntity<String> findResponse = findEntity(example.getId());
+        checkEntityLocation(findResponse.getBody(), entityId);
+
+        restTemplate.delete(String.format("%s/{0}", baseRestUrl), entityId);
+
+        ResponseEntity<String> responseAfterDeleting = restTemplate.getForEntity(String.format("%s/%s", baseRestUrl, entityId), String.class);
+        assertThat(responseAfterDeleting.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        assertThat(responseAfterDeleting.getBody()).isNull();
+    }
+
+    @After
+    public void tearDown() {
+        cleanDataBase();
+    }
+
+    private ResponseEntity<String> createEntity(Example entity) {
+        ResponseEntity<String> createResponse = restTemplate.postForEntity(baseRestUrl, entity, String.class);
+        assertThat(createResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(createResponse.getHeaders().getContentType()).isNotNull();
+        assertThat(createResponse.getHeaders().getContentType().toString()).isEqualTo(contentType);
+        assertThat(createResponse.getBody()).isNotNull();
+        return createResponse;
+    }
+
+    private ResponseEntity<String> findEntities(String url) {
+        ResponseEntity<String>findResponse = restTemplate.getForEntity(url, String.class);
+        assertThat(findResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(findResponse.getHeaders().getContentType()).isNotNull();
+        assertThat(findResponse.getHeaders().getContentType().toString()).isEqualTo(contentType);
+        assertThat(findResponse.getBody()).isNotNull();
+        return findResponse;
+    }
+
+    private ResponseEntity<String> findEntity(String id) {
+        return findEntities(String.format("%s/%s", baseRestUrl, id));
+    }
+
+    private ResponseEntity<String> findAllEntities() {
+        return findEntities(baseRestUrl);
+    }
+
+    private void checkEntityDataProperty(String response, String value) {
+        String entityData = response != null ? getEntityProperty(response, "data") : null;
+        assertThat(response).isNotNull();
+        assertThat(entityData).isNotNull();
+        assertThat(entityData).isEqualTo(value);
+    }
+
+    private void checkEntityLocation(String response, String id) {
+        String location = response != null ? getEntityLocation(response) : null;
+        assertThat(response).isNotNull();
+        assertThat(location).isNotNull();
+        assertThat(location.contains(String.format(":%s%s/%s", port, baseRestUrl, id))).isTrue();
+    }
+
+    @SneakyThrows
+    private String getEntityProperty(String response, String path){
+        JsonNode root = mapper.readTree(response);
+        JsonNode name = root;
+        String[] pathes = path.split("/");
+        for (String p : pathes) {
+            if (name == null) {
+                break;
+            }
+            name = name.path(p);
+        }
+        return name != null ? name.asText()  : null;
+    }
+
+    private int getCountOfEntities(String response) {
+        if (response == null || response == "") {
+            return 0;
+        }
+        String totalElements = getEntityProperty(response, "page/totalElements");
+        return totalElements !=null && totalElements !="" ? Integer.valueOf(totalElements) : 0;
+    }
+
+    private String getEntityLocation(String response) {
+        return getEntityProperty(response, "_links/self/href");
+    }
+
+    private List<Example> getExampleList() {
+        Example example1 = new Example();
+        example1.setData("some data1");
+        Example example2 = new Example();
+        example2.setData("some data2");
+        return Arrays.asList(example1, example2);
+    }
+
+    private void cleanDataBase() {
+        dao.deleteAll();
+    }
+}

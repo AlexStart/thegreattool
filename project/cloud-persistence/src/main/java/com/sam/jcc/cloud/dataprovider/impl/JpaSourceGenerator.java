@@ -20,7 +20,6 @@ class JpaSourceGenerator extends AbstractSourceGenerator {
 
     protected static final String EXAMPLE_DTO = "${exampleDTO}";
     protected static final String EXAMPLE_SERVICE = "${exampleService}";
-    protected static final String EXAMPLE_DAO = "${exampleDAO}";
     protected static final String EXAMPLE_CONVERTER = "${exampleConverter}";
 
     protected String dtoTemplate;
@@ -41,6 +40,11 @@ class JpaSourceGenerator extends AbstractSourceGenerator {
         entityTemplate = read("/templates/example.java.txt");
         daoTemplate = read("/templates/example-dao.java.txt");
         testTemplate = read("/templates/example-dao-test.java.txt");
+    }
+
+    @Override
+    protected void addTestDataRest(AppData app) {
+        return;
     }
 
     @Override

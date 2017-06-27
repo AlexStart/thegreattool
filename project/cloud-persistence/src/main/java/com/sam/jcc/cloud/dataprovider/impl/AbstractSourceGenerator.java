@@ -29,6 +29,7 @@ abstract class AbstractSourceGenerator implements ISourceGenerator<AppData> {
     protected static final String CREATED = "${created}";
     protected static final String PACKAGE = "${package}";
     protected static final String EXAMPLE = "${example}";
+    protected static final String EXAMPLE_DAO = "${exampleDAO}";
 
     @Autowired
     private FileManager files;
@@ -59,8 +60,11 @@ abstract class AbstractSourceGenerator implements ISourceGenerator<AppData> {
             addConverter(app);
             addDao(app);
             addTest(app);
+            addTestDataRest(app);
         };
     }
+
+    protected abstract void addTestDataRest(AppData app);
 
     protected abstract void addDto(AppData app);
 

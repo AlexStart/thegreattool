@@ -1,23 +1,21 @@
 package com.sam.jcc.cloud.dataprovider.impl;
 
-import static com.google.common.collect.ImmutableList.of;
-import static com.sam.jcc.cloud.PropertyResolver.getProperty;
-import static java.lang.String.format;
-import static java.lang.System.lineSeparator;
-
-import java.io.File;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.sam.jcc.cloud.dataprovider.AppData;
 import com.sam.jcc.cloud.i.data.IDataInjector;
 import com.sam.jcc.cloud.utils.files.FileManager;
 import com.sam.jcc.cloud.utils.parsers.ProjectParser;
 import com.sam.jcc.cloud.utils.project.DependencyManager;
 import com.sam.jcc.cloud.utils.project.DependencyManager.Dependency;
-
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.io.File;
+
+import static com.google.common.collect.ImmutableList.of;
+import static com.sam.jcc.cloud.PropertyResolver.getProperty;
+import static java.lang.String.format;
+import static java.lang.System.lineSeparator;
 
 /**
  * @author Alexey Zhytnik
@@ -49,6 +47,7 @@ class MongoDbInjector implements IDataInjector<AppData> {
     private void inject(AppData data, File sources) {
         dependencyManager.add(sources, lombok());
         dependencyManager.add(sources, dataMongoDbStarted());
+        dependencyManager.add(sources, dataRestStarted());
 
         final File properties = parser.getPropertiesFile(sources);
         files.append(lineSeparator().getBytes(), properties);
@@ -62,6 +61,16 @@ class MongoDbInjector implements IDataInjector<AppData> {
         mongo.setVersion("1.4.3.RELEASE");
         mongo.setGroupId("org.springframework.boot");
         mongo.setArtifactId("spring-boot-starter-data-mongodb");
+        return mongo;
+    }
+
+    private Dependency dataRestStarted() {
+        final Dependency mongo = new Dependency();
+
+        mongo.setScope("compile");
+        mongo.setVersion("1.4.3.RELEASE");
+        mongo.setGroupId("org.springframework.boot");
+        mongo.setArtifactId("spring-boot-starter-data-rest");
         return mongo;
     }
 
@@ -84,7 +93,15 @@ class MongoDbInjector implements IDataInjector<AppData> {
         );
 
         if (getProperty("db.mongo.user").isEmpty()) {
-            return mongo("uri", uri);
+            return String.join(lineSeparator(),
+                    of(
+                            mongo("uri", uri),
+                            mongo("repository.rest.collection", getProperty("data.rest.collection")),
+                            mongo("repository.rest.path", getProperty("data.rest.path")),
+                            mongo("test.rest.url", getProperty("test.rest.url")),
+                            mongo("test.rest.content.type", getProperty("test.rest.content.type")),
+                            mongo("test.rest.entity.id", getProperty("test.rest.entity.id"))
+                    ));
         }
         return settingsWithAuth(uri);
     }
@@ -94,7 +111,12 @@ class MongoDbInjector implements IDataInjector<AppData> {
                 of(
                         mongo("uri", uri),
                         mongo("username", getProperty("db.mongo.user")),
-                        mongo("password", getProperty("db.mongo.password"))
+                        mongo("password", getProperty("db.mongo.password")),
+                        mongo("repository.rest.collection", getProperty("repository.rest.collection")),
+                        mongo("repository.rest.path", getProperty("repository.rest.path")),
+                        mongo("test.rest.url", getProperty("test.rest.url")),
+                        mongo("test.rest.content.type", getProperty("test.rest.content.type")),
+                        mongo("test.rest.entity.id", getProperty("test.rest.entity.id"))
                 ));
     }
 
