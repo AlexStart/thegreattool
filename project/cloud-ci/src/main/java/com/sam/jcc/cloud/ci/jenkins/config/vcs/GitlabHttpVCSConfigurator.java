@@ -22,14 +22,14 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
  */
 @Component
 @Slf4j
-public class GtilabHttpVCSConfigurator extends GitConfigurator {
+public class GitlabHttpVCSConfigurator extends GitConfigurator {
 
     private static final String CREDENTIALS_GITLAB_ID = getProperty("ci.jenkins.gitlab.credentialsId");
 
     private final InitOnceAdminBean initAdmin;
     private final JenkinsCredentialsApi credentialsApi;
 
-    public GtilabHttpVCSConfigurator(InitOnceAdminBean initAdmin, JenkinsCredentialsApi credentialsApi) {
+    public GitlabHttpVCSConfigurator(InitOnceAdminBean initAdmin, JenkinsCredentialsApi credentialsApi) {
         this.initAdmin = requireNonNull(initAdmin);
         this.credentialsApi = requireNonNull(credentialsApi);
     }
