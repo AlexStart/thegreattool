@@ -66,12 +66,12 @@ services:
     image: localhost:5000/javacloud-gitlab # goes to local registry    
     ports:
     - "8083:8083"
-    - "8322:8322"
+    - "8322:22"
     # TODO Change to your real host; stage server name is only by default
     hostname: javacloud.sam-solutions.net
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url "http://#{host}/gitlab"
+        external_url "http://#{host}:8083/gitlab"
         nginx['listen_port'] = 8083
         gitlab_rails['gitlab_shell_ssh_port'] = 8322
       #Requirement for GITLAB_ROOT_PASSWORD characters number >= 8
