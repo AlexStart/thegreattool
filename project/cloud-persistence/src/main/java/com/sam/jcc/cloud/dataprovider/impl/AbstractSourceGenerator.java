@@ -59,6 +59,8 @@ abstract class AbstractSourceGenerator implements ISourceGenerator<AppData> {
             addConverter(app);
             addDao(app);
             addTest(app);
+            addRestController(app);
+            addRestControllerTest(app);
         };
     }
 
@@ -69,6 +71,10 @@ abstract class AbstractSourceGenerator implements ISourceGenerator<AppData> {
     protected abstract void addServiceTest(AppData app);
 
     protected abstract void addConverter(AppData app);
+
+    protected abstract void addRestController(AppData app);
+
+    protected abstract void addRestControllerTest(AppData app);
 
     private void addEntity(AppData app) {
         final String entity = apply(entityTemplate, of(

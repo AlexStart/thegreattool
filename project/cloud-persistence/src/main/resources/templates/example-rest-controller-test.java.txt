@@ -1,0 +1,237 @@
+package ${package};
+
+import ${exampleDTO};
+import ${exampleService};
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.*;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+/**
+ * @author The Great Tool
+ * @since ${created}
+ */
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@RunWith(SpringRunner.class)
+public class ExampleControllerRestTest {
+
+    @Autowired
+    private TestRestTemplate restTemplate;
+    @Autowired
+    private ExampleService<ExampleDTO, Long> exampleService;
+
+    @Value("${rest.url}")
+    private String restUrl;
+    @Value("${rest.content.type}")
+    private String contentType;
+    @Value("${rest.exception.message}")
+    private String exceptionMessage;
+
+    private ExampleDTO exampleDTO;
+    private ExampleDTO anotherExampleDTO;
+    private List<ExampleDTO> exampleDTOs;
+
+    @Before
+    public void setUp() {
+        exampleDTO = new ExampleDTO();
+        exampleDTO.setData("some DTO");
+
+        anotherExampleDTO = new ExampleDTO();
+        anotherExampleDTO.setData("another some DTO");
+
+        exampleDTOs = Arrays.asList(exampleDTO, anotherExampleDTO);
+
+        cleardataBase();
+    }
+
+    @Test
+    public void create() {
+        ResponseEntity<ExampleDTO> createResponseEntity = createDTO(exampleDTO);
+    }
+
+    @Test
+    public void read() {
+        ResponseEntity<ExampleDTO> response = createDTO(exampleDTO);
+
+        readDTO(response.getBody().getId());
+    }
+
+    @Test
+    public void readAll() {
+        checkNoExampleDTOs();
+
+        createTestExampleDTOs(exampleDTOs);
+
+        readAllExampleDTOs(exampleDTOs.size());
+    }
+
+    @Test
+    public void update() {
+        ResponseEntity<ExampleDTO> response = createDTO(exampleDTO);
+
+        ExampleDTO updatedDTO = response.getBody();
+        updatedDTO.setData("updated DTO");
+
+        updateDTO(updatedDTO);
+    }
+
+    @Test
+    public void patch() {
+        ResponseEntity<ExampleDTO> response = createDTO(exampleDTO);
+
+        ExampleDTO patchedDTO = response.getBody();
+        patchedDTO.setData("patched DTO");
+
+        patchDTO(patchedDTO);
+    }
+
+    @Test
+    public void delete() {
+         ResponseEntity<ExampleDTO> response = createDTO(exampleDTO);
+
+         Long id = response.getBody().getId();
+
+         checkIfExampleDTOExists(id);
+
+         deleteDTO(id);
+    }
+
+    @Test
+    public void deleteAll() {
+          createTestExampleDTOs(exampleDTOs);
+
+          checkIfExampleDTOsExist();
+
+          deleteAllDTOs();
+    }
+
+    @Test
+    public void testExceptionHandler() {
+         ResponseEntity<String> response = restTemplate.getForEntity(getUrl(0), String.class);
+         checkExceptionResponse(response);
+
+         exampleDTO.setData(null);
+         response = restTemplate.postForEntity(restUrl, exampleDTO, String.class);
+         checkExceptionResponse(response);
+    }
+
+    @Before
+    public void tearDownp() {
+          cleardataBase();
+    }
+
+    private ResponseEntity<ExampleDTO> createDTO(ExampleDTO exampleDTO) {
+        ResponseEntity<ExampleDTO> response = restTemplate.postForEntity(restUrl, exampleDTO, ExampleDTO.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(response.getHeaders().getLocation()).isNotNull();
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getHeaders().getContentType()).isEqualTo(MediaType.valueOf(contentType));
+        assertThat(response.getHeaders().getLocation().getPath()).isEqualTo(getUrl(response.getBody().getId()));
+        assertThat(response.getBody().getId()).isNotNull();
+        assertThat(response.getBody().getData()).isEqualTo(exampleDTO.getData());
+        return response;
+    }
+
+    private ResponseEntity<ExampleDTO> readDTO(Long id){
+        ResponseEntity<ExampleDTO> response = restTemplate.getForEntity(getUrl(id), ExampleDTO.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody().getId()).isNotNull();
+        assertThat(response.getBody().getData()).isEqualTo(exampleDTO.getData());
+        return response;
+    }
+
+    private ResponseEntity<List<ExampleDTO>> readAllExampleDTOs(int dtoCount) {
+        ResponseEntity<?> response = restTemplate.getForEntity(restUrl, List.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(((List<ExampleDTO>)response.getBody()).size() == dtoCount).isTrue();
+        return (ResponseEntity<List<ExampleDTO>>)response;
+    }
+
+    private ResponseEntity<ExampleDTO> updateDTO(ExampleDTO updatedDTO) {
+        restTemplate.put(getUrl(String.valueOf(updatedDTO.getId())), updatedDTO);
+        ResponseEntity<ExampleDTO> response = restTemplate.getForEntity(getUrl(String.valueOf(updatedDTO.getId())), ExampleDTO.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody().getId()).isEqualTo(updatedDTO.getId());
+        assertThat(response.getBody().getData()).isEqualTo(updatedDTO.getData());
+        return response;
+    }
+
+    private ResponseEntity<ExampleDTO> patchDTO(ExampleDTO patchedDTO) {
+        String patchJson = String.format("{'data':'%s'}", patchedDTO.getData());
+        restTemplate.postForObject(String.format("%s/%s/%s?_method=patch", restUrl, patchedDTO.getId(), patchedDTO.getData()), patchJson, ExampleDTO.class);
+        ResponseEntity<ExampleDTO> response = restTemplate.getForEntity(getUrl(String.valueOf(patchedDTO.getId())), ExampleDTO.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody().getId()).isEqualTo(patchedDTO.getId());
+        assertThat(response.getBody().getData()).isEqualTo(patchedDTO.getData());
+        return response;
+    }
+
+    private void deleteDTO(Long id) {
+        restTemplate.delete(getUrl(String.valueOf(id)));
+        checkNoExampleDTO(id);
+    }
+
+    private void deleteAllDTOs() {
+        restTemplate.delete(restUrl);
+        checkNoExampleDTOs();
+    }
+
+    private void checkNoExampleDTOs() {
+        ResponseEntity<String> response = restTemplate.getForEntity(restUrl, String.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+        assertThat(response.getBody()).isNull();
+    }
+
+    private void checkNoExampleDTO(Long id) {
+        ResponseEntity<ExampleDTO> response = restTemplate.getForEntity(getUrl(String.valueOf(id)), ExampleDTO.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+        assertThat(response.getBody()).isNull();
+    }
+
+    private void checkIfExampleDTOExists(Long id) {
+        ResponseEntity<ExampleDTO> response = restTemplate.getForEntity(getUrl(String.valueOf(id)), ExampleDTO.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isNotNull();
+    }
+
+    private void checkIfExampleDTOsExist() {
+        ResponseEntity<?> response = restTemplate.getForEntity(restUrl, List.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(((List<ExampleDTO>)response.getBody()).size() > 0).isNotNull();
+    }
+
+    private void checkExceptionResponse(ResponseEntity<String> response) {
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody()).isEqualTo(exceptionMessage);
+    }
+
+    private void createTestExampleDTOs(List<ExampleDTO> exampleDTOs) {
+        for (ExampleDTO exampleDTO : exampleDTOs) {
+            createDTO(exampleDTO);
+        }
+    }
+
+    private String getUrl(Object pathVar){
+        return String.format("%s/%s", restUrl, pathVar);
+    }
+
+    private void cleardataBase() {
+        exampleService.deleteAll();
+    }
+}

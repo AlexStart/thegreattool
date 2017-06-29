@@ -38,4 +38,14 @@ class MongoSourceGenerator extends AbstractSourceGenerator {
     protected void addConverter(AppData app) {
         return;
     }
+
+    @Override
+    protected void addRestController(AppData app) {
+        return;
+    }
+
+    @Override
+    protected void addRestControllerTest(AppData app) {
+        return;
+    }
 }
