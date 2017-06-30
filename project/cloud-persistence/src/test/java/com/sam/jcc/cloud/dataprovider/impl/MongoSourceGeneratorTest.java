@@ -33,6 +33,7 @@ import static org.assertj.core.api.Assertions.assertThat;
         DependencyManager.class,
         MongoDbInjector.class,
         MongoSourceGenerator.class,
+        TableNameValidator.class
 })
 public class MongoSourceGeneratorTest {
 
