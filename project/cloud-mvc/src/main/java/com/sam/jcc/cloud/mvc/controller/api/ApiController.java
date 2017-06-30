@@ -19,6 +19,7 @@ import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import com.sam.jcc.cloud.mvc.controller.api.exception.ValidationCloudException;
 import com.sam.jcc.cloud.mvc.dto.AppDTO;
 import com.sam.jcc.cloud.mvc.dto.CIProjectDTO;
+import com.sam.jcc.cloud.mvc.dto.CQProjectDTO;
 import com.sam.jcc.cloud.mvc.dto.DbProjectDTO;
 import com.sam.jcc.cloud.mvc.dto.ProjectDTO;
 import com.sam.jcc.cloud.mvc.dto.ProviderDTO;
@@ -26,6 +27,8 @@ import com.sam.jcc.cloud.mvc.dto.VCSProjectDTO;
 import com.sam.jcc.cloud.mvc.service.AppService;
 import com.sam.jcc.cloud.mvc.service.CIProjectService;
 import com.sam.jcc.cloud.mvc.service.CIService;
+import com.sam.jcc.cloud.mvc.service.CQProjectService;
+import com.sam.jcc.cloud.mvc.service.CQService;
 import com.sam.jcc.cloud.mvc.service.DbProjectService;
 import com.sam.jcc.cloud.mvc.service.DbService;
 import com.sam.jcc.cloud.mvc.service.ProjectService;
@@ -60,9 +63,15 @@ public class ApiController {
 
 	@Autowired
 	private DbService dbService;
-	
+
 	@Autowired
-	private DbProjectService dbProjectService;	
+	private DbProjectService dbProjectService;
+
+	@Autowired
+	private CQService cqService;
+
+	@Autowired
+	private CQProjectService cqProjectService;
 
 	// APPS //
 	@RequestMapping(value = "apps", method = RequestMethod.GET)
@@ -171,6 +180,20 @@ public class ApiController {
 			throw new ValidationCloudException();
 		}
 		return dbProjectService.update(dbProjectDTO);
+	}
+
+	// CODE QUALITY PROVIDERS
+	@RequestMapping(value = "cqproviders", method = RequestMethod.GET)
+	public @ResponseBody List<ProviderDTO> findAllCQProviders() {
+		return cqService.getCQProviders();
+	}
+
+	@RequestMapping(value = "cqprojects", method = RequestMethod.PUT)
+	public @ResponseBody CQProjectDTO addprojectToCQ(@RequestBody CQProjectDTO cqProjectDTO) {
+		if (cqProjectDTO == null) {
+			throw new ValidationCloudException();
+		}
+		return cqProjectService.update(cqProjectDTO);
 	}
 
 }
