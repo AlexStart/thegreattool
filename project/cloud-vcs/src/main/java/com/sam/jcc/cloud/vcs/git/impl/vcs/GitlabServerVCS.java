@@ -14,12 +14,12 @@ import com.sam.jcc.cloud.vcs.git.impl.vcs.gitlab.CreateCommitCommand;
 import com.sam.jcc.cloud.vcs.git.impl.vcs.gitlab.GetVersionCommand;
 import com.sam.jcc.cloud.vcs.git.impl.vcs.gitlab.GitlabVersion;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.gitlab.api.GitlabAPI;
 import org.gitlab.api.models.GitlabCommit;
 import org.gitlab.api.models.GitlabProject;
 import org.gitlab.api.models.GitlabSession;
 import org.gitlab.api.models.GitlabUser;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -44,7 +44,7 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
  * @since 28.11.2016
  */
 @Component
-@Scope("prototype")
+@Slf4j
 public class GitlabServerVCS extends AbstractGitServerVCS implements VCS<VCSCredentials> {
 
     @Getter
@@ -71,7 +71,13 @@ public class GitlabServerVCS extends AbstractGitServerVCS implements VCS<VCSCred
     @PostConstruct
     public void setUp() {
         if (isNotBlank(initAdmin.getRawPassword())) {
-            updateCurrentUserPassword(initAdmin.getRawPassword());
+            if (isEnabled()) {
+                updateCurrentUserPassword(initAdmin.getRawPassword());
+                log.debug("Gitlab password was successfully updated");
+            } else {
+                log.warn("GITLAB REQUIRES MANUAL PASSWORD UPDATE! Gitlab is not enabled. " +
+                        "Gitlab password update failed. Default gitlab password can be used.");
+            }
         }
     }
 
