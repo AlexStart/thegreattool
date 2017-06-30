@@ -30,7 +30,8 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
         ProjectParser.class,
         ZipArchiveManager.class,
         DependencyManager.class,
-        MySqlInjector.class
+        MySqlInjector.class,
+        TableNameValidator.class
 })
 public class MySqlInjectorTest {
 
