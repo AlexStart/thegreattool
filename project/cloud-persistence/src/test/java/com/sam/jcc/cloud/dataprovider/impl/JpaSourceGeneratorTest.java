@@ -33,6 +33,7 @@ import static org.assertj.core.api.Assertions.assertThat;
         DependencyManager.class,
         MySqlInjector.class,
         JpaSourceGenerator.class,
+        TableNameValidator.class
 })
 public class JpaSourceGeneratorTest {
 

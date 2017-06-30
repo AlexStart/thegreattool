@@ -1,26 +1,35 @@
 package com.sam.jcc.cloud.dataprovider.impl;
 
-import static com.sam.jcc.cloud.PropertyResolver.getProperty;
-import static com.sam.jcc.cloud.dataprovider.impl.MongoDatabaseManager.COLLECTION_EXAMPLE;
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.Random;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoDatabase;
 import com.sam.jcc.cloud.dataprovider.AppData;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.Random;
+
+import static com.sam.jcc.cloud.PropertyResolver.getProperty;
+import static com.sam.jcc.cloud.dataprovider.impl.MongoDatabaseManager.COLLECTION_EXAMPLE;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Alexey Zhytnik
  * @since 25.01.2017
  */
+@RunWith(SpringRunner.class)
+@ContextConfiguration(classes = {
+		MongoDatabaseManager.class,
+		TableNameValidator.class
+})
 public class MongoDatabaseManagerTest {
 
 	MongoClient mongoClient;
+	@Autowired
 	MongoDatabaseManager mongoManager;
 
 	AppData app;
@@ -33,7 +42,6 @@ public class MongoDatabaseManagerTest {
 		String bckp = getProperty("db.mongo.port");
 		System.setProperty("db.mongo.port", "37017");
 
-		mongoManager = new MongoDatabaseManager();
 		mongoClient = mongoManager.getMongoClient(app);
 
 		// TODO remove later.
@@ -45,7 +53,7 @@ public class MongoDatabaseManagerTest {
 		mongoManager.create(app);
 
 		final MongoDatabase db = mongoClient.getDatabase(app.getAppName());
-		assertThat(db.listCollectionNames()).isNotEmpty().contains(COLLECTION_EXAMPLE);
+		assertThat(db.getName()).isNotEmpty().contains(COLLECTION_EXAMPLE);
 	}
 
 	@After
