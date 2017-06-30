@@ -75,7 +75,7 @@ public class GitlabServerVCS extends AbstractGitServerVCS implements VCS<VCSCred
                 updateCurrentUserPassword(initAdmin.getRawPassword());
                 log.debug("Gitlab password was successfully updated");
             } else {
-                log.warn("GITLAB REQUIRE MANUAL PASSWORD UPDATE! Gitlab is not enabled. " +
+                log.warn("GITLAB REQUIRES MANUAL PASSWORD UPDATE! Gitlab is not enabled. " +
                         "Gitlab password update failed. Default gitlab password can be used.");
             }
         }
