@@ -39,6 +39,9 @@ class MySqlInjector implements IDataInjector<AppData> {
     @Autowired
     private DependencyManager dependencyManager;
 
+    @Autowired
+    private TableNameValidator validator;
+
     public void inject(AppData data) {
         final byte[] updated = sandbox.apply(data.getSources(), sources -> inject(data, sources));
         data.setSources(updated);
@@ -88,7 +91,7 @@ class MySqlInjector implements IDataInjector<AppData> {
     private String settings(AppData data) {
         return String.join(lineSeparator(),
                 of(
-                        jpa("url", String.format(getProperty("db.mysql.url.full.pattern"), data.getAppName())),
+                        jpa("url", String.format(getProperty("db.mysql.url.full.pattern"), validator.getValidTableName(data.getAppName()))),
                         jpa("username", getProperty("db.mysql.user")),
                         jpa("password", getProperty("db.mysql.password")),
                         "spring.jpa.hibernate.ddl-auto=update",

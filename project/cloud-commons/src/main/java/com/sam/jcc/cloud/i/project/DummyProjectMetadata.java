@@ -19,6 +19,7 @@ public class DummyProjectMetadata implements IProjectMetadata {
 	private String ci;
 	private String vcs;
 	private String db;
+	private String cQ;
 
 	@Override
 	public boolean hasSources() {
@@ -38,6 +39,11 @@ public class DummyProjectMetadata implements IProjectMetadata {
 	@Override
 	public boolean hasDb() {
 		return db != null;
+	}
+
+	@Override
+	public boolean hasCQ() {
+		return cQ != null;
 	}
 
 	public DummyProjectMetadata(Long id) {

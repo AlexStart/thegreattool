@@ -22,11 +22,13 @@ import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import com.sam.jcc.cloud.mvc.controller.api.MetadataResponseBuilder.MetadataResponse;
 import com.sam.jcc.cloud.mvc.dto.AppDTO;
 import com.sam.jcc.cloud.mvc.dto.CIProjectDTO;
+import com.sam.jcc.cloud.mvc.dto.CQProjectDTO;
 import com.sam.jcc.cloud.mvc.dto.DbProjectDTO;
 import com.sam.jcc.cloud.mvc.dto.ProjectDTO;
 import com.sam.jcc.cloud.mvc.dto.VCSProjectDTO;
 import com.sam.jcc.cloud.mvc.service.AppService;
 import com.sam.jcc.cloud.mvc.service.CIProjectService;
+import com.sam.jcc.cloud.mvc.service.CQProjectService;
 import com.sam.jcc.cloud.mvc.service.DbProjectService;
 import com.sam.jcc.cloud.mvc.service.ProjectService;
 import com.sam.jcc.cloud.mvc.service.VCSProjectService;
@@ -54,7 +56,10 @@ public class SearchController {
 
 	@Autowired
 	private DbProjectService dbProjectService;
-	
+
+	@Autowired
+	private CQProjectService cqProjectService;
+
 	@Autowired
 	private MetadataResponseBuilder responseBuilder;
 
@@ -165,6 +170,25 @@ public class SearchController {
 				.collect(toList());
 
 		return new PageImpl<MetadataResponse<? super DbProjectDTO>>(selected, page, dtos.size());
+	}
+
+	@RequestMapping(value = "/api/cqprojects/search", method = RequestMethod.GET)
+	public @ResponseBody PageImpl<MetadataResponse<? super CQProjectDTO>> searchCQProjects(
+			@PageableDefault Pageable page) {
+		List<? super IProjectMetadata> findAll = projectProviderService.findAll();
+
+		// Commented because of #15
+		// if (findAll == null || findAll.isEmpty()) {
+		// throw new MetadataNotFoundException();
+		// }
+
+		List<? super CQProjectDTO> dtos = cqProjectService.convertModels(findAll);
+
+		final List<MetadataResponse<? super CQProjectDTO>> selected = reverse(dtos.stream().collect(toList()))
+				.subList(page.getOffset(), getFinishIndex(page, dtos)).stream().map(responseBuilder::build)
+				.collect(toList());
+
+		return new PageImpl<MetadataResponse<? super CQProjectDTO>>(selected, page, dtos.size());
 	}
 
 	private int getFinishIndex(Pageable page, List<?> dtos) {

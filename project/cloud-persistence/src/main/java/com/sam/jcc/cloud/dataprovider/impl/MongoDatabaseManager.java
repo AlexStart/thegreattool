@@ -7,6 +7,7 @@ import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoDatabase;
 import com.sam.jcc.cloud.dataprovider.AppData;
 import com.sam.jcc.cloud.i.data.IDBManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import static com.mongodb.MongoCredential.createCredential;
@@ -20,6 +21,9 @@ import static java.util.Collections.singletonList;
 @Component
 public class MongoDatabaseManager implements IDBManager<AppData> {
 
+    @Autowired
+    private TableNameValidator validator;
+
     protected static final String COLLECTION_EXAMPLE = "example";
 
     private String user = getProperty("db.mongo.user");
@@ -28,14 +32,14 @@ public class MongoDatabaseManager implements IDBManager<AppData> {
 
     public void create(AppData app) {
         try (MongoClient mongo = getMongoClient(app)) {
-            final MongoDatabase db = mongo.getDatabase(app.getAppName());
+            final MongoDatabase db = mongo.getDatabase(validator.getValidTableName(app.getAppName()));
             create(db);
         }
     }
 
     public void drop(AppData app) {
         try (MongoClient mongo = getMongoClient(app)) {
-            mongo.dropDatabase(app.getAppName());
+            mongo.dropDatabase(validator.getValidTableName(app.getAppName()));
         }
     }
 

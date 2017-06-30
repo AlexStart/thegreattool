@@ -108,15 +108,12 @@ public final class ProjectPackageHelper {
     public static String getValidProjectPackage(String identifier) {
         StringBuilder strBuilder = new StringBuilder();
         String trimmedIdentifier = !isNull(identifier) ? identifier.trim().toLowerCase() : null;
-        if(isFullPackageNameValid(identifier)) {
-            return trimmedIdentifier;
-        }
         String[] parts = trimmedIdentifier.split("\\.", -1) ;
         for(String part : parts){
             if(!isNameOfPackagePartValid(part)){
                 part = fixPackagePart(part);
             }
-            if(!isEmpty(part) && !hasPackageNameKeyword(part)) {
+            if(!isEmpty(part) && !hasPackageNameKeyword(part) && !part.matches("\\d+")) {
                 strBuilder.append(part).append(".");
             }
         }

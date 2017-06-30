@@ -22,6 +22,8 @@ public interface IProjectMetadata {
 	boolean hasCI();
 
 	boolean hasDb();
+	
+	boolean hasCQ();
 
 	byte[] getProjectSources();
 	
@@ -30,4 +32,6 @@ public interface IProjectMetadata {
 	String getDb();
 	
 	String getVcs();
+	
+	String getCQ();
 }
