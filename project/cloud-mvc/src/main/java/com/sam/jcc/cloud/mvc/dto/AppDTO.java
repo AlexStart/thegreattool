@@ -20,6 +20,8 @@ public class AppDTO extends BaseDTO {
 	private String db;
 
 	private String vcs;
+	
+	private String cQ;
 
 	public String getProjectName() {
 		return projectName;
@@ -76,4 +78,14 @@ public class AppDTO extends BaseDTO {
 	public void setVcs(String vcs) {
 		this.vcs = vcs;
 	}
+
+	public String getCQ() {
+		return cQ;
+	}
+
+	public void setCQ(String cQ) {
+		this.cQ = cQ;
+	}
+	
+	
 }

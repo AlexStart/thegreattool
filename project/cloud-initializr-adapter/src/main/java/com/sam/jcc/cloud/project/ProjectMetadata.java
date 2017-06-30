@@ -45,8 +45,10 @@ public class ProjectMetadata implements IProjectMetadata, IStatusable {
 	private String vcs;
 
 	private String db;
-
 	private boolean isDb;
+
+	private String cQ;
+	private boolean isCQ;
 
 	@Override
 	public boolean hasSources() {
@@ -80,5 +82,14 @@ public class ProjectMetadata implements IProjectMetadata, IStatusable {
 
 	public void setIsDb(Boolean db) {
 		this.isDb = db;
+	}
+
+	@Override
+	public boolean hasCQ() {
+		return cQ != null;
+	}
+
+	public void setIsCQ(Boolean isCq) {
+		this.isCQ = isCq;
 	}
 }

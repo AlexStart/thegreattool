@@ -19,6 +19,8 @@ public class ProjectDTO extends AppDTO {
 	
 	private boolean hasDb;
 	
+	private boolean hasCQ;
+	
 	public Long getProviderId() {
 		return providerId;
 	}
@@ -67,5 +69,14 @@ public class ProjectDTO extends AppDTO {
 		this.hasDb = hasDb;
 	}
 
+	public boolean isHasCQ() {
+		return hasCQ;
+	}
+
+	public void setHasCQ(boolean hasCQ) {
+		this.hasCQ = hasCQ;
+	}
+
+	
 	
 }
