@@ -39,6 +39,9 @@ class MongoDbInjector implements IDataInjector<AppData> {
     @Autowired
     private DependencyManager dependencyManager;
 
+    @Autowired
+    private TableNameValidator validator;
+
     public void inject(AppData data) {
         final byte[] updated = sandbox.apply(data.getSources(), sources -> inject(data, sources));
         data.setSources(updated);
@@ -89,7 +92,7 @@ class MongoDbInjector implements IDataInjector<AppData> {
         final String uri = String.format("mongodb://%s:%s/%s",
                 getProperty("db.mongo.host"),
                 getProperty("db.mongo.port"),
-                data.getAppName()
+                validator.getValidTableName(data.getAppName())
         );
 
         if (getProperty("db.mongo.user").isEmpty()) {

@@ -11,7 +11,27 @@ Thank you for considering contributing to the The Grand Tour! The contribution g
 
 ## Security Vulnerabilities
 
-If you discover a security vulnerability within Test Project, please send an e-mail to A.Katovich@sam-solutions.com. All security vulnerabilities will be promptly addressed.
+If you discover a security vulnerability within SaM Java Cloud project, please send an e-mail to A.Katovich@sam-solutions.com. All security vulnerabilities will be promptly addressed.
 
-## Continuous integration
-Jenkins
+# About:
+
+The project is [RAD](https://en.wikipedia.org/wiki/Rapid_application_development) tool for DevOps and quick and easy project infrastructure management.
+
+## Code generation
+Spring Boot (with databases support: MySQL and MongoDB)
+
+## Version contol system, code review system, issue tracking system and PM tool
+Any Git server and/or GitLab
+
+## Continuous integration & delivery
+Jenkins pipelines
+
+## Continuous Code Quality
+SonarQube
+
+## Artifacts repository
+Nexus
+
+## Containerization
+Separate Docker container with Docker Compose
+

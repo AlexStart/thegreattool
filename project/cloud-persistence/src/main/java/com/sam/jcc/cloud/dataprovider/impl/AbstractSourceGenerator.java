@@ -5,6 +5,7 @@ import com.google.common.base.Charsets;
 import com.sam.jcc.cloud.dataprovider.AppData;
 import com.sam.jcc.cloud.i.data.ISourceGenerator;
 import com.sam.jcc.cloud.utils.files.FileManager;
+import com.sam.jcc.cloud.utils.project.ProjectPackageHelper;
 import lombok.Setter;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,15 +108,15 @@ abstract class AbstractSourceGenerator implements ISourceGenerator<AppData> {
     }
 
     protected String basePackage(AppData app, String layer) {
-        return format("{0}.{1}.{2}", groupId, app.getAppName(), layer);
+        return format("{0}.{1}", ProjectPackageHelper.getValidProjectPackage(groupId + "." + app.getAppName()), layer);
     }
 
     protected String pathToSources(AppData app, String layer) {
-        return format("src/main/java/{0}/{1}/{2}/", transformPackageToPath(groupId), app.getAppName(), layer);
+        return format("src/main/java/{0}/", transformPackageToPath(basePackage(app, layer)));
     }
 
     protected String pathToTests(AppData app, String layer) {
-        return format("src/test/java/{0}/{1}/{2}/", transformPackageToPath(groupId), app.getAppName(), layer);
+        return format("src/test/java/{0}/", transformPackageToPath(basePackage(app, layer)));
     }
 
     protected String transformPackageToPath(String value) {

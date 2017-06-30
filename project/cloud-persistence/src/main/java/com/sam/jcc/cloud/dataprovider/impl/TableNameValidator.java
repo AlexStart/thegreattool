@@ -23,6 +23,28 @@ class TableNameValidator {
         }
     }
 
+    public String getValidTableName(String name) {
+        try {
+            validate(name);
+        }catch (TableNameValidationException exc) {
+            name = fixValidTableName(name);
+            validate(name);
+            return name;
+        }
+        return name;
+    }
+
+    private String fixValidTableName(String name) {
+        StringBuilder strBuilder = new StringBuilder();
+        for(int i=0; i < name.length(); i++){
+            String s = String.valueOf(name.charAt(i)).toLowerCase();
+            if(TABLE_NAME_PATTERN.matcher(s).matches()) {
+                strBuilder.append(s);
+            }
+        }
+        return strBuilder.toString();
+    }
+
     public static class TableNameValidationException extends BusinessCloudException {
         public TableNameValidationException(String name) {
             super("persistence.database.validation.error", name);
