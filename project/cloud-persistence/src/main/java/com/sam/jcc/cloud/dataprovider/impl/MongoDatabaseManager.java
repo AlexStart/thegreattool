@@ -7,10 +7,7 @@ import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoDatabase;
 import com.sam.jcc.cloud.dataprovider.AppData;
 import com.sam.jcc.cloud.i.data.IDBManager;
-<<<<<<< HEAD
 import org.springframework.beans.factory.annotation.Autowired;
-=======
->>>>>>> master
 import org.springframework.stereotype.Component;
 
 import static com.mongodb.MongoCredential.createCredential;
