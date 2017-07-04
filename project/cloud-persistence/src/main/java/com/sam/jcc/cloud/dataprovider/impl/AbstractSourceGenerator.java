@@ -30,6 +30,7 @@ abstract class AbstractSourceGenerator implements ISourceGenerator<AppData> {
     protected static final String CREATED = "${created}";
     protected static final String PACKAGE = "${package}";
     protected static final String EXAMPLE = "${example}";
+    protected static final String REST_URL = "${restUrl}";
 
     @Autowired
     private FileManager files;

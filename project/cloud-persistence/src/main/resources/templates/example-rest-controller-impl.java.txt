@@ -21,7 +21,7 @@ import java.util.List;
  * @since ${created}
  */
 @RestController
-@RequestMapping("/examples")
+@RequestMapping("${restUrl}")
 public class ExampleController {
     @Autowired
     private ExampleService<ExampleDTO, Long> service;
@@ -31,7 +31,7 @@ public class ExampleController {
     private ObjectMapper mapper = new ObjectMapper();
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> find (@PathVariable("id") Long id) {
+    public ResponseEntity<?> find(@PathVariable("id") Long id) {
         if (id == null || id < 1) {
            throw new RuntimeException(exceptionMessage);
         }
@@ -43,7 +43,7 @@ public class ExampleController {
     }
 
     @GetMapping
-    public ResponseEntity<String> findAll () {
+    public ResponseEntity<String> findAll() {
         List<ExampleDTO> exampleDTOs = service.findAll();
         if (exampleDTOs == null || exampleDTOs.size() == 0) {
             return new ResponseEntity<String>("No ExampleDTO is found.", HttpStatus.NO_CONTENT);
@@ -52,7 +52,7 @@ public class ExampleController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create (@RequestBody ExampleDTO dto) {
+    public ResponseEntity<?> create(@RequestBody ExampleDTO dto) {
         if (dto == null) {
             return new ResponseEntity<String>("Unable to create new ExampleDTO.", HttpStatus.BAD_REQUEST);
         }
@@ -69,7 +69,7 @@ public class ExampleController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update (@RequestBody ExampleDTO dto) {
+    public ResponseEntity<?> update(@RequestBody ExampleDTO dto) {
         if (dto == null) {
             return new ResponseEntity<String>("Unable to update ExampleDTO due to bad request.", HttpStatus.BAD_REQUEST);
         }
@@ -82,7 +82,7 @@ public class ExampleController {
 
     @PatchMapping("/{id}/{data}")
     @SneakyThrows
-    public ResponseEntity<?> patch (ExampleDTO dto) {
+    public ResponseEntity<?> patch(ExampleDTO dto) {
         if (dto == null) {
             return new ResponseEntity<String>("Unable to patch ExampleDTO due to bad request.", HttpStatus.BAD_REQUEST);
         }
@@ -94,7 +94,7 @@ public class ExampleController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete (@PathVariable("id") Long id) {
+    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
         if (id == null) {
             return new ResponseEntity<String>("Unable to delete ExampleDTO due to bad request.", HttpStatus.BAD_REQUEST);
         }
@@ -127,7 +127,7 @@ public class ExampleController {
     }
 
     @SneakyThrows
-    private String getExampleDTOListAsJson (List<ExampleDTO> exampleDTOList) {
+    private String getExampleDTOListAsJson(List<ExampleDTO> exampleDTOList) {
         if (exampleDTOList == null) {
             return "";
         }

@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.google.common.collect.ImmutableMap.of;
+import static com.sam.jcc.cloud.PropertyResolver.getProperty;
 import static java.text.MessageFormat.format;
 
 /**
@@ -97,6 +98,7 @@ class JpaSourceGenerator extends AbstractSourceGenerator {
         final String test = apply(restControllerImplTemplate, of(
                 CREATED, formattedCurrentDate(),
                 PACKAGE, basePackage(app, "controller"),
+                REST_URL, getProperty("mysql.rest.url"),
                 EXAMPLE_DTO, getPackageImport(basePackage(app, "dto"), "ExampleDTO"),
                 EXAMPLE_SERVICE, getPackageImport(basePackage(app, "service"), "ExampleService")
         ));

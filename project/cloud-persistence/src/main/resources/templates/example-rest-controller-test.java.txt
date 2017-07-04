@@ -3,6 +3,7 @@ package ${package};
 import ${exampleDTO};
 import ${exampleService};
 import org.junit.Before;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,12 +52,12 @@ public class ExampleControllerRestTest {
 
         exampleDTOs = Arrays.asList(exampleDTO, anotherExampleDTO);
 
-        cleardataBase();
+        clearDataBase();
     }
 
     @Test
     public void create() {
-        ResponseEntity<ExampleDTO> createResponseEntity = createDTO(exampleDTO);
+        createDTO(exampleDTO);
     }
 
     @Test
@@ -97,37 +98,37 @@ public class ExampleControllerRestTest {
 
     @Test
     public void delete() {
-         ResponseEntity<ExampleDTO> response = createDTO(exampleDTO);
+        ResponseEntity<ExampleDTO> response = createDTO(exampleDTO);
 
-         Long id = response.getBody().getId();
+        Long id = response.getBody().getId();
 
-         checkIfExampleDTOExists(id);
+        checkIfExampleDTOExists(id);
 
-         deleteDTO(id);
+        deleteDTO(id);
     }
 
     @Test
     public void deleteAll() {
-          createTestExampleDTOs(exampleDTOs);
+        createTestExampleDTOs(exampleDTOs);
 
-          checkIfExampleDTOsExist();
+        checkIfExampleDTOsExist();
 
-          deleteAllDTOs();
+        deleteAllDTOs();
     }
 
     @Test
     public void testExceptionHandler() {
-         ResponseEntity<String> response = restTemplate.getForEntity(getUrl(0), String.class);
-         checkExceptionResponse(response);
+        ResponseEntity<String> response = restTemplate.getForEntity(getUrl(0), String.class);
+        checkExceptionResponse(response);
 
-         exampleDTO.setData(null);
-         response = restTemplate.postForEntity(restUrl, exampleDTO, String.class);
-         checkExceptionResponse(response);
+        exampleDTO.setData(null);
+        response = restTemplate.postForEntity(restUrl, exampleDTO, String.class);
+        checkExceptionResponse(response);
     }
 
-    @Before
-    public void tearDownp() {
-          cleardataBase();
+    @After
+    public void tearDown() {
+        clearDataBase();
     }
 
     private ResponseEntity<ExampleDTO> createDTO(ExampleDTO exampleDTO) {
@@ -231,7 +232,7 @@ public class ExampleControllerRestTest {
         return String.format("%s/%s", restUrl, pathVar);
     }
 
-    private void cleardataBase() {
+    private void clearDataBase() {
         exampleService.deleteAll();
     }
 }

@@ -25,7 +25,6 @@ public class ExampleServiceTest {
     @Autowired
     private ExampleService<ExampleDTO, Long> service;
     private ExampleDTO exampleDTO;
-    private int count;
 
     @Before
     public void setUp() {
@@ -37,59 +36,57 @@ public class ExampleServiceTest {
 
     @Test
     public void creates() {
-         final ExampleDTO savedExampleDTO = service.save(exampleDTO);
+        final ExampleDTO savedExampleDTO = service.save(exampleDTO);
 
-         assertThat(service.find(savedExampleDTO.getId())).isNotNull();
+        assertThat(service.find(savedExampleDTO.getId())).isNotNull();
     }
 
     @Test
     public void reads() {
-         ExampleDTO savedExampleDTO = service.save(exampleDTO);
-         final ExampleDTO foundExampleDTO = service.find(savedExampleDTO.getId());
+        ExampleDTO savedExampleDTO = service.save(exampleDTO);
+        final ExampleDTO foundExampleDTO = service.find(savedExampleDTO.getId());
 
-         assertThat(foundExampleDTO).isNotNull();
-         assertThat(foundExampleDTO.getId()).isEqualTo(savedExampleDTO.getId());
+        assertThat(foundExampleDTO).isNotNull();
+        assertThat(foundExampleDTO.getId()).isEqualTo(savedExampleDTO.getId());
     }
 
     @Test
     public void readAll() {
-         service.deleteAll();
-         count = getElementCount(service.findAll());
+        service.deleteAll();
 
-         assertThat(count).isZero();
+        assertThat(getElementCount(service.findAll())).isZero();
 
-         service.save(exampleDTO);
-         count = getElementCount(service.findAll());
+        service.save(exampleDTO);
 
-         assertThat(count).isEqualTo(1);
+        assertThat(getElementCount(service.findAll())).isEqualTo(1);
     }
 
     @Test
     public void updates() {
-         final ExampleDTO savedExampleDTO = service.save(exampleDTO);
-         savedExampleDTO.setData("updated DTO");
-         final ExampleDTO updatedExampleDTO = service.update(savedExampleDTO);
-         final ExampleDTO foundExampleDTO = service.find(savedExampleDTO.getId());
+        final ExampleDTO savedExampleDTO = service.save(exampleDTO);
+        savedExampleDTO.setData("updated DTO");
+        final ExampleDTO updatedExampleDTO = service.update(savedExampleDTO);
+        final ExampleDTO foundExampleDTO = service.find(savedExampleDTO.getId());
 
-         assertThat(foundExampleDTO.getData()).isEqualTo(updatedExampleDTO.getData());
+        assertThat(foundExampleDTO.getData()).isEqualTo(updatedExampleDTO.getData());
     }
 
     @Test
     public void deletes() {
-          final ExampleDTO savedExampleDTO = service.save(exampleDTO);
-          assertThat(service.find(savedExampleDTO.getId())).isNotNull();
-          service.delete(savedExampleDTO.getId());
+        final ExampleDTO savedExampleDTO = service.save(exampleDTO);
+        assertThat(service.find(savedExampleDTO.getId())).isNotNull();
+        service.delete(savedExampleDTO.getId());
 
-          assertThat(service.find(savedExampleDTO.getId())).isNull();
+        assertThat(service.find(savedExampleDTO.getId())).isNull();
     }
 
     @After
     public void tearDown() {
-          service.deleteAll();
+        service.deleteAll();
     }
 
     private int getElementCount(List<ExampleDTO> dtos) {
-          return dtos !=null ? dtos.size() : 0;
+        return dtos !=null ? dtos.size() : 0;
     }
 
 }
