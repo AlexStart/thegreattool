@@ -43,6 +43,7 @@
 				<bean class="com.sam.jcc.cloud.mvc.dto.converter.CIProjectConverter" />
 				<bean class="com.sam.jcc.cloud.mvc.dto.converter.DbProjectConverter" />
 				<bean class="com.sam.jcc.cloud.mvc.dto.converter.CQProjectConverter" />
+				<bean class="com.sam.jcc.cloud.mvc.dto.converter.CDProjectConverter" />
 			</set>
 		</property>
 	</bean>

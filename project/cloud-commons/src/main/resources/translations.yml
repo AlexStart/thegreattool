@@ -145,7 +145,12 @@ com:
               name:
                 metadata:
                   ru: "Проекты в CI системах"
-                  en: "CI Managed Projects"                
+                  en: "CI Managed Projects"
+            CDProjectDTO:
+              name:
+                metadata:
+                  ru: "Проекты в CD системах"
+                  en: "CD Managed Projects"                
             DbProjectDTO:
               name:
                 metadata:
