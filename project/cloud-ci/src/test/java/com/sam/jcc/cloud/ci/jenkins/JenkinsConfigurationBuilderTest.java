@@ -10,7 +10,6 @@ import com.sam.jcc.cloud.utils.files.ItemStorage;
 import com.sam.jcc.cloud.vcs.git.impl.provider.GitFileProvider;
 import com.sam.jcc.cloud.vcs.git.impl.provider.GitProtocolProvider;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -27,7 +26,6 @@ import static org.mockito.Mockito.*;
  * @author Alexey Zhytnik
  * @since 18-Dec-16
  */
-@Ignore
 public class JenkinsConfigurationBuilderTest extends JenkinsBaseTest {
 
     @Rule
