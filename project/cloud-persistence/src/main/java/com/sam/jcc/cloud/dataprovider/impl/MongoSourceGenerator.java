@@ -17,6 +17,7 @@ class MongoSourceGenerator extends AbstractSourceGenerator {
         entityTemplate = read("/templates/example-mongo.java.txt");
         daoTemplate = read("/templates/example-dao-mongo.java.txt");
         testTemplate = read("/templates/example-dao-test.java.txt");
+        testPropertyFileTemplate = read("/templates/mongo-test.properties.txt");
     }
 
     @Override
@@ -47,5 +48,11 @@ class MongoSourceGenerator extends AbstractSourceGenerator {
     @Override
     protected void addRestControllerTest(AppData app) {
         return;
+    }
+
+    @Override
+    protected void addTestPropertyFile(AppData app) {
+        final String pathToTestPropertyFile = "src/test/resources/mysql-test.properties";
+        save(app.getLocation(), pathToTestPropertyFile, testPropertyFileTemplate);
     }
 }

@@ -30,7 +30,6 @@ abstract class AbstractSourceGenerator implements ISourceGenerator<AppData> {
     protected static final String CREATED = "${created}";
     protected static final String PACKAGE = "${package}";
     protected static final String EXAMPLE = "${example}";
-    protected static final String REST_URL = "${restUrl}";
 
     @Autowired
     private FileManager files;
@@ -41,6 +40,7 @@ abstract class AbstractSourceGenerator implements ISourceGenerator<AppData> {
     protected String daoTemplate;
     protected String testTemplate;
     protected String entityTemplate;
+    protected String testPropertyFileTemplate;
 
     @Setter
     @VisibleForTesting
@@ -63,6 +63,7 @@ abstract class AbstractSourceGenerator implements ISourceGenerator<AppData> {
             addTest(app);
             addRestController(app);
             addRestControllerTest(app);
+            addTestPropertyFile(app);
         };
     }
 
@@ -77,6 +78,8 @@ abstract class AbstractSourceGenerator implements ISourceGenerator<AppData> {
     protected abstract void addRestController(AppData app);
 
     protected abstract void addRestControllerTest(AppData app);
+
+    protected abstract void addTestPropertyFile(AppData app);
 
     private void addEntity(AppData app) {
         final String entity = apply(entityTemplate, of(

@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.google.common.collect.ImmutableMap.of;
-import static com.sam.jcc.cloud.PropertyResolver.getProperty;
 import static java.text.MessageFormat.format;
 
 /**
@@ -46,6 +45,7 @@ class JpaSourceGenerator extends AbstractSourceGenerator {
         entityTemplate = read("/templates/example.java.txt");
         daoTemplate = read("/templates/example-dao.java.txt");
         testTemplate = read("/templates/example-dao-test.java.txt");
+        testPropertyFileTemplate = read("/templates/mysql-test.properties.txt");
     }
 
     @Override
@@ -60,6 +60,12 @@ class JpaSourceGenerator extends AbstractSourceGenerator {
 
         final String path = format("{0}/ExampleDTO.java", pathToSources(app, "dto"));
         save(app.getLocation(), path, dto);
+    }
+
+    @Override
+    protected void addTestPropertyFile(AppData app) {
+        final String pathToTestPropertyFile = "src/test/resources/mysql-test.properties";
+        save(app.getLocation(), pathToTestPropertyFile, testPropertyFileTemplate);
     }
 
     @Override
@@ -97,7 +103,6 @@ class JpaSourceGenerator extends AbstractSourceGenerator {
         final String test = apply(restControllerImplTemplate, of(
                 CREATED, formattedCurrentDate(),
                 PACKAGE, basePackage(app, "controller"),
-                REST_URL, getProperty("mysql.rest.url"),
                 EXAMPLE_DTO, getPackageImport(basePackage(app, "dto"), "ExampleDTO"),
                 EXAMPLE_SERVICE, getPackageImport(basePackage(app, "service"), "ExampleService")
         ));

@@ -61,7 +61,6 @@ class MySqlInjector implements IDataInjector<AppData> {
         final Dependency jpa = new Dependency();
 
         jpa.setScope("compile");
-        jpa.setVersion("1.4.3.RELEASE");
         jpa.setGroupId("org.springframework.boot");
         jpa.setArtifactId("spring-boot-starter-data-jpa");
         return jpa;
@@ -71,7 +70,6 @@ class MySqlInjector implements IDataInjector<AppData> {
         final Dependency mysql = new Dependency();
 
         mysql.setScope("compile");
-        mysql.setVersion("5.1.40");
         mysql.setGroupId("mysql");
         mysql.setArtifactId("mysql-connector-java");
         return mysql;
@@ -82,7 +80,6 @@ class MySqlInjector implements IDataInjector<AppData> {
         final Dependency lombok = new Dependency();
 
         lombok.setScope("compile");
-        lombok.setVersion("1.16.10");
         lombok.setGroupId("org.projectlombok");
         lombok.setArtifactId("lombok");
         return lombok;
@@ -95,9 +92,7 @@ class MySqlInjector implements IDataInjector<AppData> {
                         jpa("username", getProperty("db.mysql.user")),
                         jpa("password", getProperty("db.mysql.password")),
                         "spring.jpa.hibernate.ddl-auto=update",
-                        "rest.url"+"="+getProperty("mysql.rest.url"),
-                        "rest.content.type"+"="+getProperty("mysql.rest.content.type"),
-                        "rest.exception.message"+"="+getProperty("mysql.rest.exception.message")
+                        "rest.exception.message=something goes wrong on the server"
                 ));
     }
 

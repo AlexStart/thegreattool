@@ -23,6 +23,7 @@ public class ExampleServiceTest {
 
     @Autowired
     private ExampleService<ExampleDTO, Long> service;
+
     private ExampleDTO exampleDTO;
 
     @Before
