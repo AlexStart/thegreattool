@@ -31,11 +31,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 public class ExampleDataRestTest {
 
-    @Value("${spring.data.mongodb.test.rest.url}")
+    @Value("${rest.url}")
     private String baseRestUrl;
-    @Value("${spring.data.mongodb.test.rest.content.type}")
+    @Value("${rest.content.type}")
     private String contentType;
-    @Value("${spring.data.mongodb.test.rest.entity.id}")
+    @Value("${rest.entity.id}")
     private String entityId;
 
     @Autowired
@@ -94,7 +94,7 @@ public class ExampleDataRestTest {
 
     @Test
     public void findAll() {
-       for (Example example : examples) {
+        for (Example example : examples) {
             createEntity(example);
         }
         ResponseEntity<String> findAllResponse = findAllEntities();
