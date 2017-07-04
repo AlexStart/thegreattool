@@ -76,8 +76,7 @@ class JpaSourceGenerator extends AbstractSourceGenerator {
         final String test = apply(serviceTestTemplate, of(
                 CREATED, formattedCurrentDate(),
                 PACKAGE, basePackage(app, "service"),
-                EXAMPLE_DTO, getPackageImport (basePackage(app, "dto"), "ExampleDTO"),
-                EXAMPLE_SERVICE, getPackageImport (basePackage(app, "service"), "ExampleService")
+                EXAMPLE_DTO, getPackageImport (basePackage(app, "dto"), "ExampleDTO")
         ));
 
         final String path = format("{0}/ExampleServiceTest.java", pathToTests(app, "service"));

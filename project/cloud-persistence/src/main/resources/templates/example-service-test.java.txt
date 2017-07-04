@@ -1,7 +1,6 @@
 package ${package};
 
 import ${exampleDTO};
-import ${exampleService};
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

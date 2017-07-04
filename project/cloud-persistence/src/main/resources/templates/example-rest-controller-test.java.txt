@@ -2,15 +2,17 @@ package ${package};
 
 import ${exampleDTO};
 import ${exampleService};
-import org.junit.Before;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
@@ -39,7 +41,6 @@ public class ExampleControllerRestTest {
     private String exceptionMessage;
 
     private ExampleDTO exampleDTO;
-    private ExampleDTO anotherExampleDTO;
     private List<ExampleDTO> exampleDTOs;
 
     @Before
@@ -47,7 +48,7 @@ public class ExampleControllerRestTest {
         exampleDTO = new ExampleDTO();
         exampleDTO.setData("some DTO");
 
-        anotherExampleDTO = new ExampleDTO();
+        ExampleDTO anotherExampleDTO = new ExampleDTO();
         anotherExampleDTO.setData("another some DTO");
 
         exampleDTOs = Arrays.asList(exampleDTO, anotherExampleDTO);
@@ -152,11 +153,12 @@ public class ExampleControllerRestTest {
         return response;
     }
 
+    @SuppressWarnings (value="unchecked")
     private ResponseEntity<List<ExampleDTO>> readAllExampleDTOs(int dtoCount) {
         ResponseEntity<?> response = restTemplate.getForEntity(restUrl, List.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
-        assertThat(((List<ExampleDTO>)response.getBody()).size() == dtoCount).isTrue();
+        assertThat(((List<?>)response.getBody()).size() == dtoCount).isTrue();
         return (ResponseEntity<List<ExampleDTO>>)response;
     }
 
@@ -213,7 +215,7 @@ public class ExampleControllerRestTest {
         ResponseEntity<?> response = restTemplate.getForEntity(restUrl, List.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
-        assertThat(((List<ExampleDTO>)response.getBody()).size() > 0).isNotNull();
+        assertThat(((List<?>)response.getBody()).size() > 0).isNotNull();
     }
 
     private void checkExceptionResponse(ResponseEntity<String> response) {
