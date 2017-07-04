@@ -21,12 +21,14 @@ import com.sam.jcc.cloud.i.app.IAppMetadata;
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import com.sam.jcc.cloud.mvc.controller.api.MetadataResponseBuilder.MetadataResponse;
 import com.sam.jcc.cloud.mvc.dto.AppDTO;
+import com.sam.jcc.cloud.mvc.dto.CDProjectDTO;
 import com.sam.jcc.cloud.mvc.dto.CIProjectDTO;
 import com.sam.jcc.cloud.mvc.dto.CQProjectDTO;
 import com.sam.jcc.cloud.mvc.dto.DbProjectDTO;
 import com.sam.jcc.cloud.mvc.dto.ProjectDTO;
 import com.sam.jcc.cloud.mvc.dto.VCSProjectDTO;
 import com.sam.jcc.cloud.mvc.service.AppService;
+import com.sam.jcc.cloud.mvc.service.CDProjectService;
 import com.sam.jcc.cloud.mvc.service.CIProjectService;
 import com.sam.jcc.cloud.mvc.service.CQProjectService;
 import com.sam.jcc.cloud.mvc.service.DbProjectService;
@@ -59,6 +61,9 @@ public class SearchController {
 
 	@Autowired
 	private CQProjectService cqProjectService;
+
+	@Autowired
+	private CDProjectService cdProjectService;
 
 	@Autowired
 	private MetadataResponseBuilder responseBuilder;
@@ -189,6 +194,25 @@ public class SearchController {
 				.collect(toList());
 
 		return new PageImpl<MetadataResponse<? super CQProjectDTO>>(selected, page, dtos.size());
+	}
+
+	@RequestMapping(value = "/api/cdprojects/search", method = RequestMethod.GET)
+	public @ResponseBody PageImpl<MetadataResponse<? super CDProjectDTO>> searchCDProjects(
+			@PageableDefault Pageable page) {
+		List<? super IProjectMetadata> findAll = projectProviderService.findAll();
+
+		// Commented because of #15
+		// if (findAll == null || findAll.isEmpty()) {
+		// throw new MetadataNotFoundException();
+		// }
+
+		List<? super CDProjectDTO> dtos = cdProjectService.convertModels(findAll);
+
+		final List<MetadataResponse<? super CDProjectDTO>> selected = reverse(dtos.stream().collect(toList()))
+				.subList(page.getOffset(), getFinishIndex(page, dtos)).stream().map(responseBuilder::build)
+				.collect(toList());
+
+		return new PageImpl<MetadataResponse<? super CDProjectDTO>>(selected, page, dtos.size());
 	}
 
 	private int getFinishIndex(Pageable page, List<?> dtos) {
