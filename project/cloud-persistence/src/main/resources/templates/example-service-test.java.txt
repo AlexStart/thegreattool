@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author The Great Tool
- * @since 20.06.2017
+ * @since ${created}
  */
 @SpringBootTest
 @RunWith(SpringRunner.class)
