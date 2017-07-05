@@ -62,13 +62,10 @@ abstract class AbstractSourceGenerator implements ISourceGenerator<AppData> {
             addConverter(app);
             addDao(app);
             addTest(app);
-<<<<<<< HEAD
             addTestDataRest(app);
-=======
             addRestController(app);
             addRestControllerTest(app);
             addTestPropertyFile(app);
->>>>>>> task-rest-mysql
         };
     }
 

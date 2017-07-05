@@ -61,7 +61,6 @@ class MongoDbInjector implements IDataInjector<AppData> {
         final Dependency mongo = new Dependency();
 
         mongo.setScope("compile");
-        mongo.setVersion("1.4.3.RELEASE");
         mongo.setGroupId("org.springframework.boot");
         mongo.setArtifactId("spring-boot-starter-data-mongodb");
         return mongo;
@@ -71,7 +70,6 @@ class MongoDbInjector implements IDataInjector<AppData> {
         final Dependency mongo = new Dependency();
 
         mongo.setScope("compile");
-        mongo.setVersion("1.4.3.RELEASE");
         mongo.setGroupId("org.springframework.boot");
         mongo.setArtifactId("spring-boot-starter-data-rest");
         return mongo;
@@ -82,7 +80,6 @@ class MongoDbInjector implements IDataInjector<AppData> {
         final Dependency lombok = new Dependency();
 
         lombok.setScope("compile");
-        lombok.setVersion("1.16.10");
         lombok.setGroupId("org.projectlombok");
         lombok.setArtifactId("lombok");
         return lombok;
@@ -99,11 +96,7 @@ class MongoDbInjector implements IDataInjector<AppData> {
             return String.join(lineSeparator(),
                     of(
                             mongo("uri", uri),
-                            mongo("repository.rest.collection", getProperty("data.rest.collection")),
-                            mongo("repository.rest.path", getProperty("data.rest.path")),
-                            mongo("test.rest.url", getProperty("test.rest.url")),
-                            mongo("test.rest.content.type", getProperty("test.rest.content.type")),
-                            mongo("test.rest.entity.id", getProperty("test.rest.entity.id"))
+                            "rest.content.type=application/json;charset=UTF-8"
                     ));
         }
         return settingsWithAuth(uri);
@@ -115,11 +108,7 @@ class MongoDbInjector implements IDataInjector<AppData> {
                         mongo("uri", uri),
                         mongo("username", getProperty("db.mongo.user")),
                         mongo("password", getProperty("db.mongo.password")),
-                        mongo("repository.rest.collection", getProperty("repository.rest.collection")),
-                        mongo("repository.rest.path", getProperty("repository.rest.path")),
-                        mongo("test.rest.url", getProperty("test.rest.url")),
-                        mongo("test.rest.content.type", getProperty("test.rest.content.type")),
-                        mongo("test.rest.entity.id", getProperty("test.rest.entity.id"))
+                        "rest.content.type=application/json;charset=UTF-8"
                 ));
     }
 
