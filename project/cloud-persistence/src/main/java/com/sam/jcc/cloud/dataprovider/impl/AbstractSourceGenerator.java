@@ -79,8 +79,6 @@ abstract class AbstractSourceGenerator implements ISourceGenerator<AppData> {
 
     protected abstract void addRestControllerTest(AppData app);
 
-    protected abstract void addTestPropertyFile(AppData app);
-
     private void addEntity(AppData app) {
         final String entity = apply(entityTemplate, of(
                 CREATED, formattedCurrentDate(),
@@ -111,6 +109,12 @@ abstract class AbstractSourceGenerator implements ISourceGenerator<AppData> {
 
         final String path = format("{0}/repository/ExampleDAOTest.java", pathToTests(app, "persistence"));
         save(app.getLocation(), path, test);
+    }
+
+    protected void addTestPropertyFile(AppData app) {
+        testPropertyFileTemplate = read("/templates/test-application.properties.txt");
+        final String pathToTestPropertyFile = "src/test/resources/test-application.properties";
+        save(app.getLocation(), pathToTestPropertyFile, testPropertyFileTemplate);
     }
 
     protected String basePackage(AppData app, String layer) {

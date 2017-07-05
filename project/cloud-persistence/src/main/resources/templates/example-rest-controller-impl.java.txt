@@ -118,7 +118,7 @@ public class ExampleController {
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteAll () {
+    public ResponseEntity<?> deleteAll() {
         service.deleteAll();
         List<ExampleDTO> exampleDTO = service.findAll();
         if (exampleDTO != null) {

@@ -1,3 +1,0 @@
-rest.url=/examples
-rest.content.type=application/json;charset=UTF-8
-rest.exception.message=something goes wrong on the server

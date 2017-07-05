@@ -45,7 +45,6 @@ class JpaSourceGenerator extends AbstractSourceGenerator {
         entityTemplate = read("/templates/example.java.txt");
         daoTemplate = read("/templates/example-dao.java.txt");
         testTemplate = read("/templates/example-dao-test.java.txt");
-        testPropertyFileTemplate = read("/templates/mysql-test.properties.txt");
     }
 
     @Override
@@ -60,12 +59,6 @@ class JpaSourceGenerator extends AbstractSourceGenerator {
 
         final String path = format("{0}/ExampleDTO.java", pathToSources(app, "dto"));
         save(app.getLocation(), path, dto);
-    }
-
-    @Override
-    protected void addTestPropertyFile(AppData app) {
-        final String pathToTestPropertyFile = "src/test/resources/mysql-test.properties";
-        save(app.getLocation(), pathToTestPropertyFile, testPropertyFileTemplate);
     }
 
     @Override

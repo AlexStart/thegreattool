@@ -92,7 +92,8 @@ class MySqlInjector implements IDataInjector<AppData> {
                         jpa("username", getProperty("db.mysql.user")),
                         jpa("password", getProperty("db.mysql.password")),
                         "spring.jpa.hibernate.ddl-auto=update",
-                        "rest.exception.message=something goes wrong on the server"
+                        "rest.exception.message=something goes wrong on the server",
+                        "rest.content.type=application/json;charset=UTF-8"
                 ));
     }
 

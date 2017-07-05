@@ -25,24 +25,28 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author The Great Tool
  * @since ${created}
  */
-@TestPropertySource(locations = "classpath:mysql-test.properties")
+@TestPropertySource(locations = "classpath:test-application.properties")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @RunWith(SpringRunner.class)
 public class ExampleControllerRestTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
+
     @Autowired
     private ExampleService<ExampleDTO, Long> exampleService;
 
     @Value("${rest.url}")
     private String restUrl;
+
     @Value("${rest.content.type}")
     private String contentType;
+
     @Value("${rest.exception.message}")
     private String exceptionMessage;
 
     private ExampleDTO exampleDTO;
+
     private List<ExampleDTO> exampleDTOs;
 
     @Before
