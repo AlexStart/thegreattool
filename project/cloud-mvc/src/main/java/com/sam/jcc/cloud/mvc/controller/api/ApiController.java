@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sam.jcc.cloud.i.project.IProjectMetadata;
 import com.sam.jcc.cloud.mvc.controller.api.exception.ValidationCloudException;
 import com.sam.jcc.cloud.mvc.dto.AppDTO;
+import com.sam.jcc.cloud.mvc.dto.CDProjectDTO;
 import com.sam.jcc.cloud.mvc.dto.CIProjectDTO;
 import com.sam.jcc.cloud.mvc.dto.CQProjectDTO;
 import com.sam.jcc.cloud.mvc.dto.DbProjectDTO;
@@ -25,6 +26,7 @@ import com.sam.jcc.cloud.mvc.dto.ProjectDTO;
 import com.sam.jcc.cloud.mvc.dto.ProviderDTO;
 import com.sam.jcc.cloud.mvc.dto.VCSProjectDTO;
 import com.sam.jcc.cloud.mvc.service.AppService;
+import com.sam.jcc.cloud.mvc.service.CDService;
 import com.sam.jcc.cloud.mvc.service.CIProjectService;
 import com.sam.jcc.cloud.mvc.service.CIService;
 import com.sam.jcc.cloud.mvc.service.CQProjectService;
@@ -34,6 +36,7 @@ import com.sam.jcc.cloud.mvc.service.DbService;
 import com.sam.jcc.cloud.mvc.service.ProjectService;
 import com.sam.jcc.cloud.mvc.service.VCSProjectService;
 import com.sam.jcc.cloud.mvc.service.VCSService;
+import com.sam.jcc.cloud.provider.UnsupportedCallException;
 
 /**
  * @author olegk
@@ -72,6 +75,9 @@ public class ApiController {
 
 	@Autowired
 	private CQProjectService cqProjectService;
+
+	@Autowired
+	private CDService cdService;
 
 	// APPS //
 	@RequestMapping(value = "apps", method = RequestMethod.GET)
@@ -196,4 +202,14 @@ public class ApiController {
 		return cqProjectService.update(cqProjectDTO);
 	}
 
+	// CD PROVIDERS
+	@RequestMapping(value = "cdproviders", method = RequestMethod.GET)
+	public @ResponseBody List<ProviderDTO> findAllCDProviders() {
+		return cdService.getCDProviders();
+	}
+
+	@RequestMapping(value = "cdprojects", method = RequestMethod.PUT)
+	public @ResponseBody CDProjectDTO addprojectToCD(@RequestBody CDProjectDTO cdProjectDTO) {
+		throw new UnsupportedCallException();
+	}
 }

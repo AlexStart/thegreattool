@@ -9,7 +9,7 @@ import java.util.List;
  * @author The Great Tool
  * @since ${created}
  */
-public interface ExampleService <T extends ExampleDTO, K extends Serializable>  {
+public interface ExampleService<T extends ExampleDTO, K extends Serializable>  {
     T save(T dto);
     T update(T dto);
     T find(K id);

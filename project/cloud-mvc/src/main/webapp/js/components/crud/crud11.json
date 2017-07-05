@@ -1,0 +1,10 @@
+{
+  "url": "api/cdprojects",
+  "custom": {
+    "buttons": {
+      "remove": "button.remove",
+      "cancel": "button.cancel",
+      "refresh": "button.refresh"
+    }
+  }
+}

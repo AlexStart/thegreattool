@@ -9,10 +9,10 @@ import java.util.List;
  * @author The Great Tool
  * @since ${created}
  */
-public interface ExampleConverter <D extends ExampleDTO, P extends Example>  {
-    D convertEntityToDTO (P entity);
+public interface ExampleConverter<D extends ExampleDTO, P extends Example>  {
+    D convertEntityToDTO(P entity);
 
-    List<D> convertEntityListToDTOList (List<P> entities);
+    List<D> convertEntityListToDTOList(List<P> entities);
 
-    P convertDTOToEntity (D dto);
+    P convertDTOToEntity(D dto);
 }

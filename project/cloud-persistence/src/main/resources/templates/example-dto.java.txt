@@ -14,9 +14,10 @@ import java.io.Serializable;
 public class ExampleDTO implements Serializable {
 
     private Long id;
+
     private String data;
 
-    public ExampleDTO () {
+    public ExampleDTO() {
     }
 
 }

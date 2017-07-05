@@ -1,0 +1,147 @@
+package ${package};
+
+import ${exampleDTO};
+import ${exampleService};
+
+import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.util.UriComponentsBuilder;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.net.URI;
+import java.util.List;
+
+/**
+ * @author The Great Tool
+ * @since ${created}
+ */
+@RestController
+@RequestMapping("/examples")
+public class ExampleController {
+
+    @Autowired
+    private ExampleService<ExampleDTO, Long> service;
+
+    @Value("${rest.exception.message}")
+    private String exceptionMessage;
+
+    private ObjectMapper mapper = new ObjectMapper();
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> find(@PathVariable("id") Long id) {
+        if (id == null || id < 1) {
+           throw new RuntimeException(exceptionMessage);
+        }
+        ExampleDTO exampleDTO = service.find(id);
+        if (exampleDTO == null) {
+            return new ResponseEntity<>(String.format("ExampleDTO with id {0} is not found.", id), HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(exampleDTO, HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<String> findAll() {
+        List<ExampleDTO> exampleDTOs = service.findAll();
+        if (exampleDTOs == null || exampleDTOs.size() == 0) {
+            return new ResponseEntity<>("No ExampleDTO is found.", HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(getExampleDTOListAsJson(exampleDTOs), HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<?> create(@RequestBody ExampleDTO dto) {
+        if (dto == null) {
+            return new ResponseEntity<>("Unable to create new ExampleDTO.", HttpStatus.BAD_REQUEST);
+        }
+        if (dto.getData() == null) {
+            throw new RuntimeException(exceptionMessage);
+        }
+        ExampleDTO exampleDTO = service.save(dto);
+        if (exampleDTO == null) {
+            return new ResponseEntity<>("Unable to create new ExampleDTO.", HttpStatus.CONFLICT);
+        }
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(getDTOLocation(exampleDTO.getId()));
+        return new ResponseEntity<>(exampleDTO, headers, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@RequestBody ExampleDTO dto) {
+        if (dto == null) {
+            return new ResponseEntity<>("Unable to update ExampleDTO due to bad request.", HttpStatus.BAD_REQUEST);
+        }
+        ExampleDTO updatedDTO = service.update(dto);
+        if (updatedDTO == null) {
+            return new ResponseEntity<>("Unable to upate ExampleDTO.", HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>(updatedDTO, HttpStatus.OK);
+    }
+
+    @PatchMapping("/{id}/{data}")
+    @SneakyThrows
+    public ResponseEntity<?> patch(ExampleDTO dto) {
+        if (dto == null) {
+            return new ResponseEntity<>("Unable to patch ExampleDTO due to bad request.", HttpStatus.BAD_REQUEST);
+        }
+        ExampleDTO patchedDTO = service.update(dto);
+        if (patchedDTO == null) {
+            return new ResponseEntity<>("Unable to patch ExampleDTO.", HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>(patchedDTO, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
+        if (id == null) {
+            return new ResponseEntity<>("Unable to delete ExampleDTO due to bad request.", HttpStatus.BAD_REQUEST);
+        }
+        service.delete(id);
+        ExampleDTO exampleDTO = service.find(id);
+        if (exampleDTO != null) {
+            return new ResponseEntity<>(String.format("Unable to delete ExampleDTO with id {0}.", id), HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<?> deleteAll() {
+        service.deleteAll();
+        List<ExampleDTO> exampleDTO = service.findAll();
+        if (exampleDTO != null) {
+            return new ResponseEntity<>(String.format("Unable to delete ExampleDTOs"), HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @ExceptionHandler(Exception.class)
+    private ResponseEntity<String> exceptionHandler(Exception exc) {
+        return new ResponseEntity<>(exc.getMessage(), HttpStatus.CONFLICT);
+    }
+
+    private URI getDTOLocation(Long id) {
+        UriComponentsBuilder ucBuilder = UriComponentsBuilder.newInstance();
+        return ucBuilder.path("/examples/{id}").buildAndExpand(id).toUri();
+    }
+
+    @SneakyThrows
+    private String getExampleDTOListAsJson(List<ExampleDTO> exampleDTOList) {
+        if (exampleDTOList == null) {
+            return "";
+        }
+        return mapper.writeValueAsString(exampleDTOList);
+    }
+}

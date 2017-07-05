@@ -13,32 +13,33 @@ import java.util.List;
  * @since ${created}
  */
 @Component
-public class ExampleConverterImpl implements ExampleConverter <ExampleDTO, Example>  {
-        public ExampleDTO convertEntityToDTO (Example entity) {
-            if(entity == null) {
-               return null;
-            }
-            ExampleDTO dto = new ExampleDTO();
-            dto.setId(entity.getId());
-            dto.setData(entity.getData());
-            return dto;
-        }
+public class ExampleConverterImpl implements ExampleConverter<ExampleDTO, Example>  {
 
-        public List<ExampleDTO> convertEntityListToDTOList (List<Example> entities) {
-            List<ExampleDTO> dtos = new ArrayList<>();
-            for(Example entity : entities) {
-                dtos.add(convertEntityToDTO(entity));
-            }
-            return dtos;
+    public ExampleDTO convertEntityToDTO(Example entity) {
+        if(entity == null) {
+            return null;
         }
+        ExampleDTO dto = new ExampleDTO();
+        dto.setId(entity.getId());
+        dto.setData(entity.getData());
+        return dto;
+    }
 
-        public Example convertDTOToEntity (ExampleDTO dto) {
-            if(dto == null) {
-               return null;
-            }
-            Example entity = new Example();
-            entity.setId(dto.getId());
-            entity.setData(dto.getData());
-            return entity;
+    public List<ExampleDTO> convertEntityListToDTOList(List<Example> entities) {
+        List<ExampleDTO> dtos = new ArrayList<>();
+        for(Example entity : entities) {
+            dtos.add(convertEntityToDTO(entity));
         }
+        return dtos;
+    }
+
+    public Example convertDTOToEntity(ExampleDTO dto) {
+        if(dto == null) {
+            return null;
+        }
+        Example entity = new Example();
+        entity.setId(dto.getId());
+        entity.setData(dto.getData());
+        return entity;
+    }
 }

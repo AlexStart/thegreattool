@@ -118,6 +118,13 @@ class GradleDependencyManager implements IDependencyManager<Dependency> {
     }
 
     private String asString(Dependency dependency) {
+        if (dependency.getVersion() == null) {
+            return format("\t%s('%s:%s')\n",
+                    dependency.getScope(),
+                    dependency.getGroupId(),
+                    dependency.getArtifactId()
+            );
+        }
         return format("\t%s group: \"%s\", name:\"%s\", version:\"%s\"\n",
                 dependency.getScope(),
                 dependency.getGroupId(),

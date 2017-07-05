@@ -23,14 +23,18 @@ class JpaSourceGenerator extends AbstractSourceGenerator {
     protected static final String EXAMPLE_CONVERTER = "${exampleConverter}";
 
     protected String dtoTemplate;
+    protected String converterTemplate;
+    protected String converterImplTemplate;
     protected String serviceTemplate;
     protected String serviceImplTemplate;
     protected String serviceTestTemplate;
-    protected String converterTemplate;
-    protected String converterImplTemplate;
+    protected String restControllerImplTemplate;
+    protected String testRestControllerTemplate;
 
     @PostConstruct
     public void setUp() {
+        testRestControllerTemplate = read("/templates/example-rest-controller-test.java.txt");
+        restControllerImplTemplate = read("/templates/example-rest-controller-impl.java.txt");
         dtoTemplate = read("/templates/example-dto.java.txt");
         serviceTemplate = read("/templates/example-service-interface.java.txt");
         serviceImplTemplate = read("/templates/example-service-impl.java.txt");
@@ -75,8 +79,7 @@ class JpaSourceGenerator extends AbstractSourceGenerator {
         final String test = apply(serviceTestTemplate, of(
                 CREATED, formattedCurrentDate(),
                 PACKAGE, basePackage(app, "service"),
-                EXAMPLE_DTO, getPackageImport (basePackage(app, "dto"), "ExampleDTO"),
-                EXAMPLE_SERVICE, getPackageImport (basePackage(app, "service"), "ExampleService")
+                EXAMPLE_DTO, getPackageImport (basePackage(app, "dto"), "ExampleDTO")
         ));
 
         final String path = format("{0}/ExampleServiceTest.java", pathToTests(app, "service"));
@@ -87,6 +90,38 @@ class JpaSourceGenerator extends AbstractSourceGenerator {
     protected void addConverter(AppData app) {
         addConverter(app, converterTemplate, "converter", "ExampleConverter");
         addConverter(app, converterImplTemplate, "converter.impl", "ExampleConverterImpl");
+    }
+
+    @Override
+    protected void addRestController(AppData app) {
+        if(restControllerImplTemplate == null) {
+            return;
+        }
+        final String test = apply(restControllerImplTemplate, of(
+                CREATED, formattedCurrentDate(),
+                PACKAGE, basePackage(app, "controller"),
+                EXAMPLE_DTO, getPackageImport(basePackage(app, "dto"), "ExampleDTO"),
+                EXAMPLE_SERVICE, getPackageImport(basePackage(app, "service"), "ExampleService")
+        ));
+
+        final String path = format("{0}/ExampleController.java", pathToSources(app, "controller"));
+        save(app.getLocation(), path, test);
+    }
+
+    @Override
+    protected void addRestControllerTest(AppData app) {
+        if(testRestControllerTemplate == null) {
+            return;
+        }
+        final String test = apply(testRestControllerTemplate, of(
+                CREATED, formattedCurrentDate(),
+                PACKAGE, basePackage(app, "controller"),
+                EXAMPLE_DTO, getPackageImport(basePackage(app, "dto"), "ExampleDTO"),
+                EXAMPLE_SERVICE, getPackageImport(basePackage(app, "service"), "ExampleService")
+        ));
+
+        final String path = format("{0}/ExampleControllerRestTest.java", pathToTests(app, "controller"));
+        save(app.getLocation(), path, test);
     }
 
     private void addConverter(AppData app, String converterTemplate, String converterPackage, String converterName) {

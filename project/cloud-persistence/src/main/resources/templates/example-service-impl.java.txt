@@ -9,8 +9,6 @@ import ${example};
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,11 +18,12 @@ import java.util.List;
 @Service
 @Transactional
 public class ExampleServiceImpl implements ExampleService<ExampleDTO, Long> {
+
     @Autowired
     private ExampleDAO exampleDAO;
+
     @Autowired
     private ExampleConverter<ExampleDTO, Example> exampleConverter;
-
 
     @Override
     public ExampleDTO save(ExampleDTO dto) {
@@ -41,7 +40,7 @@ public class ExampleServiceImpl implements ExampleService<ExampleDTO, Long> {
     @Transactional(readOnly = true)
     @Override
     public ExampleDTO find(Long id) {
-        return exampleConverter.convertEntityToDTO (exampleDAO.findOne(id));
+        return exampleConverter.convertEntityToDTO(exampleDAO.findOne(id));
     }
 
     @Transactional(readOnly = true)
