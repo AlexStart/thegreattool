@@ -1,8 +1,11 @@
 package com.sam.jcc.cloud.ci.jenkins;
 
+import com.sam.jcc.cloud.auth.InitOnceAdminBean;
 import com.sam.jcc.cloud.ci.CIProject;
 import com.sam.jcc.cloud.ci.jenkins.config.vcs.GitFileVCSConfigurator;
 import com.sam.jcc.cloud.ci.jenkins.config.vcs.GitProtocolVCSConfigurator;
+import com.sam.jcc.cloud.ci.jenkins.config.vcs.GitlabHttpVCSConfigurator;
+import com.sam.jcc.cloud.ci.jenkins.config.vcs.JenkinsCredentialsApi;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -45,4 +48,15 @@ public class JenkinsVCSConfiguratorTest {
         assertThat(uri.toString()).containsPattern("git:\\/\\/\\S+:\\d+\\/" + project.getName());
     }
 
+    @Test
+    public void generateGitlabHttpUrlTest() throws URISyntaxException {
+        URI uri = new GitlabHttpVCSConfigurator(new InitOnceAdminBean(), new JenkinsCredentialsApi()) {
+            @Override
+            public URI resolveGitURL(CIProject project) {
+                return super.resolveGitURL(project);
+            }
+        }.resolveGitURL(project);
+
+        assertThat(uri.toString()).containsPattern("http:\\/\\/\\S+:\\d+\\/\\S+\\/\\S+\\/" + project.getName());
+    }
 }

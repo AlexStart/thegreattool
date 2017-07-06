@@ -1,6 +1,7 @@
 package com.sam.jcc.cloud.providers;
 
 import com.sam.jcc.cloud.ci.jenkins.Jenkins;
+import com.sam.jcc.cloud.ci.jenkins.config.vcs.JenkinsCredentialsApi;
 import com.sam.jcc.cloud.dataprovider.impl.MongoDataProvider;
 import com.sam.jcc.cloud.dataprovider.impl.MongoDatabaseManager;
 import com.sam.jcc.cloud.project.impl.GradleProjectProvider;
@@ -18,6 +19,7 @@ import org.testcontainers.containers.DockerComposeContainer;
 
 import java.io.File;
 
+import static jcifs.Config.getProperty;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -34,6 +36,7 @@ public class GradleMongoGitlabJenkinsProvidersIntegrationTest extends AbstractPr
             .withEnv("api.version", "1.23")
             .withExposedService("javacloud-gitlab-test", 18083)
             .withExposedService("javacloud-gitlab-test", 18322);
+
 
     private static final String GRADLE_PROJECT = "gradle-project";
 
@@ -64,6 +67,10 @@ public class GradleMongoGitlabJenkinsProvidersIntegrationTest extends AbstractPr
         apps.findAll().forEach(apps::delete);
 
         jenkinsProvider.setJenkins(jenkins);
+        JenkinsCredentialsApi credentialsApi = new JenkinsCredentialsApi();
+        credentialsApi.createJenkinsCredentials(
+                getProperty("ci.jenkins.gitlab.credentialsId"), getProperty("gitlab.remote.server.user"),
+                getProperty("gitlab.remote.server.password"), getProperty("ci.jenkins.gitlab.credentialsId"));
     }
 
     @After
@@ -90,12 +97,11 @@ public class GradleMongoGitlabJenkinsProvidersIntegrationTest extends AbstractPr
         clearLocalSources(repository);
         copySourcesTo(gitlab.read(repository), job, data);
 
-        //TODO: uncommit after jenkins and gitlab integration
-//        jenkins.create(job);
-//        waitWhileProcessing(job);
-//        assertThat(getBuild(jenkins.read(job))).isNotEmpty();
+        jenkinsProvider.create(job);
+        waitWhileProcessing(job);
+        assertThat(getBuild(jenkinsProvider.read(job))).isNotEmpty();
 
-//        deleteQuietly(job);
+        deleteQuietly(job);
         gitlab.delete(repository);
         apps.delete(app);
     }
