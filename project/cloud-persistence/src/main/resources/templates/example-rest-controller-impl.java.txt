@@ -22,8 +22,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.util.UriComponentsBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.lang.reflect.Field;
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author The Great Tool
@@ -48,7 +50,7 @@ public class ExampleController {
         }
         ExampleDTO exampleDTO = service.find(id);
         if (exampleDTO == null) {
-            return new ResponseEntity<>(String.format("ExampleDTO with id {0} is not found.", id), HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(String.format("ExampleDTO with id {0} is not found", id), HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(exampleDTO, HttpStatus.OK);
     }
@@ -57,7 +59,7 @@ public class ExampleController {
     public ResponseEntity<String> findAll() {
         List<ExampleDTO> exampleDTOs = service.findAll();
         if (exampleDTOs == null || exampleDTOs.size() == 0) {
-            return new ResponseEntity<>("No ExampleDTO is found.", HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>("No ExampleDTO is found", HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(getExampleDTOListAsJson(exampleDTOs), HttpStatus.OK);
     }
@@ -65,41 +67,52 @@ public class ExampleController {
     @PostMapping
     public ResponseEntity<?> create(@RequestBody ExampleDTO dto) {
         if (dto == null) {
-            return new ResponseEntity<>("Unable to create new ExampleDTO.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Unable to create new ExampleDTO", HttpStatus.BAD_REQUEST);
         }
         if (dto.getData() == null) {
             throw new RuntimeException(exceptionMessage);
         }
         ExampleDTO exampleDTO = service.save(dto);
         if (exampleDTO == null) {
-            return new ResponseEntity<>("Unable to create new ExampleDTO.", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("Unable to create new ExampleDTO", HttpStatus.CONFLICT);
         }
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(getDTOLocation(exampleDTO.getId()));
         return new ResponseEntity<>(exampleDTO, headers, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping
     public ResponseEntity<?> update(@RequestBody ExampleDTO dto) {
         if (dto == null) {
-            return new ResponseEntity<>("Unable to update ExampleDTO due to bad request.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Unable to update ExampleDTO due to bad request", HttpStatus.BAD_REQUEST);
+        }
+        if (dto.getId() == null || dto.getId() < 1) {
+            return new ResponseEntity<>("Unable to update ExampleDTO due to illegal id", HttpStatus.BAD_REQUEST);
         }
         ExampleDTO updatedDTO = service.update(dto);
         if (updatedDTO == null) {
-            return new ResponseEntity<>("Unable to upate ExampleDTO.", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("Unable to upate ExampleDTO", HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>(updatedDTO, HttpStatus.OK);
     }
 
-    @PatchMapping("/{id}/{data}")
+    @PatchMapping
     @SneakyThrows
-    public ResponseEntity<?> patch(ExampleDTO dto) {
-        if (dto == null) {
-            return new ResponseEntity<>("Unable to patch ExampleDTO due to bad request.", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> patch(@RequestBody Map<String, Object> updates) {
+        ExampleDTO patchedDTO = null;
+        if (updates == null || updates.isEmpty()) {
+            return new ResponseEntity<>("Unable to patch ExampleDTO due to bad request", HttpStatus.BAD_REQUEST);
         }
-        ExampleDTO patchedDTO = service.update(dto);
+        Long id = getIdAsLong(updates.get("id"));
+        if (id == null) {
+            return new ResponseEntity<>("Unable to patch ExampleDTO due to illegal id", HttpStatus.BAD_REQUEST);
+        }
+        ExampleDTO dto = getPatchedDTO(id, updates);
+        if (dto != null) {
+            patchedDTO = service.update(dto);
+        }
         if (patchedDTO == null) {
-            return new ResponseEntity<>("Unable to patch ExampleDTO.", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("Unable to patch ExampleDTO", HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>(patchedDTO, HttpStatus.OK);
     }
@@ -107,12 +120,12 @@ public class ExampleController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {
         if (id == null) {
-            return new ResponseEntity<>("Unable to delete ExampleDTO due to bad request.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Unable to delete ExampleDTO due to bad request", HttpStatus.BAD_REQUEST);
         }
         service.delete(id);
         ExampleDTO exampleDTO = service.find(id);
         if (exampleDTO != null) {
-            return new ResponseEntity<>(String.format("Unable to delete ExampleDTO with id {0}.", id), HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(String.format("Unable to delete ExampleDTO with id {0}", id), HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -121,7 +134,7 @@ public class ExampleController {
     public ResponseEntity<?> deleteAll() {
         service.deleteAll();
         List<ExampleDTO> exampleDTO = service.findAll();
-        if (exampleDTO != null) {
+        if (exampleDTO == null) {
             return new ResponseEntity<>(String.format("Unable to delete ExampleDTOs"), HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -143,5 +156,36 @@ public class ExampleController {
             return "";
         }
         return mapper.writeValueAsString(exampleDTOList);
+    }
+
+    private Long getIdAsLong(Object id) {
+        String idAsString = id != null ? String.valueOf(id) : null;
+        return isIdValid(idAsString) ? Long.valueOf(idAsString) : null;
+    }
+
+    private boolean isIdValid(String id) {
+        return id != null && id.matches("^[1-9]+");
+    }
+
+    private ExampleDTO getPatchedDTO(Long id, Map<String, Object> updates) {
+        ExampleDTO dto = service.find(id);
+        if (dto != null) {
+            Class<?> clazz = dto.getClass();
+            for (Map.Entry<String, Object> entry : updates.entrySet()) {
+                if ("id".equals(entry.getKey())) {
+                    continue;
+                }
+                try {
+                    Field field = clazz.getDeclaredField(entry.getKey());
+                    field.setAccessible(true);
+                    field.set(dto, entry.getValue());
+                } catch (NoSuchFieldException e) {
+                    clazz = clazz.getSuperclass();
+                } catch (Exception e) {
+                    throw new IllegalStateException(e);
+                }
+            }
+        }
+        return dto;
     }
 }
