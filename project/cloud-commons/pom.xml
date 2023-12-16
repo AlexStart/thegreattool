@@ -23,7 +23,7 @@
 		<repository>
 			<id>sam-nexus-snapshots</id>
 			<name>SaM Solutions Nexus Repository</name>
-			<url>http://linux-uvio.sam-solutions.net:8081/nexus/content/repositories/snapshots/</url>
+			<url>https://linux-uvio.sam-solutions.net:8081/nexus/content/repositories/snapshots/</url>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
@@ -37,7 +37,7 @@
 		<pluginRepository>
 			<id>sam-nexus-snapshots</id>
 			<name>SaM Solutions Nexus Repository</name>
-			<url>http://linux-uvio.sam-solutions.net:8081/nexus/content/repositories/snapshots/</url>
+			<url>https://linux-uvio.sam-solutions.net:8081/nexus/content/repositories/snapshots/</url>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
@@ -51,12 +51,12 @@
 		<repository>
 			<id>sam.nexus.repo</id>
 			<name>SaM Internal Releases</name>
-			<url>http://${sam.nexus}:8081/nexus/content/repositories/releases/</url>
+			<url>https://${sam.nexus}:8081/nexus/content/repositories/releases/</url>
 		</repository>
 		<snapshotRepository>
 			<id>sam.nexus.repo</id>
 			<name>SaM Internal Releases</name>
-			<url>http://${sam.nexus}:8081/nexus/content/repositories/snapshots/</url>
+			<url>https://${sam.nexus}:8081/nexus/content/repositories/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
 
